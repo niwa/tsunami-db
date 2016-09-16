@@ -21,8 +21,5 @@ __https://waffle.io/dumparkltd/tsunami-db__
 
 _Note: When using Waffle.io for the first time you will have to grant it permission to access your GitHub account_
 
-Learn more about issues here: https://guides.github.com/features/issues/
-
-
 
 
