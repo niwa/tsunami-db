@@ -1,5 +1,7 @@
 ## Web interface for "The New Zealand Palaeo-tsunami Database"
 
+Project information on NIWA's teamwork: https://teamwork.niwa.co.nz/display/NZPTIS
+
 ### Issues
 Issues are used for 
 - User Stories to specify functional requirements (labels: story, story must, story should, story could, story wont)
