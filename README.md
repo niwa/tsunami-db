@@ -8,10 +8,12 @@ Issues are used for
 - Bugs to track any software related bugs and issues
 
 GitHub's standard view of issues can be found here
-[Standard View](https://github.com/dumparkltd/tsunami-db/issues)
+
+__[> ISSUES Standard View](https://github.com/dumparkltd/tsunami-db/issues)__
 
 A more flexible "agile" view for prioritising issues and tracking progress is offered by Waffle.io
-[Agile View](https://waffle.io/dumparkltd/tsunami-db)
+
+__[> ISSUES Agile View](https://waffle.io/dumparkltd/tsunami-db)__
 
 
 
