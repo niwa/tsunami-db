@@ -2,10 +2,10 @@
 
 ### Issues
 Issues are used for 
-- User Stories to specify functional requirements
-- Tasks to help stay on top of things
-- Communication threads to keep all on the same page (eg could be used to gather inspirational links)
-- Bugs to track any software related bugs and issues
+- User Stories to specify functional requirements (labels: USER STORIES, MUST, SHOULD, COULD, WONT)
+- Tasks to help stay on top of things (label: tasks)
+- Discussion threads to keep all on the same page (label: discussion)
+- Bugs to track any software related bugs and issues (label: bug)
 
 GitHub's standard view of issues can be found here
 
