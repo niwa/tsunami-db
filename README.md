@@ -7,17 +7,17 @@ Issues are used for
 - Discussion threads to keep all on the same page (label: discussion)
 - Bugs to track any software related bugs and issues (label: bug)
 
-#### ISSUES Standard View
+#### Standard View
 
 GitHub's standard view of issues can be found here
 
 https://github.com/dumparkltd/tsunami-db/issues
 
-#### ISSUES Agile View
+#### Agile View
 
 A more flexible "agile" view for prioritising issues and tracking progress is offered by Waffle.io
 
-https://waffle.io/dumparkltd/tsunami-db
+__https://waffle.io/dumparkltd/tsunami-db__
 
 _Note: When using Waffle.io for the first time you will have to grant it permission to access your GitHub account_
 
