@@ -2,7 +2,7 @@
 
 ### Issues
 Issues are used for 
-- User Stories to specify functional requirements (labels: USER STORIES, MUST, SHOULD, COULD, WONT)
+- User Stories to specify functional requirements (labels: story, story must, story should, story could, story wont)
 - Tasks to help stay on top of things (label: tasks)
 - Discussion threads to keep all on the same page (label: discussion)
 - Bugs to track any software related bugs and issues (label: bug)
