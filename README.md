@@ -15,7 +15,7 @@ A more flexible "agile" view for prioritising issues and tracking progress is of
 
 __[> ISSUES Agile View](https://waffle.io/dumparkltd/tsunami-db)__
 
-
+_Note: When using Waffle.io for the first time you will have to grant it permission to access your GitHub account_
 
 
 
