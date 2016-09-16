@@ -11,7 +11,7 @@ Issues are used for
 
 GitHub's standard view of issues can be found here
 
-https://github.com/dumparkltd/tsunami-db/issues
+__https://github.com/dumparkltd/tsunami-db/issues__
 
 #### Agile View
 
@@ -22,4 +22,6 @@ __https://waffle.io/dumparkltd/tsunami-db__
 _Note: When using Waffle.io for the first time you will have to grant it permission to access your GitHub account_
 
 
-
+### Milestones
+Issues can be assigned to milestones that you can find here
+https://github.com/dumparkltd/tsunami-db/milestones
