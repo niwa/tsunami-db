@@ -15,7 +15,7 @@ __https://github.com/dumparkltd/tsunami-db/issues__
 
 #### Agile View
 
-A more flexible "agile" view for prioritising issues and tracking progress is offered by Waffle.io
+A more flexible "agile" view, especially __for categorising and prioritising user stories__, is offered by Waffle.io
 
 __https://waffle.io/dumparkltd/tsunami-db__
 
