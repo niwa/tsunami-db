@@ -4,7 +4,9 @@ define([
 
   var initialize = function(){
     // Pass in our Router module and call it's initialize function
-    Router.initialize();
+    Router.initialize({
+      "config_file":'app/config/appConfig.json'
+    });    
   };
 
   return {

@@ -7,9 +7,6 @@
   width: auto;  
   background-color: #f7f7f7;
 }
-.route-intro #map{
-  bottom:0
-}
 @media (min-width: 769px) {
   #map {
     top:0;

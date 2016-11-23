@@ -21,6 +21,8 @@ define([
       '!/' : 'root', // 
       '!/explore' : 'explore', // overview > all records
       '!/explore/' : 'explore', // overview > all records
+      '!/record' : 'record', // overview > all records
+      '!/record/' : 'record', // overview > all records
     },
     resetApp : function(){
       //console.log('router.resetApp')             
@@ -163,9 +165,11 @@ define([
   var initialize = function(args){          
     app.Router = new AppRouter;
     
+    var configFile = args.config_file
     
-    var configFile = 'app/config/appConfig.json.js'
-
+    var url = window.location.pathname
+    var sourcePath = url.replace(/\/$/, "").replace(/^\//, "").split('/')    
+    
     var route, path
     route  = sourcePath[0]
     path  = sourcePath.length > 1 ? sourcePath[1] : ''
@@ -173,8 +177,8 @@ define([
     // start app
     app.model = app.model || new AppModel({
       views : {},
-      baseurl : baseurl,
-      configPath : configFile,
+      configFile : configFile,
+      baseurl : window.location.origin,
       router: app.Router,
       route:{
         route:'',  
@@ -186,15 +190,12 @@ define([
     
     
     // define route handlers
-    // root = intro
     app.Router.on('route:root', function () {
-      //console.log('router.root')       
+      //console.log('router.root')             
         
-      //console.log('start application on root')        
-      this.navigate( '!/explore',{trigger:true, replace: true} )       
-    
+        //console.log('start application on root')        
+        this.navigate( '!/explore',{trigger:true, replace: true} )    
     })
-    
     
     // explore
     app.Router.on('route:explore', function (query) {
@@ -202,6 +203,20 @@ define([
 //      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
       app.model.setRoute({
         route : 'explore',
+        path  : '',
+        query : query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
+      })
+      
+      if (typeof app.view === 'undefined') {
+        app.view = new AppView({model:app.model})
+      }  
+    })
+    // record
+    app.Router.on('route:record', function (query) {
+      //console.log('router.home>setRoute ' )
+//      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
+      app.model.setRoute({
+        route : 'record',
         path  : '',
         query : query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
       })

@@ -1,10 +1,8 @@
 define([
   'jquery', 'underscore', 'backbone',
-  'leaflet',
   'models/ViewModel'
 ], function(
   $,_, Backbone,
-  leaflet,
   ViewModel
 ){
 
@@ -38,6 +36,12 @@ define([
         )
       }
     },
+    setLabels:function(data) {
+      this.set('labels',data)
+    },
+    getLabels:function() {
+      return this.attributes.labels
+    },       
     getConfig : function(){
       return this.attributes.config
     },

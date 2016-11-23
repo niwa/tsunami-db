@@ -1,19 +1,13 @@
 define([
   'jquery', 'underscore', 'backbone',
-  './ContentModel',
   'leaflet',
-  'esri.leaflet',
-  'text!templates/layerKeyIconTemplate.html',
-  'text!templates/layerKeyContinuousTemplate.html'
+  'esri.leaflet'
 ], function($,_, Backbone,
-  ContentModel,    
   leaflet,
-  esriLeaflet,
-  layerKeyIconTemplate,
-  layerKeyContinuousTemplate
+  esriLeaflet
 ){
   
-  var LayerModel = ContentModel.extend({
+  var LayerModel = Backbone.Model.extend({
     initialize : function(options){
       this.options = options || {};    
       
@@ -34,13 +28,12 @@ define([
       this.initializeSource()      
       
       // init layer styles
-      this.initStyles()
-      this.initLayerCategories()
-      
+      this.initStyles()      
       
            
 
-    },           
+    },          
+    
     initializeSource: function(){
       // implement in source model              
     },
@@ -92,15 +85,79 @@ define([
   
   
 
-  
-    initStyles:function(){
-  
-    },
 
+    
+initStyles:function(){
+  
+      // LAYER STYLES
+      
+      // type styles
+      // ref styles
+      // styles
+      
+      this.attributes.layerStyle = {}
+      
+      // remember type style
+      // set default style type (marker)
+      if (typeof this.attributes.styleType === 'undefined') {
+        this.attributes.styleType = this.attributes.type === "point"
+          ? 'marker'
+          : this.attributes.type
+      }             
+      // get default style from config by layer type
+      var defaultTypeStyle = _.clone(this.collection.options.mapConfig.layerStyles)[this.attributes.styleType]
+      // use default style if type stye undefined
+      
+      this.attributes.layerStyle = typeof defaultTypeStyle !=='undefined' 
+        ? _.clone(defaultTypeStyle)
+        : _.clone(this.collection.options.mapConfig.layerStyles['default'])         
+            
+      this.attributes.layerStyle.fillColor = this.copyStyleAttribute(this.attributes.layerStyle.color,this.attributes.layerStyle.fillColor)
+      this.attributes.layerStyle.fillOpacity = this.copyStyleAttribute(this.attributes.layerStyle.opacity,this.attributes.layerStyle.fillOpacity)      
+      
+      // extend with ref styles
+      if (typeof this.attributes.styleRef !== 'undefined') {
+        var refStyle = _.clone(this.collection.options.mapConfig.refStyles[this.attributes.styleRef])
+        refStyle.fillColor = this.copyStyleAttribute(refStyle.color,refStyle.fillColor)
+        refStyle.fillOpacity = this.copyStyleAttribute(refStyle.opacity,refStyle.fillOpacity)        
+        if (typeof refStyle !== 'undefined') {
+          _.extend(
+            this.attributes.layerStyle,
+            _.clone(refStyle)
+          )
+        }
+      }
+      
+      
+      // extend with specific styles
+      if (typeof this.attributes.style !== 'undefined') {                      
+        // transfer stroke to fill properties
+        // fillColor: defaults to color
+        this.attributes.style.fillColor = this.copyStyleAttribute(this.attributes.style.color,this.attributes.style.fillColor)
+        this.attributes.style.fillOpacity = this.copyStyleAttribute(this.attributes.style.opacity,this.attributes.style.fillOpacity)
+        // extend default type styles with layer specific styles
+         _.extend(
+          this.attributes.layerStyle,
+          this.attributes.style
+        )         
+      }
+      
+      // make sure we have a number
+      this.attributes.layerStyle.weight = parseFloat(this.attributes.layerStyle.weight)    
+      
+      
+    },
+    copyStyleAttribute : function(from,to){
+      if (typeof from !== 'undefined' && typeof to === 'undefined' ){
+        return from
+      } else {
+        return to
+      }
+    },
     
     getLayerStyle : function(){      
      return this.attributes.layerStyle     
-    },
+    },    
 
    
     

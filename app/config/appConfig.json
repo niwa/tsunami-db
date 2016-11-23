@@ -1,7 +1,7 @@
 { 
-  "attributesCatsConfig" : "app/config/attributesConfig.json.js",
-  "attributesConfig" : "app/config/attributesConfig.json.js",
-  "mapConfig" : "app/config/mapConfig.json.js",
-  "termsConfig" : "app/config/termsConfig.json",
+  "attributesCatsConfig" : "app/config/attributesConfig.json",
+  "attributesConfig" : "app/config/attributesConfig.json",
+  "mapConfig" : "app/config/mapConfig.json",
+  "labelsConfig" : "app/config/labelsConfig.json",
   "layersConfig" : "app/config/layersConfig.json"
 }  

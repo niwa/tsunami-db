@@ -2,7 +2,7 @@ define([
   'jquery','underscore','backbone',
   'leaflet',
   'esri.leaflet',
-  'text!./mapTemplate.html'
+  'text!./map.html'
 ], function(
   $, _, Backbone,
   leaflet,
@@ -14,8 +14,6 @@ define([
       //console.log('MapView.initialize')
 
       // set up an empty layer group for all our overlay and basemap layers
-      this._controlPointLayerGroup  = new L.layerGroup()
-      this._controlLayerGroup = new L.layerGroup()
       this._layerGroup        = new L.layerGroup()
       this._baseLayerGroup    = new L.layerGroup()
       this.viewUpdating       = false      
@@ -40,8 +38,8 @@ define([
       )
     },
     render : function(){
-      //console.log('MapView.render')
-      this.$el.html(_.template(template)({t:tlang}))
+      console.log('MapView.render')
+      this.$el.html(_.template(template)({t:this.model.getLabels()}))
       var that = this
       waitFor(
         function(){
@@ -77,8 +75,8 @@ define([
       this.updateMapView()
 
       this._zoomControl = L.control.zoom({
-        zoomInText:'<span class="icon-dsmw_plus"></span>',
-        zoomOutText:'<span class="icon-dsmw_minus"></span>'
+        zoomInText:'-',
+        zoomOutText:'+'
       })
       var attControl = 
         L.control.attribution({position:'bottomleft'})
@@ -87,8 +85,6 @@ define([
       this._map.addControl(attControl)
 
       // set up an empty layer group for all our overlay and basemap layers
-      this._controlPointLayerGroup.addTo(this._map)
-      this._controlLayerGroup.addTo(this._map)
       this._layerGroup.addTo(this._map)
       this._baseLayerGroup.addTo(this._map)            
 

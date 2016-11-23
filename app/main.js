@@ -1,6 +1,6 @@
 window.GoogleAnalyticsObject = "__ga__";
 window.__ga__ = {
-    q: [["create", "UA-84671260-1", "auto"]],
+    q: [["create", "XXX", "auto"]],
     l: Date.now()
 };
 
@@ -19,6 +19,9 @@ require.config({
     "ga": "libs/ga"  
   },
   shim: {
+    'bootstrap': {
+      deps: ['jquery']
+    },
     'jquery.deparam': {
       deps: ['jquery']
     },

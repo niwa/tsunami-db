@@ -4,7 +4,6 @@ define([
 ) {
 
 	var AppModel = Backbone.Model.extend({
-
 		initialize : function(options){
 			this.options = options || {};
 
@@ -16,16 +15,25 @@ define([
       
       var that = this
       
-      
-      that.initModels()
-      
+           
       /// read global configuration file
       $.ajax({
         dataType:"json",
-        url: this.attributes.baseurl + '/' +  this.attributes.configPath,
+        url: this.attributes.baseurl + '/' +  this.attributes.configFile,
         success: function(json) {
           //console.log("... success loading app config")
-          that.setConfig(json[0])          
+          that.setConfig(json)       
+          $.ajax({
+            dataType:"json",
+            url: that.attributes.baseurl + '/' +  that.attributes.config.labelsConfig,
+            success: function(json) {
+              //console.log("... success loading app config")
+              that.setLabels(json)          
+            },
+            error: function(){
+              console.log("error loading terms config")
+            }
+          })          
         },
         error: function(){
           console.log("error loading app config")
@@ -36,11 +44,17 @@ define([
 			// debug
 			//console.log.log('%cVersion: ', systemapic.style, systemapic.version);
 		},
-    setConfig:function(config) {
-      return this.set('config',config)
+    setConfig:function(data) {
+      this.set('config',data)
     },
     getConfig:function() {
       return this.attributes.config
+    },    
+    setLabels:function(data) {
+      this.set('labels',data)
+    },
+    getLabels:function() {
+      return this.attributes.labels
     },    
 
     
@@ -90,27 +104,43 @@ define([
     },
 
 		appConfigured : function(){
-      return typeof this.attributes.config !== 'undefined'
+      return typeof this.attributes.config !== 'undefined' 
+              && this.attributes.labels !== 'undefined' 
     },
 
     isComponentActive : function(componentId) {
       
       // active components by route
       var routeConditions = {        
-        intro: [],
         explore: [],       
       }
       
       // component conditions
       var componentConditions = {        
+        "#map":true
       }
       
-      return (routeConditions[this.getDeFactoRoute()].indexOf(componentId) >=0)
+      return (routeConditions[this.getRoute()].indexOf(componentId) >=0)
           || (typeof componentConditions[componentId] !== 'undefined' && componentConditions[componentId])            
       
     },
 
+    // ROUTECONFIG ===================================================================
+    getRouteConfig:function(routeId){
+      return typeof routeId !== 'undefined' ? _.findWhere(this.attributes.config.routes,{id:routeId}) : this.getActiveRouteConfig()
+    },
+    
+    getActiveRouteConfig:function(){
 
+      var route = this.getRoute()
+
+      if (_.contains(_.pluck(this.attributes.config.routes,'id'), route)) {
+        return _.findWhere(this.attributes.config.routes,{id:route})
+      } else {
+        return ''
+      }
+
+    },
 
 
 
@@ -328,7 +358,6 @@ define([
       var view
       switch (route.id) {
         case 'explore' :
-        case 'intro' :
             view = route.view
           break       
         default :

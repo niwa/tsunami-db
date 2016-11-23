@@ -8,7 +8,8 @@ define([
   'models/LayerModelGeoJson',
   'models/LayerModelMapboxTiles',
   'models/LayerModelEsriBaselayer',
-  'ga'
+  'ga',
+  'text!./app.html'
 ], function(
   $, _, Backbone,
   domReady,
@@ -19,7 +20,8 @@ define([
   LayerModelGeoJson,
   LayerModelMapboxTiles,
   LayerModelEsriBaselayer,
-  ga
+  ga,
+  template
 ){
 
   var AppView = Backbone.View.extend({
@@ -62,7 +64,7 @@ define([
       waitFor(
         //when
         function(){
-          return that.model.appConfigured()
+          return that.model.appConfigured()          
         },
         //then
         function(){
@@ -122,8 +124,11 @@ define([
     
     // render components
     render: function(){
-      //console.log("AppView.render");
-
+      console.log("AppView.render");
+      this.$el.html(_.template(template)({t:this.model.getLabels()}))
+      this.update()
+    },
+    update: function(){
       // set classes
       this.setClass()
 
@@ -147,30 +152,14 @@ define([
    
 
     renderNav : function(){
+      var componentId = '#nav'
       this.views.nav = this.views.nav || new NavView({
-        el:this.$('#nav'),
+        el:this.$(componentId),
         model:new NavModel(),
+        labels:this.model.getLabels()        
       });
     },  
     
-    renderIntro : function() {
-      
-      var componentId = '#intro'
-      
-      if (this.$(componentId).length > 0) {
-        this.views.intro = this.views.intro || new IntroView({
-          el:this.$(componentId),
-          model:new ViewModel({})
-        });
-        
-        if (this.model.isComponentActive(componentId)) {
-          this.views.intro.model.setActive(true)
-        } else {
-          this.views.intro.model.setActive(false)
-        }
-        
-      }
-    },
     
     renderMap : function(){
       var componentId = '#map'
@@ -184,21 +173,19 @@ define([
             return that.model.layersConfigured() && that.model.mapConfigLoaded()
           },
           function(){
-
+            console.log('rendermap')
             that.views.map = that.views.map || new MapView({
               el:that.$(componentId),
               model: new MapModel({
                 baseLayers: that.model.getLayers().byBasemap(true), // pass layer collection
-                config :    that.model.getMapConfig()
-              })
+                config:     that.model.getMapConfig(),
+                labels:     that.model.getLabels()
+              })              
             });
             // update map component
             if (that.model.isComponentActive(componentId)) {
-              that.views.map.model.setActive(true)
-      
-              that.views.map.model.setMapControl(
-                that.model.getActiveRouteConfig().mapControl 
-              )
+              console.log('mapactive')
+              that.views.map.model.setActive(true)      
       
               that.views.map.model.setView(that.model.getActiveMapview())
               that.views.map.model.setActiveLayers(that.model.getMapLayers().models) // set active layers
@@ -268,7 +255,7 @@ define([
     
     // VIEW MODEL EVENT: downstream
     routeChanged:function(){
-      this.render()
+      this.update()
     },
     
     
