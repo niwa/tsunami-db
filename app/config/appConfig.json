@@ -1,0 +1,7 @@
+{ 
+  "attributesCatsConfig" : "app/config/attributesConfig.json.js",
+  "attributesConfig" : "app/config/attributesConfig.json.js",
+  "mapConfig" : "app/config/mapConfig.json.js",
+  "termsConfig" : "app/config/termsConfig.json",
+  "layersConfig" : "app/config/layersConfig.json"
+}  

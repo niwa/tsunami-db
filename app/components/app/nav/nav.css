@@ -1,0 +1,322 @@
+/* #navTemplate */
+
+#nav {
+  display: inline-block;
+  height: 60px;
+  width: 100%;
+  right:0;
+  /*z-index: 10000;  above all */
+  top:0;
+  bottom:0;
+  position:absolute;
+  left:0
+}
+
+@media (min-width: 769px) {
+  #nav {
+    right: auto;
+    width: 114px;
+    height:auto
+  }
+}
+
+/*typography, #nav links & buttons*/
+#nav a,
+#nav a:focus{
+  display:block;
+  text-decoration:none;
+  color:#fff;
+  font-weight:normal;
+}  
+#logo a {
+  display: block;
+  position: relative;
+  width: 60px;
+  height: 60px;
+  padding: 5px;
+}
+@media (min-width: 769px) {
+  #logo a  {
+    width: 114px;
+    height: 104px;
+    padding: 19px 17px 5px;
+  }
+}
+
+/*title*/
+
+#title a {
+  
+    padding: 10px 2px;
+    height: 60px;
+    width: 120px;
+}
+#title h1 {
+  font-size: 16px;
+  line-height: 1.25;  
+  font-family: 'kelsonmedium';
+  margin:0;
+}
+#nav #title a.home-link{
+    display: inline-block;
+}
+
+
+@media (min-width: 769px){
+  #title {
+    margin-bottom: 20px;
+  }
+  #title a {
+    padding:5px 8px;
+    height: auto;
+    width: auto;
+  }
+  #title h1 {
+    line-height: 1.15;  
+    letter-spacing: 2px;
+    font-size: 24px;
+  }
+  #nav .link-list-wrapper{
+  }
+}
+
+
+/*bootstrap override*/
+
+
+
+
+/* navbar */
+
+
+#nav .navbar-default {
+  background: none;
+  border: none;
+  margin-bottom: 0;
+}
+
+
+#nav .navbar-default .navbar-collapse {
+  border-top: 0;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  padding: 0;
+}
+@media (min-width: 769px) {
+  #nav .navbar-default {    
+    position: absolute;
+    top: 0;
+    left: 0;    
+    bottom:0;
+    right:0;
+  }
+  #nav .navbar-default .navbar-collapse {
+    top:0;
+    bottom:0;
+    float: none !important;
+  }
+  #nav .container-fluid > .navbar-collapse {
+    width:100%;
+    padding: 0 0 0 85px;
+    background-color: transparent;
+    position: static;
+    top:auto;
+    left: auto;
+    right: auto;
+  }
+}
+
+.navbar-nav {
+  margin: 0;
+}
+@media (min-width: 769px) {
+  .navbar-nav {  
+    float:none;
+  }
+}
+#page-links{
+/*  padding: 60px 0 30px;*/
+}
+@media (min-width: 769px) {
+
+  #nav .navbar-collapse li {
+    float: none;
+  }
+  #page-links {
+    padding: 0;
+  }
+}
+
+
+#nav .navbar-brand {
+  padding: 0;
+  height:auto
+}
+@media (min-width: 769px) {
+  #nav .navbar-brand {
+    float: none;
+  }
+}
+
+/*@media (min-width: 950px) {
+  #nav .container-fluid > .navbar-collapse {
+  }
+}*/
+/* #nav nav lists */
+
+#nav .nav > li > a {
+  padding: 0;
+}
+
+
+/* navbar collpase list-items */
+
+#nav .navbar-collapse .nav li {
+  /*border-bottom: 1px solid;*/
+}
+#nav .navbar-collapse .nav li a{
+  padding: 10px 16px;
+  font-family: 'kelsonregular';
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-size: 13px;
+}
+#nav .navbar-collapse .nav li a.logo-link {
+  padding: 0;
+  text-align: center;
+}
+
+.navbar-default .navbar-nav > li > a.active{
+  background-color:#E07800;
+}
+.navbar-default .navbar-nav > li > a:hover{
+  background-color: #AF5504;
+}
+.navbar-default .navbar-nav > li > a.logo-link:hover {
+    background: transparent;
+}
+
+@media(min-width: 769px) {
+  #nav .navbar-collapse .nav li a{
+    padding: 10px 8px;
+    letter-spacing: 0;
+    font-size: 13px;
+  }
+  #nav .navbar-collapse .nav li a.page-link.active::after {
+    left: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-right-color: #F4F4F4;
+    border-width: 8px;
+    margin-top: -8px;
+    margin-left: -16px;
+  }
+}
+.nav-primary {
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+#nav .nav-secondary .nav li {
+  border-top: 1px solid #242829;
+}  
+#nav .nav-secondary #page-links-secondary {
+  border-bottom: 1px solid #242829;
+}  
+#nav .nav-secondary #logo-links.nav li {
+    float: left;
+    border-top: none;
+}
+#nav .nav-secondary #logo-links.nav li .icon-dsmw_ucsb-logo {
+  margin-top: 23px;
+}
+#logo-links {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+@media (min-width: 769px) {
+  #logo-links{
+    display: block;    
+    margin:0;
+    justify-content: flex-start;
+  }
+  .nav-primary {
+    padding:0;    
+  }
+  .nav-secondary {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      top: auto;
+  }
+  #nav .nav-secondary #page-links-secondary {
+      border-bottom:none;
+  }
+  #nav .nav-secondary #logo-links.nav li {
+    float:none;
+    border-top: 1px solid #242829;
+  }
+  #nav .nav-secondary #logo-links.nav li .icon-dsmw_ucsb-logo {
+    margin-top: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* navbar collapse */
+
+
+
+
+
+#nav .collapsed .hide-on-collapsed {
+  display: none;
+}
+
+#nav .show-on-collapsed {
+  display: none;
+}
+
+#nav .collapsed .show-on-collapsed {
+  display: block;
+}
+
+#nav .navbar-toggle {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  /*z-index: 4001;*/
+}
+#nav .navbar-default .navbar-toggle,
+#nav .navbar-default .navbar-toggle:focus,
+#nav .navbar-default .navbar-toggle:hover {
+  background-color: transparent;
+}
+
+
+.panel-dark .navbar-default .navbar-nav > li > a {
+  color:white
+}

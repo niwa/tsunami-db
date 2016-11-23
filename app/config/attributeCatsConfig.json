@@ -1,0 +1,27 @@
+[
+  {
+    "id":"meta",        
+    "title":"Meta characteristics",
+    "hint":""    
+  },
+  {
+    "id":"time",        
+    "title":"Time",
+    "hint":""    
+  },
+  {
+    "id":"impact",        
+    "title":"Impact",
+    "hint":""    
+  },
+  {
+    "id":"site",        
+    "title":"Site",
+    "hint":""    
+  },  
+  {
+    "id":"source",        
+    "title":"Source/origin",
+    "hint":""  
+  }  
+]

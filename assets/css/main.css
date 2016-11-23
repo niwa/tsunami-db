@@ -1,0 +1,16 @@
+@import url("./leaflet.css");
+@import url("./bootstrap.css");
+@import url("../../app/components/app/app.css");
+@import url("../../app/components/app/nav/nav.css");
+@import url("../../app/components/app/map/map.css");
+
+.loading-animation {
+  background: url('../img/loading.gif') no-repeat top left;
+  background-size: 100% 2px;
+  display:block;
+  position:absolute;
+  left: 0;
+  top: 0;  
+  width: 100%;
+  height: 2px;  
+}

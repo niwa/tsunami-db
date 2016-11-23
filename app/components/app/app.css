@@ -1,0 +1,147 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+/* show-on-hover */
+.reveal-on-hover {
+  position: relative;
+}
+.reveal-on-hover:hover .hide-on-hover, 
+.reveal-on-hover .show-on-hover, 
+.reveal-on-hover:hover .reveal-on-hover:hover .hide-on-hover,
+.reveal-on-hover:hover .reveal-on-hover:hover .hide-on-hover.hide-on-hover-inline,
+.reveal-on-hover:hover .reveal-on-hover .show-on-hover, 
+.reveal-on-hover:hover .reveal-on-hover .show-on-hover.show-on-hover-inline {
+  display:none;
+}
+
+
+.show-on-hover.show-hover,
+.reveal-on-hover:hover .show-on-hover {
+  display:block;
+}
+.show-on-hover.show-on-hover-inline.show-hover,
+.reveal-on-hover:hover .show-on-hover.show-on-hover-inline, 
+.reveal-on-hover:hover .reveal-on-hover:hover .show-on-hover.show-on-hover-inline,
+.reveal-on-hover:hover .reveal-on-hover:hover .show-on-hover.show-on-hover-inline {
+  display:inline-block;
+}
+/* show-on-active */
+.active .hide-on-active,
+.show-on-active {
+  display:none;
+}
+.active .show-on-active{
+  display:block;
+}
+
+
+
+.list-open .show-on-close,
+.show-on-open {
+  display:none
+}
+.show-on-close,
+.list-open .show-on-open {
+  display:block
+}
+
+
+.reveal-on-hover:hover .reveal-on-hover .hide-on-hover {
+    display: block;
+}
+.reveal-on-hover:hover .reveal-on-hover .hide-on-hover.hide-on-hover-inline {
+    display: inline-block;
+}
+
+
+
+
+
+
+
+
+#application {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+}
+.content-bottom,
+.content-full,
+.content-scroll{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+.content-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  /*z-index: 3500;*/
+}
+@media(max-width:768px){
+.content-scroll-xs{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;  
+  overflow-y: auto;
+  overflow-x: hidden;
+  /*z-index: 3500;*/
+}
+}
+
+.content-container{
+  margin-right: auto;
+  margin-left: auto;
+  padding: 10px 20px;
+  clear: both;
+}
+
+.content-bottom {
+  top:auto
+}
+
+@media(min-width: 769px) {
+  
+  .content-bottom {
+    bottom:20px;
+    left:200px
+  }
+}
+
+
+
+@media(min-width: 769px) {
+  
+  
+  .content-full {
+    position: absolute;
+    top: 0;
+    right:0;
+    left: auto;
+  }
+  .content-full {
+    left:0;
+  }
+  .content-scroll {
+    /*z-index: 150;*/
+  }
+
+}
+
+
+.strong {
+    font-weight: bold;
+}
+

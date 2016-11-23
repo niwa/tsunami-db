@@ -1,0 +1,14 @@
+[
+  { 
+    "mapID" : "basemap",
+    "attribution" : "<a class='layer-info-link' data-layerid='basemap' href='#' >Basemap attribution</a>",
+    "mapOptions" : {
+      "minZoom":1,
+      "maxZoom":10,
+      "zoomControl" : false,
+      "attributionControl": false,
+      "worldCopyJump" :false,
+      "zoomAnimationThreshold" : 9
+    }
+  }  
+]

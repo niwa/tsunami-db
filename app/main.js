@@ -1,0 +1,43 @@
+window.GoogleAnalyticsObject = "__ga__";
+window.__ga__ = {
+    q: [["create", "UA-84671260-1", "auto"]],
+    l: Date.now()
+};
+
+
+require.config({
+  paths: {
+    'domReady' : 'libs/domReady',        
+    'jquery': 'libs/jquery-1.11.2',
+    'jquery.deparam': 'libs/jquery.deparam',    
+    'underscore': 'libs/underscore', //core
+    'backbone': 'libs/backbone', //core
+    'bootstrap': 'libs/bootstrap',
+    'leaflet': 'libs/leaflet-src', //gis
+    'esri.leaflet' : 'libs/esri-leaflet-src',//gis
+    'templates': 'templates',//core
+    "ga": "libs/ga"  
+  },
+  shim: {
+    'jquery.deparam': {
+      deps: ['jquery']
+    },
+    'esri.leaflet': {
+      deps: ['leaflet']
+    },    
+    'leaflet': {
+      exports: 'L'
+    },
+    "ga": {
+      exports: "__ga__"
+    }  
+  }
+});
+
+require([
+  'app',
+  'ga'
+], function(App, ga){
+  if (window.__ga__ && ga.loaded) { ga("send", "pageview") }
+  App.initialize();
+});

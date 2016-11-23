@@ -1,0 +1,46 @@
+[
+{
+  "id":"records",    
+  "optional":false,
+  "type":"point",
+  "source":"geojson",
+  "path" : "app/data/tsunamidb.geojson",
+  "wrap" : true,  
+  "style" : {
+    "color":"#E07800",
+    "weight": 2,
+    "opacity" : 0.8   
+  } 
+},{
+  "id": "basemap",
+  "basemap": true,  
+  "title":"Ocean depths basemap",
+  "control":true,
+  "type": "raster",
+  "source": "mapbox",
+  "category": "other",
+  "options": {
+    "id": "mccauleylaboratory.d9ezdkrc",
+    "token": "pk.eyJ1IjoibWNjYXVsZXlsYWJvcmF0b3J5IiwiYSI6ImNpdHIxZzRsZzAwMGUzNHBrNWpvbjB2NGkifQ.McnXkIQzteeOSiekwsLYcw",
+    "minZoom": 1,
+    "maxZoom": 10,
+    "noWrap":false
+  },
+  "style" :{
+    "opacity" : 1
+  }
+},{
+  "id": "labels",		
+  "control":false,
+  "key":false,
+  "type": "raster",
+  "source": "esribase",
+  "category": "other",
+  "options": {
+    "id": "OceansLabels"
+  },
+  "style" :{
+    "opacity" : 0.5
+  }
+}
+]

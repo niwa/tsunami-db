@@ -1,0 +1,346 @@
+define([
+	'jquery', 'underscore', 'backbone'
+], function($,_, Backbone
+) {
+
+	var AppModel = Backbone.Model.extend({
+
+		initialize : function(options){
+			this.options = options || {};
+
+      this.set("appConfigLoaded", false)
+      this.set("layersConfigLoaded", false)
+      this.set("mapConfigLoaded", false)
+      this.set("layersConfigured", false)
+      this.set("casestudiesConfigured", false)
+      
+      var that = this
+      
+      
+      that.initModels()
+      
+      /// read global configuration file
+      $.ajax({
+        dataType:"json",
+        url: this.attributes.baseurl + '/' +  this.attributes.configPath,
+        success: function(json) {
+          //console.log("... success loading app config")
+          that.setConfig(json[0])          
+        },
+        error: function(){
+          console.log("error loading app config")
+        }
+      })
+		
+
+			// debug
+			//console.log.log('%cVersion: ', systemapic.style, systemapic.version);
+		},
+    setConfig:function(config) {
+      return this.set('config',config)
+    },
+    getConfig:function() {
+      return this.attributes.config
+    },    
+
+    
+    // ROUTE VALIDATION ===================================================================
+
+    validateRouter : function(callback){
+      callback(true)
+    },
+
+
+    getViews:function(){
+      return this.attributes.views
+    },
+
+
+    // APP STATE ===================================================================
+    getRouter:function(){
+      return this.attributes.router
+    },
+    getBaseURL: function(){
+      return this.attributes.baseurl
+    },
+		setRoute : function(route) {
+			// console.log('AppModel.setRoute')
+			this.set('route',{
+				route : route.route,
+				path : route.path,
+				query : route.query
+			});
+			return this;
+		},
+		getRoute : function (){
+			return this.attributes.route.route
+		},
+		getPath : function (){
+			return this.attributes.route.path
+		},
+		getQuery : function (){
+			return this.attributes.route.query
+		},
+
+
+    getActiveCategory: function(){
+      return typeof this.attributes.route.query.cat !== 'undefined'
+        ? this.attributes.route.query.cat
+        : ''
+    },
+
+		appConfigured : function(){
+      return typeof this.attributes.config !== 'undefined'
+    },
+
+    isComponentActive : function(componentId) {
+      
+      // active components by route
+      var routeConditions = {        
+        intro: [],
+        explore: [],       
+      }
+      
+      // component conditions
+      var componentConditions = {        
+      }
+      
+      return (routeConditions[this.getDeFactoRoute()].indexOf(componentId) >=0)
+          || (typeof componentConditions[componentId] !== 'undefined' && componentConditions[componentId])            
+      
+    },
+
+
+
+
+
+    // LAYERS ===================================================================
+
+
+    //state
+    layersLoading : function(){
+      return typeof this.attributes.layerCollection === 'undefined'
+        ? true
+        : this.attributes.layerCollection.isLoading()      
+    },
+    layerLoaded : function(layerId){
+      return this.getLayers().get(layerId).isLoaded()
+    },
+    layersConfigLoaded : function(){
+      return typeof this.attributes.layersConfig !== 'undefined'
+    },
+    layersConfigured : function(val){
+      if (typeof val !== 'undefined') {
+        this.set('layersConfigured',val)
+      } else {
+        return this.attributes.layersConfigured
+      }
+    },
+
+
+    // config
+    loadLayersConfig : function(){
+      var that = this
+      $.ajax({
+        dataType: "json",
+        url: this.attributes.baseurl + '/' + this.attributes.config.layersConfig,
+        success: function(json) {
+          //console.log("... success loading layer config")
+          that.set("layersConfig",json)
+        },
+        error: function(){
+          console.log("error loading layer config")
+
+        }
+      })
+    },
+    getLayersConfig : function(){
+      return this.attributes.layersConfig
+    },
+    
+		getLayers : function() {
+			return this.attributes.layerCollection;
+		},
+
+		setLayers : function(layers) {
+			this.set('layerCollection',layers);
+			return this;
+		},
+    getLayer : function(layerId){
+      return this.getLayers().get(layerId)
+    },    
+
+    setActiveLayersFromRoute : function() {
+			this.attributes.layerCollection.setActive(this.getActiveLayerIds());
+			return this;
+		},
+    setDefaultLayersFromRoute : function() {
+			this.attributes.layerCollection.setDefault(this.getLayerIdsByRoute(this.getActiveRouteConfig().id));
+			return this;
+		},
+ 		// returns array not collection
+		getActiveLayers : function() {
+			return this.attributes.layerCollection.byActive();
+		},
+    // active on map
+		getActiveLayerIds : function() {
+      
+      // active layers from query
+			var query = this.attributes.route.query      
+      var layers = (typeof query.layers !== 'undefined') ? query.layers : [];
+
+      return layers
+		},
+        
+
+    getLayerIdsByRoute:function(routeId){
+      var routeConfig = typeof routeId !== 'undefined' 
+      ? this.getRouteConfig(routeId) 
+      : this.getActiveRouteConfig()
+      
+      var routeLayers = []
+      if (typeof routeConfig.layers !== 'undefined' || routeConfig.layers === '') {
+        routeLayers = $.isArray(routeConfig.layers) 
+          ? routeConfig.layers
+          : typeof routeConfig.layers === 'string' 
+            ? _.map(routeConfig.layers.split(','),function(layerid){return layerid.trim()})
+            : [] 
+      }
+      
+      return routeLayers
+    },
+    getOptionalLayerIdsByRoute:function(routeId){
+      var routeConfig = typeof routeId !== 'undefined' 
+      ? this.getRouteConfig(routeId) 
+      : this.getActiveRouteConfig()
+      
+      var routeLayers = []
+      if (typeof routeConfig.layers_optional !== 'undefined' || routeConfig.layers_optional === '') {
+        routeLayers = $.isArray(routeConfig.layers_optional) 
+          ? routeConfig.layers_optional
+          : typeof routeConfig.layers_optional === 'string' 
+            ? _.map(routeConfig.layers_optional.split(','),function(layerid){return layerid.trim()})
+            : [] 
+      }
+      
+      return routeLayers
+    },
+    getMapLayers : function() {
+      return this.attributes.layerCollection.byActiveMap()
+    },
+		
+
+    // MAP ========================================================================
+    loadMapConfig : function(){
+      var that = this
+      $.ajax({
+        dataType: "json",
+        url: this.attributes.baseurl + '/' + this.attributes.config.mapConfig,
+        success: function(json) {
+          //console.log("... success loading mapconfig")
+          that.set("mapConfig",json[0])
+          that.set("mapConfigLoaded",true)
+        },
+        error: function(){
+          console.log("error loading map config")
+
+        }
+      })
+    },
+    mapConfigLoaded : function(){
+      return this.attributes.mapConfigLoaded
+    },
+    getMapConfig : function(){
+      return this.attributes.mapConfig
+    },
+
+    mapReady : function(){
+      return this.appConfigured() 
+        && this.layersConfigured() 
+        && this.mapConfigured() 
+        && !this.layersLoading();
+    },
+    mapConfigured : function() {
+      return typeof this.attributes.views.map !== 'undefined' && this.attributes.views.map.model.mapConfigured()
+    },
+
+		getActiveMapview : function(raw){
+      raw = typeof raw !== 'undefined' ? raw : false
+      var view = typeof this.attributes.route.query.view !== 'undefined'
+        ? this.attributes.route.query.view
+        : 'default'
+      return raw ? view : this.toMapviewObject(view)
+    },
+    toMapviewString : function(view) {
+      return view.center.lat 
+        + '|'  + view.center.lng 
+        + '|'  + view.zoom
+        + '||' + view.dimensions[0]
+        + '|'  + view.dimensions[1]
+    },
+    toMapviewObject : function(view){
+
+			if (typeof view !== 'undefined') {
+        
+        // test XYZ view
+				var view_split = view.split('||');
+
+        if (view_split.length === 2) {
+
+          var viewXYZ = view_split[0].split('|');
+          var dimensions = view_split[1].split('|');
+
+          if (viewXYZ.length === 3 && dimensions.length === 2) {
+
+            return {
+              center : {lat:parseFloat(viewXYZ[0]),lng:parseFloat(viewXYZ[1])},
+              zoom : parseFloat(viewXYZ[2]),
+              dimensions : [parseFloat(dimensions[0]),parseFloat(dimensions[1])]
+            }
+          } else {
+            return null
+          }
+        } else {
+          // test bounds view
+          view_split = view.split('|')
+          if (view_split.length === 4) {
+            return {
+              south: view_split[0],
+              west:  view_split[1],
+              north: view_split[2],
+              east:  view_split[3]
+            }
+          } else {
+            // try predefined view
+            return view
+          }        
+
+        } 
+
+			} else {
+				return null;
+			}
+		},
+
+    getMapviewForRoute:function(raw){
+      raw = typeof raw !== 'undefined' ? raw : false
+      var route = this.getActiveRouteConfig()
+      var view
+      switch (route.id) {
+        case 'explore' :
+        case 'intro' :
+            view = route.view
+          break       
+        default :
+            view = this.getActiveMapview(true) // raw
+          break
+      }
+      return raw ? view : this.toMapviewObject(view)
+    },
+
+	});
+
+
+	return AppModel;
+
+});
