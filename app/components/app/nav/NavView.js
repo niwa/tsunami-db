@@ -1,9 +1,12 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'bootstrap'
-], function ($, _, Backbone) {
+  'jquery',  'underscore',  'backbone',
+  'bootstrap',
+  'text!./nav.html'
+], function (
+  $, _, Backbone,
+  bootstrap,
+  template
+) {
 
   var NavView = Backbone.View.extend({
     events : {
@@ -12,9 +15,12 @@ define([
       "click .page-link" : "handlePageLink"
     },
     initialize : function () {
-      this.listenTo(this.model, 'change:activePage', this.handleActivePage);
+      this.render()
+      
+      this.listenTo(this.model, 'change:activePage', this.handleActivePage);      
     },
     render: function () {
+      this.$el.html(_.template(template)({t:this.model.getLabels()}))      
       return this
     },
     //upstream

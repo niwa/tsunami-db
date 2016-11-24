@@ -1,18 +1,12 @@
 #map {
   position: absolute;
-  top: 60px;
-  bottom: 60px;
+  top: 0;
+  bottom: 0;
   left: 0;
   right:0;
-  width: auto;  
+  height: 100%;
+  width: 100%;
   background-color: #f7f7f7;
-}
-@media (min-width: 769px) {
-  #map {
-    top:0;
-    bottom:0;
-    left: 114px;
-  }
 }
 
 

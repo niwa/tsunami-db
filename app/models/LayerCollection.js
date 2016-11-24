@@ -12,6 +12,9 @@ define([
       
       this.options = options || {};     
       
+      this.on("add", function(model){
+        model.set('baseurl',this.options.baseurl)
+      });
       
     },
     byIds:function(ids) {
@@ -23,7 +26,8 @@ define([
     bySource:function(source){      
       return new LayerCollection(this.where({source:source}))   
     },      
-    setActive:function(ids){            
+    setActive:function(ids){ 
+      ids = typeof ids === 'object' ? ids : [ids]
       this.each(function(model){
         model.setActive(ids.indexOf(model.id) > -1 || model.isBasemap())        
       })

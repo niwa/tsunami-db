@@ -2,7 +2,8 @@ define([
   'jquery','underscore','backbone',
   'domReady!',
   './nav/NavView', './nav/NavModel',
-  './map/MapView', './map/MapModel',
+  './filters/FiltersView', './filters/FiltersModel',
+  './out/OutView', './out/OutModel',
   'models/ViewModel',
   'models/LayerCollection',  
   'models/LayerModelGeoJson',
@@ -14,7 +15,8 @@ define([
   $, _, Backbone,
   domReady,
   NavView, NavModel,
-  MapView, MapModel,
+  FiltersView, FiltersModel,
+  OutView, OutModel,
   ViewModel,
   LayerCollection,
   LayerModelGeoJson,
@@ -67,29 +69,9 @@ define([
           return that.model.appConfigured()          
         },
         //then
-        function(){
-          
+        function(){          
           // render components
-          that.render()
-          
-          // load additional config files
-          that.model.loadLayersConfig()
-          that.model.loadMapConfig()
-          
-          waitFor(
-            //when
-            function(){
-              return that.model.layersConfigLoaded()
-                  && that.model.mapConfigLoaded()
-            },
-            //then
-            function(){ 
-              that.configureLayers() 
-            }
-          )
-
-
-
+          that.render()          
         }
       )
 
@@ -125,21 +107,36 @@ define([
     // render components
     render: function(){
       console.log("AppView.render");
-      this.$el.html(_.template(template)({t:this.model.getLabels()}))
+      this.$el.html(_.template(template)({t:this.model.getLabels()}))            
       this.update()
+      
+      // load additional config files
+      this.model.loadLayersConfig()
+      this.model.loadMapConfig()
+      var that = this
+      waitFor(
+        //when
+        function(){
+          return that.model.layersConfigLoaded()
+              && that.model.mapConfigLoaded()
+        },
+        //then
+        function(){ 
+          that.configureLayers() 
+        }
+      )      
     },
     update: function(){
       // set classes
       this.setClass()
 
       var that = this
-      this.model.validateRouter(function(pass){
-
-        if (pass) {
-
+      this.model.validateRouter(function(validated){
+        if (validated) {
           // init/update components
-          that.renderNav()
-          that.renderMap()
+          that.updateNav()
+          that.updateFilters()
+          that.updateOut()
         }
       })
 
@@ -151,66 +148,64 @@ define([
     },
    
 
-    renderNav : function(){
+    updateNav : function(){
       var componentId = '#nav'
       this.views.nav = this.views.nav || new NavView({
         el:this.$(componentId),
-        model:new NavModel(),
-        labels:this.model.getLabels()        
+        model:new NavModel({
+          labels:this.model.getLabels()             
+        })
       });
     },  
-    
-    
-    renderMap : function(){
-      var componentId = '#map'
-      
-      if (this.$(componentId).length > 0) {
 
+    updateFilters : function(){
+      var componentId = '#filters'
+      if (this.$(componentId).length > 0) {      
+        this.views.filters = this.views.filters || new FiltersView({
+          el:this.$(componentId),
+          model:new FiltersModel({
+            labels:this.model.getLabels()             
+          })
+        });
+      }
+    },  
+    updateOut : function(){
+      var componentId = '#out'
+      if (this.$(componentId).length > 0) {      
+        this.views.out = this.views.out || new OutView({
+          el:this.$(componentId),
+          model:new OutModel({
+            labels:this.model.getLabels(),
+            outType:"map"
+          })
+        });        
+        
+        // mark map ready
         var that = this
-        // wait for config files to be read
         waitFor(
           function(){
             return that.model.layersConfigured() && that.model.mapConfigLoaded()
-          },
-          function(){
-            console.log('rendermap')
-            that.views.map = that.views.map || new MapView({
-              el:that.$(componentId),
-              model: new MapModel({
-                baseLayers: that.model.getLayers().byBasemap(true), // pass layer collection
-                config:     that.model.getMapConfig(),
-                labels:     that.model.getLabels()
+          },        
+          function(){            
+            if (!that.views.out.model.isMapInit()){
+              // set only once
+              that.views.out.model.set({
+                mapInit:          true,
+                layerCollection:  that.model.getLayers(),
+                mapConfig:        that.model.getMapConfig(),      
+                mapView:          that.model.getActiveMapview(),
               })              
-            });
-            // update map component
-            if (that.model.isComponentActive(componentId)) {
-              console.log('mapactive')
-              that.views.map.model.setActive(true)      
-      
-              that.views.map.model.setView(that.model.getActiveMapview())
-              that.views.map.model.setActiveLayers(that.model.getMapLayers().models) // set active layers
-              
-              
-              
-              that.views.map.model.invalidateSize()
-              that.$el.removeClass('map-loaded')
-              waitFor(
-                function(){
-                  return that.model.mapReady()
-                },
-                function(){
-                  that.$el.addClass('map-loaded')
-                }
-              )
             } else {
-              that.views.map.model.setActive(false)
-            }
-
-
+              // update always
+              that.views.out.model.set({
+                mapView: that.model.getActiveMapview()
+              })
+            }    
+            
           }
         )
-      }
-    },
+      }      
+    },  
      
 
 
@@ -251,7 +246,33 @@ define([
       
       this.model.layersConfigured(true)
     },
-    
+    configureRecords : function(){      
+      
+      var recordsLayer = this.model.getLayer(this.model.attributes.config.recordsLayerId)
+      var that = this
+      recordsLayer.getMapLayer(function(mapLayer,data){
+//        console.log(mapLayer.options.layerModel.id)
+        var records = new RecordsCollection()
+
+        records.add(
+          _.map(mapLayer.collection.models,function(featureModel){
+            var featureLayer = featureModel.get('featureLayer')
+            var bounds = featureLayer.getBounds()                     
+            return _.extend(
+              {},
+              featureModel.attributes,
+              {
+                title : featureModel.get('featureTitle'),
+                layer : that.model.getLayers().findWhere({casestudyId:featureLayer.options.id})
+              }
+            )           
+          })
+        )
+
+        that.model.setRecords(records)
+        that.model.recordsConfigured(true)
+      })
+    },    
     
     // VIEW MODEL EVENT: downstream
     routeChanged:function(){

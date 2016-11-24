@@ -163,6 +163,7 @@ initStyles:function(){
     
     getMapLayer : function(callback,options,force){      
       force = typeof force !== 'undefined' ? force : false
+      options.raw = typeof options.raw !== 'undefined' ? options.raw : false
       
       
       
@@ -187,25 +188,25 @@ initStyles:function(){
         } else {		  
 //          console.log('getmaplayer load data ' + this.id)
           this.loadData(
-            function(result){
-              that.handleResult(result,callback)
+            function(layer,data){
+              that.handleResult(layer,data,callback)
             },
             options
           )
         }
       }
     },        
-    handleResult : function(result,callback){
+    handleResult : function(layer,data,callback){
             // todo add error handling
 //              console.log('data loaded ' + that.id)
      
-      this.set('mapLayer', result) 
+      this.set('mapLayer', layer) 
 
       this.attributes.mapLayer.options.layerModel = this
 
       console.log('data loaded and stored ' + this.id)
       if (typeof callback !== 'undefined') {                
-        callback(this.attributes.mapLayer)
+        callback(this.attributes.mapLayer,data)
       }
     }
   

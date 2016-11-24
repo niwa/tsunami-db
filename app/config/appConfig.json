@@ -1,7 +1,8 @@
 { 
-  "attributesCatsConfig" : "app/config/attributesConfig.json",
-  "attributesConfig" : "app/config/attributesConfig.json",
   "mapConfig" : "app/config/mapConfig.json",
-  "labelsConfig" : "app/config/labelsConfig.json",
-  "layersConfig" : "app/config/layersConfig.json"
+  "layersConfig" : "app/config/layersConfig.json",  
+  "attributeGroups" : "app/config/attributeGroups.json",
+  "attributes" : "app/config/attributes.json",  
+  "labels" : "app/config/labels.json",
+  "recordsLayerId":"records"
 }  

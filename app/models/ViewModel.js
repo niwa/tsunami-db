@@ -12,7 +12,13 @@ define([
     },    
     isActive : function(){      
       return this.get('active')
-    },        
+    },       
+    setLabels:function(data) {
+      this.set('labels',data)
+    },
+    getLabels:function() {
+      return this.attributes.labels
+    }    
   });
 
   return ViewModel;

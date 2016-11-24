@@ -11,7 +11,6 @@ define([
       this.set("layersConfigLoaded", false)
       this.set("mapConfigLoaded", false)
       this.set("layersConfigured", false)
-      this.set("casestudiesConfigured", false)
       
       var that = this
       
@@ -21,13 +20,14 @@ define([
         dataType:"json",
         url: this.attributes.baseurl + '/' +  this.attributes.configFile,
         success: function(json) {
-          //console.log("... success loading app config")
-          that.setConfig(json)       
+          console.log("... success loading app config")
+          that.setConfig(json)     
+          console.log("loading terms")
           $.ajax({
             dataType:"json",
-            url: that.attributes.baseurl + '/' +  that.attributes.config.labelsConfig,
+            url: that.attributes.baseurl + '/' +  that.attributes.config.labels,
             success: function(json) {
-              //console.log("... success loading app config")
+              console.log("... success loading terms")
               that.setLabels(json)          
             },
             error: function(){
@@ -105,7 +105,7 @@ define([
 
 		appConfigured : function(){
       return typeof this.attributes.config !== 'undefined' 
-              && this.attributes.labels !== 'undefined' 
+          && typeof this.attributes.labels !== 'undefined' 
     },
 
     isComponentActive : function(componentId) {
@@ -117,7 +117,6 @@ define([
       
       // component conditions
       var componentConditions = {        
-        "#map":true
       }
       
       return (routeConditions[this.getRoute()].indexOf(componentId) >=0)
@@ -141,6 +140,8 @@ define([
       }
 
     },
+
+
 
 
 
@@ -208,10 +209,7 @@ define([
 			this.attributes.layerCollection.setDefault(this.getLayerIdsByRoute(this.getActiveRouteConfig().id));
 			return this;
 		},
- 		// returns array not collection
-		getActiveLayers : function() {
-			return this.attributes.layerCollection.byActive();
-		},
+
     // active on map
 		getActiveLayerIds : function() {
       
@@ -255,10 +253,14 @@ define([
       
       return routeLayers
     },
-    getMapLayers : function() {
-      return this.attributes.layerCollection.byActiveMap()
-    },
+
 		
+    
+    
+    
+    
+    
+    
 
     // MAP ========================================================================
     loadMapConfig : function(){

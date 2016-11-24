@@ -1,8 +1,9 @@
 define([
-  'jquery', 'underscore', 'backbone'
-], function($,_, Backbone) {
+  'jquery', 'underscore', 'backbone',
+  'models/ViewModel'
+], function($,_, Backbone,ViewModel) {
 
-  return Backbone.Model.extend({
+  return ViewModel.extend({
     initialize : function(options){
       this.options = options || {};
     },
@@ -14,7 +15,7 @@ define([
     },
     getActivePage : function (){
       return this.attributes.activePage
-    }
+    },   
   });
   
 

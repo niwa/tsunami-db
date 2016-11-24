@@ -21,7 +21,7 @@ define([
       
       
       if (typeof this.attributes.wrap === 'undefined') {
-        this.set('wrap',false)
+        this.set('wrap',true)
       }
       
       if (this.attributes.wrap && typeof this.attributes.bounds !== 'undefined'){
@@ -60,7 +60,8 @@ define([
           that.setLoading(false)
           console.log("success loading geojson layer: " + that.id)
           callback(
-            that.geoJson(data)            
+            that.geoJson(data),
+            data
           )              
         },
         error: function(){
@@ -86,7 +87,58 @@ define([
         }
       )
     },    
-    
+    getStyleByFeature: function(featureData){
+      
+      var featureStyle = typeof featureData.properties.featureStyle !== 'undefined' 
+        ? featureData.properties.featureStyle
+        : this.attributes.featureStyle
+      
+      var layerStyle = typeof featureData.properties.style !== 'undefined' 
+        ? featureData.properties.style
+        : this.attributes.layerStyle
+      
+      if (typeof featureStyle === 'undefined') { 
+        return layerStyle
+      } else {
+        
+        if (typeof featureStyle.featureStyleType !== "undefined" 
+        && featureStyle.featureStyleType === 'continuous') {
+          // continuous          
+          var value = featureData.properties[featureStyle.attribute]
+
+          if ($.isArray(featureStyle.stops)) {
+            var stop = 0                  
+
+            while(value >= featureStyle.stops[stop].stop){
+              stop++              
+            }
+            stop = stop>0 ? stop-1 : 0
+
+            return _.extend(
+              {},
+              layerStyle,
+              featureStyle.stops[stop].style
+            )
+
+          } else {
+            return layerStyle
+          }
+          
+        } else {
+          // categorical
+          var value = featureData.properties[featureStyle.attribute]
+          if (typeof featureStyle[value] !== 'undefined') {
+             return _.extend(
+              {},
+              layerStyle,
+              featureStyle[value].style
+            )
+          } else {
+            return layerStyle 
+          }          
+        }
+      } 
+    },    
     
     handleResult : function(result,callback){
             // todo add error handling
@@ -96,14 +148,6 @@ define([
         case 'line' :
         case 'point' :
           this.set('mapLayer', this.handleResultForFeatureLayer(result))
-          // create controlLayer
-          if (typeof this.attributes.controlLayer !== 'undefined') {        
-            this.set('controlLayerGroup', this.createControlGroup())
-          }
-          // create markerLayer
-          if (typeof this.attributes.controlPointLayer !== 'undefined') {
-            this.set('controlPointLayerGroup',this.createControlPointGroup())
-          }
           break                
         default:
           this.set('mapLayer', result) 
@@ -123,22 +167,22 @@ define([
       // set up featureGroup   
       var featureGroup 
         
-      if (this.attributes.cluster){          
-        // Warning: this icon create function is specific to the casestudy point layers
-        var clusterOptions = {} 
-      
-        featureGroup = L.markerClusterGroup(
-          _.extend(
-            {},
-            this.collection.options.mapConfig.clusterOptions,
-            clusterOptions
-          )
-        )
-        .addLayers(result.getLayers())        
-      } else {
-        featureGroup = result
-      }
-      
+//      if (this.attributes.cluster){          
+//        // Warning: this icon create function is specific to the casestudy point layers
+//        var clusterOptions = {} 
+//      
+//        featureGroup = L.markerClusterGroup(
+//          _.extend(
+//            {},
+//            this.collection.options.mapConfig.clusterOptions,
+//            clusterOptions
+//          )
+//        )
+//        .addLayers(result.getLayers())        
+//      } else {
+//        featureGroup = result
+//      }
+      featureGroup = result
       // create feature collection and models
       featureGroup.collection =  this.createFeatureCollection(result) 
       
@@ -168,23 +212,25 @@ define([
     getClassName : function(){
       return 'map-layer map-layer-'+this.id+' '+'map-layer-type-'+this.attributes.type
     },
-    pointToLayer : function(latLng){
+    pointToLayer : function(featureData,latLng){
+      var layerStyle = typeof featureData.properties.style !== 'undefined' 
+        ? featureData.properties.style
+        : this.attributes.layerStyle      
       return new L.circleMarker(
-        latLng                              
+        latLng,  
+        layerStyle                              
       )             
     },
     coordsToLatLng: function (coords) {                  
       var longitude = coords[0];
       var latitude = coords[1];
 
-      var latlng = L.latLng(latitude, longitude);
-
       // TODO make configurable
-      if (this.attributes.wrap && longitude > 20) {
-        return latlng.wrap(-540, 180);
+      if (this.attributes.wrap && longitude < 0) {
+        return L.latLng(latitude, longitude + 360)
       }
       else {
-        return latlng;
+        return L.latLng(latitude, longitude)
       }
     },
     filterByFeature : function(feature, that) {
@@ -195,9 +241,27 @@ define([
           }, false)
         : true
     },
+    updateActiveFeatures : function(activeId) {        
+      var that = this
+      this.getFeatures(function(features){
+        _.each(features.models,function(feature){
+          feature.setActive(activeId === ''
+            ? ''
+            : activeId === feature.id
+              ? 'active'
+              : 'inactive'
+          )
+        })               
+        that.updateMapLayerStyle()
+      })            
+      
+    },
     
-    
-    
+    updateMapLayerStyle :function(){
+      if (typeof this.attributes.mapLayer.setStyle === 'function') {
+        this.attributes.mapLayer.setStyle(this.attributes.mapLayer.options.style)
+      }
+    },    
     
     
     

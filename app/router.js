@@ -20,9 +20,8 @@ define([
       '!' : 'root', // 
       '!/' : 'root', // 
       '!/explore' : 'explore', // overview > all records
-      '!/explore/' : 'explore', // overview > all records
-      '!/record' : 'record', // overview > all records
-      '!/record/' : 'record', // overview > all records
+      '!/explore/*path' : 'explore', // overview > all records            
+
     },
     resetApp : function(){
       //console.log('router.resetApp')             
@@ -161,7 +160,27 @@ define([
 
 
   // Routes ////////////////////////////////////////////////////
-
+  //
+  // query args
+  // 
+  //   - out: type of output view, one of "map", "table"
+  //   - q_[query]: attribute query, eg "q_elevation_below=100"
+  //   "out=map" only
+  //   - view: map view, "lat|lon|zoom||dimx|dimy"   
+  //   - out_color: primary visualisation attribute used for marker colors
+  //   - out_size: secondary visualisation attribute used for marker size
+  //   - plot: show latitude plot, one of 0,1
+  //   - plot_elevation: plot elevation, one of 0,1
+  //   - plot_landward_limit: plot landward limit, one of 0,1
+  //   "out=table" only
+  //   - sort: attribute to sort by
+  //   - sort_dir: sort direction
+  //   - x_table: attributes expanded, one of 0,1   
+  //   /explore only:
+  //   - x_[group]: attribute group expanded, one of 0,1
+  
+  
+  
   var initialize = function(args){          
     app.Router = new AppRouter;
     
@@ -198,31 +217,25 @@ define([
     })
     
     // explore
-    app.Router.on('route:explore', function (query) {
-      //console.log('router.home>setRoute ' )
+    app.Router.on('route:explore', function (path,query) {
+      console.log('router.explore' )
+      console.log('--- path ' + path )
+      console.log('--- query ' + query )
 //      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
-      app.model.setRoute({
-        route : 'explore',
-        path  : '',
-        query : query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
-      })
-      
-      if (typeof app.view === 'undefined') {
-        app.view = new AppView({model:app.model})
-      }  
-    })
-    // record
-    app.Router.on('route:record', function (query) {
-      //console.log('router.home>setRoute ' )
-//      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
-      app.model.setRoute({
-        route : 'record',
-        path  : '',
-        query : query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
-      })
-      
-      if (typeof app.view === 'undefined') {
-        app.view = new AppView({model:app.model})
+
+      if (typeof path === "undefined" || path === null || path === '') {
+        this.navigate( '!/explore/filters',{trigger:true, replace: true} )
+      } else {
+
+        app.model.setRoute({
+          route : 'explore',
+          path  : path,
+          query : query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
+        })
+
+        if (typeof app.view === 'undefined') {
+          app.view = new AppView({model:app.model})
+        }
       }  
     })
            

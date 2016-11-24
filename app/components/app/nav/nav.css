@@ -12,14 +12,6 @@
   left:0
 }
 
-@media (min-width: 769px) {
-  #nav {
-    right: auto;
-    width: 114px;
-    height:auto
-  }
-}
-
 /*typography, #nav links & buttons*/
 #nav a,
 #nav a:focus{

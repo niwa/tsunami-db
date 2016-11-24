@@ -35,13 +35,7 @@ define([
           }
         )
       }
-    },
-    setLabels:function(data) {
-      this.set('labels',data)
-    },
-    getLabels:function() {
-      return this.attributes.labels
-    },       
+    },    
     getConfig : function(){
       return this.attributes.config
     },

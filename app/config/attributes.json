@@ -22,6 +22,7 @@
     "advanced":0,
     "filterable":1,    
     "searchable":0,
+    "table":0,
     "blanks":1,
     "values":{      
       "stops":["min",0,1800,"max"]
@@ -37,7 +38,7 @@
     "comboAttributeId":"date_inferred",    
     "comboType":"min",    
     "comboFilter":"max",    
-    "filter":"date_inferred_min_before",
+    "query":"date_inferred_min_before",
     "advanced":0,
     "filterable":0,
     "multiples":0,
@@ -54,7 +55,7 @@
     "comboAttributeId":"date_inferred",    
     "comboType":"max",    
     "comboFilter":"min",    
-    "filter":"date_inferred_max_after",    
+    "query":"date_inferred_max_after",    
     "advanced":0,
     "filterable":0,
     "multiples":0,
@@ -71,6 +72,7 @@
     "advanced":1,
     "filterable":1,    
     "searchable":0,
+    "table":0,
     "values":{      
       "stops":["min",0,1800,"max"]
     }    
@@ -85,7 +87,7 @@
     "comboAttributeId":"date",    
     "comboType":"min", 
     "comboFilter":"max",    
-    "filter":"date_min_before",
+    "query":"date_min_before",
     "advanced":0,
     "filterable":0,
     "multiples":0,
@@ -102,7 +104,7 @@
     "comboAttributeId":"date",    
     "comboType":"max",    
     "comboFilter":"min",    
-    "filter":"date_max_after",
+    "query":"date_max_after",
     "advanced":0,
     "filterable":0,
     "multiples":0,
@@ -168,7 +170,7 @@
   {
     "id":"geodatingt",
     "column":"geodatingtechnique",
-    "title":"Geo-dating technique",
+    "title":"Geodating technique",
     "hint":"",
     "type":"categorical",    
     "category":"meta",    
@@ -216,6 +218,10 @@
   {
     "id":"elevation",
     "column":"elevation",
+    "query":{
+      "min" : "elevation_above",
+      "max" : "elevation_below"
+    },    
     "title":"Elevation (m)",
     "hint":"Proxy for runup-height",
     "type":"quantitative",    
@@ -241,11 +247,16 @@
     "filterable":0,
     "multiples":0,
     "blanks":1,
+    "table":0,
     "searchable":1
   },
   {
     "id":"landward_limit",
     "column":"est_min_landward_limit",
+    "query":{
+      "min" : "landward_limit_above",
+      "max" : "landward_limit_below"
+    },        
     "title":"Estimated minimum landward limit (m)",
     "hint":"",
     "type":"quantitative",    
@@ -262,7 +273,11 @@
   },
   {
     "id":"thickness",
-    "column":"thicknes",
+    "column":"thickness",
+    "query":{
+      "min" : "thickness_above",
+      "max" : "thickness_below"
+    },       
     "title":"Deposit thickness (m)",
     "hint":"",
     "type":"quantitative",    
@@ -288,7 +303,8 @@
     "filterable":0,
     "multiples":0,
     "blanks":1,
-    "searchable":1
+    "searchable":1,
+    "table":0
   },
   {
     "id":"event_c",
@@ -301,11 +317,16 @@
     "filterable":0,
     "multiples":0,
     "blanks":1,
-    "searchable":1
+    "searchable":1,
+    "table":0
   },
   {
     "id":"lat",
     "column":"latitude",
+    "query":{
+      "min" : "lat_above",
+      "max" : "lat_below"
+    },       
     "title":"Latitude (°)",
     "hint":"",
     "type":"spatial",    
@@ -319,6 +340,10 @@
   {
     "id":"lng",
     "column":"longitude",
+    "query":{
+      "min" : "lng_above",
+      "max" : "lng_below"
+    },           
     "title":"Longitude (°)",
     "hint":"",
     "type":"spatial",    
@@ -344,8 +369,8 @@
     "values":"auto"
   },
   {
-    "id":"location_1",
-    "column":"location_site1",
+    "id":"location_site",
+    "column":"location_site",
     "title":"Location",
     "hint":"",
     "type":"text",    
@@ -354,20 +379,8 @@
     "filterable":0,
     "multiples":0,
     "blanks":1,
-    "searchable":1
-  },
-  {
-    "id":"location_2",
-    "column":"location_site2",
-    "title":"Location (additional information)",
-    "hint":"",
-    "type":"text",    
-    "category":"site",    
-    "advanced":1,
-    "filterable":0,
-    "multiples":0,
-    "blanks":1,
-    "searchable":1
+    "searchable":1,
+    "table":0
   },
   {
     "id":"natureofevidence",
@@ -429,7 +442,8 @@
     "filterable":0,
     "multiples":1,
     "blanks":1,
-    "searchable":0
+    "searchable":0,
+    "table":0
   },  
   {
     "id":"references",
@@ -442,7 +456,8 @@
     "filterable":0,
     "multiples":1,
     "blanks":1,
-    "searchable":0
+    "searchable":0,
+    "table":0
   },
   {
     "id":"sitestatus",
@@ -515,7 +530,8 @@
     "filterable":0,
     "multiples":0,
     "blanks":1,
-    "searchable":1
+    "searchable":1,
+    "table":0
   },
   {
     "id":"source_location",
@@ -534,6 +550,10 @@
   {
     "id":"source_lat",
     "column":"source_lat",
+    "query":{
+      "min" : "source_lat_above",
+      "max" : "source_lat_below"
+    },       
     "title":"Source latitude (°)",
     "hint":"",
     "type":"spatial",    
@@ -547,6 +567,10 @@
   {
     "id":"source_lng",
     "column":"source_lon",
+    "query":{
+      "min" : "source_lng_above",
+      "max" : "source_lng_below"
+    },      
     "title":"Source longitude (°)",
     "hint":"",
     "type":"spatial",    
