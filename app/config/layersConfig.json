@@ -1,12 +1,15 @@
 [
 {
   "id":"records",    
-  "basemap": true,  
+  "basemap": false,  
   "type":"point",
   "source":"geojson",
-  "emptyGeometries":true,
+  "raw":true,
   "path" : "app/data/tsunamidb.geojson",
   "wrap" : true,  
+  "featureAttributeMap" : {
+    "id" : "event_id"
+  },
   "style" : {
     "color":"#46c3ff",
     "weight": 1,

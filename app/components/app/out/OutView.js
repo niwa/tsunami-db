@@ -31,39 +31,39 @@ define([
       
       if (this.$(componentId).length > 0) {
 
-        var that = this
-        // wait for config files to be read
-        waitFor(
-          function(){
-            return that.model.isMapInit()
-          },
-          function(){
-            console.log('rendermap')
-            that.views.map = that.views.map || new MapView({
-              el:that.$(componentId),
-              model: new MapModel({
-                baseLayers: that.model.getLayers().byBasemap(true), // pass layer collection
-                config:     that.model.getMapConfig(),
-                labels:     that.model.getLabels()
-              })              
-            });
-            // update map component
-            if (that.model.isComponentActive(componentId)) {
-              console.log('mapactive')
-              that.views.map.model.setActive(true)      
-      
-              that.views.map.model.setView(that.model.getActiveMapview())
-              that.views.map.model.setActiveLayers(that.model.getMapLayers().models) // set active layers
-              
-              that.views.map.model.invalidateSize()
-
-            } else {
-              that.views.map.model.setActive(false)
-            }
-
-
-          }
-        )
+//        var that = this
+//        // wait for config files to be read
+//        waitFor(
+//          function(){
+//            return that.model.isMapInit()
+//          },
+//          function(){
+//            console.log('rendermap')
+//            that.views.map = that.views.map || new MapView({
+//              el:that.$(componentId),
+//              model: new MapModel({
+//                baseLayers: that.model.getLayers().byBasemap(true), // pass layer collection
+//                config:     that.model.getMapConfig(),
+//                labels:     that.model.getLabels()
+//              })              
+//            });
+//            // update map component
+//            if (that.model.isComponentActive(componentId)) {
+//              console.log('mapactive')
+//              that.views.map.model.setActive(true)      
+//      
+//              that.views.map.model.setView(that.model.getActiveMapview())
+//              that.views.map.model.setActiveLayers(that.model.getMapLayers().models) // set active layers
+//              
+//              that.views.map.model.invalidateSize()
+//
+//            } else {
+//              that.views.map.model.setActive(false)
+//            }
+//
+//
+//          }
+//        )
       }
     },    
   });

@@ -46,8 +46,7 @@ define([
       return this.attributes.bounds
     },
       
-    loadData : function (callback){ 
-      
+    loadData : function (callback){       
       console.log('try loading geojson layer: ' + this.id)
       this.setLoading(true)
       
@@ -58,11 +57,8 @@ define([
         url: this.attributes.baseurl + '/' + this.attributes.path,
         success: function(data) {
           that.setLoading(false)
-          console.log("success loading geojson layer: " + that.id)
-          callback(
-            that.geoJson(data),
-            data
-          )              
+          console.log("success loading geojson layer: " + that.id)          
+          callback(that.isRaw() ? data : that.geoJson(data))                        
         },
         error: function(){
             console.log("error loading geojson layer")
@@ -140,17 +136,17 @@ define([
       } 
     },    
     
-    handleResult : function(result,callback){
+    handleResult : function(data,callback){
             // todo add error handling
 //              console.log('data loaded ' + that.id)
       switch (this.attributes.type) {
         case 'polygon' :
         case 'line' :
         case 'point' :
-          this.set('mapLayer', this.handleResultForFeatureLayer(result))
+          this.set('mapLayer', this.handleResultForFeatureLayer(data))
           break                
         default:
-          this.set('mapLayer', result) 
+          this.set('mapLayer', data) 
           break                
       }
 
@@ -163,7 +159,7 @@ define([
     },        
     
 
-    handleResultForFeatureLayer: function(result) {
+    handleResultForFeatureLayer: function(data) {
       // set up featureGroup   
       var featureGroup 
         
@@ -182,9 +178,9 @@ define([
 //      } else {
 //        featureGroup = result
 //      }
-      featureGroup = result
+      featureGroup = data
       // create feature collection and models
-      featureGroup.collection =  this.createFeatureCollection(result) 
+      featureGroup.collection =  this.createFeatureCollection(data) 
       
       return featureGroup
     },

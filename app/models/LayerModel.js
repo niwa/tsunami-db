@@ -19,6 +19,7 @@ define([
       this.id = this.attributes.id
       
       this.setBasemap(typeof this.attributes.basemap !== "undefined" && this.attributes.basemap)      
+      this.setRaw(typeof this.attributes.raw !== "undefined" && this.attributes.raw)      
                   
       this.set('mapConfig',this.collection.options.mapConfig)
            
@@ -62,6 +63,12 @@ define([
     },      
 
   
+    setRaw : function(bool){      
+      this.set('raw', bool)
+    },    
+    isRaw : function(){      
+      return this.attributes.raw
+    },    
     setBasemap : function(basemap){
       basemap = typeof basemap !== 'undefined' ? basemap : true        
       this.set('basemap', basemap)
@@ -161,11 +168,8 @@ initStyles:function(){
 
    
     
-    getMapLayer : function(callback,options,force){      
+    getMapLayer : function(callback,force){      
       force = typeof force !== 'undefined' ? force : false
-      options.raw = typeof options.raw !== 'undefined' ? options.raw : false
-      
-      
       
       if (this.isLoaded() && !force){   
 //        console.log('getmaplayer already loaded ' + this.id)
@@ -181,32 +185,35 @@ initStyles:function(){
             function(){ return that.isLoaded() },
             function(){ 
               if (typeof callback !== 'undefined') {
-                callback(that.attributes.mapLayer )
+                callback(that.attributes.mapLayer)
               }
             }
           )
         } else {		  
 //          console.log('getmaplayer load data ' + this.id)
           this.loadData(
-            function(layer,data){
-              that.handleResult(layer,data,callback)
-            },
-            options
+            function(data){
+              that.set('mapLayer', data)   
+              console.log('data loaded and stored ' + this.id)
+              
+              if (that.isRaw()){      
+                if (typeof callback !== 'undefined') {                
+                  callback(that.attributes.mapLayer)
+                }                
+              } else {
+                that.handleResult(data,callback)
+              }
+            }
           )
         }
       }
     },        
-    handleResult : function(layer,data,callback){
+    handleResult : function(data,callback){
             // todo add error handling
 //              console.log('data loaded ' + that.id)
-     
-      this.set('mapLayer', layer) 
-
       this.attributes.mapLayer.options.layerModel = this
-
-      console.log('data loaded and stored ' + this.id)
       if (typeof callback !== 'undefined') {                
-        callback(this.attributes.mapLayer,data)
+        callback(this.attributes.mapLayer)
       }
     }
   

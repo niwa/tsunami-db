@@ -5,6 +5,8 @@ define([
   './filters/FiltersView', './filters/FiltersModel',
   './out/OutView', './out/OutModel',
   'models/ViewModel',
+  'models/RecordModel',  
+  'models/RecordCollection',  
   'models/LayerCollection',  
   'models/LayerModelGeoJson',
   'models/LayerModelMapboxTiles',
@@ -18,6 +20,8 @@ define([
   FiltersView, FiltersModel,
   OutView, OutModel,
   ViewModel,
+  RecordModel,
+  RecordCollection,
   LayerCollection,
   LayerModelGeoJson,
   LayerModelMapboxTiles,
@@ -113,6 +117,7 @@ define([
       // load additional config files
       this.model.loadLayersConfig()
       this.model.loadMapConfig()
+      
       var that = this
       waitFor(
         //when
@@ -125,6 +130,15 @@ define([
           that.configureLayers() 
         }
       )      
+      waitFor(
+        function(){
+          return that.model.layersConfigured() && that.model.mapConfigLoaded()
+        },    
+        //then
+        function(){ 
+          that.configureRecords() 
+        }        
+      )        
     },
     update: function(){
       // set classes
@@ -175,35 +189,35 @@ define([
         this.views.out = this.views.out || new OutView({
           el:this.$(componentId),
           model:new OutModel({
-            labels:this.model.getLabels(),
-            outType:"map"
+            labels:this.model.getLabels()
+//            outType:"map"
           })
         });        
         
         // mark map ready
-        var that = this
-        waitFor(
-          function(){
-            return that.model.layersConfigured() && that.model.mapConfigLoaded()
-          },        
-          function(){            
-            if (!that.views.out.model.isMapInit()){
-              // set only once
-              that.views.out.model.set({
-                mapInit:          true,
-                layerCollection:  that.model.getLayers(),
-                mapConfig:        that.model.getMapConfig(),      
-                mapView:          that.model.getActiveMapview(),
-              })              
-            } else {
-              // update always
-              that.views.out.model.set({
-                mapView: that.model.getActiveMapview()
-              })
-            }    
-            
-          }
-        )
+//        var that = this
+//        waitFor(
+//          function(){
+//            return that.model.recordsConfigured() && that.model.mapConfigLoaded()
+//          },        
+//          function(){            
+//            if (!that.views.out.model.isMapInit()){
+//              // set only once
+//              that.views.out.model.set({
+//                mapInit:          true,
+//                layerCollection:  that.model.getLayers(),
+//                mapConfig:        that.model.getMapConfig(),      
+//                mapView:          that.model.getActiveMapview(),
+//              })              
+//            } else {
+//              // update always
+//              that.views.out.model.set({
+//                mapView: that.model.getActiveMapview()
+//              })
+//            }    
+//            
+//          }
+//        )
       }      
     },  
      
@@ -212,7 +226,7 @@ define([
     configureLayers : function(){      
       
       // read layers
-      var layers = this.model.getLayersConfig()
+      var layersConfig = this.model.getLayersConfig()
 
       var collectionOptions = {
         baseurl : this.model.getBaseURL(),
@@ -228,14 +242,14 @@ define([
 
 
       // get types by source
-      var sources = _.chain(layers).pluck('source').uniq().value()
+      var sources = _.chain(layersConfig).pluck('source').uniq().value()
 
       // build collection for all sources
       _.each(sources,function(source){
 
         layerCollection.add(
           new LayerCollection(
-            _.filter(layers,function(layer){
+            _.filter(layersConfig,function(layer){
               return layer.source === source
             }),
             _.extend({},collectionOptions,{model: this.layerModels[source]})
@@ -249,29 +263,35 @@ define([
     configureRecords : function(){      
       
       var recordsLayer = this.model.getLayer(this.model.attributes.config.recordsLayerId)
-      var that = this
-      recordsLayer.getMapLayer(function(mapLayer,data){
-//        console.log(mapLayer.options.layerModel.id)
-        var records = new RecordsCollection()
+      
+      
+      if (recordsLayer.isRaw()){
+        var that = this
+        recordsLayer.getMapLayer(function(recordsRaw){
+  //        console.log(mapLayer.options.layerModel.id)
+          // check raw        
+          var records = new RecordCollection([],{config : recordsLayer})
+          records.add(
+            // reorganise attributes (move properties up)
+            _.map(recordsRaw.features,function(feature){
+              return _.extend (
+                {},
+                feature.properties,
+                {
+                  feature:{
+                    geometry:feature.geometry,                    
+                    type:feature.type,
+                    properties:{}
+                  }
+                }
+              )
+            })
+          )                    
+          that.model.setRecords(records)
 
-        records.add(
-          _.map(mapLayer.collection.models,function(featureModel){
-            var featureLayer = featureModel.get('featureLayer')
-            var bounds = featureLayer.getBounds()                     
-            return _.extend(
-              {},
-              featureModel.attributes,
-              {
-                title : featureModel.get('featureTitle'),
-                layer : that.model.getLayers().findWhere({casestudyId:featureLayer.options.id})
-              }
-            )           
-          })
-        )
-
-        that.model.setRecords(records)
-        that.model.recordsConfigured(true)
-      })
+          that.model.recordsConfigured(true)
+        })
+      }
     },    
     
     // VIEW MODEL EVENT: downstream

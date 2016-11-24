@@ -42,7 +42,7 @@ define([
       
       // component conditions
       var componentConditions = {        
-        "#map":this.getOutType()==="map"
+        "#map":false//this.getOutType()==="map"
       }
       
       return (typeof componentConditions[componentId] !== 'undefined' && componentConditions[componentId])            

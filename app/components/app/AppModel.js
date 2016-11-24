@@ -369,7 +369,37 @@ define([
       return raw ? view : this.toMapviewObject(view)
     },
 
+    // Records ========================================================================
+    getRecord: function(recordid){
+      return this.attributes.records.findWhere({id:recordid})
+    },
+    setRecords: function(collection){
+      this.set('records',collection)
+    },
+    // returns collection
+    getRecords : function(){
+      return this.attributes.records
+    },
+    getActiveRecord:function(){
+      return this.getRecord(this.getActiveRecordId())
+    },
+    getActiveRecordId:function(){
+      return (this.attributes.route.route === 'record')
+        ? parseInt(this.attributes.route.path)
+        : ''
+    },
+    isActiveRecord:function(){
+      return this.attributes.route.route === 'record'        
+    },
+    recordsConfigured : function(val){
+      if (typeof val !== 'undefined') {
+        this.set('recordsConfigured',val)
+      } else {
+        return this.attributes.recordsConfigured
+      }
+    },    
 	});
+
 
 
 	return AppModel;
