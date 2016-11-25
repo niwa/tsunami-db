@@ -10,7 +10,7 @@ define([
     initialize : function(options){
       this.options = options || {};
 
-      this.set('activeLayers',[])
+      this.set('currentLayers',[])
       this.set('removeLayers',[])
       this.set('addLayers',[])
       this.set('keepLayers',[])
@@ -79,37 +79,37 @@ define([
     getBaseLayers : function(){
       return this.attributes.baseLayers
     },
-    setActiveLayers : function(activeLayers){
-      var previousActiveLayers = _.clone(this.attributes.activeLayers)
+    setCurrentLayers : function(currentLayers){
+      var previousCurrentLayers = _.clone(this.attributes.currentLayers)
       var that = this
       waitFor(
         function(){
           return that.mapConfigured()
         },
         function(){
-          that.set('activeLayers', activeLayers) // new active layers          
+          that.set('currentLayers', currentLayers) // new active layers          
           that.set('removeLayers', _.difference(
-            previousActiveLayers, 
-            activeLayers
+            previousCurrentLayers, 
+            currentLayers
           )) // in previous layers but not in active
           that.set('addLayers', _.difference(
-            activeLayers,
-            previousActiveLayers
+            currentLayers,
+            previousCurrentLayers
           )) // in active layers but not in previous
           that.set('keepLayers', _.intersection(
-            previousActiveLayers,
-            activeLayers
+            previousCurrentLayers,
+            currentLayers
           )) // previous and active layers                    
         }
       )
     },
 
-    activeLayersLoading : function(){
-      var layersLoading =  _.where(_.pluck(this.attributes.activeLayers,'attributes'),{'loading':true})      
+    currentLayersLoading : function(){
+      var layersLoading =  _.where(_.pluck(this.attributes.currentLayers,'attributes'),{'loading':true})      
       return layersLoading.length > 0
     },
-    getActiveLayers : function(){
-      return this.attributes.activeLayers
+    getCurrentLayers : function(){
+      return this.attributes.currentLayers
     },
     getRemoveLayers : function(){
       return this.attributes.removeLayers

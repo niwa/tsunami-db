@@ -96,13 +96,11 @@ define([
 			return this.attributes.route.query
 		},
 
-
-    getActiveCategory: function(){
-      return typeof this.attributes.route.query.cat !== 'undefined'
-        ? this.attributes.route.query.cat
-        : ''
+    getOutType: function(){
+      return this.attributes.route.query.out
     },
-
+    
+    
 		appConfigured : function(){
       return typeof this.attributes.config !== 'undefined' 
           && typeof this.attributes.labels !== 'undefined' 
@@ -374,11 +372,11 @@ define([
       return this.attributes.records.findWhere({id:recordid})
     },
     setRecords: function(collection){
-      this.set('records',collection)
+      this.set('recordCollection',collection)
     },
     // returns collection
     getRecords : function(){
-      return this.attributes.records
+      return this.attributes.recordCollection
     },
     getActiveRecord:function(){
       return this.getRecord(this.getActiveRecordId())

@@ -1,10 +1,12 @@
 define([
   'jquery',  'underscore',  'backbone',
   './map/MapView', './map/MapModel',
+  './table/TableView', './table/TableModel',
   'text!./out.html'
 ], function (
   $, _, Backbone,
   MapView, MapModel,  
+  TableView, TableModel,  
   template
 ) {
 
@@ -21,16 +23,71 @@ define([
       
       this.listenTo(this.model, "change:mapInit", this.updateMap);
       this.listenTo(this.model, "change:mapView", this.updateMap);      
+      this.listenTo(this.model, "change:outType", this.updateOutType);      
+      this.listenTo(this.model, "change:recordCollection", this.updateViews);      
     },
     render: function () {
-      this.$el.html(_.template(template)({t:this.model.getLabels()}))      
+      this.$el.html(_.template(template)({t:this.model.getLabels()}))   
+      this.initViews()
       return this
     }, 
-    updateMap : function(){
+    initViews:function(){
+      this.initMapView()
+      this.initTableView()
+    },
+    updateViews:function(){
+      this.updateMapView()
+      this.updateTableView()      
+    },
+    updateOutType:function(){
+      switch(this.model.getOutType()){
+        case "map":
+          this.views.map.model.setActive()
+          this.views.table.model.setActive(false)
+          break
+        case "table":
+          this.views.map.model.setActive(false)
+          this.views.table.model.setActive()
+          break
+      }
+    },
+    initTableView : function(){
+      var componentId = '#table'
+      
+      if (this.$(componentId).length > 0) {
+
+        this.views.table = this.views.table || new TableView({
+          el:this.$(componentId),
+          model: new TableModel({
+            labels: this.model.getLabels(),
+            active: false
+          })              
+        });        
+      }
+    },    
+    initMapView : function(){
       var componentId = '#map'
       
       if (this.$(componentId).length > 0) {
 
+        this.views.map = this.views.map || new MapView({
+          el:this.$(componentId),
+          model: new MapModel({
+            labels: this.model.getLabels(),
+            config:this.model.getMapConfig(),
+            active: false
+          })              
+        });        
+      }
+    },    
+    updateTableView : function(){      
+      this.views.table.model.setCurrentRecords(this.model.getRecords()) 
+    },
+    updateMapView : function(){
+      this.views.map.model.setView(this.model.getActiveMapview())
+//      this.views.map.model.setCurrentRecords(this.model.getRecords())            
+      this.views.map.model.invalidateSize()
+    },
 //        var that = this
 //        // wait for config files to be read
 //        waitFor(
@@ -64,8 +121,7 @@ define([
 //
 //          }
 //        )
-      }
-    },    
+//    },    
   });
 
   return OutView;

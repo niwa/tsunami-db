@@ -6,9 +6,9 @@ define([
     initialize : function(options){
       this.options = options || {};        
     },
-    setActive : function(active){
-      active = typeof active !=='undefined' ? active : true
-      this.set('active', active)
+    setActive : function(bool){
+      bool = typeof bool !=='undefined' ? bool : true
+      this.set('active', bool)
     },    
     isActive : function(){      
       return this.get('active')

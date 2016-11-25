@@ -46,11 +46,10 @@ define([
       )           
     },
     // delete query args
-    queryDelete : function(keys, trigger, replace, link){
+    queryDelete : function(keys, trigger, replace){
       //console.log('router.queryDelete')  
-      var trigger = typeof trigger !== 'undefined' ? trigger : true
-      var replace = typeof replace !== 'undefined' ? replace : false      
-      var link = typeof link !== 'undefined' ? link : false      
+      trigger = typeof trigger !== 'undefined' ? trigger : true
+      replace = typeof replace !== 'undefined' ? replace : false      
       
       var query = _.clone(app.model.getQuery())
       if (typeof keys === 'string') {
@@ -62,21 +61,18 @@ define([
       }
       
       this.update({
-        link:link,        
         query:query,
         trigger:trigger,
         replace:replace
       })    
     },
     // update query args
-    queryUpdate : function(query, trigger, replace, link){
+    queryUpdate : function(query, trigger, replace){
       //console.log('router.queryUpdate')  
-      var trigger = typeof trigger !== 'undefined' ? trigger : true
-      var replace = typeof replace !== 'undefined' ? replace : false
-      var link = typeof link !== 'undefined' ? link : false      
-      var query = _.extend({}, app.model.getQuery(), query)
+      trigger = typeof trigger !== 'undefined' ? trigger : true
+      replace = typeof replace !== 'undefined' ? replace : false
+      query = _.extend({}, app.model.getQuery(), query)
       this.update({
-        link:link,
         query:query,
         trigger:trigger,
         replace:replace
@@ -84,10 +80,9 @@ define([
       return query
     },
     // toggle query args
-    queryToggle : function(query, trigger, link){
+    queryToggle : function(query, trigger){
       //console.log('router.queryToggle')  
-      var trigger = typeof trigger !== 'undefined' ? trigger : true
-      var link = typeof link !== 'undefined' ? link : false
+      trigger = typeof trigger !== 'undefined' ? trigger : true
       
       var currentQuery = _.clone(app.model.getQuery())
       
@@ -110,7 +105,6 @@ define([
       if (trigger) {
         this.update({
           query:currentQuery,      
-          link:link
         })      
       }
       return currentQuery
@@ -118,7 +112,6 @@ define([
     },
     // update route
     update : function(args){
-      var link = typeof args.link !== 'undefined' ? args.link : false
       var trigger = typeof args.trigger !== 'undefined' ? args.trigger : true
       var replace = typeof args.replace !== 'undefined' ? args.replace : false
       var extendQuery = typeof args.extendQuery !== 'undefined' ? args.extendQuery : false
@@ -223,18 +216,35 @@ define([
       console.log('--- query ' + query )
 //      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
 
+      // set default path if not set
       if (typeof path === "undefined" || path === null || path === '') {
         this.navigate( '!/explore/filters',{trigger:true, replace: true} )
       } else {
+        query = query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
+        // set default output option if not set
+        if (typeof query.out === "undefined" || query.out === null || query.out === "") {
+          this.update({
+            route:"explore",
+            path:path,
+            query : {
+              out:"table"
+            },
+            extendQuery:true,
+            trigger:true,
+            replace:true
+          }
+          )
+        } else {
+        
+          app.model.setRoute({
+            route : 'explore',
+            path  : path,
+            query : query
+          })
 
-        app.model.setRoute({
-          route : 'explore',
-          path  : path,
-          query : query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
-        })
-
-        if (typeof app.view === 'undefined') {
-          app.view = new AppView({model:app.model})
+          if (typeof app.view === 'undefined') {
+            app.view = new AppView({model:app.model})
+          }
         }
       }  
     })

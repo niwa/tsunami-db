@@ -12,43 +12,48 @@ define([
   var MapView = Backbone.View.extend({
     initialize : function(){
       //console.log('MapView.initialize')
+      this.handleActive()  
 
       // set up an empty layer group for all our overlay and basemap layers
       this._layerGroup        = new L.layerGroup()
       this._baseLayerGroup    = new L.layerGroup()
       this.viewUpdating       = false      
 
+      this.render()
+      
+      
+      
+      
+      
+      
+      
       this.listenTo(this.model, "change:active",        this.handleActive);
       this.listenTo(this.model, "change:view",          this.handleViewUpdate);
 
-      this.listenTo(this.model, "change:baseLayers",    this.handleBaseLayersUpdate);
-      this.listenTo(this.model, "change:addLayers",     this.handleAddLayersUpdate);
-      this.listenTo(this.model, "change:removeLayers",  this.handleRemoveLayersUpdate);
-      this.listenTo(this.model, "change:keepLayers", this.handleRefreshLayersUpdate);
+//      this.listenTo(this.model, "change:baseLayers",    this.handleBaseLayersUpdate);
+//      this.listenTo(this.model, "change:addLayers",     this.handleAddLayersUpdate);
+//      this.listenTo(this.model, "change:removeLayers",  this.handleRemoveLayersUpdate);
+//      this.listenTo(this.model, "change:keepLayers",    this.handleRefreshLayersUpdate);
 
-      this.listenTo(this.model, "change:mapControl",   this.mapControl);
-      this.listenTo(this.model, "change:invalidateSize",   this.invalidateSize);
+      this.listenTo(this.model, "change:mapControl",    this.mapControl);
+      this.listenTo(this.model, "change:invalidateSize",this.invalidateSize);
 
-      this.render()
 
+
+
+    },
+    render : function(){    
+      console.log('MapView.render')      
+      this.$el.html(_.template(template)({t:this.model.getLabels()}))
       var that = this
       waitFor(
         function(){ return that.model.mapConfigLoaded() },
         function(){ that.configureMap() }
-      )
-    },
-    render : function(){
-      console.log('MapView.render')
-      this.$el.html(_.template(template)({t:this.model.getLabels()}))
-      var that = this
-      waitFor(
-        function(){
-          return that.model.mapConfigured()
-        },
-        function(){
-          that.updateBaseLayers()
-        }
-      )
+      )              
+//      waitFor(
+//        function(){return that.model.mapConfigured()},
+//        function(){that.updateBaseLayers()}
+//      )
       return this
     },
     // map configuration has been read
@@ -152,131 +157,131 @@ define([
       var defaultView = this.model.getDefaultView()
       this._map.setView(defaultView.center,this.getZoomForDimensions(defaultView),{animate:true})
     },
-    updateBaseLayers : function() {
-      this._baseLayerGroup.clearLayers()
-
-      var that = this
-      this.model.getBaseLayers().each(function(layer){
-        layer.getMapLayer(
-          function(mapLayer){
-            that._baseLayerGroup.addLayer(mapLayer)
-          },
-          {
-            map:that._map
-          }
-        )
-      })
-    },
-    
-    addLayers : function(){
-      var layers = this.model.getAddLayers()      
-      var that = this
-      if (layers.length){
-        // add new layers
-        _.each(layers,function(layer){
-          layer.getMapLayer(
-            function(mapLayer){
-              
-              that._layerGroup.addLayer(mapLayer) 
-              
-              if (layer.getType() !== "raster") {
-                
-                // check for controllayer
-                if (layer.hasControlLayer() && layer.showControlLayer()){
-                  that._controlLayerGroup.addLayer(layer.getControlLayer())
-                }
-                // check for markerlayer
-                if (layer.hasControlPointLayer() && layer.showControlPointLayer()){
-                  that._controlPointLayerGroup.addLayer(layer.getControlPointLayer() )
-                }
-
-                // fade animate
-                if(layer.fadeEnabled()) {
-                  that.$('.leaflet-overlay-pane .map-layer-'+layer.id).animate({opacity:1},'fast', 'linear')
-                }                
-              } 
-                                                             
-            },
-            {
-              map:that._map
-            }
-          )
-        })
-       
-            
-        that.model.setAddLayers([])            
-        
-        that.bringToFront()
-      }
-    },
-
-    removeLayers : function(){
-      var layers = this.model.getRemoveLayers()
-      var that = this
-      if (layers.length){
-        _.each(layers,function(layer){
-          //console.log('map.removelayer: ' + layer.id)
-          layer.getMapLayer(
-            function(mapLayer){
-                          
-              if(layer.fadeEnabled()) {
-                that.$('.leaflet-overlay-pane .map-layer-'+layer.id).animate({opacity:0},'fast', 'linear').promise().done(function(){
-                  that._layerGroup.removeLayer(mapLayer)
-                })
-              } else {
-                that._layerGroup.removeLayer(mapLayer)
-              }
-              if (layer.getType() !== "raster") {            
-                if (layer.hasControlLayer()){
-                  that._controlLayerGroup.removeLayer(layer.getControlLayer())                
-                }
-                if (layer.hasControlPointLayer()){
-                  if (that._controlPointLayerGroup.hasLayer(layer.getControlPointLayer())){
-                    that._controlPointLayerGroup.removeLayer(layer.getControlPointLayer())
-                  }                   
-                }
-              }
-            },
-            {
-              map:that._map
-            }
-          )          
-        },this)
-      }
-    },
-    refreshLayers : function(){
-      var layers = this.model.getKeepLayers()
-      var that = this
-      if (layers.length){
-        _.each(layers,function(layer){
-          
-          if (layer.getType() !== "raster") {            
-            if (layer.hasControlPointLayer()){
-              if (layer.showControlPointLayer()){
-                if (!that._controlPointLayerGroup.hasLayer(layer.getControlPointLayer())){
-                  that._controlPointLayerGroup.addLayer(layer.getControlPointLayer())
-                }
-              } else {
-                if (that._controlPointLayerGroup.hasLayer(layer.getControlPointLayer())){
-                  that._controlPointLayerGroup.removeLayer(layer.getControlPointLayer())
-                }             
-              }             
-            }
-          }
-
-        },this)
-      }
-    },
+//    updateBaseLayers : function() {
+//      this._baseLayerGroup.clearLayers()
+//
+//      var that = this
+//      this.model.getBaseLayers().each(function(layer){
+//        layer.getMapLayer(
+//          function(mapLayer){
+//            that._baseLayerGroup.addLayer(mapLayer)
+//          },
+//          {
+//            map:that._map
+//          }
+//        )
+//      })
+//    },
+//    
+//    addLayers : function(){
+//      var layers = this.model.getAddLayers()      
+//      var that = this
+//      if (layers.length){
+//        // add new layers
+//        _.each(layers,function(layer){
+//          layer.getMapLayer(
+//            function(mapLayer){
+//              
+//              that._layerGroup.addLayer(mapLayer) 
+//              
+//              if (layer.getType() !== "raster") {
+//                
+//                // check for controllayer
+//                if (layer.hasControlLayer() && layer.showControlLayer()){
+//                  that._controlLayerGroup.addLayer(layer.getControlLayer())
+//                }
+//                // check for markerlayer
+//                if (layer.hasControlPointLayer() && layer.showControlPointLayer()){
+//                  that._controlPointLayerGroup.addLayer(layer.getControlPointLayer() )
+//                }
+//
+//                // fade animate
+//                if(layer.fadeEnabled()) {
+//                  that.$('.leaflet-overlay-pane .map-layer-'+layer.id).animate({opacity:1},'fast', 'linear')
+//                }                
+//              } 
+//                                                             
+//            },
+//            {
+//              map:that._map
+//            }
+//          )
+//        })
+//       
+//            
+//        that.model.setAddLayers([])            
+//        
+//        that.bringToFront()
+//      }
+//    },
+//
+//    removeLayers : function(){
+//      var layers = this.model.getRemoveLayers()
+//      var that = this
+//      if (layers.length){
+//        _.each(layers,function(layer){
+//          //console.log('map.removelayer: ' + layer.id)
+//          layer.getMapLayer(
+//            function(mapLayer){
+//                          
+//              if(layer.fadeEnabled()) {
+//                that.$('.leaflet-overlay-pane .map-layer-'+layer.id).animate({opacity:0},'fast', 'linear').promise().done(function(){
+//                  that._layerGroup.removeLayer(mapLayer)
+//                })
+//              } else {
+//                that._layerGroup.removeLayer(mapLayer)
+//              }
+//              if (layer.getType() !== "raster") {            
+//                if (layer.hasControlLayer()){
+//                  that._controlLayerGroup.removeLayer(layer.getControlLayer())                
+//                }
+//                if (layer.hasControlPointLayer()){
+//                  if (that._controlPointLayerGroup.hasLayer(layer.getControlPointLayer())){
+//                    that._controlPointLayerGroup.removeLayer(layer.getControlPointLayer())
+//                  }                   
+//                }
+//              }
+//            },
+//            {
+//              map:that._map
+//            }
+//          )          
+//        },this)
+//      }
+//    },
+//    refreshLayers : function(){
+//      var layers = this.model.getKeepLayers()
+//      var that = this
+//      if (layers.length){
+//        _.each(layers,function(layer){
+//          
+//          if (layer.getType() !== "raster") {            
+//            if (layer.hasControlPointLayer()){
+//              if (layer.showControlPointLayer()){
+//                if (!that._controlPointLayerGroup.hasLayer(layer.getControlPointLayer())){
+//                  that._controlPointLayerGroup.addLayer(layer.getControlPointLayer())
+//                }
+//              } else {
+//                if (that._controlPointLayerGroup.hasLayer(layer.getControlPointLayer())){
+//                  that._controlPointLayerGroup.removeLayer(layer.getControlPointLayer())
+//                }             
+//              }             
+//            }
+//          }
+//
+//        },this)
+//      }
+//    },
     bringToFront : function(){
       // wait for all layers (execpt raster to be loaded before adding to map to keep correct order
       var that = this
       waitFor(
         function(){
-          return !that.model.activeLayersLoading()
+          return !that.model.currentLayersLoading()
         },
         function(){                    
           // ensure order
-          _.each(that.model.getActiveLayers(),function(layer){
+          _.each(that.model.getCurrentLayers(),function(layer){
             layer.getMapLayer(
               function(mapLayer){
                 if (typeof mapLayer._markerCluster !== 'undefined') {
@@ -345,58 +350,58 @@ define([
       )
     },
 
-    handleAddLayersUpdate : function(){
-//      console.log('MapView.handleLayersUpdate')
-      var that = this
-      // wait for config files to be read
-      waitFor(
-        function(){
-          return that.model.mapConfigured()
-        },
-        function(){
-          that.addLayers()
-        }
-      )
-    },
-    handleRemoveLayersUpdate : function(){
-      //console.log('MapView.handleLayersUpdate')
-      var that = this
-      // wait for config files to be read
-      waitFor(
-        function(){
-          return that.model.mapConfigured()
-        },
-        function(){
-          that.removeLayers()
-        }
-      )
-    },
-    handleRefreshLayersUpdate : function(){
-      //console.log('MapView.handleLayersUpdate')
-      var that = this
-      // wait for config files to be read
-      waitFor(
-        function(){
-          return that.model.mapConfigured()
-        },
-        function(){
-          that.refreshLayers()
-        }
-      )
-    },
-    handleBaseLayersUpdate : function(){
-      //console.log('MapView.handleBaseLayersUpdate')
-      var that = this
-      // wait for config files to be read
-      waitFor(
-        function(){
-          return that.model.mapConfigured()
-        },
-        function(){
-          that.updateBaseLayers()
-        }
-      )
-    },
+//    handleAddLayersUpdate : function(){
+////      console.log('MapView.handleLayersUpdate')
+//      var that = this
+//      // wait for config files to be read
+//      waitFor(
+//        function(){
+//          return that.model.mapConfigured()
+//        },
+//        function(){
+//          that.addLayers()
+//        }
+//      )
+//    },
+//    handleRemoveLayersUpdate : function(){
+//      //console.log('MapView.handleLayersUpdate')
+//      var that = this
+//      // wait for config files to be read
+//      waitFor(
+//        function(){
+//          return that.model.mapConfigured()
+//        },
+//        function(){
+//          that.removeLayers()
+//        }
+//      )
+//    },
+//    handleRefreshLayersUpdate : function(){
+//      //console.log('MapView.handleLayersUpdate')
+//      var that = this
+//      // wait for config files to be read
+//      waitFor(
+//        function(){
+//          return that.model.mapConfigured()
+//        },
+//        function(){
+//          that.refreshLayers()
+//        }
+//      )
+//    },
+//    handleBaseLayersUpdate : function(){
+//      //console.log('MapView.handleBaseLayersUpdate')
+//      var that = this
+//      // wait for config files to be read
+//      waitFor(
+//        function(){
+//          return that.model.mapConfigured()
+//        },
+//        function(){
+//          that.updateBaseLayers()
+//        }
+//      )
+//    },
     
     mapControl : function(){
       var that = this

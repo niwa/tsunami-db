@@ -1,0 +1,10 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead><tr><th>Record</th></tr></thead>
+    <tbody>
+      <% records.each(function(record){ %>
+      <tr><td><%= JSON.stringify(record.attributes.feature.properties) %></td></tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,18 @@
+#table {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right:0;
+  width: auto;  
+  background-color: #dddddd;
+  overflow-y: auto;
+}
+
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
+#table .table-responsive {
+   max-height: 600px;
+}

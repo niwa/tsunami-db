@@ -5,6 +5,7 @@
 @import url("../../app/components/app/filters/filters.css");
 @import url("../../app/components/app/out/out.css");
 @import url("../../app/components/app/out/map/map.css");
+@import url("../../app/components/app/out/table/table.css");
 
 .loading-animation {
   background: url('../img/loading.gif') no-repeat top left;

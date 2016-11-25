@@ -185,39 +185,30 @@ define([
     },  
     updateOut : function(){
       var componentId = '#out'
-      if (this.$(componentId).length > 0) {      
-        this.views.out = this.views.out || new OutView({
-          el:this.$(componentId),
-          model:new OutModel({
-            labels:this.model.getLabels()
-//            outType:"map"
-          })
-        });        
-        
-        // mark map ready
-//        var that = this
-//        waitFor(
-//          function(){
-//            return that.model.recordsConfigured() && that.model.mapConfigLoaded()
-//          },        
-//          function(){            
-//            if (!that.views.out.model.isMapInit()){
-//              // set only once
-//              that.views.out.model.set({
-//                mapInit:          true,
-//                layerCollection:  that.model.getLayers(),
-//                mapConfig:        that.model.getMapConfig(),      
-//                mapView:          that.model.getActiveMapview(),
-//              })              
-//            } else {
-//              // update always
-//              that.views.out.model.set({
-//                mapView: that.model.getActiveMapview()
-//              })
-//            }    
-//            
-//          }
-//        )
+      if (this.$(componentId).length > 0) {     
+        // set records
+        var that = this
+        waitFor(
+          function(){
+            return that.model.recordsConfigured()
+          },    
+          function(){ 
+            that.views.out = that.views.out || new OutView({
+              el:that.$(componentId),
+              model:new OutModel({
+                labels:    that.model.getLabels(),
+                mapConfig: that.model.getMapConfig()
+              })
+            })
+            that.views.out.model.set({
+              recordCollection: that.model.getRecords(), // TODO apply filters
+              outType:          that.model.getOutType(),
+              mapView:          that.model.getActiveMapview()
+            })
+
+          }
+        )
+      
       }      
     },  
      
@@ -281,7 +272,7 @@ define([
                   feature:{
                     geometry:feature.geometry,                    
                     type:feature.type,
-                    properties:{}
+                    properties:feature.properties
                   }
                 }
               )

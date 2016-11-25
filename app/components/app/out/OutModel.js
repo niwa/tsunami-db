@@ -29,6 +29,13 @@ define([
 			this.set('layerCollection',layers);
 			return this;
 		},
+		getRecords : function() {
+			return this.attributes.recordCollection;
+		},
+		setRecords : function(records) {
+			this.set('recordCollection',records);
+			return this;
+		},
     getMapLayers : function() {
       return this.attributes.layerCollection.byActiveMap()
     },    
