@@ -67,11 +67,15 @@ define([
       })    
     },
     // update query args
-    queryUpdate : function(query, trigger, replace){
+    queryUpdate : function(query, trigger, replace, extend){
       //console.log('router.queryUpdate')  
       trigger = typeof trigger !== 'undefined' ? trigger : true
       replace = typeof replace !== 'undefined' ? replace : false
-      query = _.extend({}, app.model.getQuery(), query)
+      extend = typeof extend !== 'undefined' ? extend : true
+      
+      query = extend
+          ? _.extend({}, app.model.getQuery(), query )
+          : query 
       this.update({
         query:query,
         trigger:trigger,
@@ -157,7 +161,7 @@ define([
   // query args
   // 
   //   - out: type of output view, one of "map", "table"
-  //   - q_[query]: attribute query, eg "q_elevation_below=100"
+  //   - att_[query]: attribute query, eg "att_elevation_below=100"
   //   "out=map" only
   //   - view: map view, "lat|lon|zoom||dimx|dimy"   
   //   - out_color: primary visualisation attribute used for marker colors

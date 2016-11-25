@@ -80,8 +80,9 @@ define([
         });        
       }
     },    
-    updateTableView : function(){      
+    updateTableView : function(){            
       this.views.table.model.setCurrentRecords(this.model.getRecords()) 
+      
     },
     updateMapView : function(){
       this.views.map.model.setView(this.model.getActiveMapview())

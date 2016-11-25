@@ -1,6 +1,7 @@
 define([
   'jquery','underscore','backbone',
   'domReady!',
+  'jquery.deparam',
   './nav/NavView', './nav/NavModel',
   './filters/FiltersView', './filters/FiltersModel',
   './out/OutView', './out/OutModel',
@@ -15,7 +16,7 @@ define([
   'text!./app.html'
 ], function(
   $, _, Backbone,
-  domReady,
+  domReady,deparam,
   NavView, NavModel,
   FiltersView, FiltersModel,
   OutView, OutModel,
@@ -42,6 +43,8 @@ define([
       homeLink : "homeLink",
       routeLink : "routeLink",
       
+      // filter events
+      querySubmit : "querySubmit",
       // map view events
       mapViewUpdated: "mapViewUpdated",            
       mapFeatureClick: "mapFeatureClick",
@@ -175,12 +178,26 @@ define([
     updateFilters : function(){
       var componentId = '#filters'
       if (this.$(componentId).length > 0) {      
+        
+        // prep attribute query
+        var query = {}
+        _.each(this.model.getQuery(),function(val,key){
+          if (key.startsWith("att_")){
+            query[key.replace("att_","")] = val
+          }
+        })
+        
         this.views.filters = this.views.filters || new FiltersView({
           el:this.$(componentId),
           model:new FiltersModel({
-            labels:this.model.getLabels()             
+            labels:this.model.getLabels(),
+            attQuery : $.param(query)
           })
-        });
+        });            
+
+        this.views.filters.model.set({
+          attQuery : $.param(query)
+        })
       }
     },  
     updateOut : function(){
@@ -200,6 +217,7 @@ define([
                 mapConfig: that.model.getMapConfig()
               })
             })
+
             that.views.out.model.set({
               recordCollection: that.model.getRecords(), // TODO apply filters
               outType:          that.model.getOutType(),
@@ -344,13 +362,32 @@ define([
             view : viewUpdated
           },
           true, // trigger
-          true, // replace
-          false // link
+          true // replace
         )
       }
+      
 
-
-    }
+    },
+    
+    
+    // filter events
+    querySubmit : function(e,args){    
+      // remove old attr query args
+      var query = _.clone(this.model.getQuery())
+      _.each(query,function(val,key){
+        if (key.startsWith("att_")) {
+          delete query[key]
+        }
+      })
+      // add new attr query args
+      _.extend(query,$.deparam("att_" + args.value.replace('&','&att_') ))
+      this.model.getRouter().queryUpdate(
+        query,
+        true, // trigger
+        true, // replace
+        false // extend
+      )      
+    },
 
     
 
