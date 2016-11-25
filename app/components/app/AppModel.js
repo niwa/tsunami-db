@@ -8,9 +8,7 @@ define([
 			this.options = options || {};
 
       this.set("appConfigLoaded", false)
-      this.set("layersConfigLoaded", false)
-      this.set("mapConfigLoaded", false)
-      this.set("layersConfigured", false)
+      this.set("configsLoaded",false)
       
       var that = this
       
@@ -56,8 +54,41 @@ define([
     getLabels:function() {
       return this.attributes.labels
     },    
+    // config
 
-    
+    loadConfigs : function(){
+      var that = this
+      $.when(
+        $.ajax({
+          dataType: "json",
+          url: this.attributes.baseurl + '/' + this.attributes.config.layersConfig
+        }),
+        $.ajax({
+          dataType: "json",
+          url: this.attributes.baseurl + '/' + this.attributes.config.mapConfig
+        }),
+        $.ajax({
+          dataType: "json",
+          url: this.attributes.baseurl + '/' + this.attributes.config.attributes
+        }),
+        $.ajax({
+          dataType: "json",
+          url: this.attributes.baseurl + '/' + this.attributes.config.attributeGroups
+        })
+      ).then(function (layers_json, map_json, att_json, attGroup_json) {                
+          //console.log("... success loading layer config")
+          that.set("layersConfig",layers_json[0])  
+          that.set("mapConfig",map_json[0])
+          that.set("attributes",att_json[0])        
+          that.set("attributeGroups",attGroup_json[0])       
+          that.set("configsLoaded",true)
+      }, function(){
+        console.log("error loading configs")
+      })
+    },
+    configsLoaded : function(){
+      return this.attributes.configsLoaded
+    },    
     // ROUTE VALIDATION ===================================================================
 
     validateRouter : function(callback){
@@ -95,7 +126,16 @@ define([
 		getQuery : function (){
 			return this.attributes.route.query
 		},
-
+    getRecordQuery:function(){
+      // prep attribute query
+      var query = {}
+      _.each(this.getQuery(),function(val,key){
+        if (key.startsWith("att_")){
+          query[key.replace("att_","")] = val
+        }
+      })          
+      return query
+    },
     getOutType: function(){
       return this.attributes.route.query.out
     },
@@ -167,22 +207,7 @@ define([
     },
 
 
-    // config
-    loadLayersConfig : function(){
-      var that = this
-      $.ajax({
-        dataType: "json",
-        url: this.attributes.baseurl + '/' + this.attributes.config.layersConfig,
-        success: function(json) {
-          //console.log("... success loading layer config")
-          that.set("layersConfig",json)
-        },
-        error: function(){
-          console.log("error loading layer config")
 
-        }
-      })
-    },
     getLayersConfig : function(){
       return this.attributes.layersConfig
     },
@@ -261,25 +286,8 @@ define([
     
 
     // MAP ========================================================================
-    loadMapConfig : function(){
-      var that = this
-      $.ajax({
-        dataType: "json",
-        url: this.attributes.baseurl + '/' + this.attributes.config.mapConfig,
-        success: function(json) {
-          //console.log("... success loading mapconfig")
-          that.set("mapConfig",json[0])
-          that.set("mapConfigLoaded",true)
-        },
-        error: function(){
-          console.log("error loading map config")
 
-        }
-      })
-    },
-    mapConfigLoaded : function(){
-      return this.attributes.mapConfigLoaded
-    },
+
     getMapConfig : function(){
       return this.attributes.mapConfig
     },

@@ -13,12 +13,12 @@ define([
     },
     initialize : function () {
       this.render()
-      this.listenTo(this.model, "change:attQuery", this.render);      
+      this.listenTo(this.model, "change:recQuery", this.render);      
     },
     render: function () {
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),
-        q:this.model.get("attQuery")
+        q:$.param(this.model.get("recQuery"))
       }))      
       return this
     },    

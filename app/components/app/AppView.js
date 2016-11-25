@@ -16,7 +16,8 @@ define([
   'text!./app.html'
 ], function(
   $, _, Backbone,
-  domReady,deparam,
+  domReady,
+  deparam,
   NavView, NavModel,
   FiltersView, FiltersModel,
   OutView, OutModel,
@@ -118,15 +119,12 @@ define([
       this.update()
       
       // load additional config files
-      this.model.loadLayersConfig()
-      this.model.loadMapConfig()
-      
+      this.model.loadConfigs()
       var that = this
       waitFor(
         //when
         function(){
-          return that.model.layersConfigLoaded()
-              && that.model.mapConfigLoaded()
+          return that.model.configsLoaded()
         },
         //then
         function(){ 
@@ -135,7 +133,7 @@ define([
       )      
       waitFor(
         function(){
-          return that.model.layersConfigured() && that.model.mapConfigLoaded()
+          return that.model.layersConfigured() && that.model.configsLoaded()
         },    
         //then
         function(){ 
@@ -150,11 +148,16 @@ define([
       var that = this
       this.model.validateRouter(function(validated){
         if (validated) {
+          
           // init/update components
           that.updateNav()
           that.updateFilters()
           that.updateOut()
+          
+        
+          
         }
+        
       })
 
       return this
@@ -163,6 +166,11 @@ define([
     setClass : function(){
 
     },
+   
+   
+   
+   
+   
    
 
     updateNav : function(){
@@ -179,24 +187,16 @@ define([
       var componentId = '#filters'
       if (this.$(componentId).length > 0) {      
         
-        // prep attribute query
-        var query = {}
-        _.each(this.model.getQuery(),function(val,key){
-          if (key.startsWith("att_")){
-            query[key.replace("att_","")] = val
-          }
-        })
-        
         this.views.filters = this.views.filters || new FiltersView({
           el:this.$(componentId),
           model:new FiltersModel({
             labels:this.model.getLabels(),
-            attQuery : $.param(query)
+            recQuery : this.model.getRecordQuery()
           })
         });            
 
         this.views.filters.model.set({
-          attQuery : $.param(query)
+          recQuery : this.model.getRecordQuery()
         })
       }
     },  
@@ -219,7 +219,7 @@ define([
             })
 
             that.views.out.model.set({
-              recordCollection: that.model.getRecords(), // TODO apply filters
+              recordCollection: that.model.getRecords().byQuery(that.model.getRecordQuery()),
               outType:          that.model.getOutType(),
               mapView:          that.model.getActiveMapview()
             })
@@ -230,6 +230,22 @@ define([
       }      
     },  
      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     configureLayers : function(){      
@@ -384,7 +400,7 @@ define([
       this.model.getRouter().queryUpdate(
         query,
         true, // trigger
-        true, // replace
+        false, // replace
         false // extend
       )      
     },
