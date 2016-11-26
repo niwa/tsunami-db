@@ -6,8 +6,23 @@
       <form>
         <div class="form-group">
           <label for="query">Query</label>
-          <input type="text" class="form-control" id="query" placeholder="query" value="<%= q %>">
+          <input type="text" class="form-control" id="query" placeholder="query" value="<%= q %>">        
         </div>
+      
+        <% _.each(attributeGroups,function(group){ %>
+        <div class="form-group">          
+          <h3><%= group.title %></h3>
+          <p><%= group.hint %></p>
+          <ul class="list-unstyled">
+            <% _.each(group.attributes,function(attribute,index){ %>
+            <li>
+              <label for="att_<%= group.id %>_<%= index %>"><%= attribute.get("title") %></label>
+              <input type="text" class="form-control" id="att_<%= group.id %>_<%= index %>" placeholder="" value="">        
+            </li>
+            <% }) %>
+          </ul>
+        </div>          
+        <% }) %>        
         <button type="submit" class="btn btn-default query-submit">Submit</button>
         <button type="submit" class="btn btn-default query-reset">Reset</button>
       </form>  

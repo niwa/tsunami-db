@@ -5,6 +5,7 @@
   left: 0;
   right:0;
   width: auto;  
+  overflow: auto;
   background-color: #ffffff;
 }
 @media (min-width: 769px) {

@@ -18,7 +18,15 @@ define([
     render: function () {
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),
-        q:$.param(this.model.get("recQuery"))
+        q:$.param(this.model.get("recQuery")),
+        attributeGroups:_.map(this.model.get("attributeGroups").models,function(group){
+          return {
+            title:group.get("title"),
+            hint:group.get("hint"),
+            id:group.id,
+            attributes: this.model.get("attributes").byGroup(group.id).byFilterable().models
+          }          
+        },this)
       }))      
       return this
     },    

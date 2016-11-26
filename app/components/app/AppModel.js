@@ -9,6 +9,7 @@ define([
 
       this.set("appConfigLoaded", false)
       this.set("configsLoaded",false)
+      this.set("attributesConfigured",false)
       
       var that = this
       

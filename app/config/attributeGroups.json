@@ -2,26 +2,26 @@
   {
     "id":"meta",        
     "title":"Meta characteristics",
-    "hint":""    
+    "hint":"About meta"    
   },
   {
     "id":"time",        
     "title":"Time",
-    "hint":""    
+    "hint":"About time"    
   },
   {
     "id":"impact",        
     "title":"Impact",
-    "hint":""    
+    "hint":"About impact"    
   },
   {
     "id":"site",        
     "title":"Site",
-    "hint":""    
+    "hint":"About site"    
   },  
   {
     "id":"source",        
     "title":"Source/origin",
-    "hint":""  
+    "hint":"About source"  
   }  
 ]

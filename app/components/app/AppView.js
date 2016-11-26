@@ -6,8 +6,9 @@ define([
   './filters/FiltersView', './filters/FiltersModel',
   './out/OutView', './out/OutModel',
   'models/ViewModel',
-  'models/RecordModel',  
   'models/RecordCollection',  
+  'models/AttributeCollection',  
+  'models/AttributeGroupCollection',  
   'models/LayerCollection',  
   'models/LayerModelGeoJson',
   'models/LayerModelMapboxTiles',
@@ -21,9 +22,10 @@ define([
   NavView, NavModel,
   FiltersView, FiltersModel,
   OutView, OutModel,
-  ViewModel,
-  RecordModel,
+  ViewModel,  
   RecordCollection,
+  AttributeCollection,
+  AttributeGroupCollection,
   LayerCollection,
   LayerModelGeoJson,
   LayerModelMapboxTiles,
@@ -137,6 +139,7 @@ define([
         },    
         //then
         function(){ 
+          that.configureAttributes()
           that.configureRecords() 
         }        
       )        
@@ -187,17 +190,29 @@ define([
       var componentId = '#filters'
       if (this.$(componentId).length > 0) {      
         
-        this.views.filters = this.views.filters || new FiltersView({
-          el:this.$(componentId),
-          model:new FiltersModel({
-            labels:this.model.getLabels(),
-            recQuery : this.model.getRecordQuery()
-          })
-        });            
+        var that = this
+        waitFor(
+          function(){
+            return that.model.get("attributesConfigured")
+          },    
+          function(){         
+        
+            that.views.filters = that.views.filters || new FiltersView({
+              el:that.$(componentId),
+              model:new FiltersModel({
+                labels:that.model.getLabels(),
+                recQuery : that.model.getRecordQuery(),
+                attributes: that.model.get("attributeCollection"),
+                attributeGroups: that.model.get("attributeGroupCollection")
+              })
+            });            
 
-        this.views.filters.model.set({
-          recQuery : this.model.getRecordQuery()
-        })
+            that.views.filters.model.set({
+              recQuery : that.model.getRecordQuery()
+            })
+
+          }
+        )                
       }
     },  
     updateOut : function(){
@@ -285,9 +300,12 @@ define([
       
       this.model.layersConfigured(true)
     },
+    
+    
+    
     configureRecords : function(){      
       
-      var recordsLayer = this.model.getLayer(this.model.attributes.config.recordsLayerId)
+      var recordsLayer = this.model.getLayer(this.model.get("config").recordsLayerId)
       
       
       if (recordsLayer.isRaw()){
@@ -295,7 +313,10 @@ define([
         recordsLayer.getMapLayer(function(recordsRaw){
   //        console.log(mapLayer.options.layerModel.id)
           // check raw        
-          var records = new RecordCollection([],{config : recordsLayer})
+          var records = new RecordCollection([],{
+            config : recordsLayer,
+            attributes:that.model.get("attributeCollection")
+          })
           records.add(
             // reorganise attributes (move properties up)
             _.map(recordsRaw.features,function(feature){
@@ -317,7 +338,12 @@ define([
           that.model.recordsConfigured(true)
         })
       }
-    },    
+    },  
+    configureAttributes:function(){
+      this.model.set("attributeGroupCollection",new AttributeGroupCollection(this.model.get("attributeGroups")))
+      this.model.set("attributeCollection",new AttributeCollection(this.model.get("attributes")))      
+      this.model.set("attributesConfigured",true)      
+    },
     
     // VIEW MODEL EVENT: downstream
     routeChanged:function(){
