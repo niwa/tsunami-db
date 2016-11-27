@@ -383,24 +383,6 @@
     "searchable":0 
   },
   {
-    "id":"natureofevidence",
-    "column":"natureofevidence",
-    "title":"Nature of evidence",
-    "hint":"",
-    "type":"categorical",    
-    "group":"site",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
-    "blanks":0,
-    "searchable":0,
-    "values":{
-      "values":["Primary","Secondary","Cultural"],
-      "labels":["Primary","Secondary","Cultural"],
-      "colors":["red","yellow","green"]
-    }
-  },
-  {
     "id":"sitestatus",
     "column":"sitestatus",
     "title":"Site status",
@@ -416,6 +398,24 @@
       "values":["Deposit present","Deposit absent","Not applicable", "Unknown"],
       "labels":["Deposit present","Deposit absent","Not applicable", "Unknown"],      
       "colors":["red","yellow","green","gray"]
+    }
+  },
+  {
+    "id":"natureofevidence",
+    "column":"natureofevidence",
+    "title":"Nature of evidence",
+    "hint":"",
+    "type":"categorical",    
+    "group":"site",    
+    "default":0,
+    "filterable":1,
+    "multiples":0,
+    "blanks":0,
+    "searchable":0,
+    "values":{
+      "values":["Primary","Secondary","Cultural"],
+      "labels":["Primary","Secondary","Cultural"],
+      "colors":["red","yellow","green"]
     }
   },  
   {
