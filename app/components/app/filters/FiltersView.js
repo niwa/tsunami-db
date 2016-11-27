@@ -24,17 +24,35 @@ define([
             title:group.get("title"),
             hint:group.get("hint"),
             id:group.id,
-            attributes: this.model.get("attributes").byGroup(group.id).byFilterable().models
+            attributes: _.map(this.model.get("attributes").byGroup(group.id).byFilterable().models,function(att){
+              var value = typeof (this.model.get("recQuery")[att.getQueryAttribute()]) !== "undefined"
+                ? this.model.get("recQuery")[att.getQueryAttribute()]
+                : ""
+              return {
+                att:att,
+                value:value
+              }
+            },this)
           }          
         },this)
       }))      
       return this
     },    
-    querySubmit:function(){      
-      this.$el.trigger('querySubmit',{value:this.$('#query').val()})
+    querySubmit:function(){     
+      
+      var query = {}
+      
+      this.$('.att-filter').each(function(index){
+        var $filter = $(this)
+        if ($filter.val().trim() !== "") {
+          query[$filter.attr('id')] = $filter.val().trim()
+        }
+      })
+      
+      this.$el.trigger('recordQuerySubmit',{query:query})
     },    
     queryReset:function(){      
-      this.$el.trigger('querySubmit',{value:""})
+      this.$el.trigger('recordQuerySubmit',{query:{}})
     }
     
   });

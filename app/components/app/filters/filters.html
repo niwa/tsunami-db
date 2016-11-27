@@ -16,8 +16,12 @@
           <ul class="list-unstyled">
             <% _.each(group.attributes,function(attribute,index){ %>
             <li>
-              <label for="<%= attribute.getQueryAttribute() %>"><%= attribute.get("title") %></label>
-              <input type="text" class="form-control" id="<%= attribute.getQueryAttribute() %>" placeholder="" value="">        
+              <label for="<%= attribute.att.getQueryAttribute() %>"><%= attribute.att.get("title") %></label>
+              <input type="text"
+                class="form-control att-filter" 
+                id="<%= attribute.att.getQueryAttribute() %>" 
+                placeholder="" 
+                value="<%= attribute.value %>">        
             </li>
             <% }) %>
           </ul>

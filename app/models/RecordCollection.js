@@ -12,6 +12,7 @@ define([
     
     },    
     byQuery: function(query){
+      var attributes = this.options.attributes
       var filtered = this.filter(function(model){
         var pass = true
         var keys = _.keys(query)
@@ -19,15 +20,20 @@ define([
         var i = 0
         while(i < len && pass) {
           var key = keys[i]
-          var val = query[key]
-          // try number
-          if(isNumber(val)) {            
-            if(model.get(key) !== val && model.get(key) !== parseInt(val)) {
-              pass = false
-            } 
-          } else {
-            if(model.get(key) !== val) {
-              pass = false
+          
+          if (typeof attributes.byQueryAttribute(key) !== "undefined") {
+            var column = attributes.byQueryAttribute(key).get("column")
+
+            var val = query[key]
+            // try number
+            if(isNumber(val)) {            
+              if(model.get(column) !== val && model.get(column) !== parseInt(val)) {
+                pass = false
+              } 
+            } else {
+              if(model.get(column) !== val) {
+                pass = false
+              }
             }
           }          
           i++

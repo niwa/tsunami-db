@@ -8,11 +8,14 @@ define([
       this.options = options || {};    
       if (typeof this.get('query') === "undefined" && this.get("combo") !== 1) {
         this.set("query",this.get("column"))
-      } 
+      }       
 
     },
     getQueryAttribute : function(){
-      return this.attributes.query
+      // TEMP
+      return typeof this.attributes.query.min !== "undefined"
+        ? this.attributes.query.min
+        : this.attributes.query
     }
   });  
 

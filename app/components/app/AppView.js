@@ -47,7 +47,7 @@ define([
       routeLink : "routeLink",
       
       // filter events
-      querySubmit : "querySubmit",
+      recordQuerySubmit : "recordQuerySubmit",
       // map view events
       mapViewUpdated: "mapViewUpdated",            
       mapFeatureClick: "mapFeatureClick",
@@ -315,7 +315,7 @@ define([
           // check raw        
           var records = new RecordCollection([],{
             config : recordsLayer,
-            attributes:that.model.get("attributeCollection")
+            attributes:that.model.get("attributeCollection").byFilterable()
           })
           records.add(
             // reorganise attributes (move properties up)
@@ -413,16 +413,25 @@ define([
     
     
     // filter events
-    querySubmit : function(e,args){    
-      // remove old attr query args
+    recordQuerySubmit : function(e,args){    
+      
+      // new query
+      var q = {}      
+      _.each(args.query,function(val,key){
+        q["att_"+key] = val        
+      })
+      
+      // old query
       var query = _.clone(this.model.getQuery())
       _.each(query,function(val,key){
         if (key.startsWith("att_")) {
           delete query[key]
         }
       })
+      
       // add new attr query args
-      _.extend(query,$.deparam("att_" + args.value.replace('&','&att_') ))
+      _.extend(query,q)
+      
       this.model.getRouter().queryUpdate(
         query,
         true, // trigger

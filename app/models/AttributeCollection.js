@@ -17,9 +17,15 @@ define([
     },
     byFilterable:function(){
       var filtered = this.filter(function(model){
-        return model.get("filterable") === 1
+        return model.get("filterable") === 1 
+                && model.get("combo") !== 1 //temp
       })      
       return new AttributeCollection(filtered);  
+    },
+    byQueryAttribute:function(queryAttribute){
+      return this.filter(function(model){
+        return model.getQueryAttribute() === queryAttribute
+      })[0]                        
     },
     
   });
