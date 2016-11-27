@@ -13,6 +13,124 @@
     "values": "auto"    
   },
   {
+    "id":"validity",
+    "column":"validity",
+    "title":"Validity",
+    "hint":"",
+    "type":"ordinal",    
+    "group":"meta",    
+    "default":1,
+    "filterable":1,
+    "multiples":0,
+    "blanks":0,
+    "searchable":0,
+    "values":{      
+      "values":["Poor (1-4 criteria)","Moderate (5-8 criteria)","Excellent (9+ criteria)"],
+      "labels":["Poor","Moderate","Excellent"],
+      "hints":["1-4 criteria","5-8 criteria","Excellent"],
+      "colors":["red","orange","green"]
+    }
+  },
+  {
+    "id":"datingt",
+    "column":"datingtechnique",
+    "title":"Dating technique",
+    "hint":"",
+    "type":"categorical",    
+    "group":"meta",    
+    "default":0,
+    "filterable":1,
+    "multiples":1,
+    "blanks":0,
+    "searchable":0,
+    "values":{
+      "values":["Geological data","Historical data","No specific method"],      
+      "labels":["Geological data","Historical data","No specific method"],            
+      "colors":["red","orange","green"]      
+    }
+  },
+  {
+    "id":"geodatingt",
+    "column":"geodatingtechnique",
+    "title":"Geodating technique",
+    "hint":"",
+    "type":"categorical",    
+    "group":"meta",    
+    "default":0,
+    "filterable":1,
+    "multiples":1,
+    "blanks":1,
+    "searchable":0,
+    "values":{
+      "values":[
+        "Archaeological information",
+        "Cs137 / Geochem",
+        "Trace element geochemistry",
+        "Dendrochronology",
+        "First appearance of a variety of exotic pollens",
+        "Optically Stimulated Luminescence",
+        "Radiocarbon",
+        "Sediment Accumulation Rates",
+        "Stratigraphic Correlation"        
+      ],      
+      "labels":[
+        "Archaeological information",
+        "Cs137 / Geochem",
+        "Trace element geochemistry",
+        "Dendrochronology",
+        "First appearance of a variety of exotic pollens",
+        "Optically Stimulated Luminescence",
+        "Radiocarbon",
+        "Sediment Accumulation Rates",
+        "Stratigraphic Correlation"        
+      ],      
+      "colors":[
+        "red",
+        "orange",
+        "green",
+        "blue",
+        "purple",
+        "yellow",
+        "brown",
+        "pink",
+        "cyan"
+      ]           
+    }
+  },  
+  {
+    "id":"event_c",
+    "column":"event_comment",
+    "title":"Additional comment",
+    "hint":"",
+    "type":"text",    
+    "group":"meta",    
+    "default":1,
+    "filterable":0,
+    "multiples":0,
+    "blanks":1,
+    "searchable":1,
+    "table":0
+  },  
+  {
+    "id":"classification",
+    "column":"classification",
+    "title":"Classification",
+    "hint":"",
+    "type":"categorical",    
+    "group":"time",    
+    "default":1,
+    "filterable":1,
+    "multiples":0,
+    "blanks":0,
+    "searchable":0,
+    "values":{      
+      "values":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],      
+      "labels":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],      
+      "hints":["Year 1800 and later","Years 0 - 1800","Year -1 and earlier"],
+      "colors":["red","orange","green","gray"]
+    }
+  },   
+  {
     "id":"date_inferred",    
     "title":"Inferred Date",
     "hint":"",
@@ -110,111 +228,7 @@
     "multiples":0,
     "blanks":1,
     "searchable":0     
-  },
-  {
-    "id":"validity",
-    "column":"validity",
-    "title":"Validity",
-    "hint":"",
-    "type":"ordinal",    
-    "group":"meta",    
-    "default":1,
-    "filterable":1,
-    "multiples":0,
-    "blanks":0,
-    "searchable":0,
-    "values":{      
-      "values":["Poor (1-4 criteria)","Moderate (5-8 criteria)","Excellent (9+ criteria)"],
-      "labels":["Poor","Moderate","Excellent"],
-      "hints":["1-4 criteria","5-8 criteria","Excellent"],
-      "colors":["red","orange","green"]
-    }
-  },
-  {
-    "id":"classification",
-    "column":"classification",
-    "title":"Classification",
-    "hint":"",
-    "type":"categorical",    
-    "group":"time",    
-    "default":1,
-    "filterable":1,
-    "multiples":0,
-    "blanks":0,
-    "searchable":0,
-    "values":{      
-      "values":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],      
-      "labels":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],      
-      "hints":["Year 1800 and later","Years 0 - 1800","Year -1 and earlier"],
-      "colors":["red","orange","green","gray"]
-    }
-  },
-  {
-    "id":"datingt",
-    "column":"datingtechnique",
-    "title":"Dating technique",
-    "hint":"",
-    "type":"categorical",    
-    "group":"meta",    
-    "default":0,
-    "filterable":1,
-    "multiples":1,
-    "blanks":0,
-    "searchable":0,
-    "values":{
-      "values":["Geological data","Historical data","No specific method"],      
-      "labels":["Geological data","Historical data","No specific method"],            
-      "colors":["red","orange","green"]      
-    }
-  },
-  {
-    "id":"geodatingt",
-    "column":"geodatingtechnique",
-    "title":"Geodating technique",
-    "hint":"",
-    "type":"categorical",    
-    "group":"meta",    
-    "default":0,
-    "filterable":1,
-    "multiples":1,
-    "blanks":1,
-    "searchable":0,
-    "values":{
-      "values":[
-        "Archaeological information",
-        "Cs137 / Geochem",
-        "Trace element geochemistry",
-        "Dendrochronology",
-        "First appearance of a variety of exotic pollens",
-        "Optically Stimulated Luminescence",
-        "Radiocarbon",
-        "Sediment Accumulation Rates",
-        "Stratigraphic Correlation"        
-      ],      
-      "labels":[
-        "Archaeological information",
-        "Cs137 / Geochem",
-        "Trace element geochemistry",
-        "Dendrochronology",
-        "First appearance of a variety of exotic pollens",
-        "Optically Stimulated Luminescence",
-        "Radiocarbon",
-        "Sediment Accumulation Rates",
-        "Stratigraphic Correlation"        
-      ],      
-      "colors":[
-        "red",
-        "orange",
-        "green",
-        "blue",
-        "purple",
-        "yellow",
-        "brown",
-        "pink",
-        "cyan"
-      ]           
-    }
-  },
+  },   
   {
     "id":"elevation",
     "column":"elevation",
@@ -272,6 +286,20 @@
     }   
   },
   {
+    "id":"landward_limit_c",
+    "column":"est_min_landward_limit_comment",
+    "title":"Estimated minimum landward limit (comment)",
+    "hint":"",
+    "type":"text",    
+    "group":"impact",    
+    "default":1,
+    "filterable":0,
+    "multiples":0,
+    "blanks":1,
+    "searchable":1,
+    "table":0
+  },
+  {
     "id":"thickness",
     "column":"thickness",
     "query":{
@@ -291,35 +319,35 @@
       "stops":["min","max"],
       "color":["blue","red"]
     }   
-  },
+  },    
   {
-    "id":"landward_limit_c",
-    "column":"est_min_landward_limit_comment",
-    "title":"Estimated minimum landward limit (comment)",
+    "id":"region",
+    "column":"location_region",
+    "title":"Region",
+    "hint":"",
+    "type":"categorical",    
+    "group":"site",    
+    "default":1,
+    "filterable":1,
+    "multiples":0,
+    "blanks":1,
+    "searchable":0,
+    "values":"auto"
+  },  
+  {
+    "id":"location_site",
+    "column":"location_site",
+    "title":"Location",
     "hint":"",
     "type":"text",    
-    "group":"impact",    
-    "default":1,
+    "group":"site",    
+    "default":0,
     "filterable":0,
     "multiples":0,
     "blanks":1,
     "searchable":1,
     "table":0
-  },
-  {
-    "id":"event_c",
-    "column":"event_comment",
-    "title":"Additional comment",
-    "hint":"",
-    "type":"text",    
-    "group":"meta",    
-    "default":1,
-    "filterable":0,
-    "multiples":0,
-    "blanks":1,
-    "searchable":1,
-    "table":0
-  },
+  },  
   {
     "id":"lat",
     "column":"latitude",
@@ -355,34 +383,6 @@
     "searchable":0 
   },
   {
-    "id":"region",
-    "column":"location_region",
-    "title":"Region",
-    "hint":"",
-    "type":"categorical",    
-    "group":"site",    
-    "default":1,
-    "filterable":1,
-    "multiples":0,
-    "blanks":1,
-    "searchable":0,
-    "values":"auto"
-  },
-  {
-    "id":"location_site",
-    "column":"location_site",
-    "title":"Location",
-    "hint":"",
-    "type":"text",    
-    "group":"site",    
-    "default":0,
-    "filterable":0,
-    "multiples":0,
-    "blanks":1,
-    "searchable":1,
-    "table":0
-  },
-  {
     "id":"natureofevidence",
     "column":"natureofevidence",
     "title":"Nature of evidence",
@@ -400,6 +400,24 @@
       "colors":["red","yellow","green"]
     }
   },
+  {
+    "id":"sitestatus",
+    "column":"sitestatus",
+    "title":"Site status",
+    "hint":"",
+    "type":"categorical",    
+    "group":"site",    
+    "default":0,
+    "filterable":1,
+    "multiples":0,
+    "blanks":0,
+    "searchable":0,
+    "values":{
+      "values":["Deposit present","Deposit absent","Not applicable", "Unknown"],
+      "labels":["Deposit present","Deposit absent","Not applicable", "Unknown"],      
+      "colors":["red","yellow","green","gray"]
+    }
+  },  
   {
     "id":"natureofevidencedesc",
     "column":"natureofevidencedesc",
@@ -432,55 +450,9 @@
     "searchable":1
   },
   {
-    "id":"proxies",
-    "column":"Proxies",
-    "title":"Record proxies",
-    "hint":"",
-    "type":"text",    
-    "group":"meta",    
-    "default":0,
-    "filterable":0,
-    "multiples":1,
-    "blanks":1,
-    "searchable":0,
-    "table":0
-  },  
-  {
-    "id":"references",
-    "column":"references",
-    "title":"References",
-    "hint":"",
-    "type":"text",    
-    "group":"meta",    
-    "default":0,
-    "filterable":0,
-    "multiples":1,
-    "blanks":1,
-    "searchable":0,
-    "table":0
-  },
-  {
-    "id":"sitestatus",
-    "column":"sitestatus",
-    "title":"Site status",
-    "hint":"",
-    "type":"categorical",    
-    "group":"site",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
-    "blanks":0,
-    "searchable":0,
-    "values":{
-      "values":["Deposit present","Deposit absent","Not applicable", "Unknown"],
-      "labels":["Deposit present","Deposit absent","Not applicable", "Unknown"],      
-      "colors":["red","yellow","green","gray"]
-    }
-  },
-  {
     "id":"source_cause",
     "column":"source_cause",
-    "title":"Cause",
+    "title":"Source cause",
     "hint":"",
     "type":"categorical",    
     "group":"source",    
@@ -534,6 +506,24 @@
     "table":0
   },
   {
+    "id":"source_certainty",
+    "column":"sourcecertainty",
+    "title":"Source certainty",
+    "hint":"",
+    "type":"categorical",    
+    "group":"source",    
+    "default":0,
+    "filterable":1,
+    "multiples":0,
+    "blanks":1,
+    "searchable":0,
+    "values":{      
+      "values":["Inferred","Known"],
+      "labels":["Inferred","Known"],            
+      "colors":["orange","green"]
+    }
+  },  
+  {
     "id":"source_location",
     "column":"source_location",
     "title":"Source location",
@@ -582,21 +572,31 @@
     "searchable":0 
   },  
   {
-    "id":"source_certainty",
-    "column":"sourcecertainty",
-    "title":"Source certainty",
+    "id":"proxies",
+    "column":"Proxies",
+    "title":"Record proxies",
     "hint":"",
-    "type":"categorical",    
-    "group":"source",    
+    "type":"text",    
+    "group":"meta",    
     "default":0,
-    "filterable":1,
-    "multiples":0,
+    "filterable":0,
+    "multiples":1,
     "blanks":1,
     "searchable":0,
-    "values":{      
-      "values":["Inferred","Known"],
-      "labels":["Inferred","Known"],            
-      "colors":["orange","green"]
-    }
-  }
+    "table":0
+  },  
+  {
+    "id":"references",
+    "column":"references",
+    "title":"References",
+    "hint":"",
+    "type":"text",    
+    "group":"meta",    
+    "default":0,
+    "filterable":0,
+    "multiples":1,
+    "blanks":1,
+    "searchable":0,
+    "table":0
+  }   
 ]
