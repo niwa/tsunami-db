@@ -14,10 +14,11 @@ define([
         return model.get("group") === groupId
       })
       return new AttributeCollection(filtered);  
-    },
-    byFilterable:function(){
+    },    
+    byAttribute:function(att,val){
+      val = typeof val !== "undefined" ? val : 1
       var filtered = this.filter(function(model){
-        return model.get("filterable") === 1 
+        return model.get(att) === val 
                 && model.get("combo") !== 1 //temp
       })      
       return new AttributeCollection(filtered);  

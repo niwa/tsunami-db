@@ -5,6 +5,11 @@
     "hint":"About meta"    
   },
   {
+    "id":"site",        
+    "title":"Site",
+    "hint":"About site"    
+  },    
+  {
     "id":"time",        
     "title":"Time",
     "hint":"About time"    
@@ -14,11 +19,6 @@
     "title":"Impact",
     "hint":"About impact"    
   },
-  {
-    "id":"site",        
-    "title":"Site",
-    "hint":"About site"    
-  },  
   {
     "id":"source",        
     "title":"Source/origin",

@@ -172,10 +172,7 @@ define([
   //   "out=table" only
   //   - sort: attribute to sort by
   //   - sort_dir: sort direction
-  //   - x_table: attributes expanded, one of 0,1   
-  //   /explore only:
-  //   - x_[group]: attribute group expanded, one of 0,1
-  
+ 
   
   
   var initialize = function(args){          

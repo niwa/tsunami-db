@@ -315,7 +315,7 @@ define([
           // check raw        
           var records = new RecordCollection([],{
             config : recordsLayer,
-            attributes:that.model.get("attributeCollection").byFilterable()
+            attributes:that.model.get("attributeCollection")
           })
           records.add(
             // reorganise attributes (move properties up)

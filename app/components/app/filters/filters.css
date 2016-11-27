@@ -19,3 +19,14 @@
     width: 500px;
   }
 }
+
+.expanded-group .hidden-expanded-group,
+.visible-expanded-group,
+.expanded .hidden-expanded,
+.visible-expanded {
+  display:none
+}
+.expanded-group .visible-expanded-group,
+.expanded .visible-expanded {
+  display:inline-block
+}

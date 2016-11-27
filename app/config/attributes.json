@@ -2,28 +2,17 @@
   {
     "id":"id",    
     "column":"event_id",    
-    "title":"Id",
-    "hint":"",    
+    "title":"Record no.",
     "type":"id",      
-    "group":"meta",
     "default":1,
     "filterable":0,    
-    "searchable":1,
-    "blanks":0,
-    "values": "auto"    
+    "searchable":1
   },
   {
     "id":"validity",
-    "column":"validity",
     "title":"Validity",
-    "hint":"",
     "type":"ordinal",    
-    "group":"meta",    
     "default":1,
-    "filterable":1,
-    "multiples":0,
-    "blanks":0,
-    "searchable":0,
     "values":{      
       "values":["Poor (1-4 criteria)","Moderate (5-8 criteria)","Excellent (9+ criteria)"],
       "labels":["Poor","Moderate","Excellent"],
@@ -35,14 +24,8 @@
     "id":"datingt",
     "column":"datingtechnique",
     "title":"Dating technique",
-    "hint":"",
     "type":"categorical",    
-    "group":"meta",    
-    "default":0,
-    "filterable":1,
     "multiples":1,
-    "blanks":0,
-    "searchable":0,
     "values":{
       "values":["Geological data","Historical data","No specific method"],      
       "labels":["Geological data","Historical data","No specific method"],            
@@ -53,18 +36,14 @@
     "id":"geodatingt",
     "column":"geodatingtechnique",
     "title":"Geodating technique",
-    "hint":"",
     "type":"categorical",    
-    "group":"meta",    
-    "default":0,
-    "filterable":1,
     "multiples":1,
     "blanks":1,
-    "searchable":0,
     "values":{
       "values":[
         "Archaeological information",
-        "Cs137 / Geochem",
+        "Cs137",
+        "Geochem",
         "Trace element geochemistry",
         "Dendrochronology",
         "First appearance of a variety of exotic pollens",
@@ -75,7 +54,8 @@
       ],      
       "labels":[
         "Archaeological information",
-        "Cs137 / Geochem",
+        "Cs137",
+        "Geochem",
         "Trace element geochemistry",
         "Dendrochronology",
         "First appearance of a variety of exotic pollens",
@@ -88,6 +68,7 @@
         "red",
         "orange",
         "green",
+        "olive",
         "blue",
         "purple",
         "yellow",
@@ -101,28 +82,17 @@
     "id":"event_c",
     "column":"event_comment",
     "title":"Additional comment",
-    "hint":"",
-    "type":"text",    
-    "group":"meta",    
-    "default":1,
     "filterable":0,
-    "multiples":0,
     "blanks":1,
     "searchable":1,
     "table":0
   },  
   {
     "id":"classification",
-    "column":"classification",
     "title":"Classification",
-    "hint":"",
     "type":"categorical",    
     "group":"time",    
     "default":1,
-    "filterable":1,
-    "multiples":0,
-    "blanks":0,
-    "searchable":0,
     "values":{      
       "values":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],      
       "labels":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],      
@@ -133,13 +103,9 @@
   {
     "id":"date_inferred",    
     "title":"Inferred Date",
-    "hint":"",
     "combo":1,
     "type":"dateCombo",      
     "group":"time",
-    "default":1,
-    "filterable":1,    
-    "searchable":0,
     "table":0,
     "blanks":1,
     "values":{      
@@ -148,48 +114,33 @@
   },
   {
     "id":"date_inferred_min",
-    "column":"date_inferred_min",
     "title":"Date Inferred (min)",
-    "hint":"",
     "type":"date",    
     "group":"time",    
     "comboAttributeId":"date_inferred",    
     "comboType":"min",    
     "comboFilter":"max",    
     "query":"date_inferred_min_before",
-    "default":1,
-    "filterable":1,
-    "multiples":0,
-    "blanks":1,
-    "searchable":0        
+    "blanks":1
   },
   {
     "id":"date_inferred_max",
-    "column":"date_inferred_max",
     "title":"Date Inferred (max)",
-    "hint":"",
     "type":"date",    
     "group":"time",    
     "comboAttributeId":"date_inferred",    
     "comboType":"max",    
     "comboFilter":"min",    
     "query":"date_inferred_max_after",    
-    "default":1,
-    "filterable":1,
-    "multiples":0,
-    "blanks":1,
-    "searchable":0        
+    "blanks":1
   },
   {
     "id":"date",    
     "title":"Date",
-    "hint":"",
     "combo":1,
     "type":"dateCombo",      
     "group":"time",
     "default":0,
-    "filterable":1,    
-    "searchable":0,
     "table":0,
     "values":{      
       "stops":["min",0,1800,"max"]
@@ -197,41 +148,28 @@
   },  
   {
     "id":"date_min",
-    "column":"date_min",
     "title":"Date (min)",
-    "hint":"",
     "type":"date",    
     "group":"time",    
     "comboAttributeId":"date",    
     "comboType":"min", 
     "comboFilter":"max",    
     "query":"date_min_before",
-    "default":1,
-    "filterable":1,
-    "multiples":0,
-    "blanks":1,
-    "searchable":0        
+    "blanks":1
   },
   {
     "id":"date_max",
-    "column":"date_max",
     "title":"Date (max)",
-    "hint":"",
     "type":"date",    
     "group":"time",    
     "comboAttributeId":"date",    
     "comboType":"max",    
     "comboFilter":"min",    
     "query":"date_max_after",
-    "default":1,
-    "filterable":1,
-    "multiples":0,
-    "blanks":1,
-    "searchable":0     
+    "blanks":1
   },   
   {
     "id":"elevation",
-    "column":"elevation",
     "query":{
       "min" : "elevation_above",
       "max" : "elevation_below"
@@ -240,11 +178,7 @@
     "hint":"Proxy for runup-height",
     "type":"quantitative",    
     "group":"impact",        
-    "default":0,
-    "filterable":1,
-    "multiples":0,
     "blanks":1,
-    "searchable":0,    
     "values":{      
       "stops":["min","max"],
       "color":["blue","red"]
@@ -254,14 +188,11 @@
     "id":"elevation_c",
     "column":"elevation_comment",
     "title":"Elevation (comment)",
-    "hint":"",
     "type":"text",    
     "group":"impact",    
     "default":1,
     "filterable":0,
-    "multiples":0,
     "blanks":1,
-    "table":0,
     "searchable":1
   },
   {
@@ -272,14 +203,10 @@
       "max" : "landward_limit_below"
     },        
     "title":"Estimated minimum landward limit (m)",
-    "hint":"",
     "type":"quantitative",    
     "group":"impact",    
     "default":0,
-    "filterable":1,
-    "multiples":0,
     "blanks":1,
-    "searchable":0,    
     "values":{      
       "stops":["min","max"],
       "color":["blue","red"]
@@ -289,32 +216,23 @@
     "id":"landward_limit_c",
     "column":"est_min_landward_limit_comment",
     "title":"Estimated minimum landward limit (comment)",
-    "hint":"",
     "type":"text",    
     "group":"impact",    
     "default":1,
     "filterable":0,
-    "multiples":0,
     "blanks":1,
-    "searchable":1,
-    "table":0
+    "searchable":1
   },
   {
     "id":"thickness",
-    "column":"thickness",
     "query":{
       "min" : "thickness_above",
       "max" : "thickness_below"
     },       
     "title":"Deposit thickness (m)",
-    "hint":"",
     "type":"quantitative",    
     "group":"impact",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
     "blanks":1,
-    "searchable":0,    
     "values":{      
       "stops":["min","max"],
       "color":["blue","red"]
@@ -324,26 +242,17 @@
     "id":"region",
     "column":"location_region",
     "title":"Region",
-    "hint":"",
     "type":"categorical",    
     "group":"site",    
     "default":1,
-    "filterable":1,
-    "multiples":0,
-    "blanks":1,
-    "searchable":0,
-    "values":"auto"
+    "blanks":1
   },  
   {
     "id":"location_site",
-    "column":"location_site",
     "title":"Location",
-    "hint":"",
-    "type":"text",    
+    "type":"categorical",    
     "group":"site",    
-    "default":0,
     "filterable":0,
-    "multiples":0,
     "blanks":1,
     "searchable":1,
     "table":0
@@ -356,14 +265,9 @@
       "max" : "lat_below"
     },       
     "title":"Latitude (°)",
-    "hint":"",
     "type":"spatial",    
     "group":"site",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
-    "blanks":1,
-    "searchable":0 
+    "blanks":1
   },
   {
     "id":"lng",
@@ -373,27 +277,15 @@
       "max" : "lng_below"
     },           
     "title":"Longitude (°)",
-    "hint":"",
     "type":"spatial",    
     "group":"site",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
-    "blanks":1,
-    "searchable":0 
+    "blanks":1
   },
   {
     "id":"sitestatus",
-    "column":"sitestatus",
     "title":"Site status",
-    "hint":"",
     "type":"categorical",    
-    "group":"site",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
-    "blanks":0,
-    "searchable":0,
+    "group":"site",        
     "values":{
       "values":["Deposit present","Deposit absent","Not applicable", "Unknown"],
       "labels":["Deposit present","Deposit absent","Not applicable", "Unknown"],      
@@ -402,16 +294,9 @@
   },
   {
     "id":"natureofevidence",
-    "column":"natureofevidence",
     "title":"Nature of evidence",
-    "hint":"",
     "type":"categorical",    
     "group":"site",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
-    "blanks":0,
-    "searchable":0,
     "values":{
       "values":["Primary","Secondary","Cultural"],
       "labels":["Primary","Secondary","Cultural"],
@@ -420,16 +305,9 @@
   },  
   {
     "id":"natureofevidencedesc",
-    "column":"natureofevidencedesc",
     "title":"Nature of evidence (description)",
-    "hint":"",
     "type":"categorical",    
     "group":"site",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
-    "blanks":0,
-    "searchable":0,
     "values":{
       "values":["Sedimentary/Artefactual","Anthropological/Pūrākau [Oral record]","Geomorphic"],
       "labels":["Sedimentary/Artefactual","Anthropological/Pūrākau [Oral record]","Geomorphic"],
@@ -440,27 +318,18 @@
     "id":"physical",
     "column":"physical_characteristics",
     "title":"Physical characteristics",
-    "hint":"",
-    "type":"text",    
     "group":"site",    
-    "default":0,
     "filterable":0,
-    "multiples":0,
     "blanks":1,
     "searchable":1
   },
   {
     "id":"source_cause",
-    "column":"source_cause",
     "title":"Source cause",
-    "hint":"",
     "type":"categorical",    
     "group":"source",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
     "blanks":1,
-    "searchable":0,
+    "default":1,    
     "values":{
       "values":[
         "Quake",
@@ -495,12 +364,8 @@
     "id":"source_cause_c",
     "column":"source_cause_comment",
     "title":"Source cause (comment)",
-    "hint":"",
-    "type":"text",    
     "group":"source",    
-    "default":0,
     "filterable":0,
-    "multiples":0,
     "blanks":1,
     "searchable":1,
     "table":0
@@ -509,14 +374,9 @@
     "id":"source_certainty",
     "column":"sourcecertainty",
     "title":"Source certainty",
-    "hint":"",
     "type":"categorical",    
     "group":"source",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
     "blanks":1,
-    "searchable":0,
     "values":{      
       "values":["Inferred","Known"],
       "labels":["Inferred","Known"],            
@@ -525,34 +385,22 @@
   },  
   {
     "id":"source_location",
-    "column":"source_location",
     "title":"Source location",
-    "hint":"",
     "type":"categorical",    
     "group":"source",    
-    "default":0,
-    "filterable":1,
     "multiples":1,
-    "blanks":1,
-    "searchable":0,
-    "values":"auto"
+    "blanks":1
   },
   {
     "id":"source_lat",
-    "column":"source_lat",
     "query":{
       "min" : "source_lat_above",
       "max" : "source_lat_below"
     },       
     "title":"Source latitude (°)",
-    "hint":"",
     "type":"spatial",    
     "group":"source",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
-    "blanks":1,
-    "searchable":0 
+    "blanks":1
   },
   {
     "id":"source_lng",
@@ -562,41 +410,24 @@
       "max" : "source_lng_below"
     },      
     "title":"Source longitude (°)",
-    "hint":"",
     "type":"spatial",    
-    "group":"source",    
-    "default":0,
-    "filterable":1,
-    "multiples":0,
-    "blanks":1,
-    "searchable":0 
+    "group":"source", 
+    "blanks":1
   },  
   {
     "id":"proxies",
-    "column":"Proxies",
     "title":"Record proxies",
-    "hint":"",
     "type":"text",    
-    "group":"meta",    
-    "default":0,
-    "filterable":0,
     "multiples":1,
     "blanks":1,
-    "searchable":0,
-    "table":0
+    "filterable":0
   },  
   {
     "id":"references",
-    "column":"references",
     "title":"References",
-    "hint":"",
     "type":"text",    
-    "group":"meta",    
-    "default":0,
-    "filterable":0,
     "multiples":1,
     "blanks":1,
-    "searchable":0,
-    "table":0
+    "filterable":0
   }   
 ]
