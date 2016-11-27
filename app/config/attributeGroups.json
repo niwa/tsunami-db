@@ -5,15 +5,15 @@
     "hint":"About meta"    
   },
   {
+    "id":"time",        
+    "title":"Time",
+    "hint":"About time"    
+  },  
+  {
     "id":"site",        
     "title":"Site",
     "hint":"About site"    
   },    
-  {
-    "id":"time",        
-    "title":"Time",
-    "hint":"About time"    
-  },
   {
     "id":"impact",        
     "title":"Impact",
