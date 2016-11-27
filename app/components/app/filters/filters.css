@@ -23,10 +23,12 @@
 .expanded-group .hidden-expanded-group,
 .visible-expanded-group,
 .expanded .hidden-expanded,
+.visible-filtered,
 .visible-expanded {
   display:none
 }
 .expanded-group .visible-expanded-group,
+.filtered .visible-filtered,
 .expanded .visible-expanded {
   display:inline-block
 }

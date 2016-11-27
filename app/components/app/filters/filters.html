@@ -5,20 +5,16 @@
       <h2>Filters</h2>
       <div class="btn btn-default expand-all hidden-expanded">+ More filter options </div>
       <div class="btn btn-default expand-all visible-expanded">- Less filter options</div>
+      <div class="btn btn-default query-reset visible-filtered">Reset</div>
       <form>      
         <% _.each(attributeGroups,function(group){ %>
         <div class="form-group <%= group.classes %>">          
           <h3><%= group.title %></h3>
           <p><%= group.hint %></p>
           <ul class="list-unstyled">
-            <% _.each(group.attributes,function(attribute,index){ %>
+            <% _.each(group.groupFilters,function(filter){ %>
             <li>
-              <label for="<%= attribute.att.getQueryAttribute() %>"><%= attribute.att.get("title") %></label>
-              <input type="text"
-                class="form-control att-filter" 
-                id="<%= attribute.att.getQueryAttribute() %>" 
-                placeholder="" 
-                value="<%= attribute.value %>">                      
+              <%= filter %>
             </li>
             <% }) %>
           </ul>
@@ -31,8 +27,7 @@
         </div>          
         
         <% }) %>        
-        <button type="submit" class="btn btn-default query-submit">Submit</button>
-        <button type="submit" class="btn btn-default query-reset">Reset</button>
+        <button type="submit" class="btn btn-default query-submit">Submit</button>        
       </form>  
     </div>
   </div>

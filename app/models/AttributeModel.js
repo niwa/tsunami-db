@@ -51,9 +51,9 @@ define([
    
 
     },
-    getQueryAttribute : function(){
-      // TEMP
-      return this.attributes.queryAttribute.value
+    getQueryAttribute : function(type){
+      type = typeof type !== "undefined" ? type : "value"  
+      return this.attributes.queryAttribute[type]
     }
   });  
 
