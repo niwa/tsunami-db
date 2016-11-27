@@ -90,16 +90,39 @@ define([
         } else {
           return ""
         }
+      } else if (att.get("type") === "date") {
+        var att_min = att.getQueryAttribute("min")
+        var att_max = att.getQueryAttribute("max")
+        
+        var value, att_id
+        if (att_min !== null) {       
+          att_id = att_min             
+        }  
+        if (att_max !== null) { 
+          att_id = att_max       
+        }     
+        value = typeof (this.model.get("recQuery")[att_id]) !== "undefined"
+          ? this.model.get("recQuery")[att_id]
+          : ""          
+        if (att.get("default") || value.trim() !== "" || this.model.isExpanded(groupId) ) {
+          return _.template(templateFilterOptions)({
+            title:att.get("title") ,
+            att:att_id,
+            value:value
+          })
+        } else {
+          return ""
+        }
       } else {
-        var attId = att.getQueryAttribute()
-        var value = typeof (this.model.get("recQuery")[attId]) !== "undefined"
-          ? this.model.get("recQuery")[attId]
+        var att_id = att.getQueryAttribute()
+        var value = typeof (this.model.get("recQuery")[att_id]) !== "undefined"
+          ? this.model.get("recQuery")[att_id]
           : ""              
         // only show default attributes or those that are set unless group expanded                        
         if (att.get("default") || value.trim() !== "" || this.model.isExpanded(groupId) ) {
           return _.template(templateFilterOptions)({
             title:att.get("title") ,
-            att:attId,
+            att:att_id,
             value:value
           })
         } else {

@@ -20,19 +20,37 @@ define([
         var i = 0
         while(i < len && pass) {
           var key = keys[i]
-          
-          if (typeof attributes.byQueryAttribute(key) !== "undefined") {
-            var column = attributes.byQueryAttribute(key).get("column")
-
-            var val = query[key]
-            // try number
-            if(isNumber(val)) {            
-              if(model.get(column) !== val && model.get(column) !== parseInt(val)) {
-                pass = false
-              } 
+          var attribute = attributes.byQueryAttribute(key)
+          if (typeof attribute !== "undefined") {
+            var column = attribute.get("queryColumn")
+            var condition = query[key]
+            
+            if(model.get(column) === null){
+              pass = false
             } else {
-              if(model.get(column) !== val) {
-                pass = false
+            
+              // check min
+              if (key === attribute.getQueryAttribute("min")) {
+                if(model.get(column) < parseFloat(condition)) {
+                  pass = false
+                }     
+              // check max
+              } else if (key === attribute.getQueryAttribute("max")) {
+                if(model.get(column) > parseFloat(condition)) {
+                  pass = false
+                }               
+              // check equality
+              } else {            
+                // try number
+                if(isNumber(condition)) {            
+                  if(model.get(column) !== parseFloat(condition)) {
+                    pass = false
+                  } 
+                } else {
+                  if(model.get(column) !== condition) {
+                    pass = false
+                  }
+                }
               }
             }
           }          

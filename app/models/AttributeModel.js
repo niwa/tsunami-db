@@ -10,7 +10,7 @@ define([
       
       //default settings
       this.set({
-        column :          this.attributes.column || this.attributes.id,
+        column :          this.attributes.column || this.attributes.id,        
         title :           this.attributes.title || this.attributes.id,
         hint :            this.attributes.hint || "",
         type :            this.attributes.type || "text",
@@ -29,12 +29,15 @@ define([
       })
       // set 
       this.set({
+        queryColumn :          this.attributes.queryColumn || this.attributes.column
+      })
+      this.set({
         queryAttribute : typeof this.attributes.query !== "undefined"
           ? typeof this.attributes.query === "object" 
             ? {
-                value: this.attributes.query.min, // TEMP
-                min: this.attributes.query.min,
-                max: this.attributes.query.max
+                value: null,
+                min: this.attributes.query.min || null,
+                max: this.attributes.query.max || null
               }
             : {
                 value: this.attributes.query,
@@ -43,7 +46,7 @@ define([
               }
              
           : {
-            value:this.attributes.column,
+            value:this.attributes.queryColumn,
             min: null,
             max: null
           }

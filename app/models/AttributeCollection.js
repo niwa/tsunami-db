@@ -25,7 +25,9 @@ define([
     },
     byQueryAttribute:function(queryAttribute){
       return this.filter(function(model){
-        return model.getQueryAttribute() === queryAttribute
+        return model.getQueryAttribute("value") === queryAttribute
+          || model.getQueryAttribute("min") === queryAttribute
+          || model.getQueryAttribute("max") === queryAttribute
       })[0]                        
     },
     

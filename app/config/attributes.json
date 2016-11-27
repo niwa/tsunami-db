@@ -114,24 +114,28 @@
   },
   {
     "id":"date_inferred_min",
+    "queryColumn":"date_inferred_max",
     "title":"Date Inferred (min)",
     "type":"date",    
     "group":"time",    
     "comboAttributeId":"date_inferred",    
     "comboType":"min",    
-    "comboFilter":"max",    
-    "query":"date_inferred_min_before",
+    "query":{
+      "min" : "date_inferred_after"
+    },        
     "blanks":1
   },
   {
     "id":"date_inferred_max",
+    "queryColumn":"date_inferred_min",
     "title":"Date Inferred (max)",
     "type":"date",    
     "group":"time",    
     "comboAttributeId":"date_inferred",    
     "comboType":"max",    
-    "comboFilter":"min",    
-    "query":"date_inferred_max_after",    
+    "query":{
+      "max" : "date_inferred_before"
+    },    
     "blanks":1
   },
   {
@@ -148,24 +152,28 @@
   },  
   {
     "id":"date_min",
+    "queryColumn":"date_max",    
     "title":"Date (min)",
     "type":"date",    
     "group":"time",    
     "comboAttributeId":"date",    
     "comboType":"min", 
-    "comboFilter":"max",    
-    "query":"date_min_before",
+    "query":{      
+      "min" : "date_after"
+    },        
     "blanks":1
   },
   {
     "id":"date_max",
+    "queryColumn":"date_min",        
     "title":"Date (max)",
     "type":"date",    
     "group":"time",    
     "comboAttributeId":"date",    
     "comboType":"max",    
-    "comboFilter":"min",    
-    "query":"date_max_after",
+    "query":{      
+      "max" : "date_before"
+    },      
     "blanks":1
   },   
   {
