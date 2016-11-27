@@ -1,0 +1,5 @@
+<tr>
+  <% _.each(columns,function(col){ %>
+  <th class="column-<%= col.id %>"><%= col.get("title") %></th>
+  <% }) %>
+</tr>

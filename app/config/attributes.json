@@ -2,7 +2,7 @@
   {
     "id":"id",    
     "column":"event_id",    
-    "title":"Record no.",
+    "title":"ID",
     "type":"id",      
     "default":1,
     "filterable":0,    
@@ -198,7 +198,6 @@
     "title":"Elevation (comment)",
     "type":"text",    
     "group":"impact",    
-    "default":1,
     "filterable":0,
     "blanks":1,
     "searchable":1
@@ -226,7 +225,6 @@
     "title":"Estimated minimum landward limit (comment)",
     "type":"text",    
     "group":"impact",    
-    "default":1,
     "filterable":0,
     "blanks":1,
     "searchable":1
@@ -428,7 +426,9 @@
     "type":"text",    
     "multiples":1,
     "blanks":1,
-    "filterable":0
+    "filterable":0,
+    "group":"other",
+    "table":0
   },  
   {
     "id":"references",
@@ -436,6 +436,8 @@
     "type":"text",    
     "multiples":1,
     "blanks":1,
-    "filterable":0
+    "filterable":0,
+    "group":"other",
+    "table":0
   }   
 ]

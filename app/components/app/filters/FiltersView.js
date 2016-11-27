@@ -37,31 +37,43 @@ define([
       }
       
       
-      var attributeCollection = this.model.get("attributes").byAttribute("filterable")
+      var attributeCollection = this.model.get("attributeCollection").byAttribute("filterable")
       
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),        
-        attributeGroups:_.map(this.model.get("attributeGroups").models,function(group){
-          // group classes
-          var classes = "group-" + group.id 
-          if (this.model.isExpanded(group.id)) {
-            classes +=  " expanded-group"  
+        attributeGroups:_.filter(
+          _.map(this.model.get("attributeGroupCollection").models,function(group){
+            // group classes
+            var classes = "group-" + group.id 
+            if (this.model.isExpanded(group.id)) {
+              classes +=  " expanded-group"  
+            }
+
+            var attributesByGroup = attributeCollection.byGroup(group.id).models 
+
+            if (attributesByGroup.length === 0) {
+              return false
+            } else {          
+              return {
+                title:group.get("title"),
+                hint:group.get("hint"),
+                id:group.id,
+                classes: classes,
+                groupFilters: _.filter(
+                  _.map(attributesByGroup,function(att){
+                    return this.getFilterHtml(att, group.id)                              
+                  },this),
+                  function(html){
+                    return html !== false
+                  }
+                )
+              }          
+            }          
+          },this),
+          function(group){
+            return group !== false
           }
-          return {
-            title:group.get("title"),
-            hint:group.get("hint"),
-            id:group.id,
-            classes: classes,
-            groupFilters: _.filter(
-              _.map(attributeCollection.byGroup(group.id).models,function(att){
-                return this.getFilterHtml(att, group.id)                              
-              },this),
-              function(html){
-                return html !== ""
-              }
-            )
-          }          
-        },this)
+        )
       }))      
       return this
     },    
@@ -88,7 +100,7 @@ define([
             value_max:value_max
           })        
         } else {
-          return ""
+          return false
         }
       } else if (att.get("type") === "date") {
         var att_min = att.getQueryAttribute("min")
@@ -151,7 +163,7 @@ define([
       if (this.model.allExpanded()) {
         this.model.setExpanded([])
       } else {
-        this.model.setExpanded(_.pluck(this.model.get("attributeGroups").models,"id"))
+        this.model.setExpanded(_.pluck(this.model.get("attributeGroupCollection").models,"id"))
       }
     },
     expandGroup:function(e){

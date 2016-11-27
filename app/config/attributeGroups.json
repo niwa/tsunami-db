@@ -23,5 +23,10 @@
     "id":"source",        
     "title":"Source/origin",
     "hint":"About source"  
+  },
+  {
+    "id":"other",        
+    "title":"More",
+    "hint":"About more..."  
   }  
 ]

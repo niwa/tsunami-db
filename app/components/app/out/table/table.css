@@ -16,3 +16,12 @@
 #table .table-responsive {
    max-height: 420px;
 }
+
+.expanded .hidden-expanded,
+.visible-expanded {
+  display:none
+}
+.expanded-group .visible-expanded-group,
+.expanded .visible-expanded {
+  display:inline-block
+}

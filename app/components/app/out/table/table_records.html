@@ -1,10 +1,9 @@
-<p> <%= records.length %> records </p>
 <div class="table-responsive">
   <table class="table table-striped">
-    <thead><tr><th>Record</th></tr></thead>
+    <thead><%= header %></thead>
     <tbody>
-      <% records.each(function(record){ %>
-      <tr><td><%= JSON.stringify(record.attributes.feature.properties) %></td></tr>
+      <% _.each(rows,function(row){ %>
+        <%= row.html %>
       <% }) %>
     </tbody>
   </table>

@@ -1,0 +1,9 @@
+<tr>
+  <% _.each(columns,function(col){ %>
+  <td class="column-<%= col.id %>">
+    <%= record.get(col.get("column")) %>
+  </td>
+  <% }) %>
+</tr>
+  
+

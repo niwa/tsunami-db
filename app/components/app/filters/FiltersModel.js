@@ -13,7 +13,7 @@ define([
       return this.attributes.expanded
     },
     allExpanded : function(){
-      return this.attributes.expanded.length === this.attributes.attributeGroups.length
+      return this.attributes.expanded.length === this.attributes.attributeGroupCollection.length
     },
     isExpanded : function(groupId){
       return this.attributes.expanded.indexOf(groupId) > -1

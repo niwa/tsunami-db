@@ -60,6 +60,8 @@ define([
           el:this.$(componentId),
           model: new TableModel({
             labels: this.model.getLabels(),
+            attributeCollection: this.model.get("attributeCollection").byAttribute("table"),
+            attributeGroupCollection: this.model.get("attributeGroupCollection"),
             active: false
           })              
         });        

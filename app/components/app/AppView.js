@@ -202,8 +202,8 @@ define([
               model:new FiltersModel({
                 labels:that.model.getLabels(),
                 recQuery : that.model.getRecordQuery(),
-                attributes: that.model.get("attributeCollection"),
-                attributeGroups: that.model.get("attributeGroupCollection")
+                attributeCollection: that.model.get("attributeCollection"),
+                attributeGroupCollection: that.model.get("attributeGroupCollection")
               })
             });            
 
@@ -229,6 +229,8 @@ define([
               el:that.$(componentId),
               model:new OutModel({
                 labels:    that.model.getLabels(),
+                attributeCollection: that.model.get("attributeCollection"),
+                attributeGroupCollection: that.model.get("attributeGroupCollection"),
                 mapConfig: that.model.getMapConfig()
               })
             })
