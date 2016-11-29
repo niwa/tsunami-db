@@ -42,8 +42,14 @@ define([
     },
     updateViews:function(){
       var activeRecords = this.model.getRecords().byActive()
-      this.updateMapView()
-      this.updateTableView(activeRecords)     
+      switch(this.model.getOutType()){
+        case "map":
+          this.updateMapView()
+          break
+        case "table":
+          this.updateTableView(activeRecords)     
+          break
+      }
       this.renderHeader(activeRecords)
     },
     updateOutType:function(){
@@ -51,10 +57,12 @@ define([
       switch(this.model.getOutType()){
         case "map":
           this.views.map.model.setActive()
+          this.updateMapView()
           this.views.table.model.setActive(false)
           break
         case "table":
           this.views.map.model.setActive(false)
+          this.updateTableView(this.model.getRecords().byActive())
           this.views.table.model.setActive()
           break
       }
