@@ -6,6 +6,7 @@ window.__ga__ = {
 
 
 require.config({
+  waitSeconds : 30,
   paths: {
     'domReady' : 'libs/domReady',        
     'jquery': 'libs/jquery-1.11.2',
