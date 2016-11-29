@@ -1,10 +1,9 @@
 { 
-  "mapID" : "basemap",
-  "attribution" : "<a class='layer-info-link' data-layerid='basemap' href='#' >Basemap attribution</a>",
+  "mapID" : "map-container",
+  "attribution" : "<a class='basemap-info' href='#' >Basemap attribution</a>",
   "mapOptions" : {
     "minZoom":2,
-    "maxZoom":10,
-    "zoomControl" : false,
+    "maxZoom":10,    
     "attributionControl": false,
     "worldCopyJump" :false,
     "zoomAnimationThreshold" : 9
@@ -46,11 +45,6 @@
       "fillOpacity":0.5,
       "lineJoin":"round"
     }, 
-    "line": {
-      "color": "black", 
-      "weight":1,       
-      "opacity":0.8
-    },    
     "raster" : {
       "opacity" : 1
     }
