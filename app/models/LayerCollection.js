@@ -14,6 +14,8 @@ define([
       
       this.on("add", function(model){
         model.set('baseurl',this.options.baseurl)
+        model.set('mapConfig',this.options.mapConfig)      
+        model.initStyles()      
       });
       
     },

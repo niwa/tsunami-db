@@ -4,5 +4,22 @@
   "attributeGroups" : "app/config/attributeGroups.json",
   "attributes" : "app/config/attributes.json",  
   "labels" : "app/config/labels.json",
-  "recordsLayerId":"records"
+  "records":{    
+    "model" : "geojson",
+    "path" : "app/data/tsunamidb.geojson",  
+    "featureAttributeMap" : {
+      "id" : "event_id"
+    },
+    "layerOptions":{    
+      "type":"point",      
+      "wrap" : true,
+      "style" : {
+        "color":"red",
+        "weight": 1,
+        "opacity" : 1,
+        "fillOpacity" : 0.4,
+        "radius":8
+      }
+    }
+  }
 }  

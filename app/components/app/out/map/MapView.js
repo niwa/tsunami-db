@@ -15,11 +15,6 @@ define([
       this.handleActive()  
 
       // set up an empty layer group for all our overlay and basemap layers
-      this.setLayerGroups({
-        base : new L.layerGroup(),
-        records : new L.layerGroup()        
-      })
-      
       this.viewUpdating = false      
 
       this.render()
@@ -58,26 +53,55 @@ define([
       .on('moveend', _.bind(this.onMoveEnd, this))
       .on("resize",  _.debounce(_.bind(this.resize, this), 500))
            
-      // position map on current view
-      this.updateMapView()
-
-
       var attControl = 
         L.control.attribution({position:'bottomright'})
         .setPrefix('')
         .addAttribution(config.attribution)
       _map.addControl(attControl)
 
-      // set up an empty layer group for all our overlay and basemap layers
-      _.each(this.model.getLayerGroups(),function(layerGroup,key){
-        layerGroup.addTo(_map)
-      })
+      this.model.setMap(_map)
+                             
+      this.initLayerGroups()
       
       
-      this.model.setMap(_map) // HACK
+      // position map on current view
+      this.updateMapView()
+      
+      
       this.model.mapConfigured(true)
 
     },
+    initLayerGroups: function (){
+      var _map = this.model.getMap()
+      var config = this.model.getConfig()
+      
+      // init layer groups
+      var layerGroups = {}
+      _.each(config.layerGroups,function(group,id){        
+        var layerGroup = new L.layerGroup()
+        layerGroups[id] = layerGroup
+        layerGroup.addTo(_map)        
+      })
+      this.model.setLayerGroups(layerGroups)
+      
+      // set default layer group
+      _.each(this.model.getLayers().models,function(layerModel){
+        layerModel.setParentLayer(this.model.getLayerGroup("default"))
+      },this)      
+      // set specific layer groups
+      _.each(config.layerGroups,function(conditions,id){        
+        if (id !== "default") {
+          _.each(this.model.getLayers().where(conditions), function(layerModel){
+            layerModel.setParentLayer(this.model.getLayerGroup(id))
+            if (id === "base") {
+              layerModel.addToMap()
+            }
+          },this)
+        }
+      },this)                 
+      
+    },
+    
    
     updateMapView : function(){
 //      console.log('MapView.updateMapView ')      
@@ -187,9 +211,12 @@ define([
       //console.log('MapView.resize')
       this.updateMapView()
     },
+    
     layersUpdated : function (){
       var _map = this.model.getMap()
-
+      
+      
+      
     },
     invalidateSize : function (animate){
       animate = typeof animate !== 'undefined' ? animate : false

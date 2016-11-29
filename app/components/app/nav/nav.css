@@ -1,15 +1,17 @@
 /* #navTemplate */
 
 #nav {
-  display: inline-block;
-  height: 60px;
-  width: 100%;
-  right:0;
-  /*z-index: 10000;  above all */
-  top:0;
-  bottom:0;
   position:absolute;
-  left:0
+  right:0;  
+  top:0;    
+  left:0;
+  bottom:auto;
+  height: 50px;
+  width: 100%;  
+}
+
+@media (min-width: 769px) {
+  
 }
 
 /*typography, #nav links & buttons*/

@@ -1,12 +1,18 @@
 { 
   "mapID" : "map-container",
   "attribution" : "<a class='basemap-info' href='#' >Basemap attribution</a>",
+  "layerGroups" : {
+    "base" : { "basemap" : true},
+    "records" : { "record" : true},
+    "default" : true
+  },
   "mapOptions" : {
     "minZoom":2,
     "maxZoom":10,    
     "attributionControl": false,
     "worldCopyJump" :false,
-    "zoomAnimationThreshold" : 9
+    "zoomAnimationThreshold" : 9,
+    "dragging":true
   },
   "views" : {
     "default" : {

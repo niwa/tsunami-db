@@ -19,28 +19,85 @@ define([
       this.id = this.attributes.id
       
       this.setBasemap(typeof this.attributes.basemap !== "undefined" && this.attributes.basemap)      
-      this.setRaw(typeof this.attributes.raw !== "undefined" && this.attributes.raw)      
                   
-      this.set('mapConfig',this.collection.options.mapConfig)
            
-      this.setActive(this.isBasemap())
-      
       // model source specific initialisation
-      this.initializeSource()      
-      
-      // init layer styles
-      this.initStyles()      
+      this.initializeModel()      
       
            
 
     },          
     
-    initializeSource: function(){
+    initializeModel: function(){
       // implement in source model              
     },
+    
+    
+    // Load and store layer data on demand
+    
     loadData : function (){
       // implement in source model              
     },    
+    setData : function (data){
+      this.set('mapLayer', data)   
+      console.log('data stored ' + this.id)              
+      this.handleResult()
+    },    
+    getMapLayer : function(callback){      
+      
+      if (this.isLoaded()){   
+//        console.log('getmaplayer already loaded ' + this.id)
+        if (typeof callback !== 'undefined') {
+          callback(this.attributes.mapLayer)
+        }
+      } else {
+        var that = this
+        // already loading
+        if (this.attributes.loading) {
+//          console.log('getmaplayer wait loading ' + that.id)
+          waitFor(
+            function(){ return that.isLoaded() },
+            function(){ 
+              if (typeof callback !== 'undefined') {
+                callback(that.attributes.mapLayer)
+              }
+            }
+          )
+        } else {		  
+//          console.log('getmaplayer load data ' + this.id)
+          this.loadData(
+            function(data){
+              that.set('mapLayer', data)   
+              console.log('data loaded and stored ' + this.id)
+
+              that.handleResult(callback)
+            }              
+          )
+        }
+      }
+    },        
+    handleResult : function(callback){     
+      // store model reference
+      this.attributes.mapLayer.options.layerModel = this
+      if (typeof callback !== 'undefined') {                
+        callback(this.attributes.mapLayer)
+      }
+    },
+    
+    
+    setParentLayer: function(parentLayer) {
+      this.set("parentLayer",parentLayer)
+    },
+    getParentLayer: function() {
+      return this.attributes.parentLayer
+    },
+    addToMap:function(){
+      this.setActive(true)
+    },
+    removeFromMap:function(){
+      this.setActive(false)
+    },
+    
     fadeEnabled : function(){
       return this.get('type') !== 'raster'
     },       
@@ -51,6 +108,26 @@ define([
         this.set('activeTime',active ? Date.now() + this.attributes.order : false) // warning hack to break same time tie        
       }
       this.set('active',active)      
+      
+      if (typeof this.attributes.parentLayer !== "undefined") {
+        var that = this
+      
+        this.getMapLayer(function(mapLayer){
+          
+          if(that.isActive()){             
+            if (!that.attributes.parentLayer.hasLayer(mapLayer)) {
+              console.log('add ' + that.attributes.id)
+              that.attributes.parentLayer.addLayer(mapLayer)
+            }
+          } else {
+            if (that.attributes.parentLayer.hasLayer(mapLayer)){
+              console.log('remove ' + that.attributes.id)
+              that.attributes.parentLayer.removeLayer(mapLayer)
+            }
+          }
+        })
+      }
+      
     },
     getActiveTime : function(){
       return this.attributes.activeTime
@@ -61,14 +138,7 @@ define([
     isActive : function(){
       return this.attributes.active
     },      
-
   
-    setRaw : function(bool){      
-      this.set('raw', bool)
-    },    
-    isRaw : function(){      
-      return this.attributes.raw
-    },    
     setBasemap : function(basemap){
       basemap = typeof basemap !== 'undefined' ? basemap : true        
       this.set('basemap', basemap)
@@ -92,11 +162,10 @@ define([
   
   
 
-
-    
-initStyles:function(){
+    // LAYER STYLES    
+    initStyles:function(){
   
-      // LAYER STYLES
+      
       
       // type styles
       // ref styles
@@ -112,19 +181,19 @@ initStyles:function(){
           : this.attributes.type
       }             
       // get default style from config by layer type
-      var defaultTypeStyle = _.clone(this.collection.options.mapConfig.layerStyles)[this.attributes.styleType]
+      var defaultTypeStyle = _.clone(this.attributes.mapConfig.layerStyles)[this.attributes.styleType]
       // use default style if type stye undefined
       
       this.attributes.layerStyle = typeof defaultTypeStyle !=='undefined' 
         ? _.clone(defaultTypeStyle)
-        : _.clone(this.collection.options.mapConfig.layerStyles['default'])         
+        : _.clone(this.attributes.mapConfig.layerStyles['default'])         
             
       this.attributes.layerStyle.fillColor = this.copyStyleAttribute(this.attributes.layerStyle.color,this.attributes.layerStyle.fillColor)
       this.attributes.layerStyle.fillOpacity = this.copyStyleAttribute(this.attributes.layerStyle.opacity,this.attributes.layerStyle.fillOpacity)      
       
       // extend with ref styles
       if (typeof this.attributes.styleRef !== 'undefined') {
-        var refStyle = _.clone(this.collection.options.mapConfig.refStyles[this.attributes.styleRef])
+        var refStyle = _.clone(this.attributes.mapConfig.refStyles[this.attributes.styleRef])
         refStyle.fillColor = this.copyStyleAttribute(refStyle.color,refStyle.fillColor)
         refStyle.fillOpacity = this.copyStyleAttribute(refStyle.opacity,refStyle.fillOpacity)        
         if (typeof refStyle !== 'undefined') {
@@ -160,62 +229,16 @@ initStyles:function(){
       } else {
         return to
       }
-    },
-    
+    },    
     getLayerStyle : function(){      
      return this.attributes.layerStyle     
     },    
 
-   
-    
-    getMapLayer : function(callback,force){      
-      force = typeof force !== 'undefined' ? force : false
-      
-      if (this.isLoaded() && !force){   
-//        console.log('getmaplayer already loaded ' + this.id)
-        if (typeof callback !== 'undefined') {
-          callback(this.attributes.mapLayer)
-        }
-      } else {
-        var that = this
-        // already loading
-        if (this.attributes.loading && !force) {
-//          console.log('getmaplayer wait loading ' + that.id)
-          waitFor(
-            function(){ return that.isLoaded() },
-            function(){ 
-              if (typeof callback !== 'undefined') {
-                callback(that.attributes.mapLayer)
-              }
-            }
-          )
-        } else {		  
-//          console.log('getmaplayer load data ' + this.id)
-          this.loadData(
-            function(data){
-              that.set('mapLayer', data)   
-              console.log('data loaded and stored ' + this.id)
-              
-              if (that.isRaw()){      
-                if (typeof callback !== 'undefined') {                
-                  callback(that.attributes.mapLayer)
-                }                
-              } else {
-                that.handleResult(data,callback)
-              }
-            }
-          )
-        }
-      }
-    },        
-    handleResult : function(data,callback){
-            // todo add error handling
-//              console.log('data loaded ' + that.id)
-      this.attributes.mapLayer.options.layerModel = this
-      if (typeof callback !== 'undefined') {                
-        callback(this.attributes.mapLayer)
-      }
-    }
+
+
+
+
+
   
   });
 

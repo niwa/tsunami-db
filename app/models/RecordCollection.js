@@ -7,56 +7,24 @@ define([
   var RecordCollection = Backbone.Collection.extend({
     model:model,
     initialize: function(models,options) {            
-      this.options = options || {}; 
-      
+      this.options = options || {};       
     
     },    
-    byQuery: function(query){
-      var attributes = this.options.attributes
+    byActive: function(active){
+      active = typeof active !== 'undefined' ? active : true         
       var filtered = this.filter(function(model){
-        var pass = true
-        var keys = _.keys(query)
-        var len = keys.length
-        var i = 0
-        while(i < len && pass) {
-          var key = keys[i]
-          var attribute = attributes.byQueryAttribute(key)
-          if (typeof attribute !== "undefined") {
-            var column = attribute.get("queryColumn")
-            var condition = query[key]
-            
-            if(model.get(column) === null){
-              pass = false
-            } else {
-            
-              // check min
-              if (key === attribute.getQueryAttribute("min")) {
-                if(model.get(column) < parseFloat(condition)) {
-                  pass = false
-                }     
-              // check max
-              } else if (key === attribute.getQueryAttribute("max")) {
-                if(model.get(column) > parseFloat(condition)) {
-                  pass = false
-                }               
-              // check equality
-              } else {            
-                // try number
-                if(isNumber(condition)) {            
-                  if(model.get(column) !== parseFloat(condition)) {
-                    pass = false
-                  } 
-                } else {
-                  if(model.get(column) !== condition) {
-                    pass = false
-                  }
-                }
-              }
-            }
-          }          
-          i++
-        }          
-        return pass
+        return model.isActive() === active
+      })
+      return new RecordCollection(filtered);         
+    },
+    updateActive:function(query){
+      this.each(function(model){
+        model.setActive(model.pass(query))        
+      })
+    },
+    byQuery: function(query){
+      var filtered = this.filter(function(model){
+        return model.pass(query)
       })      
       return new RecordCollection(filtered);         
     }

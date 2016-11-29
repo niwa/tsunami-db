@@ -9,9 +9,7 @@ define([
   return ViewModel.extend({
     initialize : function(options){
       this.options = options || {};
-
-      this.setLayerGroups({})     
-
+     
       this.set('mapConfigured',false)
       
     },
@@ -55,7 +53,13 @@ define([
 //      var layersLoading =  _.where(_.pluck(this.attributes.currentLayers,'attributes'),{'loading':true})      
 //      return layersLoading.length > 0
 //    },
-
+		getLayers : function() {
+			return this.attributes.layerCollection;
+		},
+		setLayers : function(layers) {
+			this.set('layerCollection',layers);
+			return this;
+		},
     layersUpdated : function(){
       this.set('layersUpdated', Date.now())
     },
@@ -67,6 +71,9 @@ define([
     },
     setMap : function(map){
       this.set('map', map)
+    },    
+    getMap : function(){
+      return this.get("map")
     },    
     getType : function(){
       return this.attributes.type

@@ -1,29 +1,11 @@
 [
 {
-  "id":"records",    
-  "basemap": false,  
-  "type":"point",
-  "source":"geojson",
-  "raw":true,
-  "path" : "app/data/tsunamidb.geojson",
-  "wrap" : true,  
-  "featureAttributeMap" : {
-    "id" : "event_id"
-  },
-  "style" : {
-    "color":"#46c3ff",
-    "weight": 1,
-    "opacity" : 0.8,
-    "fillOpacity" : 0.1,
-    "radius":8
-  }
-},{
   "id": "basemap",
   "basemap": true,  
   "title":"Ocean depths basemap",
   "control":true,
   "type": "raster",
-  "source": "mapbox",
+  "model": "mapbox",
   "options": {
     "id": "mccauleylaboratory.d9ezdkrc",
     "token": "pk.eyJ1IjoibWNjYXVsZXlsYWJvcmF0b3J5IiwiYSI6ImNpdHIxZzRsZzAwMGUzNHBrNWpvbjB2NGkifQ.McnXkIQzteeOSiekwsLYcw",
@@ -40,7 +22,7 @@
   "control":false,
   "key":false,
   "type": "raster",
-  "source": "esribase",
+  "model": "esribase",
   "options": {
     "id": "OceansLabels"
   },

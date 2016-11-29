@@ -143,7 +143,8 @@ define([
       }
     },
     
-    querySubmit:function(){     
+    querySubmit:function(e){     
+      e.preventDefault()
       
       var query = {}
       
@@ -156,7 +157,8 @@ define([
       
       this.$el.trigger('recordQuerySubmit',{query:query})
     },    
-    queryReset:function(){      
+    queryReset:function(e){      
+      e.preventDefault()
       this.$el.trigger('recordQuerySubmit',{query:{}})
     },
     expandAll:function(){

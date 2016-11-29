@@ -26,7 +26,7 @@ define([
       this.listenTo(this.model, "change:mapInit", this.updateMap);
       this.listenTo(this.model, "change:mapView", this.updateMap);      
       this.listenTo(this.model, "change:outType", this.updateOutType);      
-      this.listenTo(this.model, "change:recordCollection", this.updateViews);      
+      this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
     },
     render: function () {
       this.$el.html(_.template(template)({
@@ -41,11 +41,13 @@ define([
       this.initTableView()
     },
     updateViews:function(){
+      var activeRecords = this.model.getRecords().byActive()
       this.updateMapView()
-      this.updateTableView()     
-      this.renderHeader()
+      this.updateTableView(activeRecords)     
+      this.renderHeader(activeRecords)
     },
     updateOutType:function(){
+      
       switch(this.model.getOutType()){
         case "map":
           this.views.map.model.setActive()
@@ -56,12 +58,12 @@ define([
           this.views.table.model.setActive()
           break
       }
-      this.renderHeader()
+      this.renderHeader(this.model.getRecords().byActive())
     },
-    renderHeader: function(){
+    renderHeader: function(activeRecords){
       this.$("nav").html(_.template(templateNav)({
         active:this.model.getOutType(),
-        record_no:typeof this.model.getRecords() !== "undefined" ? this.model.getRecords().length : 0
+        record_no:typeof activeRecords !== "undefined" ? activeRecords.length : 0
       }))
     },
     initTableView : function(){
@@ -88,56 +90,31 @@ define([
         this.views.map = this.views.map || new MapView({
           el:this.$(componentId),
           model: new MapModel({
-            labels: this.model.getLabels(),
+            labels: this.model.getLabels(),        
             config:this.model.getMapConfig(),
+            layerCollection:this.model.getLayers(),
             active: false
           })              
-        });        
+        });   
+        
+        
       }
     },    
-    updateTableView : function(){            
-      this.views.table.model.setCurrentRecords(this.model.getRecords()) 
-      
+    updateTableView : function(activeRecords){            
+      this.views.table.model.setCurrentRecords(activeRecords)       
     },
     updateMapView : function(){
       this.views.map.model.setView(this.model.getActiveMapview())
-//      this.views.map.model.setCurrentRecords(this.model.getRecords())            
       this.views.map.model.invalidateSize()
+      
+      _.each(this.model.getRecords().models,function(record){
+        if (record.getLayer()) {
+          record.getLayer().setActive(record.isActive())
+        }
+      })
+      
     },
-//        var that = this
-//        // wait for config files to be read
-//        waitFor(
-//          function(){
-//            return that.model.isMapInit()
-//          },
-//          function(){
-//            console.log('rendermap')
-//            that.views.map = that.views.map || new MapView({
-//              el:that.$(componentId),
-//              model: new MapModel({
-//                baseLayers: that.model.getLayers().byBasemap(true), // pass layer collection
-//                config:     that.model.getMapConfig(),
-//                labels:     that.model.getLabels()
-//              })              
-//            });
-//            // update map component
-//            if (that.model.isComponentActive(componentId)) {
-//              console.log('mapactive')
-//              that.views.map.model.setActive(true)      
-//      
-//              that.views.map.model.setView(that.model.getActiveMapview())
-//              that.views.map.model.setActiveLayers(that.model.getMapLayers().models) // set active layers
-//              
-//              that.views.map.model.invalidateSize()
-//
-//            } else {
-//              that.views.map.model.setActive(false)
-//            }
-//
-//
-//          }
-//        )
-//    },    
+ 
     toggleView:function(e){      
       this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      
     }

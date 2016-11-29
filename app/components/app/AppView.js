@@ -4,9 +4,8 @@ define([
   'jquery.deparam',
   './nav/NavView', './nav/NavModel',
   './filters/FiltersView', './filters/FiltersModel',
-  './out/OutView', './out/OutModel',
-  'models/ViewModel',
-  'models/RecordCollection',  
+  './out/OutView', './out/OutModel',  
+  'models/RecordCollection',  'models/RecordModel',
   'models/AttributeCollection',  
   'models/AttributeGroupCollection',  
   'models/LayerCollection',  
@@ -22,8 +21,7 @@ define([
   NavView, NavModel,
   FiltersView, FiltersModel,
   OutView, OutModel,
-  ViewModel,  
-  RecordCollection,
+  RecordCollection,RecordModel,
   AttributeCollection,
   AttributeGroupCollection,
   LayerCollection,
@@ -64,7 +62,7 @@ define([
     initialize : function(){
       //console.log('appview.initialize')
 
-      //the layer model types by source
+      //the layer model types
       this.layerModels = {
         geojson:  LayerModelGeoJson,
         mapbox:   LayerModelMapboxTiles,
@@ -134,17 +132,17 @@ define([
         },
         //then
         function(){ 
+          that.loadRecords() 
           that.configureLayers() 
         }
       )      
       waitFor(
         function(){
-          return that.model.layersConfigured() && that.model.configsLoaded()
+          return that.model.layersConfigured()
         },    
         //then
         function(){ 
-          that.configureAttributes()
-          that.configureRecords() 
+          that.configureAttributes()           
         }        
       )        
     },
@@ -235,12 +233,16 @@ define([
                 labels:    that.model.getLabels(),
                 attributeCollection: that.model.get("attributeCollection"),
                 attributeGroupCollection: that.model.get("attributeGroupCollection"),
+                layerCollection: that.model.getLayers(),
+                recordCollection: that.model.getRecords(),
                 mapConfig: that.model.getMapConfig()
               })
             })
-
+            
+            that.model.getRecords().updateActive(that.model.getRecordQuery())
+            
             that.views.out.model.set({
-              recordCollection: that.model.getRecords().byQuery(that.model.getRecordQuery()),
+              recordsUpdated :  Date.now(),
               outType:          that.model.getOutType(),
               mapView:          that.model.getActiveMapview()
             })
@@ -276,7 +278,6 @@ define([
 
       var collectionOptions = {
         baseurl : this.model.getBaseURL(),
-        comparator : 'order',
         mapConfig: this.model.getMapConfig(),
         eventContext : this.$el        
       }
@@ -287,18 +288,18 @@ define([
       )
 
 
-      // get types by source
-      var sources = _.chain(layersConfig).pluck('source').uniq().value()
+      // get model types 
+      var models = _.chain(layersConfig).pluck('model').uniq().value()
 
-      // build collection for all sources
-      _.each(sources,function(source){
+      // build collection for all models
+      _.each(models,function(model){
 
         layerCollection.add(
           new LayerCollection(
             _.filter(layersConfig,function(layer){
-              return layer.source === source
+              return layer.model === model
             }),
-            _.extend({},collectionOptions,{model: this.layerModels[source]})
+            _.extend({},collectionOptions,{model: this.layerModels[model]})
           ).models
         )
       },this)
@@ -307,43 +308,80 @@ define([
       this.model.layersConfigured(true)
     },
     
-    
-    
-    configureRecords : function(){      
+    configureRecords : function(recordData) {
       
-      var recordsLayer = this.model.getLayer(this.model.get("config").recordsLayerId)
+      var recordConfig = this.model.get("config").records
       
+      var that = this
+      waitFor(
+        function(){
+          return that.model.layersConfigured()
+        },    
+        //then
+        function(){      
       
-      if (recordsLayer.isRaw()){
-        var that = this
-        recordsLayer.getMapLayer(function(recordsRaw){
-  //        console.log(mapLayer.options.layerModel.id)
-          // check raw        
-          var records = new RecordCollection([],{
-            config : recordsLayer,
+          var recordCollection = new RecordCollection([],{
+            config : recordData,
             attributes:that.model.get("attributeCollection")
           })
-          records.add(
-            // reorganise attributes (move properties up)
-            _.map(recordsRaw.features,function(feature){
-              return _.extend (
+          var record,layer
+          _.each(recordData.features,function(feature){
+            record = new RecordModel(
+              _.extend (
                 {},
                 feature.properties,
-                {
-                  feature:{
-                    geometry:feature.geometry,                    
-                    type:feature.type,
-                    properties:feature.properties
-                  }
-                }
+                {featureAttributeMap:recordConfig.featureAttributeMap}
               )
-            })
-          )                    
-          that.model.setRecords(records)
-
+            )
+            if (typeof feature.geometry !== "undefined" && feature.geometry !== null) {
+              layer = new that.layerModels[recordConfig.model]( 
+                _.extend(
+                  {},
+                  recordConfig.layerOptions,
+                  {
+                    id:record.id
+                  }
+                )
+              )
+              that.model.getLayers().add(layer)
+              layer.setData({
+                geometry:feature.geometry,                    
+                type:feature.type,
+                properties:{id:record.id}
+              })              
+              record.setLayer(layer)
+            } else {
+              record.setLayer(false) 
+            }
+            recordCollection.add(record)
+          })
+          // reorganise attributes (move properties up)
+            
+          that.model.setRecords(recordCollection)      
           that.model.recordsConfigured(true)
-        })
-      }
+        }
+      )
+    },    
+    
+    loadRecords : function(){      
+      
+      var records = this.model.get("config").records
+      var that = this      
+      
+      if (records.model === "geojson") {
+        $.ajax({
+          dataType: "json",
+          url: this.model.getBaseURL() + '/' + records.path,
+          success: function(data) {
+            console.log("success loading records layer: " + that.id)          
+            that.configureRecords(data)            
+          },
+          error: function(){
+              console.log("error loading records data")
+
+          }
+        });
+      }      
     },  
     configureAttributes:function(){
       this.model.set("attributeGroupCollection",new AttributeGroupCollection(this.model.get("attributeGroups")))

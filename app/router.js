@@ -228,7 +228,7 @@ define([
             route:"explore",
             path:path,
             query : {
-              out:"table"
+              out:"map"
             },
             extendQuery:true,
             trigger:true,
