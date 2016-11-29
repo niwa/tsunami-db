@@ -2,17 +2,19 @@ define([
   'jquery',  'underscore',  'backbone',
   './map/MapView', './map/MapModel',
   './table/TableView', './table/TableModel',
-  'text!./out.html'
+  'text!./out.html',
+  'text!./out_nav.html'
 ], function (
   $, _, Backbone,
   MapView, MapModel,  
   TableView, TableModel,  
-  template
+  template,
+  templateNav
 ) {
 
   var OutView = Backbone.View.extend({
     events : {
-      
+      "click .toggle-view" : "toggleView"
     },
     initialize : function () {
       
@@ -27,7 +29,10 @@ define([
       this.listenTo(this.model, "change:recordCollection", this.updateViews);      
     },
     render: function () {
-      this.$el.html(_.template(template)({t:this.model.getLabels()}))   
+      this.$el.html(_.template(template)({
+        t:this.model.getLabels()
+      }))   
+      this.renderHeader()
       this.initViews()
       return this
     }, 
@@ -37,7 +42,8 @@ define([
     },
     updateViews:function(){
       this.updateMapView()
-      this.updateTableView()      
+      this.updateTableView()     
+      this.renderHeader()
     },
     updateOutType:function(){
       switch(this.model.getOutType()){
@@ -50,6 +56,13 @@ define([
           this.views.table.model.setActive()
           break
       }
+      this.renderHeader()
+    },
+    renderHeader: function(){
+      this.$("nav").html(_.template(templateNav)({
+        active:this.model.getOutType(),
+        record_no:typeof this.model.getRecords() !== "undefined" ? this.model.getRecords().length : 0
+      }))
     },
     initTableView : function(){
       var componentId = '#table'
@@ -125,6 +138,9 @@ define([
 //          }
 //        )
 //    },    
+    toggleView:function(e){      
+      this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      
+    }
   });
 
   return OutView;

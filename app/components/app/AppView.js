@@ -48,6 +48,10 @@ define([
       
       // filter events
       recordQuerySubmit : "recordQuerySubmit",
+      
+      // out view events
+      setOutView: "setOutView",
+      
       // map view events
       mapViewUpdated: "mapViewUpdated",            
       mapFeatureClick: "mapFeatureClick",
@@ -393,7 +397,13 @@ define([
       })
       
     },
-
+    
+    
+    setOutView : function(e,args){
+      this.model.getRouter().queryUpdate({
+        out : args.out_view
+      })      
+    },
     
     // map view events
     mapViewUpdated : function(e,args){
@@ -408,9 +418,7 @@ define([
           true, // trigger
           true // replace
         )
-      }
-      
-
+      }      
     },
     
     
