@@ -191,7 +191,7 @@ define([
     app.model = app.model || new AppModel({
       views : {},
       configFile : configFile,
-      baseurl : window.location.origin,
+      baseurl : window.location.origin + window.location.pathname,
       router: app.Router,
       route:{
         route:'',  
