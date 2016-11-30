@@ -31,7 +31,7 @@ define([
       var that = this     
       callback (
         L.tileLayer(
-          'http://{s}.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={token}',
+          '//{s}.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={token}',
           options
         )
         .on('loading',function(){
