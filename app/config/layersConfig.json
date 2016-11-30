@@ -7,8 +7,8 @@
   "type": "raster",
   "model": "mapbox",
   "options": {
-    "id": "mccauleylaboratory.d9ezdkrc",
-    "token": "pk.eyJ1IjoibWNjYXVsZXlsYWJvcmF0b3J5IiwiYSI6ImNpdHIxZzRsZzAwMGUzNHBrNWpvbjB2NGkifQ.McnXkIQzteeOSiekwsLYcw",
+    "id": "tsunamidb.3uebmg47",
+    "token": "pk.eyJ1IjoidHN1bmFtaWRiIiwiYSI6ImNpdzQyZmVvNjAyaDEydHIxOGl3M2F3YWoifQ.mxC3d7yieEQozBJVbc0ehQ",
     "minZoom": 1,
     "maxZoom": 10,
     "noWrap":false
