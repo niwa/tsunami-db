@@ -13,9 +13,11 @@
           <p><%= group.hint %></p>
           <ul class="list-unstyled">
             <% _.each(group.groupFilters,function(filter){ %>
+            <% if (filter) { %>
             <li>
               <%= filter %>
             </li>
+            <% } %>
             <% }) %>
           </ul>
           <div class="btn btn-default expand-group hidden-expanded-group" data-group="<%= group.id %>">

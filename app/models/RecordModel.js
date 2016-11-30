@@ -71,7 +71,9 @@ define([
                   pass = false
                 } 
               } else {
-                if(this.get(column) !== condition) {
+                var values = this.get(column).split(',')                
+                var conditions = typeof condition === 'string' ? [condition] : condition                
+                if(_.intersection(conditions,values).length === 0) {
                   pass = false
                 }
               }

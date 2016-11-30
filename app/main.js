@@ -11,6 +11,7 @@ require.config({
     'domReady' : 'libs/domReady',        
     'jquery': 'libs/jquery-1.11.2',
     'jquery.deparam': 'libs/jquery.deparam',    
+    'jquery.select2': 'libs/select2',    
     'underscore': 'libs/underscore', //core
     'backbone': 'libs/backbone', //core
     'bootstrap': 'libs/bootstrap',
@@ -24,6 +25,9 @@ require.config({
       deps: ['jquery']
     },
     'jquery.deparam': {
+      deps: ['jquery']
+    },
+    'jquery.select2': {
       deps: ['jquery']
     },
     'esri.leaflet': {

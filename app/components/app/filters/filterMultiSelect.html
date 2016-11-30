@@ -1,0 +1,10 @@
+<label for="multiselect-<%= att %>"><%= title %></label>
+<select id="multiselect-<%= att %>" 
+        class="att-filter-multiselect form-control" 
+        data-attribute="<%= att %>" 
+        multiple="multiple" 
+        data-ph="<%= title %>">
+  <% _.each(options,function(option){ %> 
+  <option value="<%= option.value %>" <% if (option.selected) { %>selected<% } %> > <%= option.label %></option>
+  <% }) %>
+</select>

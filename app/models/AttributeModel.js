@@ -57,6 +57,9 @@ define([
     getQueryAttribute : function(type){
       type = typeof type !== "undefined" ? type : "value"  
       return this.attributes.queryAttribute[type]
+    },
+    getValues : function(){
+      return this.attributes.values
     }
   });  
 
