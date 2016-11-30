@@ -116,13 +116,11 @@ define([
           
           if(that.isActive()){             
             if (!that.attributes.parentLayer.hasLayer(mapLayer)) {
-              console.log('add ' + that.attributes.id)
-              that.attributes.parentLayer.addLayer(mapLayer)
+-              that.attributes.parentLayer.addLayer(mapLayer)
             }
           } else {
             if (that.attributes.parentLayer.hasLayer(mapLayer)){
-              console.log('remove ' + that.attributes.id)
-              that.attributes.parentLayer.removeLayer(mapLayer)
+-              that.attributes.parentLayer.removeLayer(mapLayer)
             }
           }
         })
