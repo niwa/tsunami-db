@@ -1,32 +1,31 @@
 [
   {
-    "id":"meta",        
-    "title":"Record meta",
-    "hint":"About meta"    
-  },
+    "id":"site",        
+    "title":"Site",
+    "hint":"Where it happened"    
+  },   
   {
     "id":"time",        
     "title":"Time",
-    "hint":"About time"    
+    "hint":"When it happened"    
+  },     
+  {
+    "id":"meta",        
+    "title":"Meta",
+    "hint":"What was found"    
   },  
   {
-    "id":"site",        
-    "title":"Site",
-    "hint":"About site"    
-  },    
-  {
-    "id":"impact",        
-    "title":"Impact",
-    "hint":"About impact"    
+    "id":"details",        
+    "title":"Details",
+    "hint":"By the numbers"    
   },
   {
     "id":"source",        
     "title":"Source/origin",
-    "hint":"About source"  
+    "hint":"Where it came from"  
   },
   {
     "id":"other",        
-    "title":"More",
-    "hint":"About more..."  
+    "title":"More"    
   }  
 ]

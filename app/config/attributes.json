@@ -88,6 +88,26 @@
     "table":0
   },  
   {
+    "id":"natureofevidence",
+    "title":"Nature of evidence",
+    "type":"categorical",    
+    "group":"meta",    
+    "values":{
+      "values":["Primary","Secondary","Cultural"],
+      "labels":["Primary","Secondary","Cultural"],      
+      "hints":["Sedimentary","Anthropological","Geomorphic"],      
+      "colors":["red","yellow","green"]
+    }
+  },  
+  {
+    "id":"natureofevidencedesc",
+    "title":"Nature of evidence (description)",
+    "type":"categorical",    
+    "group":"meta",    
+    "filterable":0,
+    "searchable":0
+  },  
+  {
     "id":"classification",
     "title":"Classification",
     "type":"categorical",    
@@ -185,7 +205,7 @@
     "title":"Elevation (m)",
     "hint":"Proxy for runup-height",
     "type":"quantitative",    
-    "group":"impact",        
+    "group":"details",        
     "blanks":1,
     "values":{      
       "stops":["min","max"],
@@ -197,7 +217,7 @@
     "column":"elevation_comment",
     "title":"Elevation (comment)",
     "type":"text",    
-    "group":"impact",    
+    "group":"details",    
     "filterable":0,
     "blanks":1,
     "searchable":1
@@ -211,7 +231,7 @@
     },        
     "title":"Estimated minimum landward limit (m)",
     "type":"quantitative",    
-    "group":"impact",    
+    "group":"details",    
     "default":0,
     "blanks":1,
     "values":{      
@@ -224,7 +244,7 @@
     "column":"est_min_landward_limit_comment",
     "title":"Estimated minimum landward limit (comment)",
     "type":"text",    
-    "group":"impact",    
+    "group":"details",    
     "filterable":0,
     "blanks":1,
     "searchable":1
@@ -237,7 +257,7 @@
     },       
     "title":"Deposit thickness (m)",
     "type":"quantitative",    
-    "group":"impact",    
+    "group":"details",    
     "blanks":1,
     "values":{      
       "stops":["min","max"],
@@ -296,28 +316,6 @@
       "values":["Deposit present","Deposit absent","Not applicable", "Unknown"],
       "labels":["Deposit present","Deposit absent","Not applicable", "Unknown"],      
       "colors":["red","yellow","green","gray"]
-    }
-  },
-  {
-    "id":"natureofevidence",
-    "title":"Nature of evidence",
-    "type":"categorical",    
-    "group":"site",    
-    "values":{
-      "values":["Primary","Secondary","Cultural"],
-      "labels":["Primary","Secondary","Cultural"],
-      "colors":["red","yellow","green"]
-    }
-  },  
-  {
-    "id":"natureofevidencedesc",
-    "title":"Nature of evidence (description)",
-    "type":"categorical",    
-    "group":"site",    
-    "values":{
-      "values":["Sedimentary/Artefactual","Anthropological/Pūrākau [Oral record]","Geomorphic"],
-      "labels":["Sedimentary/Artefactual","Anthropological/Pūrākau [Oral record]","Geomorphic"],
-      "colors":["red","yellow","green"]
     }
   },
   {
@@ -428,7 +426,7 @@
     "blanks":1,
     "filterable":0,
     "group":"other",
-    "table":0
+    "table":1
   },  
   {
     "id":"references",
@@ -438,6 +436,6 @@
     "blanks":1,
     "filterable":0,
     "group":"other",
-    "table":0
+    "table":1
   }   
 ]
