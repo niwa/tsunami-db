@@ -51,7 +51,11 @@ define([
             max: null
           }
       })      
-   
+      if (this.attributes.values !== "auto" 
+        && typeof this.attributes.values.values !== "undefined"
+        && typeof this.attributes.values.labels === "undefined") {
+        this.attributes.values.labels = this.attributes.values.values
+      }
 
     },
     getQueryAttribute : function(type){

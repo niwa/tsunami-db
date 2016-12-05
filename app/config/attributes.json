@@ -28,7 +28,6 @@
     "multiples":1,
     "values":{
       "values":["Geological data","Historical data","No specific method"],      
-      "labels":["Geological data","Historical data","No specific method"],            
       "colors":["red","orange","green"]      
     }
   },
@@ -94,7 +93,6 @@
     "group":"meta",    
     "values":{
       "values":["Primary","Secondary","Cultural"],
-      "labels":["Primary","Secondary","Cultural"],      
       "hints":["Sedimentary","Anthropological","Geomorphic"],      
       "colors":["red","yellow","green"]
     }
@@ -102,7 +100,7 @@
   {
     "id":"natureofevidencedesc",
     "title":"Nature of evidence (description)",
-    "type":"categorical",    
+    "type":"text",    
     "group":"meta",    
     "filterable":0,
     "searchable":0
@@ -115,7 +113,6 @@
     "default":1,
     "values":{      
       "values":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],      
-      "labels":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],      
       "hints":["Year 1800 and later","Years 0 - 1800","Year -1 and earlier"],
       "colors":["red","orange","green","gray"]
     }
@@ -270,18 +267,16 @@
     "title":"Region",
     "type":"categorical",    
     "group":"site",    
-    "default":1,
-    "blanks":1
+    "default":1
   },  
   {
     "id":"location_site",
     "title":"Location",
     "type":"categorical",    
     "group":"site",    
-    "filterable":0,
-    "blanks":1,
-    "searchable":1,
-    "table":0
+    "filterable":1,
+    "searchable":0,
+    "table":1
   },  
   {
     "id":"lat",
@@ -314,7 +309,6 @@
     "group":"site",        
     "values":{
       "values":["Deposit present","Deposit absent","Not applicable", "Unknown"],
-      "labels":["Deposit present","Deposit absent","Not applicable", "Unknown"],      
       "colors":["red","yellow","green","gray"]
     }
   },
@@ -383,7 +377,6 @@
     "blanks":1,
     "values":{      
       "values":["Inferred","Known"],
-      "labels":["Inferred","Known"],            
       "colors":["orange","green"]
     }
   },  

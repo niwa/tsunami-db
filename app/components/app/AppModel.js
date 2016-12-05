@@ -9,6 +9,7 @@ define([
 
       this.set("appConfigLoaded", false)
       this.set("configsLoaded",false)
+      this.set("recordsConfigured",false)
       this.set("attributesConfigured",false)
       
       var that = this
@@ -405,6 +406,22 @@ define([
         return this.attributes.recordsConfigured
       }
     },    
+    
+    
+    
+    
+    attributesConfigured : function(val){
+      if (typeof val !== 'undefined') {
+        this.set('attributesConfigured',val)
+      } else {
+        return this.attributes.attributesConfigured
+      }
+    },    
+    
+    
+    
+    
+    
 	});
 
 

@@ -138,7 +138,7 @@ define([
       )      
       waitFor(
         function(){
-          return that.model.layersConfigured()
+          return that.model.layersConfigured() && that.model.recordsConfigured()
         },    
         //then
         function(){ 
@@ -195,7 +195,7 @@ define([
         var that = this
         waitFor(
           function(){
-            return that.model.get("attributesConfigured")
+            return that.model.attributesConfigured()
           },    
           function(){         
         
@@ -224,7 +224,8 @@ define([
         var that = this
         waitFor(
           function(){
-            return that.model.recordsConfigured()
+            return that.model.recordsConfigured() 
+              && that.model.attributesConfigured()
           },    
           function(){ 
             that.views.out = that.views.out || new OutView({
@@ -307,7 +308,26 @@ define([
       
       this.model.layersConfigured(true)
     },
-    
+    loadRecords : function(){      
+      
+      var records = this.model.get("config").records
+      var that = this      
+      
+      if (records.model === "geojson") {
+        $.ajax({
+          dataType: "json",
+          url: this.model.getBaseURL() + '/' + records.path,
+          success: function(data) {
+            console.log("success loading records layer: " + that.id)          
+            that.configureRecords(data)            
+          },
+          error: function(){
+              console.log("error loading records data")
+
+          }
+        });
+      }      
+    },      
     configureRecords : function(recordData) {
       
       var recordConfig = this.model.get("config").records
@@ -321,8 +341,7 @@ define([
         function(){      
       
           var recordCollection = new RecordCollection([],{
-            config : recordData,
-            attributes:that.model.get("attributeCollection")
+            config : recordData            
           })
           var record,layer
           _.each(recordData.features,function(feature){
@@ -363,30 +382,24 @@ define([
       )
     },    
     
-    loadRecords : function(){      
-      
-      var records = this.model.get("config").records
-      var that = this      
-      
-      if (records.model === "geojson") {
-        $.ajax({
-          dataType: "json",
-          url: this.model.getBaseURL() + '/' + records.path,
-          success: function(data) {
-            console.log("success loading records layer: " + that.id)          
-            that.configureRecords(data)            
-          },
-          error: function(){
-              console.log("error loading records data")
 
-          }
-        });
-      }      
-    },  
-    configureAttributes:function(){
+    configureAttributes:function(){      
       this.model.set("attributeGroupCollection",new AttributeGroupCollection(this.model.get("attributeGroups")))
       this.model.set("attributeCollection",new AttributeCollection(this.model.get("attributes")))      
-      this.model.set("attributesConfigured",true)      
+      
+      // generate values where not explicitly set
+      _.each(this.model.get("attributeCollection").byAttribute('values','auto').byAttribute("type","categorical").models,function(attribute){        
+        var values = this.model.getRecords().getValuesForColumn(attribute.get('queryColumn'))
+        attribute.set("values",{
+          "values":values,
+          "labels":values
+        })
+      },this)
+      this.model.getRecords().setAttributes(this.model.get("attributeCollection"))     
+      
+      // TODO deal with "blanks"
+      
+      this.model.attributesConfigured(true)
     },
     
     // VIEW MODEL EVENT: downstream

@@ -27,7 +27,23 @@ define([
         return model.pass(query)
       })      
       return new RecordCollection(filtered);         
+    },
+    getValuesForColumn:function(column){
+      var values = []
+      _.each(this.models,function(model){
+        if(model.get(column) !== null) {
+          values = _.union(values,model.get(column).split(','))
+        }
+      })           
+      return values.sort(function(a,b){
+        return a === "Unknown" ? -1 : b === "Unknown" ? 1
+            : a < b ? -1 : a > b ? 1 : 0 
+      })      
+    },
+    setAttributes:function(attributes){
+      this.options.attributes = attributes
     }
+        
     
   });
 

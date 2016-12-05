@@ -29,8 +29,7 @@ define([
           || model.getQueryAttribute("min") === queryAttribute
           || model.getQueryAttribute("max") === queryAttribute
       })[0]                        
-    },
-    
+    }
   });
 
   return AttributeCollection;
