@@ -48,34 +48,35 @@ define([
         if (typeof attribute !== "undefined") {
           var column = attribute.get("queryColumn")
           var condition = query[key]
-
-          if(this.get(column) === null){
-            pass = false
-          } else {
-
-            // check min
-            if (key === attribute.getQueryAttribute("min")) {
-              if(this.get(column) < parseFloat(condition)) {
+          
+          // check min
+          if (key === attribute.getQueryAttribute("min")) {
+            if(this.get(column) < parseFloat(condition)) {
+              pass = false
+            }     
+          // check max
+          } else if (key === attribute.getQueryAttribute("max")) {
+            if(this.get(column) > parseFloat(condition)) {
+              pass = false
+            }               
+          // check equality
+          } else {            
+            // try number
+            if(isNumber(condition)) {            
+              if(this.get(column) !== parseFloat(condition)) {
                 pass = false
-              }     
-            // check max
-            } else if (key === attribute.getQueryAttribute("max")) {
-              if(this.get(column) > parseFloat(condition)) {
-                pass = false
-              }               
-            // check equality
-            } else {            
-              // try number
-              if(isNumber(condition)) {            
-                if(this.get(column) !== parseFloat(condition)) {
-                  pass = false
-                } 
+              } 
+            } else {
+              // test null
+              var values
+              if( this.get(column) === null || this.get(column) === "") {
+                values = ["null"]
               } else {
-                var values = this.get(column).split(',')                
-                var conditions = typeof condition === 'string' ? [condition] : condition                
-                if(_.intersection(conditions,values).length === 0) {
-                  pass = false
-                }
+                values = this.get(column).split(',')
+              }        
+              var conditions = typeof condition === 'string' ? [condition] : condition                
+              if(_.intersection(conditions,values).length === 0) {
+                pass = false
               }
             }
           }

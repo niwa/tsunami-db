@@ -158,6 +158,18 @@ define([
                   selected:queryValue === value || queryValue.indexOf(value) > -1
                 }
               })
+              
+              // offer options for blanks "blanks"
+              if (att.get('blanks')) {
+                var value = "null"
+                options.push({
+                  value:value,
+                  label:"Unspecified",
+                  hint:"",
+                  selected:queryValue === value || queryValue.indexOf(value) > -1
+                })
+              }
+              
             }
             
             if (options.length > 4) {
