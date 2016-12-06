@@ -1,0 +1,9 @@
+<label for="buttons-<%= att %>"><%= title %></label>
+<div class="btn-group att-filter-buttongroup"
+     id="buttons-<%= att %>"         
+     data-attribute="<%= att %>" > 
+  <% _.each(options,function(option){ %> 
+  <button type="button" class="btn btn-default<% if (option.selected) { %> active<% } %> filter-button" data-value="<%= option.value %>"><%= option.label %></button>
+  <% }) %>  
+</div>
+

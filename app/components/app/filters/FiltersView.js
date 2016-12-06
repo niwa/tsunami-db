@@ -4,6 +4,7 @@ define([
   'text!./filters.html',
   'text!./filterMultiSelect.html',
   'text!./filterText.html',
+  'text!./filterButtons.html',  
   'text!./filterMinMax.html',  
 ], function (
   $, _, Backbone,
@@ -11,6 +12,7 @@ define([
   template,
   templateFilterMultiSelect,
   templateFilterText,
+  templateFilterButtons,
   templateFilterMinMax
 ) {
 
@@ -19,7 +21,8 @@ define([
       "click .expand-all": "expandAll",
       "click .expand-group": "expandGroup",
       "click .query-submit": "querySubmit",
-      "click .query-reset": "queryReset"
+      "click .query-reset": "queryReset",
+      "click .filter-button": "filterButtonClick",
     },
     initialize : function () {
       this.render()
@@ -78,32 +81,7 @@ define([
           }
         )
       }))
-      var that = this
-      this.$('.att-filter-multiselect').each(function(){
-        var title = $(this).attr('data-ph')
-        var $element = $(this)
-        $element.select2({
-          placeholder : "Select " + title
-        })
-        .on("select2:select", function(e){
-          that.querySubmit(e)
-        })
-        
-        // hack toprevent selct2 from opening "ghost" list after unselect
-        // see https://github.com/select2/select2/issues/3320
-        .on("select2:unselecting", function (e) {
-          $(this).data('unselecting', true);
-        })
-        .on('select2:open', function(e) {
-          if ($(this).data('unselecting')) {
-            e.preventDefault();
-            $(this).select2('close').removeData('unselecting');            
-            // only submit query once opened
-            that.querySubmit(e)
-          }
-        })             
-        
-      })
+      this.initMultiselect()      
       
       return this
     },    
@@ -180,11 +158,21 @@ define([
                 }
               })
             }
-            return _.template(templateFilterMultiSelect)({
-              title:att.get("title") ,
-              att:att_id,
-              options:options
-            })
+            
+            if (options.length > 4) {
+            
+              return _.template(templateFilterMultiSelect)({
+                title:att.get("title") ,
+                att:att_id,
+                options:options
+              })
+            } else {
+              return _.template(templateFilterButtons)({
+                title:att.get("title") ,
+                att:att_id,
+                options:options
+              })
+            }
 
           } else {
             return false
@@ -194,6 +182,46 @@ define([
           return false
       }
     },
+    
+    initMultiselect: function(){
+      var that = this
+      this.$('.att-filter-multiselect').each(function(){
+        var title = $(this).attr('data-ph')
+        var $element = $(this)
+        $element.select2({
+          placeholder : "Select " + title
+        })
+        .on("select2:select", function(e){
+          that.querySubmit(e)
+        })
+        
+        // hack to prevent selct2 from opening "ghost" list after unselect
+        // see https://github.com/select2/select2/issues/3320
+        .on("select2:unselecting", function (e) {
+          $(this).data('unselecting', true);
+        })
+        .on('select2:open', function(e) {
+          if ($(this).data('unselecting')) {
+            e.preventDefault();
+            $(this).select2('close').removeData('unselecting');            
+            // only submit query once opened
+            that.querySubmit(e)
+          }
+        })             
+        
+      })      
+    },
+    
+    
+    filterButtonClick:function(e){
+      e.preventDefault()
+      
+      $(e.target).toggleClass('active')
+      
+      this.querySubmit(e)
+      
+    },
+    
     
     querySubmit:function(e){     
       e.preventDefault()
@@ -213,6 +241,19 @@ define([
           query[$filter.attr('data-attribute')] = $filter.val()
         }    
         $filter.select('destroy')
+      })
+      
+      this.$('.att-filter-buttongroup').each(function(index){
+        var $filter = $(this)         
+        
+        var val = []
+        
+        $filter.find('.filter-button.active').each(function(){          
+          val.push($(this).attr('data-value'))
+        })                
+        if (val.length) {
+          query[$filter.attr('data-attribute')] = val
+        }            
       })
       
       this.$el.trigger('recordQuerySubmit',{query:query})
