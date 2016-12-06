@@ -43,3 +43,24 @@
 .filter-button {
   white-space: normal;
 }
+
+.form-group.well h3 {
+    text-align: right;
+    margin: 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.form-group.well .expand-group {
+    float: right;
+}
+
+.filter-top-buttons{
+  padding-right:19px;
+  padding-bottom:19px;
+}
+
+.btn-query-submit {
+  margin:19px;
+}

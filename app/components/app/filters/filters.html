@@ -3,14 +3,19 @@
   <div class="row">
     <div class="col-sm-12">
       <h2>Filters</h2>
-      <div class="btn btn-default expand-all hidden-expanded">+ More filter options </div>
-      <div class="btn btn-default expand-all visible-expanded">- Less filter options</div>
-      <div class="btn btn-default query-reset visible-filtered">Reset</div>
+      <div class="btn-group pull-right filter-top-buttons">
+        <div class="btn btn-primary query-reset visible-filtered">Clear all</div>        
+        <div class="btn btn-info expand-all hidden-expanded">All filter options +</div>
+        <div class="btn btn-info expand-all visible-expanded">Default filter options -</div>
+      </div>
+    </div>      
+  </div>      
+  <div class="row">
+    <div class="col-sm-12">
       <form>      
         <% _.each(attributeGroups,function(group){ %>
         <div class="form-group <%= group.classes %> well">          
           <h3><%= group.title %></h3>
-          <p><%= group.hint %></p>
           <ul class="list-unstyled">
             <% _.each(group.groupFilters,function(filter){ %>
             <% if (filter) { %>
@@ -20,16 +25,16 @@
             <% } %>
             <% }) %>
           </ul>
-          <div class="btn btn-default expand-group hidden-expanded-group" data-group="<%= group.id %>">
+          <div class="btn btn-info expand-group hidden-expanded-group" data-group="<%= group.id %>">
             +
           </div>
-          <div class="btn btn-default expand-group visible-expanded-group" data-group="<%= group.id %>">
+          <div class="btn btn-info expand-group visible-expanded-group" data-group="<%= group.id %>">
             -
           </div>          
         </div>          
         
         <% }) %>        
-        <button type="submit" class="btn btn-default query-submit">Submit</button>        
+        <button type="submit" class="btn btn-info btn-query-submit query-submit pull-right">Submit</button>        
       </form>  
     </div>
   </div>
