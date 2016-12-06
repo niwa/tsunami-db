@@ -6,7 +6,8 @@
     "type":"id",      
     "default":1,
     "filterable":0,    
-    "searchable":1
+    "searchable":1,
+    "group":"id"
   },
   {
     "id":"validity",

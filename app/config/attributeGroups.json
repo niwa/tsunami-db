@@ -1,5 +1,10 @@
 [
   {
+    "id":"id",        
+    "title":"Record Id",
+    "hint":""    
+  },   
+  {
     "id":"site",        
     "title":"Site",
     "hint":"Where it happened"    
@@ -21,7 +26,7 @@
   },
   {
     "id":"source",        
-    "title":"Source/origin",
+    "title":"Source",
     "hint":"Where it came from"  
   },
   {
