@@ -3,7 +3,15 @@
      id="buttons-<%= att %>"         
      data-attribute="<%= att %>" > 
   <% _.each(options,function(option){ %> 
-  <button type="button" class="btn btn-default<% if (option.selected) { %> active<% } %> filter-button" data-value="<%= option.value %>"><%= option.label %></button>
+  <button type="button" 
+          class="btn btn-default<% if (option.selected) { %> active<% } %> filter-button" 
+          data-value="<%= option.value %>"
+          style="width:<%= 100/options.length %>%">
+    <div class="button-label"><%= option.label %></div>
+    <% if (option.hint !== "") { %>
+    <div class="button-hint small"><%= option.hint %></div>
+    <% } %>
+  </button>
   <% }) %>  
 </div>
 

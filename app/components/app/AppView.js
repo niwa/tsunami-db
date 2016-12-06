@@ -392,7 +392,8 @@ define([
         var values = this.model.getRecords().getValuesForColumn(attribute.get('queryColumn'))
         attribute.set("values",{
           "values":values,
-          "labels":values
+          "labels":values,
+          "hints":[]
         })
       },this)
       this.model.getRecords().setAttributes(this.model.get("attributeCollection"))     

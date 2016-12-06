@@ -16,7 +16,7 @@
     "values":{      
       "values":["Poor (1-4 criteria)","Moderate (5-8 criteria)","Excellent (9+ criteria)"],
       "labels":["Poor","Moderate","Excellent"],
-      "hints":["1-4 criteria","5-8 criteria","Excellent"],
+      "hints":["1-4 criteria","5-8 criteria","9+ criteria"],
       "colors":["red","orange","green"]
     }
   },
@@ -112,8 +112,9 @@
     "group":"time",    
     "default":1,
     "values":{      
-      "values":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],      
-      "hints":["Year 1800 and later","Years 0 - 1800","Year -1 and earlier"],
+      "values":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],            
+      "labels":["Historical","Prehistoric AD","Prehistoric BP","Unusual"],            
+      "hints":["1800 and later","0 - 1800","before 0","Unknown"],
       "colors":["red","orange","green","gray"]
     }
   },   

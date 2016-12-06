@@ -36,3 +36,10 @@
 .btn-group {
   display:block;
 }
+
+.li-filter{
+  margin-bottom:20px
+}
+.filter-button {
+  white-space: normal;
+}

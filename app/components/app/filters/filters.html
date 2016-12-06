@@ -8,13 +8,13 @@
       <div class="btn btn-default query-reset visible-filtered">Reset</div>
       <form>      
         <% _.each(attributeGroups,function(group){ %>
-        <div class="form-group <%= group.classes %>">          
+        <div class="form-group <%= group.classes %> well">          
           <h3><%= group.title %></h3>
           <p><%= group.hint %></p>
           <ul class="list-unstyled">
             <% _.each(group.groupFilters,function(filter){ %>
             <% if (filter) { %>
-            <li class="clearfix">
+            <li class="clearfix li-filter">
               <%= filter %>
             </li>
             <% } %>

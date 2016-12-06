@@ -52,9 +52,13 @@ define([
           }
       })      
       if (this.attributes.values !== "auto" 
-        && typeof this.attributes.values.values !== "undefined"
-        && typeof this.attributes.values.labels === "undefined") {
-        this.attributes.values.labels = this.attributes.values.values
+        && typeof this.attributes.values.values !== "undefined") {
+        if(typeof this.attributes.values.labels === "undefined") {
+          this.attributes.values.labels = this.attributes.values.values        
+        }
+        if(typeof this.attributes.values.hints === "undefined") {
+          this.attributes.values.hints = []        
+        }
       }
 
     },

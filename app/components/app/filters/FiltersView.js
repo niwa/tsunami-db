@@ -154,6 +154,7 @@ define([
                 return {
                   value:value,
                   label:att.getValues().labels[key],
+                  hint:att.getValues().hints.length > 0 ? att.getValues().hints[key] : "",
                   selected:queryValue === value || queryValue.indexOf(value) > -1
                 }
               })
@@ -216,7 +217,7 @@ define([
     filterButtonClick:function(e){
       e.preventDefault()
       
-      $(e.target).toggleClass('active')
+      $(e.currentTarget).toggleClass('active')
       
       this.querySubmit(e)
       
