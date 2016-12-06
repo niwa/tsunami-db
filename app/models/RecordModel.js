@@ -51,19 +51,19 @@ define([
           
           // check min
           if (key === attribute.getQueryAttribute("min")) {
-            if(this.get(column) < parseFloat(condition)) {
+            if(this.get(column) === null || this.get(column) < parseFloat(condition)) {
               pass = false
             }     
           // check max
           } else if (key === attribute.getQueryAttribute("max")) {
-            if(this.get(column) > parseFloat(condition)) {
+            if(this.get(column) === null || this.get(column) > parseFloat(condition)) {
               pass = false
             }               
           // check equality
           } else {            
             // try number
             if(isNumber(condition)) {            
-              if(this.get(column) !== parseFloat(condition)) {
+              if(this.get(column) === null || this.get(column) !== parseFloat(condition)) {
                 pass = false
               } 
             } else {
