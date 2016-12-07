@@ -8,20 +8,20 @@
   </div>          
   <div class="row">
     <div class="col-sm-12">
+    <div class="well">
         <% _.each(columnGroups,function(group){ %>
-      <div class="group <%= group.classes %> well">          
+      <div class="group <%= group.classes %>">          
         <h3><%= group.title %></h3>
-        <ul class="list-unstyled">
-          <% _.each(group.groupColumns,function(column){ %>
-          <% if (column) { %>
-          <li class="clearfix li-column">
-            <%= column %>
-          </li>
-          <% } %>
-          <% }) %>
-        </ul>         
+        <div class="record-columns"> 
+        <% _.each(group.groupColumns,function(column){ %>
+        <% if (column) { %>                          
+            <%= column %>          
+        <% } %>
+        <% }) %>
+        </div>
       </div>                  
         <% }) %>       
+    </div>
     </div>
   </div>
 </div>

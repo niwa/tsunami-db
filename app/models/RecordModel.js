@@ -27,7 +27,7 @@ define([
     },
     formatColumn:function(col){      
       if (this.attributes[col] === null || this.attributes[col] === "") {
-        return '-/-'
+        return '&mdash;'
       } else {
         var column = this.collection.options.columns.findWhere({column:col})
         switch (column.get("type")){
