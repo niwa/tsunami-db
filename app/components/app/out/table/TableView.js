@@ -108,6 +108,7 @@ define([
       }
     },
     selectRecord:function(e){      
+      e.preventDefault()
       this.$el.trigger('recordSelect',{id:$(e.currentTarget).attr("data-recordid")})      
     },
     
