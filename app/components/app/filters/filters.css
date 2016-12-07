@@ -1,4 +1,4 @@
-#filters {
+.component-left {
   position: absolute;
   top: 50px;
   bottom: 0;
@@ -9,13 +9,13 @@
   background-color: #ffffff;
 }
 @media (min-width: 769px) {
-  #filters {    
+  .component-left {    
     width: 50%;
     right:auto
   }
 }
 @media (min-width: 1068px) {
-  #filters {    
+  .component-left {    
     width: 500px;
   }
 }

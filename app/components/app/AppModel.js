@@ -152,11 +152,12 @@ define([
       
       // active components by route
       var routeConditions = {        
-        explore: [],       
+        explore: ['#filters'],       
+        record: ['#record'],       
       }
       
       // component conditions
-      var componentConditions = {        
+      var componentConditions = {      
       }
       
       return (routeConditions[this.getRoute()].indexOf(componentId) >=0)
@@ -379,7 +380,7 @@ define([
 
     // Records ========================================================================
     getRecord: function(recordid){
-      return this.attributes.records.findWhere({id:recordid})
+      return this.attributes.recordCollection.get(recordid)
     },
     setRecords: function(collection){
       this.set('recordCollection',collection)

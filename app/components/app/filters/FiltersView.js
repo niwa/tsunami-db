@@ -5,7 +5,7 @@ define([
   'text!./filterMultiSelect.html',
   'text!./filterText.html',
   'text!./filterButtons.html',  
-  'text!./filterMinMax.html',  
+  'text!./filterMinMax.html'
 ], function (
   $, _, Backbone,
   select2,
@@ -26,6 +26,7 @@ define([
     },
     initialize : function () {
       this.render()
+      this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:recQuery", this.render);      
       this.listenTo(this.model, "change:expanded", this.render);      
     },
@@ -47,39 +48,35 @@ define([
       
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),        
-        attributeGroups:_.filter(
-          _.map(this.model.get("attributeGroupCollection").models,function(group){
-            // group classes
-            var classes = "group-" + group.id 
-            if (this.model.isExpanded(group.id)) {
-              classes +=  " expanded-group"  
-            }
-
-            var attributesByGroup = attributeCollection.byGroup(group.id).models 
-
-            if (attributesByGroup.length === 0) {
-              return false
-            } else {          
-              return {
-                title:group.get("title"),
-                hint:group.get("hint"),
-                id:group.id,
-                classes: classes,
-                groupFilters: _.filter(
-                  _.map(attributesByGroup,function(att){
-                    return this.getFilterHtml(att, group.id)                              
-                  },this),
-                  function(html){
-                    return html !== false
-                  }
-                )
-              }          
-            }          
-          },this),
-          function(group){
-            return group !== false
+        attributeGroups: _.map(this.model.get("attributeGroupCollection").models,function(group){
+          // group classes
+          var classes = "group-" + group.id 
+          if (this.model.isExpanded(group.id)) {
+            classes +=  " expanded-group"  
           }
-        )
+
+          var attributesByGroup = attributeCollection.byGroup(group.id).models 
+
+          if (attributesByGroup.length === 0) {
+            return false
+          } else {          
+            return {
+              title:group.get("title"),
+              hint:group.get("hint"),
+              id:group.id,
+              classes: classes,
+              groupFilters: _.filter(
+                _.map(attributesByGroup,function(att){
+                  return this.getFilterHtml(att, group.id)                              
+                },this),
+                function(html){
+                  return html !== false
+                }
+              )
+            }          
+          }          
+        },this)
+        
       }))
       this.initMultiselect()      
       
@@ -224,6 +221,16 @@ define([
         
       })      
     },
+    
+    
+    handleActive : function(){
+      if (this.model.isActive()) {
+        this.$el.show()        
+      } else {
+        this.$el.hide()
+      }
+    },
+    
     
     
     filterButtonClick:function(e){

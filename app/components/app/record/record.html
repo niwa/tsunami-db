@@ -1,0 +1,24 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Record <%= recordid %></h2>            
+        <% _.each(attributeGroups,function(group){ %>
+          <% if (group) { %>
+        <div class="group <%= group.classes %> well">          
+          <h3><%= group.title %></h3>
+          <ul class="list-unstyled">
+            <% _.each(group.groupAttributes,function(attribute){ %>
+            <% if (attribute) { %>
+            <li class="clearfix li-attribute">
+              <%= attribute %>
+            </li>
+            <% } %>
+            <% }) %>
+          </ul>         
+        </div>                  
+          <% } %>       
+        <% }) %>       
+    </div>
+  </div>
+</div>

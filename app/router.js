@@ -19,8 +19,8 @@ define([
       '/' : 'root', // root
       '!' : 'root', // 
       '!/' : 'root', // 
-      '!/explore' : 'explore', // overview > all records
-      '!/explore/*path' : 'explore', // overview > all records            
+      '!/explore' : 'explore', // explore > all records
+      '!/record/*path' : 'record', // explore > single record
 
     },
     resetApp : function(){
@@ -211,22 +211,18 @@ define([
     })
     
     // explore
-    app.Router.on('route:explore', function (path,query) {
-      console.log('router.explore' )
-      console.log('--- path ' + path )
+    app.Router.on('route:explore', function (query) {
+      console.log('router.explore' )      
       console.log('--- query ' + query )
 //      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
 
-      // set default path if not set
-      if (typeof path === "undefined" || path === null || path === '') {
-        this.navigate( '!/explore/filters',{trigger:true, replace: true} )
-      } else {
+      // set default path (filters) if not set
         query = query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
         // set default output option if not set
         if (typeof query.out === "undefined" || query.out === null || query.out === "") {
           this.update({
             route:"explore",
-            path:path,
+            path:"",
             query : {
               out:"map"
             },
@@ -239,7 +235,7 @@ define([
         
           app.model.setRoute({
             route : 'explore',
-            path  : path,
+            path  : "",
             query : query
           })
 
@@ -247,7 +243,41 @@ define([
             app.view = new AppView({model:app.model})
           }
         }
-      }  
+    })
+    // record
+    app.Router.on('route:record', function (recordid,query) {
+      console.log('router.record' )      
+      console.log('--- recordid ' + recordid )
+      console.log('--- query ' + query )
+//      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
+
+      // set default path (filters) if not set
+        query = query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
+        // set default output option if not set
+        if (typeof query.out === "undefined" || query.out === null || query.out === "") {
+          this.update({
+            route:"explore",
+            path:recordid,
+            query : {
+              out:"map"
+            },
+            extendQuery:true,
+            trigger:true,
+            replace:true
+          }
+          )
+        } else {
+        
+          app.model.setRoute({
+            route : 'record',
+            path  : recordid,
+            query : query
+          })
+
+          if (typeof app.view === 'undefined') {
+            app.view = new AppView({model:app.model})
+          }
+        }
     })
            
     

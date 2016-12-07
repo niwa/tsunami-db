@@ -36,6 +36,9 @@ define([
     isActive:function(){
       return this.attributes.active
     },
+    getValue:function(column){
+      return this.attributes[column]
+    },
     pass:function(query) {
       var attributes = this.collection.options.attributes
       var pass = true

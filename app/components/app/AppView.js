@@ -4,6 +4,7 @@ define([
   'jquery.deparam',
   './nav/NavView', './nav/NavModel',
   './filters/FiltersView', './filters/FiltersModel',
+  './record/RecordView', './record/RecordViewModel',
   './out/OutView', './out/OutModel',  
   'models/RecordCollection',  'models/RecordModel',
   'models/AttributeCollection',  
@@ -20,6 +21,7 @@ define([
   deparam,
   NavView, NavModel,
   FiltersView, FiltersModel,
+  RecordView, RecordViewModel,
   OutView, OutModel,
   RecordCollection,RecordModel,
   AttributeCollection,
@@ -157,6 +159,7 @@ define([
           // init/update components
           that.updateNav()
           that.updateFilters()
+          that.updateRecord()
           that.updateOut()
           
         
@@ -208,10 +211,49 @@ define([
                 attributeGroupCollection: that.model.get("attributeGroupCollection")
               })
             });            
+            
+            if (that.model.isComponentActive(componentId)) {
+              that.views.filters.model.setActive()
+              that.views.filters.model.set({               
+                recQuery : that.model.getRecordQuery()
+              })
+            } else {
+              that.views.filters.model.setActive(false)
+            }
 
-            that.views.filters.model.set({
-              recQuery : that.model.getRecordQuery()
-            })
+          }
+        )                
+      }
+    },  
+    updateRecord : function(){
+      var componentId = '#record'
+      if (this.$(componentId).length > 0) {      
+        
+        var that = this
+        waitFor(
+          function(){
+            return that.model.recordsConfigured() 
+              && that.model.attributesConfigured()
+          },    
+          function(){         
+        
+            that.views.record = that.views.record || new RecordView({
+              el:that.$(componentId),
+              model:new RecordViewModel({
+                labels:that.model.getLabels(),                
+                attributeCollection: that.model.get("attributeCollection"),
+                attributeGroupCollection: that.model.get("attributeGroupCollection")
+              })
+            });            
+            
+            if (that.model.isComponentActive(componentId)) {
+              that.views.record.model.setActive()
+              that.views.record.model.set({               
+                record : that.model.getActiveRecord()
+              })
+            } else {
+              that.views.record.model.setActive(false)
+            }
 
           }
         )                
@@ -404,10 +446,33 @@ define([
       this.model.attributesConfigured(true)
     },
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // VIEW MODEL EVENT: downstream
     routeChanged:function(){
       this.update()
     },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
       
