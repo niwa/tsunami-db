@@ -25,11 +25,32 @@ define([
         this
       )      
     },
-    formatColumn:function(column){      
-//      var columnModel = this.collection.options.columns.findWhere({column:column})
-      
-      return this.attributes[column]
-      
+    formatColumn:function(col){      
+      if (this.attributes[col] === null || this.attributes[col] === "") {
+        return '-/-'
+      } else {
+        var column = this.collection.options.columns.findWhere({column:col})
+        switch (column.get("type")){
+          case "quantitative":
+            //round to 2 decimals
+            return Math.round(this.attributes[col] * 100) / 100
+            break        
+          case "spatial":        
+            //round to 3 decimals
+            return Math.round(this.attributes[col] * 1000) / 1000          
+            break        
+          case "date" :
+            return this.attributes[col] > 0 
+              ? this.attributes[col] + ' AD'     
+              : this.attributes[col] < 0
+                ? (-1*parseInt(this.attributes[col])) + ' BC'               
+                : this.attributes[col]
+            break
+          default:
+            return this.attributes[col]
+            break
+        }        
+      }        
     },
     setLayer:function(layer){
       this.set("layer",layer)
