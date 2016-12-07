@@ -113,8 +113,8 @@
     "group":"time",    
     "default":1,
     "values":{      
-      "values":["Historical","Prehistoric AD","Prehistoric BP","Unusual/Unknown"],            
-      "labels":["Historical","Prehistoric AD","Prehistoric BP","Unusual"],            
+      "values":["Historical","Prehistoric AD","Prehistoric BC","Unusual/Unknown"],            
+      "labels":["Historical","Prehistoric AD","Prehistoric BC","Unusual"],            
       "hints":["1800 and later","0 - 1800","before 0","Unknown"],
       "colors":["red","orange","green","gray"]
     }
