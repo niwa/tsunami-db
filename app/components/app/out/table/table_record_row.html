@@ -4,7 +4,7 @@
     <% if (index === 0) { %>
     <a href="#" title="Select record <%= record.id %>" class="select-record" data-recordid="<%= record.id %>">
     <% } %>
-    <%= record.getValue(col.get("column")) %>
+    <%= record.getColumnValue(col.get("column"),true) %>
     <% if (index === 0) { %>
     </a>
     <% } %>    

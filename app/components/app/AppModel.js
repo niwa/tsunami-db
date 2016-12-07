@@ -10,7 +10,7 @@ define([
       this.set("appConfigLoaded", false)
       this.set("configsLoaded",false)
       this.set("recordsConfigured",false)
-      this.set("attributesConfigured",false)
+      this.set("columnsConfigured",false)
       
       var that = this
       
@@ -71,18 +71,18 @@ define([
         }),
         $.ajax({
           dataType: "json",
-          url: this.attributes.baseurl + '/' + this.attributes.config.attributes
+          url: this.attributes.baseurl + '/' + this.attributes.config.columns
         }),
         $.ajax({
           dataType: "json",
-          url: this.attributes.baseurl + '/' + this.attributes.config.attributeGroups
+          url: this.attributes.baseurl + '/' + this.attributes.config.columnGroups
         })
-      ).then(function (layers_json, map_json, att_json, attGroup_json) {                
+      ).then(function (layers_json, map_json, col_json, colGroup_json) {                
           //console.log("... success loading layer config")
           that.set("layersConfig",layers_json[0])  
           that.set("mapConfig",map_json[0])
-          that.set("attributes",att_json[0])        
-          that.set("attributeGroups",attGroup_json[0])       
+          that.set("columns",col_json[0])        
+          that.set("columnGroups",colGroup_json[0])       
           that.set("configsLoaded",true)
       }, function(){
         console.log("error loading configs")
@@ -129,11 +129,11 @@ define([
 			return this.attributes.route.query
 		},
     getRecordQuery:function(){
-      // prep attribute query
+      // prep column query
       var query = {}
       _.each(this.getQuery(),function(val,key){
-        if (key.startsWith("att_")){
-          query[key.replace("att_","")] = val
+        if (key.startsWith("col_")){
+          query[key.replace("col_","")] = val
         }
       })          
       return query
@@ -408,11 +408,11 @@ define([
     
     
     
-    attributesConfigured : function(val){
+    columnsConfigured : function(val){
       if (typeof val !== 'undefined') {
-        this.set('attributesConfigured',val)
+        this.set('columnsConfigured',val)
       } else {
-        return this.attributes.attributesConfigured
+        return this.attributes.columnsConfigured
       }
     },    
     

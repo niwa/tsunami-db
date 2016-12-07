@@ -1,7 +1,7 @@
-<label for="multiselect-<%= att %>"><%= title %></label>
-<select id="multiselect-<%= att %>" 
-        class="att-filter-multiselect form-control" 
-        data-attribute="<%= att %>" 
+<label for="multiselect-<%= column %>"><%= title %></label>
+<select id="multiselect-<%= column %>" 
+        class="column-filter-multiselect form-control" 
+        data-column="<%= column %>" 
         multiple="multiple" 
         data-ph="<%= title %>">
   <% _.each(options,function(option){ %> 

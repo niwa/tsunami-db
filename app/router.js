@@ -161,16 +161,16 @@ define([
   // query args
   // 
   //   - out: type of output view, one of "map", "table"
-  //   - att_[query]: attribute query, eg "att_elevation_below=100"
+  //   - col_[query]: column query, eg "col_elevation_below=100"
   //   "out=map" only
   //   - view: map view, "lat|lon|zoom||dimx|dimy"   
-  //   - out_color: primary visualisation attribute used for marker colors
-  //   - out_size: secondary visualisation attribute used for marker size
+  //   - out_color: primary visualisation column used for marker colors
+  //   - out_size: secondary visualisation column used for marker size
   //   - plot: show latitude plot, one of 0,1
   //   - plot_elevation: plot elevation, one of 0,1
   //   - plot_landward_limit: plot landward limit, one of 0,1
   //   "out=table" only
-  //   - sort: attribute to sort by
+  //   - sort: column to sort by
   //   - sort_dir: sort direction
  
   

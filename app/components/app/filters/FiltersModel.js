@@ -6,14 +6,14 @@ define([
   return ViewModel.extend({
     initialize : function(options){
       this.options = options || {};
-      // expanded attribute group
+      // expanded column group
       this.set('expanded',[])
     },
     getExpanded : function(){
       return this.attributes.expanded
     },
     allExpanded : function(){
-      return this.attributes.expanded.length === this.attributes.attributeGroupCollection.length
+      return this.attributes.expanded.length === this.attributes.columnGroupCollection.length
     },
     isExpanded : function(groupId){
       return this.attributes.expanded.indexOf(groupId) > -1

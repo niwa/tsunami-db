@@ -1,11 +1,11 @@
 define([
   'jquery',  'underscore',  'backbone',
   'text!./record.html',
-  'text!./recordAttributeText.html',
+  'text!./recordColumnText.html',
 ], function (
   $, _, Backbone,
   template,
-  templateAttributeText
+  templateColumnText
 ) {
 
   var RecordView = Backbone.View.extend({
@@ -23,19 +23,19 @@ define([
     },
     update: function () {
           
-      var attributeCollection = this.model.get("attributeCollection")
+      var columnCollection = this.model.get("columnCollection")
       
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),
         recordid: this.model.get("record").id,
-        attributeGroups:_.filter(
-          _.map(this.model.get("attributeGroupCollection").models,function(group){
+        columnGroups:_.filter(
+          _.map(this.model.get("columnGroupCollection").models,function(group){
             // group classes
             var classes = "group-" + group.id 
 
-            var attributesByGroup = attributeCollection.byGroup(group.id).models 
+            var columnsByGroup = columnCollection.byGroup(group.id).models 
 
-            if (attributesByGroup.length === 0 || group.id === "id") {
+            if (columnsByGroup.length === 0 || group.id === "id") {
               return false
             } else {          
               return {
@@ -43,9 +43,9 @@ define([
                 hint:group.get("hint"),
                 id:group.id,
                 classes: classes,
-                groupAttributes: _.filter(
-                  _.map(attributesByGroup,function(att){
-                    return this.getAttributeHtml(att, group.id)                              
+                groupColumns: _.filter(
+                  _.map(columnsByGroup,function(column){
+                    return this.getColumnHtml(column, group.id)                              
                   },this),
                   function(html){
                     return html !== false
@@ -63,19 +63,19 @@ define([
       
     },    
     
-    getAttributeHtml:function(attribute){      
-      var column = attribute.get("column")
+    getColumnHtml:function(column){      
+      
       var record = this.model.get("record")
-      switch (attribute.get("type")){
+      switch (column.get("type")){
         case "quantitative":
         case "spatial":                              
         case "date" :
         case "categorical":
         case "ordinal":
         case "text":
-          return _.template(templateAttributeText)({
-            title:attribute.get("title"),            
-            value:record.getValue(column)
+          return _.template(templateColumnText)({
+            title:column.get("title"),            
+            value:record.getColumnValue(column.get("column"),true)
           })          
           
           break

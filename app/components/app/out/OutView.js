@@ -84,8 +84,8 @@ define([
           el:this.$(componentId),
           model: new TableModel({
             labels: this.model.getLabels(),
-            attributeCollection: this.model.get("attributeCollection").byAttribute("table"),
-            attributeGroupCollection: this.model.get("attributeGroupCollection"),
+            columnCollection: this.model.get("columnCollection").byColumn("table"),
+            columnGroupCollection: this.model.get("columnGroupCollection"),
             active: false,
             recordId:""
           })              

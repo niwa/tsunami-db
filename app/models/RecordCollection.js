@@ -40,8 +40,8 @@ define([
             : a < b ? -1 : a > b ? 1 : 0 
       })      
     },
-    setAttributes:function(attributes){
-      this.options.attributes = attributes
+    setColumns:function(columns){
+      this.options.columns = columns      
     }
         
     

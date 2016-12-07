@@ -1,8 +1,8 @@
 { 
   "mapConfig" : "app/config/mapConfig.json",
   "layersConfig" : "app/config/layersConfig.json",  
-  "attributeGroups" : "app/config/attributeGroups.json",
-  "attributes" : "app/config/attributes.json",  
+  "columnGroups" : "app/config/columnGroups.json",
+  "columns" : "app/config/columns.json",  
   "labels" : "app/config/labels.json",
   "records":{    
     "model" : "geojson",

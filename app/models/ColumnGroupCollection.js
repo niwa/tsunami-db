@@ -1,10 +1,10 @@
 define([
   'jquery', 'underscore', 'backbone',
-  './AttributeGroupModel'
+  './ColumnGroupModel'
 ], function(
   $, _, Backbone,model
 ){
-  var AttributeGroupCollection = Backbone.Collection.extend({
+  var ColumnGroupCollection = Backbone.Collection.extend({
     model:model,    
     initialize: function(models,options) {            
       this.options = options || {}; 
@@ -12,5 +12,5 @@ define([
     
   });
 
-  return AttributeGroupCollection;
+  return ColumnGroupCollection;
 });

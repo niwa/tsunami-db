@@ -44,21 +44,21 @@ define([
       }
       
       
-      var attributeCollection = this.model.get("attributeCollection").byAttribute("filterable")
+      var columnCollection = this.model.get("columnCollection").byColumn("filterable")
       
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),        
-        attributeGroups:_.filter(
-          _.map(this.model.get("attributeGroupCollection").models,function(group){
+        columnGroups:_.filter(
+          _.map(this.model.get("columnGroupCollection").models,function(group){
           // group classes
           var classes = "group-" + group.id 
           if (this.model.isExpanded(group.id)) {
             classes +=  " expanded-group"  
           }
 
-          var attributesByGroup = attributeCollection.byGroup(group.id).models 
+          var columnsByGroup = columnCollection.byGroup(group.id).models 
 
-          if (attributesByGroup.length === 0) {
+          if (columnsByGroup.length === 0) {
             return false
           } else {          
             return {
@@ -67,8 +67,8 @@ define([
               id:group.id,
               classes: classes,
               groupFilters: _.filter(
-                _.map(attributesByGroup,function(att){
-                  return this.getFilterHtml(att, group.id)                              
+                _.map(columnsByGroup,function(column){
+                  return this.getFilterHtml(column, group.id)                              
                 },this),
                 function(html){
                   return html !== false
@@ -87,26 +87,26 @@ define([
       return this
     },    
     
-    getFilterHtml:function(att, groupId){      
-      switch (att.get("type")){
+    getFilterHtml:function(column, groupId){      
+      switch (column.get("type")){
         case "quantitative":
         case "spatial":                    
-          var att_min = att.getQueryAttribute("min")
-          var att_max = att.getQueryAttribute("max")
+          var column_min = column.getQueryColumn("min")
+          var column_max = column.getQueryColumn("max")
 
-          var value_min = typeof (this.model.get("recQuery")[att_min]) !== "undefined"
-            ? this.model.get("recQuery")[att_min]
+          var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
+            ? this.model.get("recQuery")[column_min]
             : ""              
-          var value_max = typeof (this.model.get("recQuery")[att_max]) !== "undefined"
-            ? this.model.get("recQuery")[att_max]
+          var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
+            ? this.model.get("recQuery")[column_max]
             : ""                      
-          if (att.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
+          if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMax)({
-              title:att.get("title"),
+              title:column.get("title"),
               title_min:"Min",
               title_max:"Max",
-              att_min:att_min,
-              att_max:att_max,
+              column_min:column_min,
+              column_max:column_max,
               value_min:value_min,
               value_max:value_max
             })        
@@ -115,23 +115,23 @@ define([
           }
           break;
         case "date" :
-          var att_min = att.getQueryAttribute("min")
-          var att_max = att.getQueryAttribute("max")
+          var column_min = column.getQueryColumn("min")
+          var column_max = column.getQueryColumn("max")
 
-          var queryValue, att_id
-          if (att_min !== null) {       
-            att_id = att_min             
+          var queryValue, column_id
+          if (column_min !== null) {       
+            column_id = column_min             
           }  
-          if (att_max !== null) { 
-            att_id = att_max       
+          if (column_max !== null) { 
+            column_id = column_max       
           }     
-          queryValue = typeof (this.model.get("recQuery")[att_id]) !== "undefined"
-            ? this.model.get("recQuery")[att_id]
+          queryValue = typeof (this.model.get("recQuery")[column_id]) !== "undefined"
+            ? this.model.get("recQuery")[column_id]
             : ""          
-          if (att.get("default") || queryValue.trim() !== "" || this.model.isExpanded(groupId) ) {
+          if (column.get("default") || queryValue.trim() !== "" || this.model.isExpanded(groupId) ) {
             return _.template(templateFilterText)({
-              title:att.get("title") ,
-              att:att_id,
+              title:column.get("title") ,
+              column:column_id,
               value:queryValue
             })
           } else {
@@ -140,28 +140,28 @@ define([
           break;
         case "categorical":
         case "ordinal":
-          var att_id = att.getQueryAttribute()
-          var queryValue = typeof (this.model.get("recQuery")[att_id]) !== "undefined"
-            ? this.model.get("recQuery")[att_id]
+          var column_id = column.getQueryColumn()
+          var queryValue = typeof (this.model.get("recQuery")[column_id]) !== "undefined"
+            ? this.model.get("recQuery")[column_id]
             : ""              
-          // only show default attributes or those that are set unless group expanded                        
-          if (att.get("default") || queryValue.length || this.model.isExpanded(groupId) ) {
+          // only show default columns or those that are set unless group expanded                        
+          if (column.get("default") || queryValue.length || this.model.isExpanded(groupId) ) {
 
 
             var options = []
 
-            if (typeof att.getValues().values !== "undefined" ) {
-              options = _.map(att.getValues().values,function(value, key){
+            if (typeof column.getValues().values !== "undefined" ) {
+              options = _.map(column.getValues().values,function(value, key){
                 return {
                   value:value,
-                  label:att.getValues().labels[key],
-                  hint:att.getValues().hints.length > 0 ? att.getValues().hints[key] : "",
+                  label:column.getValues().labels[key],
+                  hint:column.getValues().hints.length > 0 ? column.getValues().hints[key] : "",
                   selected:queryValue === value || queryValue.indexOf(value) > -1
                 }
               })
               
               // offer options for blanks "blanks"
-              if (att.get('blanks')) {
+              if (column.get('blanks')) {
                 var value = "null"
                 options.push({
                   value:value,
@@ -176,14 +176,14 @@ define([
             if (options.length > 4) {
             
               return _.template(templateFilterMultiSelect)({
-                title:att.get("title") ,
-                att:att_id,
+                title:column.get("title") ,
+                column:column_id,
                 options:options
               })
             } else {
               return _.template(templateFilterButtons)({
-                title:att.get("title") ,
-                att:att_id,
+                title:column.get("title") ,
+                column:column_id,
                 options:options
               })
             }
@@ -199,7 +199,7 @@ define([
     
     initMultiselect: function(){
       var that = this
-      this.$('.att-filter-multiselect').each(function(){
+      this.$('.column-filter-multiselect').each(function(){
         var title = $(this).attr('data-ph')
         var $element = $(this)
         $element.select2({
@@ -252,22 +252,22 @@ define([
       
       var query = {}
       
-      this.$('.att-filter-text').each(function(index){
+      this.$('.column-filter-text').each(function(index){
         var $filter = $(this)
         if ($filter.val().trim() !== "") {
-          query[$filter.attr('data-attribute')] = $filter.val().trim()
+          query[$filter.attr('data-column')] = $filter.val().trim()
         }
       })
       
-      this.$('.att-filter-multiselect').each(function(index){
+      this.$('.column-filter-multiselect').each(function(index){
         var $filter = $(this)         
         if ($filter.val() !== null && $filter.val().length) {
-          query[$filter.attr('data-attribute')] = $filter.val()
+          query[$filter.attr('data-column')] = $filter.val()
         }    
         $filter.select('destroy')
       })
       
-      this.$('.att-filter-buttongroup').each(function(index){
+      this.$('.column-filter-buttongroup').each(function(index){
         var $filter = $(this)         
         
         var val = []
@@ -276,7 +276,7 @@ define([
           val.push($(this).attr('data-value'))
         })                
         if (val.length) {
-          query[$filter.attr('data-attribute')] = val
+          query[$filter.attr('data-column')] = val
         }            
       })
       
@@ -290,7 +290,7 @@ define([
       if (this.model.allExpanded()) {
         this.model.setExpanded([])
       } else {
-        this.model.setExpanded(_.pluck(this.model.get("attributeGroupCollection").models,"id"))
+        this.model.setExpanded(_.pluck(this.model.get("columnGroupCollection").models,"id"))
       }
     },
     expandGroup:function(e){

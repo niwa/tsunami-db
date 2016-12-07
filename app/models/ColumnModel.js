@@ -23,7 +23,7 @@ define([
         multiples :       typeof this.attributes.multiples !== "undefined" ? this.attributes.multiples : 0,
         values :          this.attributes.values || "auto",        
         combo:            typeof this.attributes.combo !== "undefined" ? this.attributes.combo : 0,
-        comboAttributeId: this.attributes.comboAttributeId || null,
+        comboColumnId: this.attributes.comboColumnId || null,
         comboType:        this.attributes.comboType || null,
         comboFilter:      this.attributes.comboFilter || null,
       })
@@ -32,7 +32,7 @@ define([
         queryColumn :          this.attributes.queryColumn || this.attributes.column
       })
       this.set({
-        queryAttribute : typeof this.attributes.query !== "undefined"
+        queryColumnByType: typeof this.attributes.query !== "undefined"
           ? typeof this.attributes.query === "object" 
             ? {
                 value: null,
@@ -62,9 +62,9 @@ define([
       }
 
     },
-    getQueryAttribute : function(type){
+    getQueryColumn: function(type){
       type = typeof type !== "undefined" ? type : "value"  
-      return this.attributes.queryAttribute[type]
+      return this.attributes.queryColumnByType[type]
     },
     getValues : function(){
       return this.attributes.values

@@ -8,7 +8,9 @@ define([
       // map data attributes
       if (typeof this.attributes.featureAttributeMap !== 'undefined'){
         this.mapAttributes(this.attributes.featureAttributeMap)
-      }      
+      }
+      this.set('formatted',{})
+
     },
     mapAttributes:function(featureAttributeMap){
       _.each(
@@ -23,6 +25,12 @@ define([
         this
       )      
     },
+    formatColumn:function(column){      
+//      var columnModel = this.collection.options.columns.findWhere({column:column})
+      
+      return this.attributes[column]
+      
+    },
     setLayer:function(layer){
       this.set("layer",layer)
     },
@@ -36,29 +44,38 @@ define([
     isActive:function(){
       return this.attributes.active
     },
-    getValue:function(column){
-      return this.attributes[column]
+    getColumnValue:function(column, formatted){
+      formatted = typeof formatted !== "undefined" ? formatted : false
+      if (formatted) {
+        if(typeof this.attributes.formatted[column] === "undefined"){
+          this.attributes.formatted[column] = this.formatColumn(column)
+        } 
+        return this.attributes.formatted[column]          
+      } else {
+        return this.attributes[column]
+      }
+        
     },
     pass:function(query) {
-      var attributes = this.collection.options.attributes
+      var columns = this.collection.options.columns
       var pass = true
       var keys = _.keys(query)
       var len = keys.length
       var i = 0
       while(i < len && pass) {
         var key = keys[i]
-        var attribute = attributes.byQueryAttribute(key)
-        if (typeof attribute !== "undefined") {
-          var column = attribute.get("queryColumn")
+        var columnModel = columns.byQueryColumn(key)
+        if (typeof columnModel !== "undefined") {
+          var column = columnModel.get("queryColumn")
           var condition = query[key]
           
           // check min
-          if (key === attribute.getQueryAttribute("min")) {
+          if (key === columnModel.getQueryColumn("min")) {
             if(this.get(column) === null || this.get(column) < parseFloat(condition)) {
               pass = false
             }     
           // check max
-          } else if (key === attribute.getQueryAttribute("max")) {
+          } else if (key === columnModel.getQueryColumn("max")) {
             if(this.get(column) === null || this.get(column) > parseFloat(condition)) {
               pass = false
             }               

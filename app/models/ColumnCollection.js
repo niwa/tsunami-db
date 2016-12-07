@@ -1,10 +1,10 @@
 define([
   'jquery', 'underscore', 'backbone',
-  './AttributeModel'    
+  './ColumnModel'    
 ], function(
   $, _, Backbone,model
 ){
-  var AttributeCollection = Backbone.Collection.extend({
+  var ColumnCollection = Backbone.Collection.extend({
     model:model,    
     initialize: function(models,options) {            
       this.options = options || {}; 
@@ -13,24 +13,24 @@ define([
       var filtered = this.filter(function(model){
         return model.get("group") === groupId
       })
-      return new AttributeCollection(filtered);  
+      return new ColumnCollection(filtered);  
     },    
-    byAttribute:function(att,val){
+    byColumn:function(column,val){
       val = typeof val !== "undefined" ? val : 1
       var filtered = this.filter(function(model){
-        return model.get(att) === val 
+        return model.get(column) === val 
                 && model.get("combo") !== 1 //temp
       })      
-      return new AttributeCollection(filtered);  
+      return new ColumnCollection(filtered);  
     },
-    byQueryAttribute:function(queryAttribute){
+    byQueryColumn:function(queryColumn){
       return this.filter(function(model){
-        return model.getQueryAttribute("value") === queryAttribute
-          || model.getQueryAttribute("min") === queryAttribute
-          || model.getQueryAttribute("max") === queryAttribute
+        return model.getQueryColumn("value") === queryColumn
+          || model.getQueryColumn("min") === queryColumn
+          || model.getQueryColumn("max") === queryColumn
       })[0]                        
     }
   });
 
-  return AttributeCollection;
+  return ColumnCollection;
 });

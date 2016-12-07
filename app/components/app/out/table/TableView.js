@@ -20,7 +20,7 @@ define([
     initialize : function () {
       this.handleActive()    
       
-      this.sortAttributes()
+      this.sortColumns()
       
       this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
@@ -35,36 +35,36 @@ define([
       return this
     },
     update : function(){
-      var attributesSorted = _.clone(this.model.get('attributesSorted'))
+      var columnsSorted = _.clone(this.model.get('columnsSorted'))
       if (this.model.allExpanded()) {
         this.$el.addClass("expanded")         
       } else {
         this.$el.removeClass("expanded")         
-        attributesSorted = _.filter(attributesSorted,function(att){
-          return att.get("default")
+        columnsSorted = _.filter(columnsSorted,function(column){
+          return column.get("default")
         })
       }      
       if (typeof this.model.getCurrentRecords() !== "undefined") {
         this.$(".record-table").html(_.template(template_records)({
-          header:this.getHeaderHtml(attributesSorted),
+          header:this.getHeaderHtml(columnsSorted),
           rows:_.map(this.model.getCurrentRecords().models,function(record){
             return {
-              html: this.getRecordHtml(record,attributesSorted)
+              html: this.getRecordHtml(record,columnsSorted)
             }
           },this)
         }))
       }
     },
-    getHeaderHtml: function(attributesSorted){
+    getHeaderHtml: function(columnsSorted){
       
       return _.template(template_header)({
-        columns : attributesSorted
+        columns : columnsSorted
       })
     },
-    getRecordHtml: function(record,attributesSorted){
+    getRecordHtml: function(record,columnsSorted){
       return _.template(template_record_row)({
         record : record,
-        columns : attributesSorted
+        columns : columnsSorted
       })
     },
     recordChanged:function(){      
@@ -76,17 +76,17 @@ define([
        
     },
     
-    sortAttributes: function(){
+    sortColumns: function(){
       
-      var attributesSorted = []
+      var columnsSorted = []
       
-      _.each(this.model.get('attributeGroupCollection').models,function(group){
-        _.each(this.model.get("attributeCollection").byGroup(group.id).models,function(att){
-          attributesSorted.push(att)
+      _.each(this.model.get('columnGroupCollection').models,function(group){
+        _.each(this.model.get("columnCollection").byGroup(group.id).models,function(column){
+          columnsSorted.push(column)
         },this)
       },this)
       
-      this.model.set('attributesSorted',attributesSorted)
+      this.model.set('columnsSorted',columnsSorted)
     },
     
     // event handlers for model change events    

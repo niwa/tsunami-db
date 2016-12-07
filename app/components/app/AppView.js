@@ -7,8 +7,8 @@ define([
   './record/RecordView', './record/RecordViewModel',
   './out/OutView', './out/OutModel',  
   'models/RecordCollection',  'models/RecordModel',
-  'models/AttributeCollection',  
-  'models/AttributeGroupCollection',  
+  'models/ColumnCollection',  
+  'models/ColumnGroupCollection',  
   'models/LayerCollection',  
   'models/LayerModelGeoJson',
   'models/LayerModelMapboxTiles',
@@ -24,8 +24,8 @@ define([
   RecordView, RecordViewModel,
   OutView, OutModel,
   RecordCollection,RecordModel,
-  AttributeCollection,
-  AttributeGroupCollection,
+  ColumnCollection,
+  ColumnGroupCollection,
   LayerCollection,
   LayerModelGeoJson,
   LayerModelMapboxTiles,
@@ -151,7 +151,7 @@ define([
         },    
         //then
         function(){ 
-          that.configureAttributes()           
+          that.configureColumns()           
         }        
       )        
     },
@@ -205,7 +205,7 @@ define([
         var that = this
         waitFor(
           function(){
-            return that.model.attributesConfigured()
+            return that.model.columnsConfigured()
           },    
           function(){         
         
@@ -214,8 +214,8 @@ define([
               model:new FiltersModel({
                 labels:that.model.getLabels(),
                 recQuery : that.model.getRecordQuery(),
-                attributeCollection: that.model.get("attributeCollection"),
-                attributeGroupCollection: that.model.get("attributeGroupCollection")
+                columnCollection: that.model.get("columnCollection"),
+                columnGroupCollection: that.model.get("columnGroupCollection")
               })
             });            
             
@@ -240,7 +240,7 @@ define([
         waitFor(
           function(){
             return that.model.recordsConfigured() 
-              && that.model.attributesConfigured()
+              && that.model.columnsConfigured()
           },    
           function(){         
         
@@ -248,8 +248,8 @@ define([
               el:that.$(componentId),
               model:new RecordViewModel({
                 labels:that.model.getLabels(),                
-                attributeCollection: that.model.get("attributeCollection"),
-                attributeGroupCollection: that.model.get("attributeGroupCollection")
+                columnCollection: that.model.get("columnCollection"),
+                columnGroupCollection: that.model.get("columnGroupCollection")
               })
             });            
             
@@ -274,15 +274,15 @@ define([
         waitFor(
           function(){
             return that.model.recordsConfigured() 
-              && that.model.attributesConfigured()
+              && that.model.columnsConfigured()
           },    
           function(){ 
             that.views.out = that.views.out || new OutView({
               el:that.$(componentId),
               model:new OutModel({
                 labels:    that.model.getLabels(),
-                attributeCollection: that.model.get("attributeCollection"),
-                attributeGroupCollection: that.model.get("attributeGroupCollection"),
+                columnCollection: that.model.get("columnCollection"),
+                columnGroupCollection: that.model.get("columnGroupCollection"),
                 layerCollection: that.model.getLayers(),
                 recordCollection: that.model.getRecords(),
                 mapConfig: that.model.getMapConfig()
@@ -435,25 +435,24 @@ define([
     },    
     
 
-    configureAttributes:function(){      
-      this.model.set("attributeGroupCollection",new AttributeGroupCollection(this.model.get("attributeGroups")))
-      this.model.set("attributeCollection",new AttributeCollection(this.model.get("attributes")))      
+    configureColumns:function(){      
+      this.model.set("columnGroupCollection",new ColumnGroupCollection(this.model.get("columnGroups")))
+      this.model.set("columnCollection",new ColumnCollection(this.model.get("columns")))      
       
-      // generate values where not explicitly set
-      _.each(this.model.get("attributeCollection").byAttribute('values','auto').byAttribute("type","categorical").models,function(attribute){        
-        var values = this.model.getRecords().getValuesForColumn(attribute.get('queryColumn'))
-        attribute.set("values",{
+      // replace auto values (generate from actual record values where not explicitly set)
+      _.each(this.model.get("columnCollection").byColumn('values','auto').byColumn("type","categorical").models,function(columm){        
+        var values = this.model.getRecords().getValuesForColumn(columm.get('queryColumn'))
+        columm.set("values",{
           "values":values,
           "labels": _.clone(values),
           "hints":[]
         })
       },this)
       
-      this.model.getRecords().setAttributes(this.model.get("attributeCollection"))     
+      this.model.getRecords().setColumns(this.model.get("columnCollection"))     
       
       
-      
-      this.model.attributesConfigured(true)
+      this.model.columnsConfigured(true)
     },
     
     
@@ -581,13 +580,13 @@ define([
       // new query
       var q = {}      
       _.each(args.query,function(val,key){
-        q["att_"+key] = val        
+        q["col_"+key] = val        
       })
       
       // old query
       var query = _.clone(this.model.getQuery())
       _.each(query,function(val,key){
-        if (key.startsWith("att_")) {
+        if (key.startsWith("col_")) {
           delete query[key]
         }
       })

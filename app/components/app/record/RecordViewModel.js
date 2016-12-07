@@ -6,7 +6,7 @@ define([
   return ViewModel.extend({
     initialize : function(options){
       this.options = options || {};
-      // expanded attribute group
+      
     }
     
    

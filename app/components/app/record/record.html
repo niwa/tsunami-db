@@ -8,14 +8,14 @@
   </div>          
   <div class="row">
     <div class="col-sm-12">
-        <% _.each(attributeGroups,function(group){ %>
+        <% _.each(columnGroups,function(group){ %>
       <div class="group <%= group.classes %> well">          
         <h3><%= group.title %></h3>
         <ul class="list-unstyled">
-          <% _.each(group.groupAttributes,function(attribute){ %>
-          <% if (attribute) { %>
-          <li class="clearfix li-attribute">
-            <%= attribute %>
+          <% _.each(group.groupColumns,function(column){ %>
+          <% if (column) { %>
+          <li class="clearfix li-column">
+            <%= column %>
           </li>
           <% } %>
           <% }) %>
