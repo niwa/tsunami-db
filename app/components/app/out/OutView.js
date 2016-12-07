@@ -27,6 +27,7 @@ define([
       this.listenTo(this.model, "change:mapView", this.updateMap);      
       this.listenTo(this.model, "change:outType", this.updateOutType);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
+      this.listenTo(this.model, "change:recordId", this.updateViews);      
     },
     render: function () {
       this.$el.html(_.template(template)({
@@ -39,7 +40,7 @@ define([
     initViews:function(){
       this.initMapView()
       this.initTableView()
-    },
+    },    
     updateViews:function(){
       var activeRecords = this.model.getRecords().byActive()
       switch(this.model.getOutType()){
@@ -85,7 +86,8 @@ define([
             labels: this.model.getLabels(),
             attributeCollection: this.model.get("attributeCollection").byAttribute("table"),
             attributeGroupCollection: this.model.get("attributeGroupCollection"),
-            active: false
+            active: false,
+            recordId:""
           })              
         });        
       }
@@ -108,18 +110,25 @@ define([
         
       }
     },    
-    updateTableView : function(activeRecords){            
+    updateTableView : function(activeRecords){    
       this.views.table.model.setCurrentRecords(activeRecords)       
+      this.views.table.model.set("recordId",this.model.get("recordId"))      
     },
     updateMapView : function(){
+      var recordId = this.model.get("recordId")
+      
       this.views.map.model.setView(this.model.getActiveMapview())
       this.views.map.model.invalidateSize()
       
       _.each(this.model.getRecords().models,function(record){
         if (record.getLayer()) {
-          record.getLayer().setActive(record.isActive())
+          record.getLayer().setActive(record.isActive())          
+          record.getLayer().setSelected(recordId === "" || record.id === recordId)
         }
       })
+      if (recordId !== "") {
+        this.model.getRecords().get(recordId).getLayer().bringToFront()
+      }
       
     },
  

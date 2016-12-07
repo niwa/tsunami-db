@@ -48,7 +48,8 @@ define([
       
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),        
-        attributeGroups: _.map(this.model.get("attributeGroupCollection").models,function(group){
+        attributeGroups:_.filter(
+          _.map(this.model.get("attributeGroupCollection").models,function(group){
           // group classes
           var classes = "group-" + group.id 
           if (this.model.isExpanded(group.id)) {
@@ -75,8 +76,11 @@ define([
               )
             }          
           }          
-        },this)
-        
+          },this),
+          function(group){
+            return group !== false
+          }
+        )
       }))
       this.initMultiselect()      
       

@@ -49,14 +49,21 @@ define([
       // filter events
       recordQuerySubmit : "recordQuerySubmit",
       
+      // record events
+      recordClose : "recordClose",
+      
       // out view events
       setOutView: "setOutView",
+      recordSelect: "recordSelect",
       
       // map view events
       mapViewUpdated: "mapViewUpdated",            
-      mapFeatureClick: "mapFeatureClick",
-      mapFeatureMouseOver: "mapFeatureMouseOver",
-      mapFeatureMouseOut: "mapFeatureMouseOut",      
+      mapLayerClick: "mapLayerClick",
+      mapLayerMouseOver: "mapLayerMouseOver",
+      mapLayerMouseOut: "mapLayerMouseOut",     
+      
+      
+      
 
     }, // end view events
 
@@ -249,7 +256,7 @@ define([
             if (that.model.isComponentActive(componentId)) {
               that.views.record.model.setActive()
               that.views.record.model.set({               
-                record : that.model.getActiveRecord()
+                record : that.model.getSelectedRecord()
               })
             } else {
               that.views.record.model.setActive(false)
@@ -287,7 +294,8 @@ define([
             that.views.out.model.set({
               recordsUpdated :  Date.now(),
               outType:          that.model.getOutType(),
-              mapView:          that.model.getActiveMapview()
+              mapView:          that.model.getActiveMapview(),
+              recordId :        that.model.getSelectedRecordId()
             })
 
           }
@@ -400,7 +408,9 @@ define([
                   {},
                   recordConfig.layerOptions,
                   {
-                    id:record.id
+                    id:record.id,
+                    eventContext : that.$el,
+                    isRecordLayer:true
                   }
                 )
               )
@@ -522,6 +532,12 @@ define([
         out : args.out_view
       })      
     },
+    recordSelect : function(e,args){
+      this.model.getRouter().update({
+        route:"record",
+        path:args.id        
+      })      
+    },    
     
     // map view events
     mapViewUpdated : function(e,args){
@@ -538,7 +554,26 @@ define([
         )
       }      
     },
+    mapLayerClick : function(e,args){
+      // check if location a casestudy
+      
+      var layerId = args.layerId
+      if (layerId !== "") {
+        var layer = this.model.getLayers().get(layerId)
+        if (layer.get("isRecordLayer")) {
+          this.$el.trigger('recordSelect', { id: layerId })                
+        }          
+      }          
+    },
     
+    // record events
+    recordClose : function(e){    
+      this.model.getRouter().update({
+        route:"explore",
+        path:""        
+      })
+    
+    },
     
     // filter events
     recordQuerySubmit : function(e,args){    

@@ -5,7 +5,6 @@
   left: 0;
   right:0;
   width: auto;  
-  background-color: #f7f7f7;
 }
 @media (min-width: 769px) {
   #out {    

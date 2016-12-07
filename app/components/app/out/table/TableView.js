@@ -14,7 +14,8 @@ define([
 
   return Backbone.View.extend({
     events : {
-      "click .expand-all": "expandAll"      
+      "click .expand-all": "expandAll",
+      "click .select-record" : "selectRecord"      
     },
     initialize : function () {
       this.handleActive()    
@@ -25,6 +26,7 @@ define([
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:currentRecordCollection", this.update);      
       this.listenTo(this.model, "change:expanded", this.update);      
+      this.listenTo(this.model, "change:recordId", this.recordChanged);      
       
     },
     render: function () {
@@ -65,7 +67,14 @@ define([
         columns : attributesSorted
       })
     },
-    
+    recordChanged:function(){      
+      var activeId = this.model.get("recordId")
+      this.$('.tr-record').removeClass('selected')
+      if (activeId !== "") {
+        this.$('.tr-record-'+activeId).addClass('selected')
+      }
+       
+    },
     
     sortAttributes: function(){
       
@@ -97,6 +106,9 @@ define([
       } else {
         this.model.setExpanded(true)
       }
+    },
+    selectRecord:function(e){      
+      this.$el.trigger('recordSelect',{id:$(e.currentTarget).attr("data-recordid")})      
     },
     
     

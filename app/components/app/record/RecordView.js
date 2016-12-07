@@ -8,8 +8,9 @@ define([
   templateAttributeText
 ) {
 
-  var FiltersView = Backbone.View.extend({
+  var RecordView = Backbone.View.extend({
     events : {
+      "click .close-record" : "closeRecord"
     },
     initialize : function () {
       this.render()
@@ -27,38 +28,43 @@ define([
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),
         recordid: this.model.get("record").id,
-        attributeGroups:_.map(this.model.get("attributeGroupCollection").models,function(group){
-          // group classes
-          var classes = "group-" + group.id 
+        attributeGroups:_.filter(
+          _.map(this.model.get("attributeGroupCollection").models,function(group){
+            // group classes
+            var classes = "group-" + group.id 
 
-          var attributesByGroup = attributeCollection.byGroup(group.id).models 
+            var attributesByGroup = attributeCollection.byGroup(group.id).models 
 
-          if (attributesByGroup.length === 0 || group.id === "id") {
-            return false
-          } else {          
-            return {
-              title:group.get("title"),
-              hint:group.get("hint"),
-              id:group.id,
-              classes: classes,
-              groupAttributes: _.filter(
-                _.map(attributesByGroup,function(att){
-                  return this.getAttributeHtml(att, group.id)                              
-                },this),
-                function(html){
-                  return html !== false
-                }     
-              )
+            if (attributesByGroup.length === 0 || group.id === "id") {
+              return false
+            } else {          
+              return {
+                title:group.get("title"),
+                hint:group.get("hint"),
+                id:group.id,
+                classes: classes,
+                groupAttributes: _.filter(
+                  _.map(attributesByGroup,function(att){
+                    return this.getAttributeHtml(att, group.id)                              
+                  },this),
+                  function(html){
+                    return html !== false
+                  }     
+                )
+              }          
             }          
-          }          
-        },this)
+          },this),
+          function(group){
+            return group !== false
+          }
+        )
       }))
       
       
     },    
     
     getAttributeHtml:function(attribute){      
-      var column = attribute.get("queryColumn")
+      var column = attribute.get("column")
       var record = this.model.get("record")
       switch (attribute.get("type")){
         case "quantitative":
@@ -89,7 +95,15 @@ define([
     
     
     
+    
+    closeRecord : function(e){
+      e.preventDefault()
+      
+      this.$el.trigger('recordClose')      
+    }
+    
+    
   });
 
-  return FiltersView;
+  return RecordView;
 });

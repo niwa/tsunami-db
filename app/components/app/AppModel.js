@@ -389,16 +389,13 @@ define([
     getRecords : function(){
       return this.attributes.recordCollection
     },
-    getActiveRecord:function(){
-      return this.getRecord(this.getActiveRecordId())
+    getSelectedRecord:function(){
+      return this.getRecord(this.getSelectedRecordId())
     },
-    getActiveRecordId:function(){
+    getSelectedRecordId:function(){
       return (this.attributes.route.route === 'record')
         ? parseInt(this.attributes.route.path)
         : ''
-    },
-    isActiveRecord:function(){
-      return this.attributes.route.route === 'record'        
     },
     recordsConfigured : function(val){
       if (typeof val !== 'undefined') {

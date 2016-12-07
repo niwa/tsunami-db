@@ -10,7 +10,7 @@
     "featureAttributeMap" : {
       "id" : "event_id"
     },
-    "layerOptions":{    
+    "layerOptions":{          
       "type":"point",      
       "wrap" : true,
       "style" : {

@@ -79,11 +79,30 @@ define([
     handleResult : function(callback){     
       // store model reference
       this.attributes.mapLayer.options.layerModel = this
+      
+      this.initInteractions(this.attributes.mapLayer)
+      
       if (typeof callback !== 'undefined') {                
         callback(this.attributes.mapLayer)
       }
     },
     
+    
+    initInteractions : function(){
+      var that = this
+      if (this.attributes.type === "point") {
+      
+        this.attributes.mapLayer
+          .off('click')
+          .on('click',function(e){
+            if (typeof that.attributes.eventContext !== "undefined") {
+              that.attributes.eventContext.trigger('mapLayerClick',{                
+                layerId: that.id
+              })              
+            }
+          })
+      }      
+    },
     
     setParentLayer: function(parentLayer) {
       this.set("parentLayer",parentLayer)
@@ -127,6 +146,35 @@ define([
       }
       
     },
+    setSelected : function(selected){
+      selected = typeof selected !== 'undefined' ? selected : true   
+      // only when not active already
+      this.set('selected',selected)      
+      
+      if (typeof this.attributes.parentLayer !== "undefined") {
+        var that = this
+      
+        this.getMapLayer(function(mapLayer){
+          
+          if(that.isSelected()){             
+            //setDefaultStyle
+            mapLayer.setStyle(that.attributes.layerStyle)
+          } else {
+            //setPassiveStyle
+            mapLayer.setStyle(_.extend({},that.attributes.layerStyle,{fillColor:"#aaa",color:"aaa"}))
+          }
+        })
+      }
+      
+    },
+    bringToFront:function(){
+      if (typeof this.attributes.parentLayer !== "undefined") {
+      
+        this.getMapLayer(function(mapLayer){
+          mapLayer.bringToFront()
+        })
+      }     
+    },
     getActiveTime : function(){
       return this.attributes.activeTime
     },    
@@ -135,6 +183,9 @@ define([
     },    
     isActive : function(){
       return this.attributes.active
+    },      
+    isSelected : function(){
+      return this.attributes.selected
     },      
   
     setBasemap : function(basemap){
