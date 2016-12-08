@@ -59,6 +59,7 @@ define([
       // out view events
       setOutView: "setOutView",
       recordSelect: "recordSelect",
+      colorColumnChanged: "colorColumnChanged",
       
       // map view events
       mapViewUpdated: "mapViewUpdated",            
@@ -451,7 +452,7 @@ define([
       this.model.setColumns(new ColumnCollection(this.model.get("columnConfig")))      
       
       // replace auto values (generate from actual record values where not explicitly set)
-      _.each(this.model.get("columnCollection").byColumn('values','auto').byColumn("type","categorical").models,function(columm){        
+      _.each(this.model.get("columnCollection").byAttribute('values','auto').byAttribute("type","categorical").models,function(columm){        
         var values = this.model.getRecords().getValuesForColumn(columm.get('queryColumn'))
         columm.set("values",{
           "values":values,
@@ -647,6 +648,12 @@ define([
       this.model.getRouter().update({
         route:"record",
         path:args.id        
+      })      
+    },    
+    
+    colorColumnChanged : function(e,args){
+      this.model.getRouter().queryUpdate({
+        colorby:args.column
       })      
     },    
     

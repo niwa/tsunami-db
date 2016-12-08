@@ -70,7 +70,8 @@ define([
       return this.attributes.values
     },
     getColor:function(value){
-      if(this.get("type") === "ordinal") {
+      if(this.get("type") === "ordinal" 
+        || (this.get("type") === "categorical" && typeof this.getValues().colors !== "undefined")) {
         var index = this.attributes.values.values.indexOf(value)
         return this.attributes.values.colors[index]
       }

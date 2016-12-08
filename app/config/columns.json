@@ -29,7 +29,7 @@
     "multiples":1,
     "values":{
       "values":["Geological data","Historical data","No specific method"],      
-      "colors":["red","orange","green"]      
+      "colors":["#9F82BC","#FABD13","#60BE8D"]
     }
   },
   {
@@ -63,18 +63,6 @@
         "Radiocarbon",
         "Sediment Accumulation Rates",
         "Stratigraphic Correlation"        
-      ],      
-      "colors":[
-        "red",
-        "orange",
-        "green",
-        "olive",
-        "blue",
-        "purple",
-        "yellow",
-        "brown",
-        "pink",
-        "cyan"
       ]           
     }
   },  
@@ -95,7 +83,7 @@
     "values":{
       "values":["Primary","Secondary","Cultural"],
       "hints":["Sedimentary","Anthropological","Geomorphic"],      
-      "colors":["red","yellow","green"]
+      "colors":["#9F82BC","#FABD13","#60BE8D"]
     }
   },  
   {
@@ -116,7 +104,7 @@
       "values":["Historical","Prehistoric AD","Prehistoric BC","Unusual/Unknown"],            
       "labels":["Historical","Prehistoric AD","Prehistoric BC","Unusual"],            
       "hints":["1800 and later","0 - 1800","before 0","Unknown"],
-      "colors":["red","orange","green","gray"]
+      "colors":["#9F82BC","#FABD13","#60BE8D","#aaaaaa"]
     }
   },   
   {
@@ -311,7 +299,7 @@
     "group":"site",        
     "values":{
       "values":["Deposit present","Deposit absent","Not applicable", "Unknown"],
-      "colors":["red","yellow","green","gray"]
+      "colors":["#9F82BC","#FABD13","#60BE8D","#aaaaaa"]
     }
   },
   {
@@ -348,15 +336,6 @@
         "Pyroclastic flow",
         "Geyser",
         "Bollide"
-      ],      
-      "colors":[
-        "red",
-        "yellow",
-        "green",
-        "blue",
-        "brown",
-        "orange",
-        "gray"
       ]
     }
   },
@@ -378,8 +357,7 @@
     "group":"source",    
     "blanks":1,
     "values":{      
-      "values":["Inferred","Known"],
-      "colors":["orange","green"]
+      "values":["Inferred","Known"]
     }
   },  
   {

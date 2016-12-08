@@ -11,8 +11,13 @@ define([
       this.options = options || {};
      
       this.set('mapConfigured',false)
+      this.set("views",{})
+      
       
     },
+    getViews:function(){
+      return this.attributes.views
+    },      
     setLayerGroups:function(groups) {
       this.set('layerGroups',groups)
     },
@@ -77,8 +82,10 @@ define([
     },    
     getType : function(){
       return this.attributes.type
-    }
-
+    },
+    getOutColorColumn:function(){
+      return this.attributes.outColorColumn
+    }, 
   });
 
 

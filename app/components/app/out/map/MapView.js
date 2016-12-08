@@ -2,11 +2,13 @@ define([
   'jquery','underscore','backbone',
   'leaflet',
   'esri.leaflet',
+  './mapControl/MapControlView', './mapControl/MapControlModel',  
   'text!./map.html'
 ], function(
   $, _, Backbone,
   leaflet,
   esriLeaflet,
+  MapControlView, MapControlModel,    
   template
 ){
   var MapView = Backbone.View.extend({
@@ -16,12 +18,14 @@ define([
 
       // set up an empty layer group for all our overlay and basemap layers
       this.viewUpdating = false      
+      this.views = this.model.getViews()
 
       this.render()
       
       
       this.listenTo(this.model, "change:active",        this.handleActive);
       this.listenTo(this.model, "change:view",          this.handleViewUpdate);
+      this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);
 
       this.listenTo(this.model, "change:invalidateSize",this.invalidateSize);      
       this.listenTo(this.model, "change:layersUpdated",this.layersUpdated);
@@ -32,9 +36,26 @@ define([
       console.log('MapView.render')      
       this.$el.html(_.template(template)({t:this.model.getLabels()}))
       this.configureMap()
+      this.initMapControlView()
       return this
     },
-    
+    initMapControlView : function(){
+      var componentId = '#map-control'
+      
+      if (this.$(componentId).length > 0) {
+
+        this.views.control = this.views.control || new MapControlView({
+          el:this.$(componentId),
+          model: new MapControlModel({
+            labels: this.model.getLabels(),
+            columnCollection:this.model.get("columnCollection")
+          })              
+        });           
+      }
+    },  
+    updateOutColorColumn:function(){
+      this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})    
+    },
     // map configuration has been read
     configureMap : function(){
       //console.log('MapView.configureMap')

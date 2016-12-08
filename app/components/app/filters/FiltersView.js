@@ -44,7 +44,7 @@ define([
       }
       
       
-      var columnCollection = this.model.get("columnCollection").byColumn("filterable")
+      var columnCollection = this.model.get("columnCollection").byAttribute("filterable")
       
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),        

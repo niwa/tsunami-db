@@ -15,10 +15,10 @@ define([
       })
       return new ColumnCollection(filtered);  
     },    
-    byColumn:function(column,val){
+    byAttribute:function(att,val){
       val = typeof val !== "undefined" ? val : 1
       var filtered = this.filter(function(model){
-        return model.get(column) === val 
+        return model.get(att) === val 
                 && model.get("combo") !== 1 //temp
       })      
       return new ColumnCollection(filtered);  

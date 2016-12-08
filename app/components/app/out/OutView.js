@@ -85,7 +85,7 @@ define([
           el:this.$(componentId),
           model: new TableModel({
             labels: this.model.getLabels(),
-            columnCollection: this.model.get("columnCollection").byColumn("table"),
+            columnCollection: this.model.get("columnCollection").byAttribute("table"),
             columnGroupCollection: this.model.get("columnGroupCollection"),
             active: false,
             recordId:""
@@ -104,6 +104,7 @@ define([
             labels: this.model.getLabels(),        
             config:this.model.getMapConfig(),
             layerCollection:this.model.getLayers(),
+            columnCollection: this.model.get("columnCollection"),            
             active: false
           })              
         });   
@@ -141,6 +142,7 @@ define([
           }
         })
       }
+      this.views.map.model.set({outColorColumn:column})
     },
     toggleView:function(e){      
       this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      
