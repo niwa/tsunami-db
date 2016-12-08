@@ -15,7 +15,8 @@ define([
   return Backbone.View.extend({
     events : {
       "click .expand-all": "expandAll",
-      "click .select-record" : "selectRecord"      
+      "click .select-record" : "selectRecord",      
+//      "mouseover .select-record" : "selectRecord",      
     },
     initialize : function () {
       this.handleActive()    
@@ -25,7 +26,7 @@ define([
       this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:currentRecordCollection", this.update);      
-      this.listenTo(this.model, "change:expanded", this.update);      
+      this.listenTo(this.model, "change:expanded", this.expanded);      
       this.listenTo(this.model, "change:recordId", this.recordChanged);      
       
     },
@@ -33,6 +34,10 @@ define([
       this.$el.html(_.template(template)({t:this.model.getLabels()}))      
       this.update()
       return this
+    },
+    expanded: function(){      
+      this.update()
+      this.recordChanged()
     },
     update : function(){
       var columnsSorted = _.clone(this.model.get('columnsSorted'))
