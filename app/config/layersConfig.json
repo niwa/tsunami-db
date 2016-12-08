@@ -27,7 +27,21 @@
     "id": "OceansLabels"
   },
   "style" :{
-    "opacity" : 0.5
+    "opacity" : 1
   }
+},{
+  "id": "regions",		
+  "basemap":true,
+  "control":false,
+  "key":false,  
+  "type" : "polygon",
+  "model": "geojson",
+  "path" : "app/data/regions.geojson",
+  "style" : {      
+    "color":"#999999", 
+    "opacity":1,
+    "fillOpacity":0,
+    "weight":0.5
+  }      
 }
 ]

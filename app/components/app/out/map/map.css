@@ -114,10 +114,10 @@ a.leaflet-control-zoom-in{
        -o-transition:      -o-transform 1s linear;
           transition:         transform 1s linear;
 }
-
+/*
 #map .leaflet-overlay-pane .map-layer{
   opacity:0;
-}
+}*/
  
 
 /*leaflet label*/

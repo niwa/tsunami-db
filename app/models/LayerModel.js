@@ -125,7 +125,7 @@ define([
       active = typeof active !== 'undefined' ? active : true   
       // only when not active already
       if (!this.isActive()) {
-        this.set('activeTime',active ? Date.now() + this.attributes.order : false) // warning hack to break same time tie        
+        this.set('activeTime',active ? Date.now() : false) 
       }
       this.set('active',active)      
       

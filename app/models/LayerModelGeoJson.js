@@ -69,7 +69,8 @@ define([
         {
           coordsToLatLng: _.bind(this.coordsToLatLng,this),
           pointToLayer: _.bind(this.pointToLayer,this),
-          className : this.getClassName()
+          className : this.getClassName(),
+          style:this.getLayerStyle()
         }
       )
     },    

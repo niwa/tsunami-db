@@ -372,74 +372,77 @@ define([
       
       var recordConfig = this.model.get("config").records
       var that = this      
+      if (typeof recordConfig !== "undefined") {
+        $.ajax({
+          dataType: "json",
+          url: this.model.getBaseURL() + '/' + recordConfig.path,
+          success: function(data) {
+            console.log("success loading records data")          
+            that.configureRecords(data)            
+          },
+          error: function(){
+              console.log("error loading records data")
 
-      $.ajax({
-        dataType: "json",
-        url: this.model.getBaseURL() + '/' + recordConfig.path,
-        success: function(data) {
-          console.log("success loading records data")          
-          that.configureRecords(data)            
-        },
-        error: function(){
-            console.log("error loading records data")
-
-        }
-      });
+          }
+        });
+      }
     },      
     configureRecords : function(recordData) {
       
       var recordConfig = this.model.get("config").records
+      if (typeof recordConfig !== "undefined") {
       
-      var that = this
-      waitFor(
-        function(){
-          return that.model.layersConfigured()
-        },    
-        //then
-        function(){      
-      
-          var recordCollection = new RecordCollection([],{
-            config : recordConfig            
-          })
-          var record,layer
-          _.each(recordData.features,function(feature){
-            record = new RecordModel(
-              _.extend (
-                {},
-                feature.properties,
-                {featureAttributeMap:recordConfig.featureAttributeMap}
-              )
-            )
-            if (typeof feature.geometry !== "undefined" && feature.geometry !== null) {
-              layer = new that.layerModels[recordConfig.model]( 
-                _.extend(
+        var that = this
+        waitFor(
+          function(){
+            return that.model.layersConfigured()
+          },    
+          //then
+          function(){      
+
+            var recordCollection = new RecordCollection([],{
+              config : recordConfig            
+            })
+            var record,layer
+            _.each(recordData.features,function(feature){
+              record = new RecordModel(
+                _.extend (
                   {},
-                  recordConfig.layerOptions,
-                  {
-                    id:record.id,
-                    eventContext : that.$el,
-                    isRecordLayer:true
-                  }
+                  feature.properties,
+                  {featureAttributeMap:recordConfig.featureAttributeMap}
                 )
               )
-              that.model.getLayers().add(layer)
-              layer.setData({
-                geometry:feature.geometry,                    
-                type:feature.type,
-                properties:{id:record.id}
-              })              
-              record.setLayer(layer)
-            } else {
-              record.setLayer(false) 
-            }
-            recordCollection.add(record)
-          })
-          // reorganise attributes (move properties up)
-            
-          that.model.setRecords(recordCollection)      
-          that.model.recordsConfigured(true)
-        }
-      )
+              if (typeof feature.geometry !== "undefined" && feature.geometry !== null) {
+                layer = new that.layerModels[recordConfig.model]( 
+                  _.extend(
+                    {},
+                    recordConfig.layerOptions,
+                    {
+                      id:record.id,
+                      eventContext : that.$el,
+                      isRecordLayer:true
+                    }
+                  )
+                )
+                that.model.getLayers().add(layer)
+                layer.setData({
+                  geometry:feature.geometry,                    
+                  type:feature.type,
+                  properties:{id:record.id}
+                })              
+                record.setLayer(layer)
+              } else {
+                record.setLayer(false) 
+              }
+              recordCollection.add(record)
+            })
+            // reorganise attributes (move properties up)
+
+            that.model.setRecords(recordCollection)      
+            that.model.recordsConfigured(true)
+          }
+        )
+      }
     },    
     
 
