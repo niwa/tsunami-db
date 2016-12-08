@@ -68,6 +68,12 @@ define([
     },
     getValues : function(){
       return this.attributes.values
+    },
+    getColor:function(value){
+      if(this.get("type") === "ordinal") {
+        var index = this.attributes.values.values.indexOf(value)
+        return this.attributes.values.colors[index]
+      }
     }
   });  
 

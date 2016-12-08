@@ -83,8 +83,8 @@ define([
           //console.log("... success loading layer config")
           that.set("layersConfig",layers_json[0])  
           that.set("mapConfig",map_json[0])
-          that.set("columns",col_json[0])        
-          that.set("columnGroups",colGroup_json[0])       
+          that.set("columnConfig",col_json[0])        
+          that.set("columnGroupConfig",colGroup_json[0])       
           that.set("configsLoaded",true)
       }, function(){
         console.log("error loading configs")
@@ -143,6 +143,10 @@ define([
     getOutType: function(){
       return this.attributes.route.query.out
     },
+    getOutColor: function(){
+      return this.attributes.route.query.colorby
+    },
+
     
     
 		appConfigured : function(){
@@ -456,9 +460,21 @@ define([
         return this.attributes.columnsConfigured
       }
     },    
-    
-    
-    
+    getOutColorColumn: function(){
+      return this.attributes.columnCollection.get(this.getOutColor())
+    },
+    setColumns: function(collection){
+      this.set('columnCollection',collection)
+    },    
+    setColumnGroups: function(collection){
+      this.set('columnGroupCollection',collection)
+    },    
+    getColumns:function(){
+      return this.attributes.columnCollection
+    },
+    getColumnGroups:function(){
+      return this.attributes.columnGroupCollection
+    },
     
     
 	});

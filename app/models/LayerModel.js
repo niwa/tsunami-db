@@ -13,13 +13,14 @@ define([
       
       //init loading states
       this.isContentLoading = false
-      this.isContentLoaded = false
+      this.isContentLoaded = false      
 
       // init attributes
       this.id = this.attributes.id
       
       this.setBasemap(typeof this.attributes.basemap !== "undefined" && this.attributes.basemap)      
-                  
+      
+      this.set('selected',true)                        
            
       // model source specific initialisation
       this.initializeModel()      
@@ -156,6 +157,27 @@ define([
       
         this.getMapLayer(function(mapLayer){
           
+          if(that.isSelected()){             
+            //setDefaultStyle
+            mapLayer.setStyle(that.attributes.layerStyle)
+          } else {
+            //setPassiveStyle
+            mapLayer.setStyle(_.extend({},that.attributes.layerStyle,{fillColor:"#aaa",color:"aaa"}))
+          }
+        })
+      }
+      
+    },
+    setColor : function(color){
+      // only when not active already
+
+      if (typeof color !== "undefined") {
+        var that = this
+        _.extend(that.attributes.layerStyle,{
+          fillColor:color,
+          color:color
+        })
+        this.getMapLayer(function(mapLayer){          
           if(that.isSelected()){             
             //setDefaultStyle
             mapLayer.setStyle(that.attributes.layerStyle)

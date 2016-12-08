@@ -26,6 +26,7 @@ define([
       this.listenTo(this.model, "change:mapInit", this.updateMap);
       this.listenTo(this.model, "change:mapView", this.updateMap);      
       this.listenTo(this.model, "change:outType", this.updateOutType);      
+      this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
       this.listenTo(this.model, "change:recordId", this.updateViews);      
     },
@@ -131,7 +132,16 @@ define([
       }
       
     },
- 
+    updateOutColorColumn:function(){
+      var column = this.model.getOutColorColumn()
+      if (typeof column !== "undefined") {
+        _.each(this.model.getRecords().models,function(record){
+          if (record.getLayer()) {
+            record.getLayer().setColor(column.getColor(record.getColumnValue(column.get("column"))))          
+          }
+        })
+      }
+    },
     toggleView:function(e){      
       this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      
     }

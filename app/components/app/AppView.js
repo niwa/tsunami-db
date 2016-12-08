@@ -290,8 +290,8 @@ define([
               el:that.$(componentId),
               model:new OutModel({
                 labels:    that.model.getLabels(),
-                columnCollection: that.model.get("columnCollection"),
-                columnGroupCollection: that.model.get("columnGroupCollection"),
+                columnCollection: that.model.getColumns(),
+                columnGroupCollection: that.model.getColumnGroups(),
                 layerCollection: that.model.getLayers(),
                 recordCollection: that.model.getRecords(),
                 mapConfig: that.model.getMapConfig()
@@ -303,6 +303,7 @@ define([
             that.views.out.model.set({
               recordsUpdated :  Date.now(),
               outType:          that.model.getOutType(),
+              outColorColumn:   that.model.getOutColorColumn(),
               mapView:          that.model.getActiveMapview(),
               recordId :        that.model.getSelectedRecordId()
             })
@@ -443,8 +444,8 @@ define([
     
 
     configureColumns:function(){      
-      this.model.set("columnGroupCollection",new ColumnGroupCollection(this.model.get("columnGroups")))
-      this.model.set("columnCollection",new ColumnCollection(this.model.get("columns")))      
+      this.model.setColumnGroups(new ColumnGroupCollection(this.model.get("columnGroupConfig")))
+      this.model.setColumns(new ColumnCollection(this.model.get("columnConfig")))      
       
       // replace auto values (generate from actual record values where not explicitly set)
       _.each(this.model.get("columnCollection").byColumn('values','auto').byColumn("type","categorical").models,function(columm){        

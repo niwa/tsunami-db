@@ -164,8 +164,7 @@ define([
   //   - col_[query]: column query, eg "col_elevation_below=100"
   //   "out=map" only
   //   - view: map view, "lat|lon|zoom||dimx|dimy"   
-  //   - out_color: primary visualisation column used for marker colors
-  //   - out_size: secondary visualisation column used for marker size
+  //   - colorby: primary visualisation column used for marker colors
   //   - plot: show latitude plot, one of 0,1
   //   - plot_elevation: plot elevation, one of 0,1
   //   - plot_landward_limit: plot landward limit, one of 0,1
@@ -216,23 +215,27 @@ define([
       console.log('--- query ' + query )
 //      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
 
-      // set default path (filters) if not set
+        // set default query args if not set
         query = query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
-        // set default output option if not set
-        if (typeof query.out === "undefined" || query.out === null || query.out === "") {
+        // set default output options if not set
+        if (typeof query.out === "undefined" || query.out === null || query.out === ""
+          || typeof query.colorby === "undefined" || query.colorby === null || query.colorby === "") {
+          if (typeof query.out === "undefined" || query.out === null || query.out === ""){
+            _.extend(query,{out:"map"})
+          }
+          if (typeof query.colorby === "undefined" || query.colorby === null || query.colorby === ""){
+            _.extend(query,{colorby:"validity"})
+          }
           this.update({
             route:"explore",
             path:"",
-            query : {
-              out:"map"
-            },
+            query : query,
             extendQuery:true,
             trigger:true,
             replace:true
-          }
-          )
-        } else {
-        
+          })
+          
+        } else {      
           app.model.setRoute({
             route : 'explore',
             path  : "",
@@ -253,19 +256,24 @@ define([
 
       // set default path (filters) if not set
         query = query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
-        // set default output option if not set
-        if (typeof query.out === "undefined" || query.out === null || query.out === "") {
+        // set default output options if not set
+        if (typeof query.out === "undefined" || query.out === null || query.out === ""
+          || typeof query.colorby === "undefined" || query.colorby === null || query.colorby === "" ) {
+          if (typeof query.out === "undefined" || query.out === null || query.out === ""){
+            _.extend(query,{out:"map"})
+          }
+          if (typeof query.colorby === "undefined" || query.colorby === null || query.colorby === ""){
+            _.extend(query,{colorby:"validity"})
+          }
           this.update({
-            route:"explore",
+            route:"record",
             path:recordid,
-            query : {
-              out:"map"
-            },
+            query : query,
             extendQuery:true,
             trigger:true,
             replace:true
           }
-          )
+          )          
         } else {
         
           app.model.setRoute({
