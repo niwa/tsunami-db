@@ -416,7 +416,7 @@
   {
     "id":"proxies",
     "title":"Record proxies",
-    "type":"text",    
+    "type":"index",    
     "multiples":1,
     "blanks":1,
     "filterable":0,
@@ -426,7 +426,7 @@
   {
     "id":"references",
     "title":"References",
-    "type":"text",    
+    "type":"index",    
     "multiples":1,
     "blanks":1,
     "filterable":0,

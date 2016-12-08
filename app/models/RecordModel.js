@@ -25,33 +25,7 @@ define([
         this
       )      
     },
-    formatColumn:function(col){      
-      if (this.attributes[col] === null || this.attributes[col] === "") {
-        return '&mdash;'
-      } else {
-        var column = this.collection.options.columns.findWhere({column:col})
-        switch (column.get("type")){
-          case "quantitative":
-            //round to 2 decimals
-            return Math.round(this.attributes[col] * 100) / 100
-            break        
-          case "spatial":        
-            //round to 3 decimals
-            return Math.round(this.attributes[col] * 1000) / 1000          
-            break        
-          case "date" :
-            return this.attributes[col] > 0 
-              ? this.attributes[col] + ' AD'     
-              : this.attributes[col] < 0
-                ? (-1*parseInt(this.attributes[col])) + ' BC'               
-                : this.attributes[col]
-            break
-          default:
-            return this.attributes[col]
-            break
-        }        
-      }        
-    },
+
     setLayer:function(layer){
       this.set("layer",layer)
     },
@@ -74,9 +48,62 @@ define([
         return this.attributes.formatted[column]          
       } else {
         return this.attributes[column]
-      }
-        
+      }        
     },
+    getReferences:function(){
+      return _.map(this.attributes["references"].split(","),function(refid){
+        return this.collection.options.references.get(refid)        
+      },this)           
+    },
+    getProxies:function(){
+      return _.map(this.attributes["proxies"].split(","),function(pid){
+        return this.collection.options.proxies.get(pid)        
+      },this)           
+    },
+    
+    formatColumn:function(col){     
+      
+      if (this.attributes[col] === null || this.attributes[col] === "") {
+        return '&mdash;'
+      } else {
+        var column = this.collection.options.columns.findWhere({column:col})        
+        
+        switch (column.get("type")){
+          case "index":
+            if (column.id === 'references') {              
+              return _.map(this.attributes[col].split(","),function(refid){
+                var ref = this.collection.options.references.get(refid)
+                return typeof ref !== "undefined" ? ref.getTitle() : ""
+              },this).join(", ")
+            } else if (column.id === 'proxies') {              
+              return this.attributes[col].split(",").join(", ")
+            }            
+            break
+          case "categorical":
+            return this.attributes[col].split(",").join(", ")
+            break        
+          case "quantitative":
+            //round to 2 decimals
+            return Math.round(this.attributes[col] * 100) / 100
+            break        
+          case "spatial":        
+            //round to 3 decimals
+            return Math.round(this.attributes[col] * 1000) / 1000          
+            break        
+          case "date" :
+            return this.attributes[col] > 0 
+              ? this.attributes[col] + ' AD'     
+              : this.attributes[col] < 0
+                ? (-1*parseInt(this.attributes[col])) + ' BC'               
+                : this.attributes[col]
+            break
+          default:
+            return this.attributes[col]
+            break
+        }        
+      }        
+    },    
+    
     pass:function(query) {
       var columns = this.collection.options.columns
       var pass = true

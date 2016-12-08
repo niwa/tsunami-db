@@ -7,6 +7,8 @@ define([
   './record/RecordView', './record/RecordViewModel',
   './out/OutView', './out/OutModel',  
   'models/RecordCollection',  'models/RecordModel',
+  'models/ProxyCollection',
+  'models/ReferenceCollection',
   'models/ColumnCollection',  
   'models/ColumnGroupCollection',  
   'models/LayerCollection',  
@@ -24,6 +26,8 @@ define([
   RecordView, RecordViewModel,
   OutView, OutModel,
   RecordCollection,RecordModel,
+  ProxyCollection,
+  ReferenceCollection,
   ColumnCollection,
   ColumnGroupCollection,
   LayerCollection,
@@ -142,6 +146,8 @@ define([
         //then
         function(){ 
           that.loadRecords() 
+          that.loadReferences() 
+          that.loadProxies() 
           that.configureLayers() 
         }
       )      
@@ -241,6 +247,8 @@ define([
           function(){
             return that.model.recordsConfigured() 
               && that.model.columnsConfigured()
+              && that.model.referencesConfigured()
+              && that.model.proxiesConfigured()
           },    
           function(){         
         
@@ -275,6 +283,7 @@ define([
           function(){
             return that.model.recordsConfigured() 
               && that.model.columnsConfigured()
+              && that.model.referencesConfigured()
           },    
           function(){ 
             that.views.out = that.views.out || new OutView({
@@ -360,23 +369,21 @@ define([
     },
     loadRecords : function(){      
       
-      var records = this.model.get("config").records
+      var recordConfig = this.model.get("config").records
       var that = this      
-      
-      if (records.model === "geojson") {
-        $.ajax({
-          dataType: "json",
-          url: this.model.getBaseURL() + '/' + records.path,
-          success: function(data) {
-            console.log("success loading records layer: " + that.id)          
-            that.configureRecords(data)            
-          },
-          error: function(){
-              console.log("error loading records data")
 
-          }
-        });
-      }      
+      $.ajax({
+        dataType: "json",
+        url: this.model.getBaseURL() + '/' + recordConfig.path,
+        success: function(data) {
+          console.log("success loading records data")          
+          that.configureRecords(data)            
+        },
+        error: function(){
+            console.log("error loading records data")
+
+        }
+      });
     },      
     configureRecords : function(recordData) {
       
@@ -391,7 +398,7 @@ define([
         function(){      
       
           var recordCollection = new RecordCollection([],{
-            config : recordData            
+            config : recordConfig            
           })
           var record,layer
           _.each(recordData.features,function(feature){
@@ -456,7 +463,108 @@ define([
     },
     
     
+    loadProxies : function(){      
+      
+      var proxyConfig = this.model.get("config").proxies
+      var that = this      
+      
+      $.ajax({
+        dataType: "json",
+        url: this.model.getBaseURL() + '/' + proxyConfig.path,
+        success: function(data) {
+          console.log("success loading proxies data")          
+          that.configureProxies(data)            
+        },
+        error: function(){
+            console.log("error loading proxies data")
+
+        }
+      });
+    },      
+    configureProxies : function(proxyData) {
+      
+      var proxyConfig = this.model.get("config").proxies
+      
+      var that = this
+
+      that.model.setProxies(new ProxyCollection(
+        _.map(proxyData.features,function(feature){
+          return _.extend (
+            {},
+            feature.properties,
+            {featureAttributeMap:proxyConfig.featureAttributeMap}
+          )    
+        }),
+        {
+          config : proxyConfig            
+        }
+      ))        
+      var that = this
+      waitFor(
+        function(){
+          return that.model.recordsConfigured()
+        },    
+        //then
+        function(){ 
+          that.model.getRecords().setProxies(that.model.getProxies()) 
+          that.model.proxiesConfigured(true)  
+        }        
+      )   
+          
+    },    
+    loadReferences : function(){      
+      
+      var refConfig = this.model.get("config").references
+      var that = this      
+      
+      $.ajax({
+        dataType: "json",
+        url: this.model.getBaseURL() + '/' + refConfig.path,
+        success: function(data) {
+          console.log("success loading ref data")          
+          that.configureReferences(data)            
+        },
+        error: function(){
+            console.log("error loading ref data")
+
+        }
+      });
+    },      
+    configureReferences : function(refData) {
+      
+      var refConfig = this.model.get("config").references
+      
+      var that = this
+
+      that.model.setReferences(new ReferenceCollection(
+        _.map(refData.features,function(feature){
+          return _.extend (
+              {},
+              feature.properties,
+              {id:feature.id.split('.')[1]},
+              {featureAttributeMap:refConfig.featureAttributeMap}
+            )
+        }),
+        {
+          config : refConfig            
+        }
+      ))        
+      var that = this
+      waitFor(
+        function(){
+          return that.model.recordsConfigured()
+        },    
+        //then
+        function(){ 
+          that.model.getRecords().setReferences(that.model.getReferences())           
+          that.model.referencesConfigured(true)   
+        }        
+      )     
+
+         
+    },    
     
+            
     
     
     

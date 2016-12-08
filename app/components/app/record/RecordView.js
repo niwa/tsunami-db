@@ -2,10 +2,14 @@ define([
   'jquery',  'underscore',  'backbone',
   'text!./record.html',
   'text!./recordColumnText.html',
+  'text!./recordColumnProxies.html',
+  'text!./recordColumnReferences.html',
 ], function (
   $, _, Backbone,
   template,
-  templateColumnText
+  templateColumnText,
+  templateColumnProxies,
+  templateColumnReferences
 ) {
 
   var RecordView = Backbone.View.extend({
@@ -67,6 +71,20 @@ define([
       
       var record = this.model.get("record")
       switch (column.get("type")){
+        case "index":
+          if (column.id === 'references') {              
+            return _.template(templateColumnReferences)({
+              title:column.get("title"),            
+              references:record.getReferences()
+            })
+          } else if (column.id === 'proxies') {              
+            return _.template(templateColumnProxies)({
+              title:column.get("title"),            
+              proxies:record.getProxies()
+            })
+          }  
+                       
+          break
         case "quantitative":
         case "spatial":                              
         case "date" :

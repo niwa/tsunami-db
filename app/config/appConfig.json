@@ -21,5 +21,14 @@
         "radius":8
       }
     }
-  }
+  },
+  "proxies":{    
+    "path" : "app/data/proxies.geojson",  
+    "featureAttributeMap" : {
+      "id" : "proxy_id"      
+    }
+  },
+  "references":{    
+    "path" : "app/data/references.geojson"  
+  }  
 }  

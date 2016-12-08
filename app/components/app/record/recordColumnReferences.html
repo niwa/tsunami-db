@@ -1,0 +1,20 @@
+<div class="record-column">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="column-title"><%= title %></div>   
+      <% _.each(references,function(ref){ %> 
+      <div class="strong"><%= ref.getTitle() %></div> 
+      <% if (ref.getReference() !== null) { %>      
+      <p><%= ref.getReference() %></p>
+      <% } %>      
+      <% if (ref.getDoi() !== null) { %>
+      <p>DOI: <%= ref.getDoi() %></p>
+      <% } %>
+      <% if (ref.getUrl() !== null) { %>
+      <p><a title="<%= ref.getTitle() %>" href="<%= ref.getUrl() %>" target="_blank"><%= ref.getUrl() %></a></p>
+      <% } %>
+      <% }) %>      
+    </div>
+  </div>
+</div>  
+ 

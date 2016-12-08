@@ -1,0 +1,11 @@
+<div class="record-column">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="column-title"><%= title %></div>   
+      <% _.each(proxies,function(proxy){ %> 
+      <p><strong><%= proxy.id %></strong> | <%= proxy.getDescription() %></p>
+      <% }) %>      
+    </div>
+  </div>
+</div>  
+ 

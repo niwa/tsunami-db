@@ -42,7 +42,26 @@ define([
     },
     setColumns:function(columns){
       this.options.columns = columns      
-    }
+    },
+    getColumns : function(){
+      return this.options.columns
+    },      
+    // Proxies ========================================================================
+    setProxies: function(collection){
+      this.options.proxies = collection
+    },
+    // returns collection
+    getProxies : function(){
+      return this.options.proxies
+    },  
+    // References ========================================================================
+    setReferences: function(collection){
+      this.options.references = collection
+    },
+    // returns collection
+    getReferences: function(){
+      return this.options.references
+    },      
         
     
   });

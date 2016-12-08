@@ -10,6 +10,8 @@ define([
       this.set("appConfigLoaded", false)
       this.set("configsLoaded",false)
       this.set("recordsConfigured",false)
+      this.set("referencesConfigured",false)
+      this.set("proxiesConfigured",false)
       this.set("columnsConfigured",false)
       
       var that = this
@@ -378,6 +380,8 @@ define([
       return raw ? view : this.toMapviewObject(view)
     },
 
+
+
     // Records ========================================================================
     getRecord: function(recordid){
       return this.attributes.recordCollection.get(recordid)
@@ -404,9 +408,46 @@ define([
         return this.attributes.recordsConfigured
       }
     },    
+    // Proxies ========================================================================
+    getProxy: function(id){
+      return this.attributes.proxyCollection.get(id)
+    },
+    setProxies: function(collection){
+      this.set('proxyCollection',collection)
+    },
+    // returns collection
+    getProxies : function(){
+      return this.attributes.proxyCollection
+    },   
+    proxiesConfigured : function(val){
+      if (typeof val !== 'undefined') {
+        this.set('proxiesConfigured',val)
+      } else {
+        return this.attributes.proxiesConfigured
+      }
+    },    
+    // References ========================================================================
+    getReference: function(id){
+      return this.attributes.referenceCollection.get(id)
+    },
+    setReferences: function(collection){
+      this.set('referenceCollection',collection)
+    },
+    // returns collection
+    getReferences: function(){
+      return this.attributes.referenceCollection
+    },   
+    referencesConfigured : function(val){
+      if (typeof val !== 'undefined') {
+        this.set('referencesConfigured',val)
+      } else {
+        return this.attributes.referencesConfigured
+      }
+    },    
+   
     
     
-    
+    // Columns ========================================================================
     
     columnsConfigured : function(val){
       if (typeof val !== 'undefined') {
