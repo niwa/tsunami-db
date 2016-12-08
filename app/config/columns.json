@@ -420,7 +420,7 @@
     "multiples":1,
     "blanks":1,
     "filterable":0,
-    "group":"other",
+    "group":"proxies",
     "table":1
   },  
   {
@@ -430,7 +430,7 @@
     "multiples":1,
     "blanks":1,
     "filterable":0,
-    "group":"other",
+    "group":"references",
     "table":1
   }   
 ]

@@ -51,14 +51,22 @@ define([
       }        
     },
     getReferences:function(){
-      return _.map(this.attributes["references"].split(","),function(refid){
-        return this.collection.options.references.get(refid)        
-      },this)           
+      if (this.attributes["references"] === null) {
+        return []
+      } else {
+        return _.map(this.attributes["references"].split(","),function(refid){
+          return this.collection.options.references.get(refid)        
+        },this)           
+      }
     },
     getProxies:function(){
-      return _.map(this.attributes["proxies"].split(","),function(pid){
-        return this.collection.options.proxies.get(pid)        
-      },this)           
+      if (this.attributes["proxies"] === null) {
+        return []
+      } else {        
+        return _.map(this.attributes["proxies"].split(","),function(pid){
+          return this.collection.options.proxies.get(pid)        
+        },this) 
+      }          
     },
     
     formatColumn:function(col){     
@@ -70,17 +78,29 @@ define([
         
         switch (column.get("type")){
           case "index":
-            if (column.id === 'references') {              
-              return _.map(this.attributes[col].split(","),function(refid){
-                var ref = this.collection.options.references.get(refid)
-                return typeof ref !== "undefined" ? ref.getTitle() : ""
-              },this).join(", ")
-            } else if (column.id === 'proxies') {              
-              return this.attributes[col].split(",").join(", ")
+            if (column.id === 'references') {       
+              if (this.attributes[col] === null) {
+                return ""
+              } else {                  
+                return _.map(this.attributes[col].split(","),function(refid){
+                  var ref = this.collection.options.references.get(refid)
+                  return typeof ref !== "undefined" ? ref.getTitle() : ""
+                },this).join(", ")
+              }
+            } else if (column.id === 'proxies') {     
+              if (this.attributes[col] === null) {
+                return ""
+              } else {                 
+                return this.attributes[col].split(",").join(", ")
+              }
             }            
             break
           case "categorical":
-            return this.attributes[col].split(",").join(", ")
+            if (this.attributes[col] === null) {
+              return ""
+            } else {               
+              return this.attributes[col].split(",").join(", ")
+            }
             break        
           case "quantitative":
             //round to 2 decimals

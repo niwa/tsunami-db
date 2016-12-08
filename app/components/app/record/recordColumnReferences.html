@@ -1,7 +1,6 @@
 <div class="record-column">
   <div class="row">
     <div class="col-xs-12">
-      <div class="column-title"><%= title %></div>   
       <% _.each(references,function(ref){ %> 
       <div class="strong"><%= ref.getTitle() %></div> 
       <% if (ref.getReference() !== null) { %>      
