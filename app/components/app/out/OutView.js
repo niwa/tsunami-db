@@ -23,8 +23,8 @@ define([
       
       this.render()
       
-      this.listenTo(this.model, "change:mapInit", this.updateMap);
-      this.listenTo(this.model, "change:mapView", this.updateMap);      
+      this.listenTo(this.model, "change:mapInit", this.updateMapView);
+      this.listenTo(this.model, "change:mapView", this.updateMapView);      
       this.listenTo(this.model, "change:outType", this.updateOutType);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      

@@ -69,7 +69,7 @@ define([
           this.loadData(
             function(data){
               that.set('mapLayer', data)   
-              console.log('data loaded and stored ' + this.id)
+              console.log('data loaded and stored ' + that.id)
 
               that.handleResult(callback)
             }              

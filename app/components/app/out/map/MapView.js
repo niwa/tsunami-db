@@ -86,7 +86,7 @@ define([
       
       
       // position map on current view
-      this.updateMapView()
+//      this.updateMapView()
       
       
       this.model.mapConfigured(true)

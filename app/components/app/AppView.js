@@ -175,10 +175,7 @@ define([
           that.updateNav()
           that.updateFilters()
           that.updateRecord()
-          that.updateOut()
-          
-          // update Records
-          that.updateRecords()        
+          that.updateOut() 
           
         }
         
@@ -312,9 +309,13 @@ define([
                 columnGroupCollection: that.model.getColumnGroups(),
                 layerCollection: that.model.getLayers(),
                 recordCollection: that.model.getRecords(),
-                mapConfig: that.model.getMapConfig()
+                mapConfig: that.model.getMapConfig(),
+                recordsUpdated:""
               })
             })
+            
+            // update Records
+            that.updateRecords()  
             
             that.views.out.model.set({
               recordsUpdated :  Date.now(),
