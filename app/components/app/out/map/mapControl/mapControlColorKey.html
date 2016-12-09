@@ -1,0 +1,9 @@
+<ul class="list-unstyled">
+  <% _.each(values,function(value){ %> 
+  <li>
+    <span class="key-color" 
+          style="border-color:<%= value.color %>;background-color:<%= value.fillColor %>"></span>
+    <span class="key-label" ><%= value.label %></span>
+  </li>
+  <% }) %>
+</ul>

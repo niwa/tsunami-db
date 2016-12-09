@@ -2,10 +2,12 @@ define([
   'jquery',  'underscore',  'backbone',
   'text!./mapControl.html',
   'text!./mapControlColorSelect.html',
+  'text!./mapControlColorKey.html',
 ], function (
   $, _, Backbone,
   template,
-  templateColorSelect
+  templateColorSelect,
+  templateColorKey
 ) {
 
   return Backbone.View.extend({
@@ -41,7 +43,19 @@ define([
             }
         },this)
       }))
-      
+      var values = this.model.getOutColorColumn().getValues()
+      this.$('#color-attribute-key').html(_.template(templateColorKey)({                
+        values:_.map(values.values,function(value,index){
+          var crgba = typeof values.colors !== "undefined" 
+            ? values.colors[index].colorToRgb() 
+            : [0,0,0]
+          return {
+            label: typeof values.labels !== "undefined" ? values.labels[index] : value,
+            color: typeof values.colors !== "undefined" ? values.colors[index] : "",
+            fillColor: 'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)'
+          }
+        })      
+      }))
     },
     updateOutColorColumn:function(){
 //      this.views.control.set({outColorColumn:this.model.getOutColorColumn()})    

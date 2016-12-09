@@ -162,7 +162,7 @@ define([
             mapLayer.setStyle(that.attributes.layerStyle)
           } else {
             //setPassiveStyle
-            mapLayer.setStyle(_.extend({},that.attributes.layerStyle,{fillColor:"#aaa",color:"aaa"}))
+            mapLayer.setStyle(_.extend({},that.attributes.layerStyle,{fillOpacity:0,color:"#888",opacity:1,weight:0.5}))
           }
         })
       }
@@ -183,7 +183,7 @@ define([
             mapLayer.setStyle(that.attributes.layerStyle)
           } else {
             //setPassiveStyle
-            mapLayer.setStyle(_.extend({},that.attributes.layerStyle,{fillColor:"#aaa",color:"aaa"}))
+            mapLayer.setStyle(_.extend({},that.attributes.layerStyle,{fillOpacity:0,color:"#888",opacity:1,weight:0.5}))
           }
         })
       }

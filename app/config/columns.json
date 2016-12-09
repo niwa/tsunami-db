@@ -15,10 +15,10 @@
     "type":"ordinal",    
     "default":1,
     "values":{      
-      "values":["Poor (1-4 criteria)","Moderate (5-8 criteria)","Excellent (9+ criteria)"],
-      "labels":["Poor","Moderate","Excellent"],
-      "hints":["1-4 criteria","5-8 criteria","9+ criteria"],
-      "colors":["#9F82BC","#FABD13","#60BE8D"]
+      "values":["Excellent (9+ criteria)","Moderate (5-8 criteria)","Poor (1-4 criteria)"],
+      "labels":["Excellent","Moderate","Poor"],
+      "hints":["9+ criteria","5-8 criteria","1-4 criteria"],
+      "colors":["#60BE8D","#FABD13","#9F82BC"]
     }
   },
   {

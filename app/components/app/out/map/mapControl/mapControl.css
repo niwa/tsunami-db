@@ -9,3 +9,15 @@
   z-index: 1000;
   display: block;
 }
+
+
+.key-color {
+  width:13px;
+  height:13px;
+  display:inline-block;
+  margin-right:5px;
+  -webkit-border-radius:999px;
+  -moz-border-radius:999px;
+  border-radius:999px;
+  border:1.5px solid;
+}
