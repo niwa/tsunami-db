@@ -20,4 +20,7 @@
 
 #out nav {
     height: 50px;
+    background-color: #555;
+    color: white;
+    padding: 8px 20px 0;
 }
