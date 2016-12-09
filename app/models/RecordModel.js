@@ -35,10 +35,40 @@ define([
     setActive:function(active){
       active = typeof active !== 'undefined' ? active : true   
       this.set('active',active)
+      if (this.getLayer()){
+      // also set layer
+        this.getLayer().setActive(active) 
+      }
     },
+    
+    setSelected : function(selected,anySelected){
+      selected = typeof selected !== 'undefined' ? selected : true   
+      anySelected = typeof anySelected !== 'undefined' ? anySelected : selected         
+      this.set('selected',selected)      
+      this.set('anySelected',anySelected)           
+      // only when not active already
+      if (this.getLayer()){
+        this.getLayer().setSelected(selected,anySelected) 
+      }
+
+    },
+    setColor : function(color){
+      // only when not active already
+      this.set('columnColor',color)      
+      
+      if (this.getLayer()){
+        this.getLayer().setColor(color)      
+      }
+    },    
     isActive:function(){
       return this.attributes.active
     },
+    
+    bringToFront:function(){
+      if (this.getLayer()){
+        this.getLayer().bringToFront()
+      }               
+    },    
     getColumnValue:function(column, formatted){
       formatted = typeof formatted !== "undefined" ? formatted : false
       if (formatted) {

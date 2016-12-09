@@ -158,18 +158,7 @@ define([
                   hint:column.getValues().hints.length > 0 ? column.getValues().hints[key] : "",
                   selected:queryValue === value || queryValue.indexOf(value) > -1
                 }
-              })
-              
-              // offer options for blanks "blanks"
-              if (column.get('blanks')) {
-                var value = "null"
-                options.push({
-                  value:value,
-                  label:"Unspecified",
-                  hint:"",
-                  selected:queryValue === value || queryValue.indexOf(value) > -1
-                })
-              }
+              })              
               
             }
             

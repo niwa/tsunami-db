@@ -147,48 +147,57 @@ define([
       }
       
     },
-    setSelected : function(selected){
+    setSelected : function(selected,anySelected){
       selected = typeof selected !== 'undefined' ? selected : true   
+      anySelected = typeof anySelected !== 'undefined' ? anySelected : selected   
+      
       // only when not active already
       this.set('selected',selected)      
-      
-      if (typeof this.attributes.parentLayer !== "undefined") {
-        var that = this
-      
-        this.getMapLayer(function(mapLayer){
-          
-          if(that.isSelected()){             
-            //setDefaultStyle
-            mapLayer.setStyle(that.attributes.layerStyle)
-          } else {
-            //setPassiveStyle
-            mapLayer.setStyle(_.extend({},that.attributes.layerStyle,{fillOpacity:0,color:"#888",opacity:1,weight:0.5}))
-          }
-        })
-      }
-      
+      this.set('anySelected',anySelected)      
+      this.updateStyle()
+
     },
     setColor : function(color){
       // only when not active already
-
-      if (typeof color !== "undefined") {
-        var that = this
-        _.extend(that.attributes.layerStyle,{
-          fillColor:color,
-          color:color
-        })
-        this.getMapLayer(function(mapLayer){          
-          if(that.isSelected()){             
-            //setDefaultStyle
-            mapLayer.setStyle(that.attributes.layerStyle)
-          } else {
-            //setPassiveStyle
-            mapLayer.setStyle(_.extend({},that.attributes.layerStyle,{fillOpacity:0,color:"#888",opacity:1,weight:0.5}))
+      this.set('columnColor',color)      
+      this.updateStyle()
+    },
+    updateStyle:function(){
+      if (typeof this.attributes.parentLayer !== "undefined") {
+        // first update based on selected column/attribute
+        if (typeof this.attributes.columnColor !== "undefined") {
+          _.extend(this.attributes.layerStyle,{
+            fillColor:this.attributes.columnColor,
+            color:this.attributes.columnColor
+          })            
+        }      
+        var that = this        
+        this.getMapLayer(function(mapLayer){
+          
+          if (that.isSelected()){
+           //set Selected Style            
+            mapLayer.setStyle(_.extend(
+              {},
+              that.attributes.layerStyle,
+              {fillOpacity:0.8}
+            ))            
+          } else {                        
+            if(that.isAnySelected()){             
+              //set Passive Style            
+              mapLayer.setStyle(_.extend(
+                {},
+                that.attributes.layerStyle,
+                {fillOpacity:0,color:"#888",opacity:1,weight:0.5}
+              ))
+            } else {
+              //setDefaultStyle
+              mapLayer.setStyle(that.attributes.layerStyle)
+            }
           }
         })
-      }
-      
+      }      
     },
+    
     bringToFront:function(){
       if (typeof this.attributes.parentLayer !== "undefined") {
       
@@ -208,6 +217,9 @@ define([
     },      
     isSelected : function(){
       return this.attributes.selected
+    },      
+    isAnySelected : function(){
+      return this.attributes.anySelected
     },      
   
     setBasemap : function(basemap){

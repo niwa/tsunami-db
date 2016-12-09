@@ -28,7 +28,7 @@ define([
       this.listenTo(this.model, "change:outType", this.updateOutType);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
-      this.listenTo(this.model, "change:recordId", this.updateViews);      
+      this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
     },
     render: function () {
       this.$el.html(_.template(template)({
@@ -116,33 +116,22 @@ define([
       this.views.table.model.setCurrentRecords(activeRecords)       
       this.views.table.model.set("recordId",this.model.get("recordId"))      
     },
-    updateMapView : function(){
-      var recordId = this.model.get("recordId")
+    updateMapView : function(){      
       
       this.views.map.model.setView(this.model.getActiveMapview())
       this.views.map.model.invalidateSize()
-      
-      _.each(this.model.getRecords().models,function(record){
-        if (record.getLayer()) {
-          record.getLayer().setActive(record.isActive())          
-          record.getLayer().setSelected(recordId === "" || record.id === recordId)
-        }
-      })
+    },
+    updateSelectedRecord:function(){
+      this.updateViews()
+      var recordId = this.model.get("recordId")
       if (recordId !== "") {
-        this.model.getRecords().get(recordId).getLayer().bringToFront()
-      }
-      
+        this.model.getRecords().get(recordId).bringToFront()
+      }      
     },
     updateOutColorColumn:function(){
-      var column = this.model.getOutColorColumn()
-      if (typeof column !== "undefined") {
-        _.each(this.model.getRecords().models,function(record){
-          if (record.getLayer()) {
-            record.getLayer().setColor(column.getColor(record.getColumnValue(column.get("column"))))          
-          }
-        })
-      }
-      this.views.map.model.set({outColorColumn:column})
+      this.views.map.model.set({
+        outColorColumn:this.model.getOutColorColumn()
+      })
     },
     toggleView:function(e){      
       this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      

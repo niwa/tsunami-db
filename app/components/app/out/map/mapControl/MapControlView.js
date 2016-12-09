@@ -29,12 +29,7 @@ define([
     update : function(){
       this.$('#color-attribute-selector').html(_.template(templateColorSelect)({
         options:_.map(
-          _.filter(
-            this.model.get("columnCollection").models,
-            function(column){
-              return column.get("type") === "ordinal" 
-                      || (column.get("type") === "categorical" && typeof column.getValues().colors !== "undefined")
-          }),
+          this.model.get("columnCollection").byAttribute("colorable").models,
           function(column){
             return {
               value:column.id,

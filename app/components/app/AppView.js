@@ -169,6 +169,7 @@ define([
       var that = this
       this.model.validateRouter(function(validated){
         if (validated) {
+
           
           // init/update components
           that.updateNav()
@@ -176,7 +177,8 @@ define([
           that.updateRecord()
           that.updateOut()
           
-        
+          // update Records
+          that.updateRecords()        
           
         }
         
@@ -190,7 +192,22 @@ define([
     },
    
    
-   
+    updateRecords:function(){
+      var that = this      
+      waitFor(
+        function(){
+          return that.model.recordsConfigured() 
+            && that.model.columnsConfigured()
+        },    
+        function(){ 
+          that.model.getRecords().updateRecords({
+            query:that.model.getRecordQuery(),
+            selectedId:that.model.getSelectedRecordId(),
+            colorColumn:that.model.getOutColorColumn()
+          })
+        }
+      )  
+    },
    
    
    
@@ -298,8 +315,6 @@ define([
                 mapConfig: that.model.getMapConfig()
               })
             })
-            
-            that.model.getRecords().updateActive(that.model.getRecordQuery())
             
             that.views.out.model.set({
               recordsUpdated :  Date.now(),
@@ -448,22 +463,17 @@ define([
     
 
     configureColumns:function(){      
+      // store column groups
       this.model.setColumnGroups(new ColumnGroupCollection(this.model.get("columnGroupConfig")))
-      this.model.setColumns(new ColumnCollection(this.model.get("columnConfig")))      
-      
-      // replace auto values (generate from actual record values where not explicitly set)
-      _.each(this.model.get("columnCollection").byAttribute('values','auto').byAttribute("type","categorical").models,function(columm){        
-        var values = this.model.getRecords().getValuesForColumn(columm.get('queryColumn'))
-        columm.set("values",{
-          "values":values,
-          "labels": _.clone(values),
-          "hints":[]
-        })
-      },this)
-      
+      // store and init columns
+      this.model.setColumns(new ColumnCollection(
+        this.model.get("columnConfig"),{
+          records:this.model.getRecords()
+        }
+      ))
+      this.model.get("columnCollection").initializeModels()
+      // store columns reference with record collection            
       this.model.getRecords().setColumns(this.model.get("columnCollection"))     
-      
-      
       this.model.columnsConfigured(true)
     },
     

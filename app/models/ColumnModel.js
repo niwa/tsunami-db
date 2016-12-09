@@ -16,6 +16,7 @@ define([
         type :            this.attributes.type || "text",
         group :           this.attributes.group || "meta",
         filterable :      typeof this.attributes.filterable !== "undefined" ? this.attributes.filterable : 1,
+        colorable :       typeof this.attributes.colorable !== "undefined" ? this.attributes.colorable : 0,
         table :           typeof this.attributes.table !== "undefined" ? this.attributes.table : 1,
         default :         typeof this.attributes.default !== "undefined" ? this.attributes.default : 0,        
         searchable :      typeof this.attributes.searchable !== "undefined" ? this.attributes.searchable : 0,
@@ -23,7 +24,7 @@ define([
         multiples :       typeof this.attributes.multiples !== "undefined" ? this.attributes.multiples : 0,
         values :          this.attributes.values || "auto",        
         combo:            typeof this.attributes.combo !== "undefined" ? this.attributes.combo : 0,
-        comboColumnId: this.attributes.comboColumnId || null,
+        comboColumnId:    this.attributes.comboColumnId || null,
         comboType:        this.attributes.comboType || null,
         comboFilter:      this.attributes.comboFilter || null,
       })
@@ -70,8 +71,8 @@ define([
       return this.attributes.values
     },
     getColor:function(value){
-      if(this.get("type") === "ordinal" 
-        || (this.get("type") === "categorical" && typeof this.getValues().colors !== "undefined")) {
+      if(this.get("colorable") === 1) {
+        value = value === null ? "null" : value
         var index = this.attributes.values.values.indexOf(value)
         return this.attributes.values.colors[index]
       }

@@ -8,7 +8,7 @@ define([
     model:model,
     initialize: function(models,options) {            
       this.options = options || {};       
-    
+      this.selectedId = ""
     },    
     byActive: function(active){
       active = typeof active !== 'undefined' ? active : true         
@@ -21,6 +21,34 @@ define([
       this.each(function(model){
         model.setActive(model.pass(query))        
       })
+    },
+    updateRecords:function(args){
+      
+      this.each(function(model){
+        // set active
+        model.setActive(model.pass(args.query)) 
+        
+        // set selected
+        if(args.selectedId !== this.selectedId) {
+          if (args.selectedId === "") {
+            model.setSelected(false)
+          } else {
+            model.setSelected(model.id === args.selectedId,true)
+          }
+        }
+        // set color
+//        if(args.colorColumn.id !== this.colorColumn.id) {
+        if (model.isActive()){
+          model.setColor(
+            args.colorColumn.getColor(
+              model.getColumnValue(args.colorColumn.get("column"))
+            )
+          )                  
+        }
+//        }
+      })
+      this.selectedId = args.selectedId     
+      
     },
     byQuery: function(query){
       var filtered = this.filter(function(model){
@@ -36,7 +64,8 @@ define([
         }
       })           
       return values.sort(function(a,b){
-        return a === "Unknown" ? -1 : b === "Unknown" ? 1
+        //sort alphabetically but move unknown to the end
+        return a === "Unknown" ? 1 : b === "Unknown" ? -1
             : a < b ? -1 : a > b ? 1 : 0 
       })      
     },

@@ -14,6 +14,7 @@
     "title":"Validity",
     "type":"ordinal",    
     "default":1,
+    "colorable":1,
     "values":{      
       "values":["Excellent (9+ criteria)","Moderate (5-8 criteria)","Poor (1-4 criteria)"],
       "labels":["Excellent","Moderate","Poor"],
@@ -27,9 +28,10 @@
     "title":"Dating technique",
     "type":"categorical",    
     "multiples":1,
+    "colorable":1,
     "values":{
       "values":["Geological data","Historical data","No specific method"],      
-      "colors":["#9F82BC","#FABD13","#60BE8D"]
+      "colors":["#bf812d","#35978f","#969696"]
     }
   },
   {
@@ -79,11 +81,12 @@
     "id":"natureofevidence",
     "title":"Nature of evidence",
     "type":"categorical",    
-    "group":"meta",    
+    "group":"meta",
+    "colorable":1,    
     "values":{
       "values":["Primary","Secondary","Cultural"],
-      "hints":["Sedimentary","Anthropological","Geomorphic"],      
-      "colors":["#9F82BC","#FABD13","#60BE8D"]
+      "hints":["Sedimentary","Geomorphic","Anthropological"],      
+      "colors":["#8c510a","#dfc27d","#80cdc1"]
     }
   },  
   {
@@ -97,14 +100,15 @@
   {
     "id":"classification",
     "title":"Classification",
-    "type":"categorical",    
+    "type":"ordinal",
+    "colorable":1,    
     "group":"time",    
     "default":1,
     "values":{      
-      "values":["Historical","Prehistoric AD","Prehistoric BC","Unusual/Unknown"],            
-      "labels":["Historical","Prehistoric AD","Prehistoric BC","Unusual"],            
-      "hints":["1800 and later","0 - 1800","before 0","Unknown"],
-      "colors":["#9F82BC","#FABD13","#60BE8D","#aaaaaa"]
+      "values":["Prehistoric BC","Prehistoric AD","Historical","Unusual/Unknown"],            
+      "labels":["Prehistoric BC","Prehistoric AD","Historical","Unusual"],            
+      "hints":["before 0","0 - 1800","1800 and later","Unknown"],      
+      "colors":["#225ea8","#41b6c4","#a1dab4","#969696"]      
     }
   },   
   {
@@ -296,10 +300,11 @@
     "id":"sitestatus",
     "title":"Site status",
     "type":"categorical",    
-    "group":"site",        
+    "group":"site",
+    "colorable":1,        
     "values":{
-      "values":["Deposit present","Deposit absent","Not applicable", "Unknown"],
-      "colors":["#9F82BC","#FABD13","#60BE8D","#aaaaaa"]
+      "values":["Deposit present","Deposit absent","Not applicable", "Unknown"],         
+      "colors":["#60BE8D","#9F82BC","#FABD13","#969696"]      
     }
   },
   {
@@ -354,10 +359,12 @@
     "column":"sourcecertainty",
     "title":"Source certainty",
     "type":"categorical",    
-    "group":"source",    
+    "group":"source",
+    "colorable":1,    
     "blanks":1,
     "values":{      
-      "values":["Inferred","Known"]
+      "values":["Inferred","Known"],
+      "colors":["#a6611a","#80cdc1"]      
     }
   },  
   {
