@@ -179,7 +179,7 @@ define([
             mapLayer.setStyle(_.extend(
               {},
               that.attributes.layerStyle,
-              {fillOpacity:0.8}
+              {fillOpacity:0.85,weight:1.5}
             ))            
           } else {                        
             if(that.isAnySelected()){             
@@ -187,7 +187,7 @@ define([
               mapLayer.setStyle(_.extend(
                 {},
                 that.attributes.layerStyle,
-                {fillOpacity:0,color:"#888",opacity:1,weight:0.5}
+                {opacity:1,fillOpacity:0.4,color:"#b2b8bd",fillColor:"#ccd0d3",weight:0.8}
               ))
             } else {
               //setDefaultStyle
