@@ -144,7 +144,7 @@
 }
 
 
-#nav .navbar-brand {
+/*#nav .navbar-brand {
   padding: 0;
   height:auto
 }
@@ -152,7 +152,7 @@
   #nav .navbar-brand {
     float: none;
   }
-}
+}*/
 
 /*@media (min-width: 950px) {
   #nav .container-fluid > .navbar-collapse {
