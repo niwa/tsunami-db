@@ -66,7 +66,7 @@ define([
       var values = []
       _.each(this.models,function(model){
         if(model.get(column) !== null) {
-          values = _.union(values,model.get(column).split(','))
+          values = _.union(values,_.map(model.get(column).split(','),function(val){return val.trim()}))
         }
       })           
       return values.sort(function(a,b){

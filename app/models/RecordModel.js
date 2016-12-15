@@ -200,7 +200,7 @@ define([
               if( this.get(column) === null || this.get(column) === "") {
                 values = ["null"]
               } else {
-                values = this.get(column).split(',')
+                values = _.map(this.get(column).split(','),function(val){return val.trim()})
               }        
               var conditions = typeof condition === 'string' ? [condition] : condition                
               if(_.intersection(conditions,values).length === 0) {
