@@ -250,7 +250,7 @@ define([
     },    
     layerSelect:function(e){
       e.preventDefault()
-      this.$el.trigger('mapLayerClick',{                
+      this.$el.trigger('mapLayerSelect',{                
         layerId: $(e.currentTarget).attr("data-layerid")
       })
     },

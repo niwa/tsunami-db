@@ -67,6 +67,7 @@ define([
       // map view events
       mapViewUpdated: "mapViewUpdated",            
       mapLayerClick: "mapLayerClick",
+      mapLayerSelect: "mapLayerSelect",
       mapLayerMouseOver: "mapLayerMouseOver",
       mapLayerMouseOut: "mapLayerMouseOut",     
       mapPopupClosed:"mapPopupClosed"
@@ -662,10 +663,16 @@ define([
       })      
     },
     recordSelect : function(e,args){     
-      this.model.getRouter().update({
-        route:"record",
-        path:args.id        
-      })      
+      if (this.model.getSelectedRecordId() !== parseInt(args.id)){
+        this.model.getRouter().update({
+          route:"record",
+          path:args.id        
+        })
+      } else {
+        if (!args.keepSelected) {
+          this.$el.trigger('recordClose')                        
+        }
+      }      
     },    
     
     recordSelectMultiple:function(e,args){
@@ -710,8 +717,23 @@ define([
             this.$el.trigger('recordSelectMultiple', { records: recordsOverlapping })
           }
           
-          this.$el.trigger('recordSelect', { id: layerId })                
+          this.$el.trigger('recordSelect', { 
+            id: layerId,
+            keepSelected: recordsOverlapping.length > 1
+          })                
           
+        }          
+      }          
+    },
+    mapLayerSelect : function(e,args){
+      // check if location a casestudy
+      
+      var layerId = args.layerId
+      
+      if (layerId !== "") {        
+        // for now only handle record layer clicks
+        if (this.model.getLayers().get(layerId).get("isRecordLayer")) {          
+          this.$el.trigger('recordSelect', { id: parseInt(layerId) })          
         }          
       }          
     },
