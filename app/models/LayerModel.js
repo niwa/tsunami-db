@@ -44,6 +44,11 @@ define([
       console.log('data stored ' + this.id)              
       this.handleResult()
     },    
+    getMapLayerDirect : function(){      
+      if (this.isLoaded()){         
+        return this.attributes.mapLayer
+      }      
+    },
     getMapLayer : function(callback){      
       
       if (this.isLoaded()){   
@@ -97,14 +102,41 @@ define([
           .off('click')
           .on('click',function(e){
             if (typeof that.attributes.eventContext !== "undefined") {
+              
+              var containerPoint = that.attributes.mapLayer._map.layerPointToContainerPoint(e.layerPoint)
+      
               that.attributes.eventContext.trigger('mapLayerClick',{                
-                layerId: that.id
+                layerId: that.id,
+                latlng:e.latlng,
+                x:containerPoint.x,
+                y:containerPoint.y,
+                event:e
               })              
             }
           })
       }      
     },
-    
+    // pixel coordinate relative to the map container
+    includesXY:function(x,y){
+      if (this.attributes.styleType === "marker" 
+        && typeof this.attributes.style.radius !== 'undefined'
+        && typeof this.attributes.mapLayer !== 'undefined') {
+  
+          // first get current projected center (xy-point)
+          var containerPointLayer = this.attributes.mapLayer._map.latLngToContainerPoint(
+            this.attributes.mapLayer.getLayers()[0].getLatLng()
+          )
+         
+          var dx = Math.abs(x - containerPointLayer.x)
+          var dy = Math.abs(y - containerPointLayer.y)
+                    
+          // now check if in circle
+          return (Math.pow(dx,2) + Math.pow(dy,2)) < Math.pow(this.attributes.style.radius,2)
+        
+      } else {
+        return false
+      }
+    },
     setParentLayer: function(parentLayer) {
       this.set("parentLayer",parentLayer)
     },
@@ -162,6 +194,9 @@ define([
       this.set('columnColor',color)      
       this.updateStyle()
     },
+    getColor : function(){      
+      return this.attributes.columnColor      
+    },
     updateStyle:function(){
       if (typeof this.attributes.parentLayer !== "undefined") {
         // first update based on selected column/attribute
@@ -179,7 +214,7 @@ define([
             mapLayer.setStyle(_.extend(
               {},
               that.attributes.layerStyle,
-              {fillOpacity:0.8}
+              {fillOpacity:0.85,weight:1.5}
             ))            
           } else {                        
             if(that.isAnySelected()){             
@@ -187,7 +222,7 @@ define([
               mapLayer.setStyle(_.extend(
                 {},
                 that.attributes.layerStyle,
-                {fillOpacity:0,color:"#888",opacity:1,weight:0.5}
+                {opacity:1,fillOpacity:0.4,color:"#b2b8bd",fillColor:"#ccd0d3",weight:0.8}
               ))
             } else {
               //setDefaultStyle

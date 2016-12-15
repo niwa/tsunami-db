@@ -1,0 +1,12 @@
+<strong>Multiple records found</strong>
+<ul class="list-unstyled">
+  <% _.each(layers,function(layer){ %> 
+  <li>
+    <a href="#" class="layer-select <% if (layer.selected) { %> active <% } %>" data-layerid="<%= layer.id %>">
+      <span class="key-color" 
+            style="border-color:<%= layer.color %>;background-color:<%= layer.fillColor %>"></span>
+      <span class="key-label" ><%= layer.label %></span>
+    </a>
+  </li>
+  <% }) %>
+</ul>

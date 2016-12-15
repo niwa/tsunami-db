@@ -40,7 +40,9 @@ define([
         this.getLayer().setActive(active) 
       }
     },
-    
+    isSelected:function(){
+      return this.attributes.selected
+    },    
     setSelected : function(selected,anySelected){
       selected = typeof selected !== 'undefined' ? selected : true   
       anySelected = typeof anySelected !== 'undefined' ? anySelected : selected         
@@ -59,7 +61,15 @@ define([
       if (this.getLayer()){
         this.getLayer().setColor(color)      
       }
-    },    
+    },  
+    getColor : function(){      
+      return this.attributes.columnColor      
+    },   
+    
+    getTitle:function(){
+      return "Record " + this.id
+    },
+    
     isActive:function(){
       return this.attributes.active
     },
@@ -202,6 +212,13 @@ define([
         i++
       }          
       return pass 
+    },    
+    passXY:function(x,y){
+      if(this.attributes.active && this.getLayer()){
+        return this.getLayer().includesXY(x,y)
+      } else {
+        return false
+      }
     }
   });
 

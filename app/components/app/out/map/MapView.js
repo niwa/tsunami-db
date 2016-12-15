@@ -2,16 +2,23 @@ define([
   'jquery','underscore','backbone',
   'leaflet',
   'esri.leaflet',
+  'leaflet.rrose',
   './mapControl/MapControlView', './mapControl/MapControlModel',  
-  'text!./map.html'
+  'text!./map.html',
+  'text!./mapPopupMultipeRecords.html',
 ], function(
   $, _, Backbone,
   leaflet,
   esriLeaflet,
+  rrose,
   MapControlView, MapControlModel,    
-  template
+  template,
+  templatePopupMultiple
 ){
   var MapView = Backbone.View.extend({
+    events:{
+      "click .layer-select" : "layerSelect"
+    },
     initialize : function(){
       //console.log('MapView.initialize')
       this.handleActive()  
@@ -29,6 +36,10 @@ define([
 
       this.listenTo(this.model, "change:invalidateSize",this.invalidateSize);      
       this.listenTo(this.model, "change:layersUpdated",this.layersUpdated);
+      this.listenTo(this.model, "change:multipleLayerPopup",this.multipleLayerPopup)
+      
+      this.listenTo(this.model, "change:selectedLayerId", this.selectedLayerIdChanged);      
+      
 
 
     },
@@ -68,6 +79,7 @@ define([
         config.mapID,
         config.mapOptions
       )
+      .on('popupclose', _.bind(this.onPopupClose, this))
       .on('zoomstart', _.bind(this.onZoomStart, this))
       .on('movestart', _.bind(this.onMoveStart, this))
       .on('zoomend', _.bind(this.onZoomEnd, this))
@@ -223,10 +235,46 @@ define([
     },
 
 
-    
- 
-
-
+    multipleLayerPopup:function(){
+      var layers = this.model.get("multipleLayerPopup")
+      var map = this.model.getMap()
+      map.closePopup()      
+      if(layers.length > 0){
+        var anchorLayer = layers[0]                
+        var multiple_tooltip = new L.Rrose({ offset: new L.Point(0,0), closeButton: false, autoPan: false })
+          .setContent(this.getMultiplesPopupContent(layers))
+          .setLatLng(anchorLayer.layer.getLayers()[0].getLatLng())
+          .openOn(map)
+        this.model.set("multipleTooltip",multiple_tooltip)
+      } 
+    },    
+    layerSelect:function(e){
+      e.preventDefault()
+      this.$el.trigger('mapLayerSelect',{                
+        layerId: $(e.currentTarget).attr("data-layerid")
+      })
+    },
+    selectedLayerIdChanged:function(){      
+      var layers = this.model.get("multipleLayerPopup")
+      if(typeof this.model.get("multipleTooltip") !== "undefined"
+      && this.model.get("multipleTooltip") !== null){
+        this.model.get("multipleTooltip").setContent(this.getMultiplesPopupContent(layers))
+      }
+    },
+    getMultiplesPopupContent:function(layers){
+      return _.template(templatePopupMultiple)({
+            layers:_.map(layers,function(layer){
+              var crgba = layer.color.colorToRgb() 
+              return {
+                label:layer.label,
+                color:layer.color,
+                fillColor: 'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)',
+                id:layer.id,
+                selected:this.model.get("selectedLayerId") === layer.id
+              }
+            },this)
+          })
+    },
     // event Handlers for view events
     resize : function (){
       //console.log('MapView.resize')
@@ -246,6 +294,15 @@ define([
         this.model.getMap().invalidateSize(animate)
       }
     },
+    
+    
+    onPopupClose:function(e){            
+      this.model.set("multipleTooltip",null)
+      this.$el.trigger('mapPopupClosed')  
+
+      
+    },
+    
     onZoomStart : function(e) {
 //      console.log('MapView.onZoomStart')
       // make sure map state really changed

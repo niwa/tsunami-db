@@ -29,7 +29,7 @@ define([
     update : function(){
       this.$('#color-attribute-selector').html(_.template(templateColorSelect)({
         options:_.map(
-          this.model.get("columnCollection").byAttribute("colorable").models,
+          this.model.get("columnCollection").byAttribute("colorable").byAttribute("multiples",0).models,
           function(column){
             return {
               value:column.id,

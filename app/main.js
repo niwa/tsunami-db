@@ -17,6 +17,7 @@ require.config({
     'bootstrap': 'libs/bootstrap',
     'leaflet': 'libs/leaflet-src', //gis
     'esri.leaflet' : 'libs/esri-leaflet-src',//gis
+    'leaflet.rrose' : 'libs/leaflet.rrose-src',//tooltip
     'templates': 'templates',//core
     "ga": "libs/ga"  
   },
@@ -30,6 +31,9 @@ require.config({
     'jquery.select2': {
       deps: ['jquery']
     },
+    'leaflet.rrose': {
+      deps: ['leaflet']
+    },    
     'esri.leaflet': {
       deps: ['leaflet']
     },    

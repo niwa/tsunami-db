@@ -50,6 +50,9 @@ define([
       homeLink : "homeLink",
       routeLink : "routeLink",
       
+      // own events
+      recordSelectMultiple: "recordSelectMultiple",
+      
       // filter events
       recordQuerySubmit : "recordQuerySubmit",
       
@@ -64,9 +67,10 @@ define([
       // map view events
       mapViewUpdated: "mapViewUpdated",            
       mapLayerClick: "mapLayerClick",
+      mapLayerSelect: "mapLayerSelect",
       mapLayerMouseOver: "mapLayerMouseOver",
       mapLayerMouseOut: "mapLayerMouseOut",     
-      
+      mapPopupClosed:"mapPopupClosed"
       
       
 
@@ -310,7 +314,8 @@ define([
                 layerCollection: that.model.getLayers(),
                 recordCollection: that.model.getRecords(),
                 mapConfig: that.model.getMapConfig(),
-                recordsUpdated:""
+                recordsUpdated:"",
+                multipleRecordsSelected:[]
               })
             })
             
@@ -651,18 +656,32 @@ define([
     
     
     setOutView : function(e,args){
+      this.views.out.model.set('multipleRecordsSelected',[])      
+      
       this.model.getRouter().queryUpdate({
         out : args.out_view
       })      
     },
-    recordSelect : function(e,args){
-      this.model.getRouter().update({
-        route:"record",
-        path:args.id        
-      })      
+    recordSelect : function(e,args){     
+      if (this.model.getSelectedRecordId() !== parseInt(args.id)){
+        this.model.getRouter().update({
+          route:"record",
+          path:args.id        
+        })
+      } else {
+        if (!args.keepSelected) {
+          this.$el.trigger('recordClose')                        
+        }
+      }      
     },    
     
+    recordSelectMultiple:function(e,args){
+      this.views.out.model.set('multipleRecordsSelected',args.records)
+    },
+    
     colorColumnChanged : function(e,args){
+      this.views.out.model.set('multipleRecordsSelected',[])      
+      
       this.model.getRouter().queryUpdate({
         colorby:args.column
       })      
@@ -687,14 +706,40 @@ define([
       // check if location a casestudy
       
       var layerId = args.layerId
-      if (layerId !== "") {
-        var layer = this.model.getLayers().get(layerId)
-        if (layer.get("isRecordLayer")) {
-          this.$el.trigger('recordSelect', { id: layerId })                
+      
+      if (layerId !== "") {        
+        // for now only handle record layer clicks
+        if (this.model.getLayers().get(layerId).get("isRecordLayer")) {          
+          //detect other records
+          var recordsOverlapping = this.model.getRecords().byXY(args.x,args.y)
+                    
+          if (recordsOverlapping.length > 1) {
+            this.$el.trigger('recordSelectMultiple', { records: recordsOverlapping })
+          }
+          
+          this.$el.trigger('recordSelect', { 
+            id: layerId,
+            keepSelected: recordsOverlapping.length > 1
+          })                
+          
         }          
       }          
     },
-    
+    mapLayerSelect : function(e,args){
+      // check if location a casestudy
+      
+      var layerId = args.layerId
+      
+      if (layerId !== "") {        
+        // for now only handle record layer clicks
+        if (this.model.getLayers().get(layerId).get("isRecordLayer")) {          
+          this.$el.trigger('recordSelect', { id: parseInt(layerId) })          
+        }          
+      }          
+    },
+    mapPopupClosed:function(){
+      this.views.out.model.set('multipleRecordsSelected',[])      
+    },
     // record events
     recordClose : function(e){    
       this.model.getRouter().update({
@@ -706,7 +751,8 @@ define([
     
     // filter events
     recordQuerySubmit : function(e,args){    
-      
+      this.views.out.model.set('multipleRecordsSelected',[])      
+
       // new query
       var q = {}      
       _.each(args.query,function(val,key){

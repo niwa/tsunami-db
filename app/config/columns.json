@@ -28,7 +28,6 @@
     "title":"Dating technique",
     "type":"categorical",    
     "multiples":1,
-    "colorable":1,
     "values":{
       "values":["Geological data","Historical data","No specific method"],      
       "colors":["#bf812d","#35978f","#969696"]
@@ -108,7 +107,7 @@
       "values":["Prehistoric BC","Prehistoric AD","Historical","Unusual/Unknown"],            
       "labels":["Prehistoric BC","Prehistoric AD","Historical","Unusual"],            
       "hints":["before 0","0 - 1800","1800 and later","Unknown"],      
-      "colors":["#225ea8","#41b6c4","#a1dab4","#969696"]      
+      "colors":["#225ea8","#41b6c4","#6bd28d","#969696"]      
     }
   },   
   {

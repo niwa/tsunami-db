@@ -29,6 +29,7 @@ define([
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
       this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
+      this.listenTo(this.model, "change:multipleRecordsSelected",this.multipleRecordsSelected)
     },
     render: function () {
       this.$el.html(_.template(template)({
@@ -105,13 +106,32 @@ define([
             config:this.model.getMapConfig(),
             layerCollection:this.model.getLayers(),
             columnCollection: this.model.get("columnCollection"),            
-            active: false
+            active: false,
+            multipleLayerPopup:[],
+            selectedLayerId: ""
           })              
         });   
         
         
       }
     },    
+    
+    multipleRecordsSelected:function(){
+      
+      this.views.map.model.set({
+        multipleLayerPopup:this.model.get("multipleRecordsSelected").length > 0 
+        ? _.map (this.model.get("multipleRecordsSelected").models,function(record){
+            return {
+              id: record.getLayer().id,
+              layer: record.getLayer().getMapLayerDirect(),
+              color: record.getColor(),
+              label: record.getTitle(),
+              selected:record.isSelected()
+            }
+          })
+        : []
+      })      
+    },
     updateTableView : function(activeRecords){    
       this.views.table.model.setCurrentRecords(activeRecords)       
       this.views.table.model.set("recordId",this.model.get("recordId"))      
@@ -120,6 +140,13 @@ define([
       
       this.views.map.model.setView(this.model.getActiveMapview())
       this.views.map.model.invalidateSize()
+      
+      this.views.map.model.set("selectedLayerId",
+        this.model.get("recordId") !== "" 
+        ? this.model.getRecords().get(this.model.get("recordId")).getLayer().id
+        : ""
+      )
+      
     },
     updateSelectedRecord:function(){
       this.updateViews()
