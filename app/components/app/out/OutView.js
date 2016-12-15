@@ -152,7 +152,10 @@ define([
       this.updateViews()
       var recordId = this.model.get("recordId")
       if (recordId !== "") {
-        this.model.getRecords().get(recordId).bringToFront()
+        var record = this.model.getRecords().get(recordId)
+        if (record.isActive()){
+          record.bringToFront()
+        }        
       }      
     },
     updateOutColorColumn:function(){
