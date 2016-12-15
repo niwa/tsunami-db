@@ -50,6 +50,9 @@ define([
       homeLink : "homeLink",
       routeLink : "routeLink",
       
+      // own events
+      recordSelectMultiple: "recordSelectMultiple",
+      
       // filter events
       recordQuerySubmit : "recordQuerySubmit",
       
@@ -66,7 +69,7 @@ define([
       mapLayerClick: "mapLayerClick",
       mapLayerMouseOver: "mapLayerMouseOver",
       mapLayerMouseOut: "mapLayerMouseOut",     
-      
+      mapPopupClosed:"mapPopupClosed"
       
       
 
@@ -310,7 +313,8 @@ define([
                 layerCollection: that.model.getLayers(),
                 recordCollection: that.model.getRecords(),
                 mapConfig: that.model.getMapConfig(),
-                recordsUpdated:""
+                recordsUpdated:"",
+                multipleRecordsSelected:[]
               })
             })
             
@@ -655,14 +659,20 @@ define([
         out : args.out_view
       })      
     },
-    recordSelect : function(e,args){
+    recordSelect : function(e,args){     
       this.model.getRouter().update({
         route:"record",
         path:args.id        
       })      
     },    
     
+    recordSelectMultiple:function(e,args){
+      this.views.out.model.set('multipleRecordsSelected',args.records)
+    },
+    
     colorColumnChanged : function(e,args){
+      this.views.out.model.set('multipleRecordsSelected',[])      
+      
       this.model.getRouter().queryUpdate({
         colorby:args.column
       })      
@@ -687,23 +697,24 @@ define([
       // check if location a casestudy
       
       var layerId = args.layerId
-      if (layerId !== "") {
-        var layer = this.model.getLayers().get(layerId)
-        if (layer.get("isRecordLayer")) {
-          
-          //detect other layers
-//          var recordsOverlapping = this.model.getRecords().byXY(args.x,args.y)
+      
+      if (layerId !== "") {        
+        // for now only handle record layer clicks
+        if (this.model.getLayers().get(layerId).get("isRecordLayer")) {          
+          //detect other records
           var recordsOverlapping = this.model.getRecords().byXY(args.x,args.y)
                     
           if (recordsOverlapping.length > 1) {
             this.$el.trigger('recordSelectMultiple', { records: recordsOverlapping })
-          } else {
+          } else {                        
             this.$el.trigger('recordSelect', { id: layerId })                
           }
         }          
       }          
     },
-    
+    mapPopupClosed:function(){
+      this.views.out.model.set('multipleRecordsSelected',[])      
+    },
     // record events
     recordClose : function(e){    
       this.model.getRouter().update({

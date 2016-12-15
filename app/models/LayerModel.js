@@ -44,6 +44,11 @@ define([
       console.log('data stored ' + this.id)              
       this.handleResult()
     },    
+    getMapLayerDirect : function(){      
+      if (this.isLoaded()){         
+        return this.attributes.mapLayer
+      }      
+    },
     getMapLayer : function(callback){      
       
       if (this.isLoaded()){   
@@ -100,10 +105,6 @@ define([
               
               var containerPoint = that.attributes.mapLayer._map.layerPointToContainerPoint(e.layerPoint)
       
-              console.log("layerPoint:" + e.layerPoint.x + " | " + e.layerPoint.y)
-              console.log("containerPoint:" + containerPoint.x + " | " + containerPoint.y)
-              
-              
               that.attributes.eventContext.trigger('mapLayerClick',{                
                 layerId: that.id,
                 latlng:e.latlng,
@@ -192,6 +193,9 @@ define([
       // only when not active already
       this.set('columnColor',color)      
       this.updateStyle()
+    },
+    getColor : function(){      
+      return this.attributes.columnColor      
     },
     updateStyle:function(){
       if (typeof this.attributes.parentLayer !== "undefined") {

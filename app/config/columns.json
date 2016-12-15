@@ -28,7 +28,6 @@
     "title":"Dating technique",
     "type":"categorical",    
     "multiples":1,
-    "colorable":1,
     "values":{
       "values":["Geological data","Historical data","No specific method"],      
       "colors":["#bf812d","#35978f","#969696"]

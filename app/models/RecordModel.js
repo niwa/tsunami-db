@@ -59,7 +59,15 @@ define([
       if (this.getLayer()){
         this.getLayer().setColor(color)      
       }
-    },    
+    },  
+    getColor : function(){      
+      return this.attributes.columnColor      
+    },   
+    
+    getTitle:function(){
+      return "Record " + this.id
+    },
+    
     isActive:function(){
       return this.attributes.active
     },
