@@ -83,6 +83,7 @@ define([
       //the layer model types
       this.layerModels = {
         geojson:  LayerModelGeoJson,
+        wfs:      LayerModelGeoJsonWFS,
         mapbox:   LayerModelMapboxTiles,
         esribase: LayerModelEsriBaselayer
       }
@@ -396,8 +397,9 @@ define([
       var that = this      
       if (typeof recordConfig !== "undefined") {
         $.ajax({
-          dataType: "json",
-          url: this.model.getBaseURL() + '/' + recordConfig.path,
+          dataType: "jsonp",
+          jsonpCallback:"parseResponse",
+          url: recordConfig.path,
           success: function(data) {
             console.log("success loading records data")          
             that.configureRecords(data)            
@@ -431,7 +433,7 @@ define([
                 _.extend (
                   {},
                   feature.properties,
-                  {featureAttributeMap:recordConfig.featureAttributeMap}
+                  {id:parseInt(feature.id.split('.')[1])}
                 )
               )
               if (typeof feature.geometry !== "undefined" && feature.geometry !== null) {
@@ -490,8 +492,9 @@ define([
       var that = this      
       
       $.ajax({
-        dataType: "json",
-        url: this.model.getBaseURL() + '/' + proxyConfig.path,
+        dataType: "jsonp",
+        jsonpCallback:"parseResponse",        
+        url: proxyConfig.path,
         success: function(data) {
           console.log("success loading proxies data")          
           that.configureProxies(data)            
@@ -539,8 +542,9 @@ define([
       var that = this      
       
       $.ajax({
-        dataType: "json",
-        url: this.model.getBaseURL() + '/' + refConfig.path,
+        dataType: "jsonp",
+        jsonpCallback:"parseResponse",        
+        url: refConfig.path,
         success: function(data) {
           console.log("success loading ref data")          
           that.configureReferences(data)            
@@ -562,8 +566,7 @@ define([
           return _.extend (
               {},
               feature.properties,
-              {id:feature.id.split('.')[1]},
-              {featureAttributeMap:refConfig.featureAttributeMap}
+              {id:parseInt(feature.id.split('.')[1])}
             )
         }),
         {
