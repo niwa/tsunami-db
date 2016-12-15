@@ -655,6 +655,8 @@ define([
     
     
     setOutView : function(e,args){
+      this.views.out.model.set('multipleRecordsSelected',[])      
+      
       this.model.getRouter().queryUpdate({
         out : args.out_view
       })      
@@ -706,9 +708,10 @@ define([
                     
           if (recordsOverlapping.length > 1) {
             this.$el.trigger('recordSelectMultiple', { records: recordsOverlapping })
-          } else {                        
-            this.$el.trigger('recordSelect', { id: layerId })                
           }
+          
+          this.$el.trigger('recordSelect', { id: layerId })                
+          
         }          
       }          
     },
@@ -726,7 +729,8 @@ define([
     
     // filter events
     recordQuerySubmit : function(e,args){    
-      
+      this.views.out.model.set('multipleRecordsSelected',[])      
+
       // new query
       var q = {}      
       _.each(args.query,function(val,key){

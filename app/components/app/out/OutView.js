@@ -107,7 +107,8 @@ define([
             layerCollection:this.model.getLayers(),
             columnCollection: this.model.get("columnCollection"),            
             active: false,
-            multipleLayerPopup:[]
+            multipleLayerPopup:[],
+            selectedLayerId: ""
           })              
         });   
         
@@ -124,7 +125,8 @@ define([
               id: record.getLayer().id,
               layer: record.getLayer().getMapLayerDirect(),
               color: record.getColor(),
-              label: record.getTitle()
+              label: record.getTitle(),
+              selected:record.isSelected()
             }
           })
         : []
@@ -138,6 +140,13 @@ define([
       
       this.views.map.model.setView(this.model.getActiveMapview())
       this.views.map.model.invalidateSize()
+      
+      this.views.map.model.set("selectedLayerId",
+        this.model.get("recordId") !== "" 
+        ? this.model.getRecords().get(this.model.get("recordId")).getLayer().id
+        : ""
+      )
+      
     },
     updateSelectedRecord:function(){
       this.updateViews()

@@ -38,6 +38,8 @@ define([
       this.listenTo(this.model, "change:layersUpdated",this.layersUpdated);
       this.listenTo(this.model, "change:multipleLayerPopup",this.multipleLayerPopup)
       
+      this.listenTo(this.model, "change:selectedLayerId", this.selectedLayerIdChanged);      
+      
 
 
     },
@@ -240,19 +242,10 @@ define([
       if(layers.length > 0){
         var anchorLayer = layers[0]                
         var multiple_tooltip = new L.Rrose({ offset: new L.Point(0,0), closeButton: false, autoPan: false })
-          .setContent(_.template(templatePopupMultiple)({
-            layers:_.map(layers,function(layer){
-              var crgba = layer.color.colorToRgb() 
-              return {
-                label:layer.label,
-                color:layer.color,
-                fillColor: 'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)',
-                id:layer.id
-              }
-            })
-          }))
+          .setContent(this.getMultiplesPopupContent(layers))
           .setLatLng(anchorLayer.layer.getLayers()[0].getLatLng())
           .openOn(map)
+        this.model.set("multipleTooltip",multiple_tooltip)
       } 
     },    
     layerSelect:function(e){
@@ -261,8 +254,27 @@ define([
         layerId: $(e.currentTarget).attr("data-layerid")
       })
     },
-
-
+    selectedLayerIdChanged:function(){      
+      var layers = this.model.get("multipleLayerPopup")
+      if(typeof this.model.get("multipleTooltip") !== "undefined"
+      && this.model.get("multipleTooltip") !== null){
+        this.model.get("multipleTooltip").setContent(this.getMultiplesPopupContent(layers))
+      }
+    },
+    getMultiplesPopupContent:function(layers){
+      return _.template(templatePopupMultiple)({
+            layers:_.map(layers,function(layer){
+              var crgba = layer.color.colorToRgb() 
+              return {
+                label:layer.label,
+                color:layer.color,
+                fillColor: 'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)',
+                id:layer.id,
+                selected:this.model.get("selectedLayerId") === layer.id
+              }
+            },this)
+          })
+    },
     // event Handlers for view events
     resize : function (){
       //console.log('MapView.resize')
@@ -285,7 +297,10 @@ define([
     
     
     onPopupClose:function(e){            
-      this.$el.trigger('mapPopupClosed')      
+      this.model.set("multipleTooltip",null)
+      this.$el.trigger('mapPopupClosed')  
+
+      
     },
     
     onZoomStart : function(e) {

@@ -159,3 +159,7 @@ a.leaflet-control-zoom-in{
 .leaflet-rrose-tip-sw {
     margin: 12px 11px 11px 32px; overflow: hidden;
 }
+
+.leaflet-rrose-content a.active{
+  font-weight:bold
+}

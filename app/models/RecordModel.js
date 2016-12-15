@@ -40,7 +40,9 @@ define([
         this.getLayer().setActive(active) 
       }
     },
-    
+    isSelected:function(){
+      return this.attributes.selected
+    },    
     setSelected : function(selected,anySelected){
       selected = typeof selected !== 'undefined' ? selected : true   
       anySelected = typeof anySelected !== 'undefined' ? anySelected : selected         
