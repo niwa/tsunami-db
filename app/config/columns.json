@@ -1,7 +1,7 @@
 [
   {
     "id":"id",    
-    "column":"event_id",    
+    "column":"id",    
     "title":"ID",
     "type":"id",      
     "default":1,
@@ -104,7 +104,7 @@
     "group":"time",    
     "default":1,
     "values":{      
-      "values":["Prehistoric BC","Prehistoric AD","Historical","Unusual/Unknown"],            
+      "values":["Prehistoric BP","Prehistoric AD","Historical","Unusual/Unknown"],            
       "labels":["Prehistoric BC","Prehistoric AD","Historical","Unusual"],            
       "hints":["before 0","0 - 1800","1800 and later","Unknown"],      
       "colors":["#225ea8","#41b6c4","#6bd28d","#969696"]      
@@ -123,8 +123,8 @@
     }    
   },
   {
-    "id":"date_inferred_min",
-    "queryColumn":"date_inferred_max",
+    "id":"inferred_date_range_min",
+    "queryColumn":"inferred_date_range_max",
     "title":"Date Inferred (min)",
     "type":"date",    
     "group":"time",    
@@ -136,8 +136,8 @@
     "blanks":1
   },
   {
-    "id":"date_inferred_max",
-    "queryColumn":"date_inferred_min",
+    "id":"inferred_date_range_max",
+    "queryColumn":"inferred_date_range_min",
     "title":"Date Inferred (max)",
     "type":"date",    
     "group":"time",    
