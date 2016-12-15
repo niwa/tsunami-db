@@ -202,6 +202,13 @@ define([
         i++
       }          
       return pass 
+    },    
+    passXY:function(x,y){
+      if(this.attributes.active && this.getLayer()){
+        return this.getLayer().includesXY(x,y)
+      } else {
+        return false
+      }
     }
   });
 

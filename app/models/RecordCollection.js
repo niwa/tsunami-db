@@ -50,6 +50,12 @@ define([
       this.selectedId = args.selectedId     
       
     },
+    byXY:function(x,y){
+      var filtered = this.filter(function(model){
+        return model.passXY(x,y)
+      })
+      return new RecordCollection(filtered);
+    },
     byQuery: function(query){
       var filtered = this.filter(function(model){
         return model.pass(query)

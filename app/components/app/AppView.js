@@ -690,7 +690,16 @@ define([
       if (layerId !== "") {
         var layer = this.model.getLayers().get(layerId)
         if (layer.get("isRecordLayer")) {
-          this.$el.trigger('recordSelect', { id: layerId })                
+          
+          //detect other layers
+//          var recordsOverlapping = this.model.getRecords().byXY(args.x,args.y)
+          var recordsOverlapping = this.model.getRecords().byXY(args.x,args.y)
+                    
+          if (recordsOverlapping.length > 1) {
+            this.$el.trigger('recordSelectMultiple', { records: recordsOverlapping })
+          } else {
+            this.$el.trigger('recordSelect', { id: layerId })                
+          }
         }          
       }          
     },

@@ -97,14 +97,45 @@ define([
           .off('click')
           .on('click',function(e){
             if (typeof that.attributes.eventContext !== "undefined") {
+              
+              var containerPoint = that.attributes.mapLayer._map.layerPointToContainerPoint(e.layerPoint)
+      
+              console.log("layerPoint:" + e.layerPoint.x + " | " + e.layerPoint.y)
+              console.log("containerPoint:" + containerPoint.x + " | " + containerPoint.y)
+              
+              
               that.attributes.eventContext.trigger('mapLayerClick',{                
-                layerId: that.id
+                layerId: that.id,
+                latlng:e.latlng,
+                x:containerPoint.x,
+                y:containerPoint.y,
+                event:e
               })              
             }
           })
       }      
     },
-    
+    // pixel coordinate relative to the map container
+    includesXY:function(x,y){
+      if (this.attributes.styleType === "marker" 
+        && typeof this.attributes.style.radius !== 'undefined'
+        && typeof this.attributes.mapLayer !== 'undefined') {
+  
+          // first get current projected center (xy-point)
+          var containerPointLayer = this.attributes.mapLayer._map.latLngToContainerPoint(
+            this.attributes.mapLayer.getLayers()[0].getLatLng()
+          )
+         
+          var dx = Math.abs(x - containerPointLayer.x)
+          var dy = Math.abs(y - containerPointLayer.y)
+                    
+          // now check if in circle
+          return (Math.pow(dx,2) + Math.pow(dy,2)) < Math.pow(this.attributes.style.radius,2)
+        
+      } else {
+        return false
+      }
+    },
     setParentLayer: function(parentLayer) {
       this.set("parentLayer",parentLayer)
     },
