@@ -12,22 +12,23 @@ define([
     },    
     loadContent : function (callback, selector){
       // default: could be overridden in specific model to apply specific content transformation
-//      var that = this
-//      $.ajax({
-//        dataType:this.getFormat(),
-//        url:this.getUrl(),
-//        success:function(content) {
-//      
-//        
-//          if (that.getFormat() === "xml") {
-//            callback(content)
-//          }
-//        },
-//        error: function(){
-//          console.log("error loading terms config")
-//        }
-//        
-//      })
+      var that = this
+      $.ajax({
+        dataType:this.getFormat(),
+        url:this.getUrl(),
+        success:function(content) {
+      
+        
+          if (that.getFormat() === "xml") {
+            callback(content)
+          }
+        },
+        error: function(){
+          callback("error loading content from " + that.getUrl())
+          console.log("error loading terms config")
+        }
+        
+      })
     },
     getFormat:function(){
       return "html"

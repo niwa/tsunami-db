@@ -30,7 +30,7 @@ define([
       if (this.model.hasActivePage()) {
         var that = this
         page.getContent(function(content){      
-          
+          that.$('.placeholder-content').html(content)
         })
       }
     },
