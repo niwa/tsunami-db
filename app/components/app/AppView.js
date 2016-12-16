@@ -6,6 +6,8 @@ define([
   './filters/FiltersView', './filters/FiltersModel',
   './record/RecordView', './record/RecordViewModel',
   './out/OutView', './out/OutModel',  
+  './page/PageView', './page/PageViewModel',  
+  'models/ContentCollection',  'models/PageModel',
   'models/RecordCollection',  'models/RecordModel',
   'models/ProxyCollection',
   'models/ReferenceCollection',
@@ -25,6 +27,8 @@ define([
   FiltersView, FiltersModel,
   RecordView, RecordViewModel,
   OutView, OutModel,
+  PageView, PageViewModel,
+  ContentCollection, PageModel,
   RecordCollection,RecordModel,
   ProxyCollection,
   ReferenceCollection,
@@ -48,7 +52,7 @@ define([
       // general navigation events
       resetApp : "resetApp",
       homeLink : "homeLink",
-      routeLink : "routeLink",
+      navLink : "navLink",
       
       // own events
       recordSelectMultiple: "recordSelectMultiple",
@@ -154,6 +158,7 @@ define([
           that.loadReferences() 
           that.loadProxies() 
           that.configureLayers() 
+          that.configurePages() 
         }
       )      
       waitFor(
@@ -180,6 +185,7 @@ define([
           that.updateFilters()
           that.updateRecord()
           that.updateOut() 
+          that.updatePage() 
           
         }
         
@@ -215,12 +221,28 @@ define([
 
     updateNav : function(){
       var componentId = '#nav'
-      this.views.nav = this.views.nav || new NavView({
-        el:this.$(componentId),
-        model:new NavModel({
-          labels:this.model.getLabels()             
-        })
-      });
+        var that = this
+        waitFor(
+          function(){
+            return that.model.configsLoaded()
+          },    
+          function(){            
+            that.views.nav = that.views.nav || new NavView({
+              el:that.$(componentId),
+              model:new NavModel({
+                labels:that.model.getLabels(),
+                navItems:that.model.getConfig().navitems,
+                route:that.model.getRoute(),
+                path:that.model.getPath()
+              })
+            });
+            
+            that.views.nav.model.set({
+              route:that.model.getRoute(),
+              path:that.model.getPath()
+            })
+          }
+        )
     },  
 
     updateFilters : function(){
@@ -318,17 +340,54 @@ define([
                 multipleRecordsSelected:[]
               })
             })
+            if (that.model.isComponentActive(componentId)) {
             
-            // update Records
-            that.updateRecords()  
-            
-            that.views.out.model.set({
-              recordsUpdated :  Date.now(),
-              outType:          that.model.getOutType(),
-              outColorColumn:   that.model.getOutColorColumn(),
-              mapView:          that.model.getActiveMapview(),
-              recordId :        that.model.getSelectedRecordId()
+              // update Records
+              that.updateRecords()  
+
+              that.views.out.model.setActive()
+              that.views.out.model.set({
+                recordsUpdated :  Date.now(),
+                outType:          that.model.getOutType(),
+                outColorColumn:   that.model.getOutColorColumn(),
+                mapView:          that.model.getActiveMapview(),
+                recordId :        that.model.getSelectedRecordId()
+              })
+            } else {
+              that.views.out.model.setActive(false)
+            }
+
+          }
+        )
+      
+      }      
+    },  
+    updatePage : function(){
+      var componentId = '#page'
+      if (this.$(componentId).length > 0) {     
+        // set records
+        var that = this
+        waitFor(
+          function(){
+            return that.model.pagesConfigured()
+          },    
+          function(){ 
+            that.views.page = that.views.page || new PageView({
+              el:that.$(componentId),
+              model:new PageViewModel({
+                labels:that.model.getLabels(),
+                pages: that.model.getPages()
+              })
             })
+            if (that.model.isComponentActive(componentId)) {
+                          
+              that.views.page.model.setActive()
+              that.views.page.model.set({
+                pageId:that.model.getPath()          
+              })
+            } else {
+              that.views.page.model.setActive(false)
+            }
 
           }
         )
@@ -354,6 +413,13 @@ define([
 
 
 
+    configurePages : function(){      
+      this.model.setPages(new ContentCollection(
+        _.where(this.model.getConfig().navitems,{route:"page"}), 
+        {model: PageModel}
+      ))
+      this.model.pagesConfigured(true)
+    },
     configureLayers : function(){      
       
       // read layers
@@ -628,30 +694,18 @@ define([
     
       this.model.getRouter().update({
         link:true,
-        route:'explore',
+        route:'db',
         path:'',
         query:{}
       })
     },
-    routeLink : function(e,args){
-      // check for route default layers
-      // current map layers
-      var activeLayers = this.model.getActiveLayerIds()
-      // optional layers to be added
-      var routeLayers = this.model.getOptionalLayerIdsByRoute(args.id)
-      // optional layers already there
-      var activeRouteLayers = _.intersection(activeLayers, routeLayers)
-
-      
+    navLink : function(e,args){      
       this.model.getRouter().update({
         link:true,
-        route:args.id,
-        path:'',
-        query:{
-          layers: activeRouteLayers.length !== routeLayers.length 
-            ? _.union(activeLayers, routeLayers)  
-            : routeLayers
-        }        
+        route:args.route,
+        path:args.id === "db" 
+          ? this.model.getLastDBPath()
+          : args.id
       })
       
     },
@@ -667,7 +721,7 @@ define([
     recordSelect : function(e,args){     
       if (this.model.getSelectedRecordId() !== parseInt(args.id)){
         this.model.getRouter().update({
-          route:"record",
+          route:"db",
           path:args.id        
         })
       } else {
@@ -745,7 +799,7 @@ define([
     // record events
     recordClose : function(e){    
       this.model.getRouter().update({
-        route:"explore",
+        route:"db",
         path:""        
       })
     

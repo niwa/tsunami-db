@@ -22,7 +22,8 @@ define([
       this.views = this.model.getViews()
       
       this.render()
-      
+
+      this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:mapInit", this.updateMapView);
       this.listenTo(this.model, "change:mapView", this.updateMapView);      
       this.listenTo(this.model, "change:outType", this.updateOutType);      
@@ -165,7 +166,15 @@ define([
     },
     toggleView:function(e){      
       this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      
-    }
+    },
+    
+    handleActive : function(){
+      if (this.model.isActive()) {
+        this.$el.show()        
+      } else {
+        this.$el.hide()
+      }
+    },    
   });
 
   return OutView;

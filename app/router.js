@@ -15,12 +15,10 @@ define([
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Default
-      '' : 'root', // root
-      '/' : 'root', // root
-      '!' : 'root', // 
-      '!/' : 'root', // 
-      '!/explore' : 'explore', // explore > all records
-      '!/record/*path' : 'record', // explore > single record
+      '(/)' : 'root', // root            
+      '!(/)' : 'root', // 
+      '!/page(/*path)' : 'page', // page    '
+      '!/db(/*path)' : 'db', // db > all or single record
 
     },
     resetApp : function(){
@@ -30,7 +28,7 @@ define([
     },
     goHome : function(){
       //console.log('router.goHome')               
-      this.navigate( '!/explore',{trigger:true, replace: true} )       
+      this.navigate( '!/db',{trigger:true, replace: true} )       
       
     },
     goToFragment : function(fragment) {
@@ -206,55 +204,18 @@ define([
       //console.log('router.root')             
         
         //console.log('start application on root')        
-        this.navigate( '!/explore',{trigger:true, replace: true} )    
+        this.navigate( '!/db',{trigger:true, replace: true} )    
     })
     
-    // explore
-    app.Router.on('route:explore', function (query) {
-      console.log('router.explore' )      
-      console.log('--- query ' + query )
-//      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
-
-        // set default query args if not set
-        query = query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
-        // set default output options if not set
-        if (typeof query.out === "undefined" || query.out === null || query.out === ""
-          || typeof query.colorby === "undefined" || query.colorby === null || query.colorby === "") {
-          if (typeof query.out === "undefined" || query.out === null || query.out === ""){
-            _.extend(query,{out:"map"})
-          }
-          if (typeof query.colorby === "undefined" || query.colorby === null || query.colorby === ""){
-            _.extend(query,{colorby:"validity"})
-          }
-          this.update({
-            route:"explore",
-            path:"",
-            query : query,
-            extendQuery:true,
-            trigger:true,
-            replace:true
-          })
-          
-        } else {      
-          app.model.setRoute({
-            route : 'explore',
-            path  : "",
-            query : query
-          })
-
-          if (typeof app.view === 'undefined') {
-            app.view = new AppView({model:app.model})
-          }
-        }
-    })
     // record
-    app.Router.on('route:record', function (recordid,query) {
-      console.log('router.record' )      
+    app.Router.on('route:db', function (recordid,query) {
+      console.log('router.db' )      
       console.log('--- recordid ' + recordid )
       console.log('--- query ' + query )
 //      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
 
       // set default path (filters) if not set
+        recordid = recordid !== null && typeof recordid !=='undefined' ? recordid : ""
         query = query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
         // set default output options if not set
         if (typeof query.out === "undefined" || query.out === null || query.out === ""
@@ -266,7 +227,7 @@ define([
             _.extend(query,{colorby:"validity"})
           }
           this.update({
-            route:"record",
+            route:"db",
             path:recordid,
             query : query,
             extendQuery:true,
@@ -277,8 +238,42 @@ define([
         } else {
         
           app.model.setRoute({
-            route : 'record',
+            route : 'db',
             path  : recordid,
+            query : query
+          })
+
+          if (typeof app.view === 'undefined') {
+            app.view = new AppView({model:app.model})
+          }
+        }
+    })
+    // page
+    app.Router.on('route:page', function (pageid,query) {
+      console.log('router.page' )      
+      console.log('--- pageid ' + pageid )
+      console.log('--- query ' + query )
+//      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
+
+      // set default path (filters) if not set
+        pageid = pageid !== null && typeof pageid !=='undefined' ? pageid : ""
+        query = query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
+        // set default output options if not set
+        if (pageid === "") {
+          this.update({
+            route:"db",
+            path:"",
+            query : query,
+            extendQuery:true,
+            trigger:true,
+            replace:true
+          }
+          )          
+        } else {
+        
+          app.model.setRoute({
+            route : 'page',
+            path  : pageid,
             query : query
           })
 
