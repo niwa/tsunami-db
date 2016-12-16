@@ -758,13 +758,13 @@ define([
       // new query
       var q = {}      
       _.each(args.query,function(val,key){
-        q["col_"+key] = val        
+        q["q_"+key] = val        
       })
       
       // old query
       var query = _.clone(this.model.getQuery())
       _.each(query,function(val,key){
-        if (key.startsWith("col_")) {
+        if (key.startsWith("q_")) {
           delete query[key]
         }
       })

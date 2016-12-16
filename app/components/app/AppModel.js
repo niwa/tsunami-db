@@ -79,11 +79,11 @@ define([
           dataType: "json",
           url: this.attributes.baseurl + '/' + this.attributes.config.columnGroups
         })
-      ).then(function (layers_json, map_json, col_json, colGroup_json) {                
+      ).then(function (layers_json, map_json, q_json, colGroup_json) {                
           //console.log("... success loading layer config")
           that.set("layersConfig",layers_json[0])  
           that.set("mapConfig",map_json[0])
-          that.set("columnConfig",col_json[0])        
+          that.set("columnConfig",q_json[0])        
           that.set("columnGroupConfig",colGroup_json[0])       
           that.set("configsLoaded",true)
       }, function(){
@@ -134,8 +134,8 @@ define([
       // prep column query
       var query = {}
       _.each(this.getQuery(),function(val,key){
-        if (key.startsWith("col_")){
-          query[key.replace("col_","")] = val
+        if (key.startsWith("q_")){
+          query[key.replace("q_","")] = val
         }
       })          
       return query

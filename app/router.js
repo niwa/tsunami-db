@@ -161,7 +161,7 @@ define([
   // query args
   // 
   //   - out: type of output view, one of "map", "table"
-  //   - col_[query]: column query, eg "col_elevation_below=100"
+  //   - q_[query]: column query, eg "q_elevation_below=100"
   //   "out=map" only
   //   - view: map view, "lat|lon|zoom||dimx|dimy"   
   //   - colorby: primary visualisation column used for marker colors
