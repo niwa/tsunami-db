@@ -39,33 +39,7 @@
     "title":"Geodating technique",
     "type":"categorical",    
     "multiples":1,
-    "blanks":1,
-    "values":{
-      "values":[
-        "Archaeological information",
-        "Cs137",
-        "Geochem",
-        "Trace element geochemistry",
-        "Dendrochronology",
-        "First appearance of a variety of exotic pollens",
-        "Optically Stimulated Luminescence",
-        "Radiocarbon",
-        "Sediment Accumulation Rates",
-        "Stratigraphic Correlation"        
-      ],      
-      "labels":[
-        "Archaeological information",
-        "Cs137",
-        "Geochem",
-        "Trace element geochemistry",
-        "Dendrochronology",
-        "First appearance of a variety of exotic pollens",
-        "Optically Stimulated Luminescence",
-        "Radiocarbon",
-        "Sediment Accumulation Rates",
-        "Stratigraphic Correlation"        
-      ]           
-    }
+    "blanks":1    
   },  
   {
     "id":"event_c",
