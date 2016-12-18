@@ -75,8 +75,15 @@ define([
     },
     
     bringToFront:function(){
+//      console.log("recordModel.brintofront " + this.id)
       if (this.getLayer()){
         this.getLayer().bringToFront()
+      }               
+    },    
+    centerMap:function(){
+//      console.log("recordModel.brintofront " + this.id)
+      if (this.getLayer()){
+        this.getLayer().centerMap()
       }               
     },    
     getColumnValue:function(column, formatted){
