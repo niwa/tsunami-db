@@ -162,6 +162,7 @@ define([
         var record = this.model.getRecords().get(recordId)
         if (record.isActive()){
           record.bringToFront()
+//          record.centerMap()
         }        
       }      
     },

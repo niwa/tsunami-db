@@ -273,6 +273,16 @@ define([
         }     
       }     
     },
+    
+    centerMap:function(){
+      if (typeof this.attributes.layerGroup !== "undefined") {
+        if(this.isActive()){            
+          this.getMapLayer(function(mapLayer){
+            mapLayer._map.panTo(mapLayer.getLayers()[0].getLatLng())
+          })
+        }     
+      }     
+    },
     getActiveTime : function(){
       return this.attributes.activeTime
     },    

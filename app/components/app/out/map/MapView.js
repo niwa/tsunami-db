@@ -176,7 +176,7 @@ define([
               && typeof currentView.west !== 'undefined'
               && typeof currentView.north !== 'undefined'
               && typeof currentView.east !== 'undefined') {
-          this._map.fitBounds(
+          _map.fitBounds(
             [
               [currentView.south,currentView.west],
               [currentView.north,currentView.east]            
@@ -271,6 +271,9 @@ define([
       && this.model.get("multipleTooltip") !== null){
         this.model.get("multipleTooltip").setContent(this.getMultiplesPopupContent(layers))
       }
+      
+      
+      
     },
     getMultiplesPopupContent:function(layers){
       return _.template(templatePopupMultiple)({

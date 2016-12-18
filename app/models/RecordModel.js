@@ -80,6 +80,12 @@ define([
         this.getLayer().bringToFront()
       }               
     },    
+    centerMap:function(){
+//      console.log("recordModel.brintofront " + this.id)
+      if (this.getLayer()){
+        this.getLayer().centerMap()
+      }               
+    },    
     getColumnValue:function(column, formatted){
       formatted = typeof formatted !== "undefined" ? formatted : false
       if (formatted) {
