@@ -75,8 +75,15 @@ define([
     },
     
     bringToFront:function(){
+//      console.log("recordModel.brintofront " + this.id)
       if (this.getLayer()){
         this.getLayer().bringToFront()
+      }               
+    },    
+    centerMap:function(){
+//      console.log("recordModel.brintofront " + this.id)
+      if (this.getLayer()){
+        this.getLayer().centerMap()
       }               
     },    
     getColumnValue:function(column, formatted){
@@ -138,8 +145,8 @@ define([
           case "categorical":
             if (this.attributes[col] === null) {
               return ""
-            } else {               
-              return this.attributes[col].split(",").join(", ")
+            } else {          
+              return _.map(this.attributes[col].split(","),function(val){return val.trim()}).join(", ")
             }
             break        
           case "quantitative":
