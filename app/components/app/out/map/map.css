@@ -163,3 +163,12 @@ a.leaflet-control-zoom-in{
 .leaflet-rrose-content a.active{
   font-weight:bold
 }
+
+/*
+.leaflet-rrose{
+    pointer-events: none;
+}
+
+.leaflet-rrose-content-wrapper {
+    pointer-events: all;
+}*/
