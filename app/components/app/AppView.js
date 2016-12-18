@@ -83,7 +83,6 @@ define([
       //the layer model types
       this.layerModels = {
         geojson:  LayerModelGeoJson,
-        wfs:      LayerModelGeoJsonWFS,
         mapbox:   LayerModelMapboxTiles,
         esribase: LayerModelEsriBaselayer
       }
