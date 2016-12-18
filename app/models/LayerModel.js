@@ -100,21 +100,49 @@ define([
       
         this.attributes.mapLayer
           .off('click')
-          .on('click',function(e){
-            if (typeof that.attributes.eventContext !== "undefined") {
-              
-              var containerPoint = that.attributes.mapLayer._map.layerPointToContainerPoint(e.layerPoint)
-      
-              that.attributes.eventContext.trigger('mapLayerClick',{                
-                layerId: that.id,
-                latlng:e.latlng,
-                x:containerPoint.x,
-                y:containerPoint.y,
-                event:e
-              })              
-            }
-          })
+          .on('click',_.bind(this.pointLayerClick,this))
+          .on('mouseover',_.bind(this.pointLayerMouseOver,this))
+//          .on('mousemove',_.bind(this.pointLayerMouseMove,this))
+          .on('mouseout',_.bind(this.pointLayerMouseOut,this))
       }      
+    },
+    pointLayerClick:function(e){
+      if (typeof this.attributes.eventContext !== "undefined") {
+         console.log("layer::pointLayerClick: " + this.id)
+
+        var containerPoint = this.attributes.mapLayer._map.layerPointToContainerPoint(e.layerPoint)
+
+        this.attributes.eventContext.trigger('pointLayerClick',{                
+          layerId: this.id,
+          latlng:e.latlng,
+          x:containerPoint.x,
+          y:containerPoint.y,
+          event:e
+        })              
+      }
+    },
+    pointLayerMouseOver:function(e){
+      if (typeof this.attributes.eventContext !== "undefined") {
+        console.log("layer::pointLayerMouseOver: " + this.id)
+        var containerPoint = this.attributes.mapLayer._map.layerPointToContainerPoint(e.layerPoint)
+         
+        this.attributes.eventContext.trigger('pointLayerMouseOver',{                
+          layerId: this.id,
+          latlng:e.latlng,
+          x:containerPoint.x,
+          y:containerPoint.y,
+          event:e
+        })              
+      }
+    },
+    pointLayerMouseOut:function(e){
+      console.log("layer::pointLayerMouseOut")
+      if (typeof this.attributes.eventContext !== "undefined") {
+        this.attributes.eventContext.trigger('pointLayerMouseOut',{                
+          layerId: this.id,
+          event:e
+        })              
+      }
     },
     // pixel coordinate relative to the map container
     includesXY:function(x,y){
@@ -131,17 +159,17 @@ define([
           var dy = Math.abs(y - containerPointLayer.y)
                     
           // now check if in circle
-          return (Math.pow(dx,2) + Math.pow(dy,2)) < Math.pow(this.attributes.style.radius,2)
+          return (Math.pow(dx,2) + Math.pow(dy,2)) <= Math.pow(this.attributes.style.radius+1,2)
         
       } else {
         return false
       }
     },
-    setParentLayer: function(parentLayer) {
-      this.set("parentLayer",parentLayer)
+    setLayerGroup: function(layerGroup) {
+      this.set("layerGroup",layerGroup)
     },
-    getParentLayer: function() {
-      return this.attributes.parentLayer
+    getLayerGroup: function() {
+      return this.attributes.layerGroup
     },
     addToMap:function(){
       this.setActive(true)
@@ -156,23 +184,24 @@ define([
     setActive : function(active){
       active = typeof active !== 'undefined' ? active : true   
       // only when not active already
-      if (!this.isActive()) {
-        this.set('activeTime',active ? Date.now() : false) 
-      }
+//      if (!this.isActive()) {
+//        this.set('activeTime',active ? Date.now() : false) 
+//      }
       this.set('active',active)      
       
-      if (typeof this.attributes.parentLayer !== "undefined") {
+      if (typeof this.attributes.layerGroup !== "undefined") {
         var that = this
       
         this.getMapLayer(function(mapLayer){
           
           if(that.isActive()){             
-            if (!that.attributes.parentLayer.hasLayer(mapLayer)) {
--              that.attributes.parentLayer.addLayer(mapLayer)
+            if (!that.attributes.layerGroup.hasLayer(mapLayer)) {
+              console.log("addLayer " + that.attributes.id)
+-             that.attributes.layerGroup.addLayer(mapLayer)
             }
           } else {
-            if (that.attributes.parentLayer.hasLayer(mapLayer)){
--              that.attributes.parentLayer.removeLayer(mapLayer)
+            if (that.attributes.layerGroup.hasLayer(mapLayer)){
+-              that.attributes.layerGroup.removeLayer(mapLayer)
             }
           }
         })
@@ -198,7 +227,7 @@ define([
       return this.attributes.columnColor      
     },
     updateStyle:function(){
-      if (typeof this.attributes.parentLayer !== "undefined") {
+      if (typeof this.attributes.layerGroup !== "undefined") {
         // first update based on selected column/attribute
         if (typeof this.attributes.columnColor !== "undefined") {
           _.extend(this.attributes.layerStyle,{
@@ -234,11 +263,14 @@ define([
     },
     
     bringToFront:function(){
-      if (typeof this.attributes.parentLayer !== "undefined") {
-      
-        this.getMapLayer(function(mapLayer){
-          mapLayer.bringToFront()
-        })
+      if (typeof this.attributes.layerGroup !== "undefined") {
+        if(this.isActive()){  
+          console.log("layerModel.brintofront " + this.id)
+          
+          this.getMapLayer(function(mapLayer){
+            mapLayer.bringToFront()
+          })
+        }     
       }     
     },
     getActiveTime : function(){

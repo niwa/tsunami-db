@@ -51,7 +51,7 @@ define([
       routeLink : "routeLink",
       
       // own events
-      recordSelectMultiple: "recordSelectMultiple",
+      recordsPopup: "recordsPopup",
       
       // filter events
       recordQuerySubmit : "recordQuerySubmit",
@@ -66,10 +66,16 @@ define([
       
       // map view events
       mapViewUpdated: "mapViewUpdated",            
+      
       mapLayerClick: "mapLayerClick",
-      mapLayerSelect: "mapLayerSelect",
       mapLayerMouseOver: "mapLayerMouseOver",
-      mapLayerMouseOut: "mapLayerMouseOut",     
+      mapLayerMouseOut: "mapLayerMouseOut",  
+      
+      pointLayerClick: "pointLayerClick",
+      pointLayerMouseOver: "pointLayerMouseOver",
+      pointLayerMouseOut: "pointLayerMouseOut",  
+      
+      mapLayerSelect: "mapLayerSelect",   
       mapPopupClosed:"mapPopupClosed"
       
       
@@ -305,6 +311,9 @@ define([
               && that.model.referencesConfigured()
           },    
           function(){ 
+            
+            console.log("updateOut")
+            
             that.views.out = that.views.out || new OutView({
               el:that.$(componentId),
               model:new OutModel({
@@ -315,7 +324,7 @@ define([
                 recordCollection: that.model.getRecords(),
                 mapConfig: that.model.getMapConfig(),
                 recordsUpdated:"",
-                multipleRecordsSelected:[]
+                recordsPopup:[]
               })
             })
             
@@ -658,31 +667,40 @@ define([
     
     
     setOutView : function(e,args){
-      this.views.out.model.set('multipleRecordsSelected',[])      
+      console.log("setOutView")   
+      this.views.out.model.set('recordsPopup',[]) ;  
       
       this.model.getRouter().queryUpdate({
         out : args.out_view
       })      
     },
     recordSelect : function(e,args){     
+      console.log("recordSelect")  
+      
       if (this.model.getSelectedRecordId() !== parseInt(args.id)){
         this.model.getRouter().update({
           route:"record",
           path:args.id        
         })
       } else {
-        if (!args.keepSelected) {
+        args.closeSelected = typeof args.closeSelected !== "undefined" ? args.closeSelected : true
+        if (args.closeSelected) {
           this.$el.trigger('recordClose')                        
         }
       }      
     },    
     
-    recordSelectMultiple:function(e,args){
-      this.views.out.model.set('multipleRecordsSelected',args.records)
+    recordsPopup:function(e,args){
+      console.log("recordsPopup ")  
+
+      this.views.out.model.set('recordsPopup',[]);   
+      this.views.out.model.set('recordsPopup',args.records);   
     },
     
     colorColumnChanged : function(e,args){
-      this.views.out.model.set('multipleRecordsSelected',[])      
+      console.log("colorColumnChanged")    
+      
+      this.views.out.model.set('recordsPopup',[]) ; 
       
       this.model.getRouter().queryUpdate({
         colorby:args.column
@@ -705,8 +723,11 @@ define([
       }      
     },
     mapLayerClick : function(e,args){
+      console.log("mapLayerClick")  
+    },
+    pointLayerClick : function(e,args){
       // check if location a casestudy
-      
+      console.log("pointLayerClick")
       var layerId = args.layerId
       
       if (layerId !== "") {        
@@ -715,33 +736,65 @@ define([
           //detect other records
           var recordsOverlapping = this.model.getRecords().byXY(args.x,args.y)
                     
-          if (recordsOverlapping.length > 1) {
-            this.$el.trigger('recordSelectMultiple', { records: recordsOverlapping })
-          }
-          
+          this.$el.trigger('recordsPopup', { 
+            records: recordsOverlapping 
+          });            
           this.$el.trigger('recordSelect', { 
             id: layerId,
-            keepSelected: recordsOverlapping.length > 1
+            closeSelected: true//recordsOverlapping.length === 1 // only if single record
           })                
           
         }          
       }          
     },
-    mapLayerSelect : function(e,args){
+    pointLayerMouseOver : function(e,args){
       // check if location a casestudy
-      
+      console.log("pointLayerMouseOver")
       var layerId = args.layerId
       
       if (layerId !== "") {        
         // for now only handle record layer clicks
+        if (this.model.getLayers().get(layerId).get("isRecordLayer")) { 
+          
+          if (this.pointLayerMouseOverLayerId !== layerId) {
+            this.pointLayerMouseOverLayerId = layerId
+            //detect other records            
+            this.$el.trigger('recordsPopup', { 
+              records: this.model.getRecords().byActive().byXY(args.x,args.y) 
+            }); 
+            
+          }  
+        }          
+      }          
+    },
+    pointLayerMouseOut : function(e,args){
+      // check if location a casestudy
+      this.pointLayerMouseOverLayerId = null
+      console.log("pointLayerMouseOut")
+
+       
+    },
+    mapLayerSelect : function(e,args){
+      // check if location a casestudy
+      console.log("mapLayerSelect")  
+      var layerId = args.layerId
+      
+      if (layerId !== "") {        
+        // for now only handle record layer clicks
+        
         if (this.model.getLayers().get(layerId).get("isRecordLayer")) {          
-          this.$el.trigger('recordSelect', { id: parseInt(layerId) })          
+          this.$el.trigger('recordSelect', { 
+            id: parseInt(layerId),
+            closeSelected: true          
+          })          
         }          
       }          
     },
     mapPopupClosed:function(){
-      this.views.out.model.set('multipleRecordsSelected',[])      
+      console.log("mapPopupClosed")  
+      
     },
+    
     // record events
     recordClose : function(e){    
       this.model.getRouter().update({
@@ -753,7 +806,9 @@ define([
     
     // filter events
     recordQuerySubmit : function(e,args){    
-      this.views.out.model.set('multipleRecordsSelected',[])      
+      console.log("recordQuerySubmit")    
+      
+      this.views.out.model.set('recordsPopup',[]) ; 
 
       // new query
       var q = {}      

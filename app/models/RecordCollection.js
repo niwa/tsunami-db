@@ -18,13 +18,14 @@ define([
       return new RecordCollection(filtered);         
     },
     updateActive:function(query){
-      this.each(function(model){
+      console.log("recordCollection.updateActive")      
+      _.each(_.clone(this.models).reverse(),function(model){
         model.setActive(model.pass(query))        
       })
     },
     updateRecords:function(args){
-      
-      this.each(function(model){
+      console.log("recordCollection.updateRecords")
+      _.each(_.clone(this.models).reverse(),function(model){
         // set active
         model.setActive(model.pass(args.query)) 
         
@@ -37,7 +38,6 @@ define([
           }
         }
         // set color
-//        if(args.colorColumn.id !== this.colorColumn.id) {
         if (model.isActive()){
           model.setColor(
             args.colorColumn.getColor(
@@ -45,9 +45,9 @@ define([
             )
           )                  
         }
-//        }
       })
       this.selectedId = args.selectedId     
+      
       
     },
     byXY:function(x,y){

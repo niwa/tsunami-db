@@ -20,7 +20,7 @@ define([
       "click .layer-select" : "layerSelect"
     },
     initialize : function(){
-      //console.log('MapView.initialize')
+      console.log('MapView.initialize')
       this.handleActive()  
 
       // set up an empty layer group for all our overlay and basemap layers
@@ -69,7 +69,7 @@ define([
     },
     // map configuration has been read
     configureMap : function(){
-      //console.log('MapView.configureMap')
+      console.log('MapView.configureMap')
 
       // set map options
       var config = this.model.getConfig()
@@ -98,13 +98,15 @@ define([
       
       
       // position map on current view
-//      this.updateMapView()
+      this.updateMapView()
       
-      
+      console.log('MapView.configureMap  mapConfigured')
       this.model.mapConfigured(true)
 
     },
     initLayerGroups: function (){
+      console.log('MapView.initLayerGroups')
+      
       var _map = this.model.getMap()
       var config = this.model.getConfig()
       
@@ -119,13 +121,13 @@ define([
       
       // set default layer group
       _.each(this.model.getLayers().models,function(layerModel){
-        layerModel.setParentLayer(this.model.getLayerGroup("default"))
+        layerModel.setLayerGroup(this.model.getLayerGroup("default"))
       },this)      
       // set specific layer groups
       _.each(config.layerGroups,function(conditions,id){        
         if (id !== "default") {
           _.each(this.model.getLayers().where(conditions), function(layerModel){
-            layerModel.setParentLayer(this.model.getLayerGroup(id))
+            layerModel.setLayerGroup(this.model.getLayerGroup(id))
             if (id === "base") {
               layerModel.addToMap()
             }
@@ -137,7 +139,7 @@ define([
     
    
     updateMapView : function(){
-//      console.log('MapView.updateMapView ')      
+      console.log('MapView.updateMapView ')      
       var currentView = this.model.getView()
       var _map = this.model.getMap()
       
@@ -236,25 +238,34 @@ define([
 
 
     multipleLayerPopup:function(){
+      console.log("MapView.multipleLayerPopup")
       var layers = this.model.get("multipleLayerPopup")
       var map = this.model.getMap()
       map.closePopup()      
+      console.log("multipleLayerPopup " +layers.length )
       if(layers.length > 0){
         var anchorLayer = layers[0]                
-        var multiple_tooltip = new L.Rrose({ offset: new L.Point(0,0), closeButton: false, autoPan: false })
-          .setContent(this.getMultiplesPopupContent(layers))
+        var multiple_tooltip = new L.Rrose({ 
+          offset: new L.Point(0,0), 
+          closeButton: false, 
+          autoPan: false 
+        }).setContent(this.getMultiplesPopupContent(layers))
           .setLatLng(anchorLayer.layer.getLayers()[0].getLatLng())
           .openOn(map)
         this.model.set("multipleTooltip",multiple_tooltip)
       } 
     },    
     layerSelect:function(e){
+      console.log("MapView.layerSelect")
+      console.log(this.model.attributes.multipleLayerPopup.length)
+
       e.preventDefault()
       this.$el.trigger('mapLayerSelect',{                
         layerId: $(e.currentTarget).attr("data-layerid")
       })
     },
-    selectedLayerIdChanged:function(){      
+    selectedLayerIdChanged:function(){  
+      console.log("MapView.selectedLayerIdChanged")    
       var layers = this.model.get("multipleLayerPopup")
       if(typeof this.model.get("multipleTooltip") !== "undefined"
       && this.model.get("multipleTooltip") !== null){
@@ -297,6 +308,7 @@ define([
     
     
     onPopupClose:function(e){            
+      console.log("MapView.onPopupClose")
       this.model.set("multipleTooltip",null)
       this.$el.trigger('mapPopupClosed')  
 

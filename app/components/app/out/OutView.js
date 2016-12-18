@@ -29,7 +29,7 @@ define([
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
       this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
-      this.listenTo(this.model, "change:multipleRecordsSelected",this.multipleRecordsSelected)
+      this.listenTo(this.model, "change:recordsPopup",this.recordsPopup)
     },
     render: function () {
       this.$el.html(_.template(template)({
@@ -43,10 +43,12 @@ define([
       this.initMapView()
       this.initTableView()
     },    
-    updateViews:function(){
+    updateViews:function(){      
+      console.log("OutView.updateView")      
       var activeRecords = this.model.getRecords().byActive()
       switch(this.model.getOutType()){
         case "map":
+          
           this.updateMapView()
           break
         case "table":
@@ -56,7 +58,7 @@ define([
       this.renderHeader(activeRecords)
     },
     updateOutType:function(){
-      
+      console.log("OutView.updateOuttype")
       switch(this.model.getOutType()){
         case "map":
           this.views.map.model.setActive()
@@ -95,10 +97,11 @@ define([
       }
     },    
     initMapView : function(){
+      console.log("OutView.initMapView")
+      
       var componentId = '#map'
       
       if (this.$(componentId).length > 0) {
-
         this.views.map = this.views.map || new MapView({
           el:this.$(componentId),
           model: new MapModel({
@@ -112,15 +115,17 @@ define([
           })              
         });   
         
+
         
       }
     },    
     
-    multipleRecordsSelected:function(){
-      
+    recordsPopup:function(){
+      console.log("OutView.recordsPopup ")
+
       this.views.map.model.set({
-        multipleLayerPopup:this.model.get("multipleRecordsSelected").length > 0 
-        ? _.map (this.model.get("multipleRecordsSelected").models,function(record){
+        multipleLayerPopup:this.model.get("recordsPopup").length > 0 
+        ? _.map (this.model.get("recordsPopup").models,function(record){
             return {
               id: record.getLayer().id,
               layer: record.getLayer().getMapLayerDirect(),
@@ -137,7 +142,7 @@ define([
       this.views.table.model.set("recordId",this.model.get("recordId"))      
     },
     updateMapView : function(){      
-      
+      console.log("OutView.updateMapView" )
       this.views.map.model.setView(this.model.getActiveMapview())
       this.views.map.model.invalidateSize()
       
@@ -146,9 +151,11 @@ define([
         ? this.model.getRecords().get(this.model.get("recordId")).getLayer().id
         : ""
       )
+//      this.recordsPopup()
       
     },
     updateSelectedRecord:function(){
+      console.log("OutView.updateSelectedRecord")
       this.updateViews()
       var recordId = this.model.get("recordId")
       if (recordId !== "") {
