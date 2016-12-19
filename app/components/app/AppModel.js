@@ -10,9 +10,11 @@ define([
       this.set("appConfigLoaded", false)
       this.set("configsLoaded",false)
       this.set("recordsConfigured",false)
+      this.set("pagesConfigured",false)
       this.set("referencesConfigured",false)
       this.set("proxiesConfigured",false)
       this.set("columnsConfigured",false)
+      this.set("lastDBPath","")
       
       var that = this
       
@@ -114,6 +116,9 @@ define([
     },
 		setRoute : function(route) {
 			// console.log('AppModel.setRoute')
+      if (route.route !== "db") {
+        this.set("lastDBPath",this.attributes.route.path)
+      }
 			this.set('route',{
 				route : route.route,
 				path : route.path,
@@ -126,6 +131,9 @@ define([
 		},
 		getPath : function (){
 			return this.attributes.route.path
+		},
+		getLastDBPath : function (){
+			return this.attributes.lastDBPath
 		},
 		getQuery : function (){
 			return this.attributes.route.query
@@ -157,16 +165,18 @@ define([
     isComponentActive : function(componentId) {
       
       // active components by route
-      var routeConditions = {        
-        explore: ['#filters'],       
-        record: ['#record'],       
+      var routeConditions = {
+        page:["#page"],
+        db:["#out"]
       }
       
       // component conditions
-      var componentConditions = {      
+      var componentConditions = {              
+        '#record': this.getRoute() === "db" && this.getPath() !== "",        
+        '#filters': this.getRoute() === "db" && this.getPath() === ""
       }
       
-      return (routeConditions[this.getRoute()].indexOf(componentId) >=0)
+      return (typeof routeConditions[this.getRoute()] !== 'undefined' && routeConditions[this.getRoute()].indexOf(componentId) >=0)
           || (typeof componentConditions[componentId] !== 'undefined' && componentConditions[componentId])            
       
     },
@@ -401,7 +411,7 @@ define([
       return this.getRecord(this.getSelectedRecordId())
     },
     getSelectedRecordId:function(){
-      return (this.attributes.route.route === 'record')
+      return (this.attributes.route.route === 'db' && this.attributes.route.path !== "")
         ? parseInt(this.attributes.route.path)
         : ''
     },
@@ -476,7 +486,27 @@ define([
       return this.attributes.columnGroupCollection
     },
     
-    
+    // PAGES ===================================================================
+    pagesConfigured : function(val){
+      if (typeof val !== 'undefined') {
+        this.set('pagesConfigured',val)
+      } else {
+        return this.attributes.pagesConfigured
+      }
+    },       
+    setPages : function(collection){
+      this.set('pages',collection)
+    },
+    getPages : function(){
+      return this.attributes.pages
+    },
+    getActivePage:function(){
+      if (this.getRoute() === 'page'){
+        return this.attributes.pages.findWhere({id:this.getPath()})
+      } else {
+        return null
+      }
+    },    
 	});
 
 

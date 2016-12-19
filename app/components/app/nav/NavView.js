@@ -10,45 +10,49 @@ define([
 
   var NavView = Backbone.View.extend({
     events : {
-      "click .intro-link" : "handleIntroLink",
       "click .home-link" : "handleHomeLink",
-      "click .page-link" : "handlePageLink"
+      "click .nav-link" : "handleNavLink"
     },
     initialize : function () {
       this.render()
       
-      this.listenTo(this.model, 'change:activePage', this.handleActivePage);      
+      this.listenTo(this.model, 'change:path', this.handleRouteChange); 
+      this.listenTo(this.model, 'change:route', this.handleRouteChange); 
     },
     render: function () {
-      this.$el.html(_.template(template)({t:this.model.getLabels()}))      
+      this.$el.html(_.template(template)({
+        t:this.model.getLabels(),
+        navitems:_.map(this.model.getNavItems(),function(item){
+          item.class = "" + 
+            item.route === this.model.getActiveRoute()
+            ? " active"
+            : ""
+          return item
+        },this)
+      }))      
       return this
     },
     //upstream
-    handleIntroLink : function (e) {
-      e.preventDefault()
-      this.$el.trigger('resetApp')
-      $('#navbar-collapse').collapse('hide')
-    },
     handleHomeLink : function (e) {
       e.preventDefault()      
       this.$el.trigger('homeLink')
       $('#navbar-collapse').collapse('hide')
     },
-    handlePageLink : function(e){
+    handleNavLink : function(e){
       e.preventDefault()
       e.stopPropagation()
-      this.$el.trigger('pageLinkClick',{target:e.target,id:$(e.target).data('pageid')})
+      this.$el.trigger('navLink',{
+        target:e.target,
+        id:$(e.target).data('id'),
+        route:$(e.target).data('route')
+      })
       $('#navbar-collapse').collapse('hide')
     },
 
     // downstream
 
-    handleActivePage: function () {
-      this.$('.page-link').removeClass('active');
-      if (typeof this.model.getActivePage() !== 'undefined') {
-        var navpageid = this.model.getActivePage().id
-        this.$('[data-pageid="' + navpageid + '"]').addClass('active');
-      }
+    handleRouteChange: function () {
+      this.render()
     }
   });
 

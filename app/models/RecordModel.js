@@ -145,8 +145,8 @@ define([
           case "categorical":
             if (this.attributes[col] === null) {
               return ""
-            } else {               
-              return this.attributes[col].split(",").join(", ")
+            } else {          
+              return _.map(this.attributes[col].split(","),function(val){return val.trim()}).join(", ")
             }
             break        
           case "quantitative":

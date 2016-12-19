@@ -8,13 +8,19 @@ define([
       this.options = options || {};
     },
     setActivePath : function (path) {
-      this.set('activePath', path)
+      this.set('path', path)
     },
-    setActivePage : function (page) {
-      this.set('activePage', page)
+    getActivePath : function (){
+      return this.attributes.path
+    },   
+    setActiveRoute : function (route) {
+      this.set('activeRoute', route)
     },
-    getActivePage : function (){
-      return this.attributes.activePage
+    getActiveRoute : function (){
+      return this.attributes.route
+    },   
+    getNavItems : function (){
+      return this.attributes.navItems
     },   
   });
   

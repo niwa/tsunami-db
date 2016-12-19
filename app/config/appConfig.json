@@ -4,6 +4,20 @@
   "columnGroups" : "app/config/columnGroups.json",
   "columns" : "app/config/columns.json",  
   "labels" : "app/config/labels.json",
+  "navitems" : [
+    {
+      "id":"db",
+      "route":"db",
+      "title":"Explore database"
+    },
+    {
+      "id":"palaeotsunami",
+      "route":"page",      
+      "title":"What is a palaeotsunami?",
+      "path": "//content.niwa.co.nz/content/resource_by_name/What%20is%20a%20palaeotsunami",
+      "format":"xml"
+    }
+  ],
   "records":{    
     "model": "geojson",    
     "path" : "//gs.niwa.co.nz/paleotsunami/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=paleotsunami:ptsunami_events&outputFormat=text/javascript",    
@@ -27,5 +41,5 @@
   },
   "references":{    
     "path" : "//gs.niwa.co.nz/paleotsunami/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=paleotsunami:ptsunami_references&outputFormat=text/javascript"   
-  }  
+  }
 }  
