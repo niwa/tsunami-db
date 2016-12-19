@@ -80,7 +80,8 @@ define([
       pointLayerMouseOut: "pointLayerMouseOut",  
       
       mapLayerSelect: "mapLayerSelect",   
-      mapPopupClosed:"mapPopupClosed"
+      mapPopupClosed:"mapPopupClosed",
+      mapOptionToggled:"mapOptionToggled"
       
       
 
@@ -360,6 +361,7 @@ define([
                 active:           true,
                 recordsUpdated :  Date.now(),
                 outType:          that.model.getOutType(),
+                outMapType:       that.model.getOutMapType(),
                 outColorColumn:   that.model.getOutColorColumn(),
                 mapView:          that.model.getActiveMapview(),
                 recordId :        that.model.getSelectedRecordId()
@@ -853,8 +855,20 @@ define([
       }          
     },
     mapPopupClosed:function(){
-      console.log("mapPopupClosed")  
+//      console.log("mapPopupClosed")  
       
+    },
+    
+    
+    mapOptionToggled:function(e,args){
+      this.model.getRouter().queryUpdate(
+        {
+          map:this.model.getOutMapType() !== args.option ? args.option : 'none'
+        },
+        true, // trigger
+        false, // replace
+        true // extend
+      )         
     },
     
     // record events

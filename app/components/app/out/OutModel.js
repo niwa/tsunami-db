@@ -13,6 +13,9 @@ define([
     getOutType:function(){
       return this.attributes.outType
     },  
+    getOutMapType:function(){
+      return this.attributes.outMapType
+    },  
     getOutColorColumn:function(){
       return this.attributes.outColorColumn
     },  

@@ -151,6 +151,9 @@ define([
     getOutType: function(){
       return this.attributes.route.query.out
     },
+    getOutMapType: function(){
+      return this.attributes.route.query.map
+    },
     getOutColor: function(){
       return this.attributes.route.query.colorby
     },

@@ -27,6 +27,7 @@ define([
       this.listenTo(this.model, "change:mapInit", this.updateMapView);
       this.listenTo(this.model, "change:mapView", this.updateMapView);      
       this.listenTo(this.model, "change:outType", this.updateOutType);      
+      this.listenTo(this.model, "change:outMapType", this.updateOutMapType);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
       this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
@@ -60,7 +61,7 @@ define([
       this.renderHeader(activeRecords)
     },
     updateOutType:function(){
-      console.log("OutView.updateOuttype")
+      console.log("OutView.updateOutType")
       switch(this.model.getOutType()){
         case "map":
           this.views.map.model.setActive()
@@ -72,8 +73,14 @@ define([
           this.updateTableView(this.model.getRecords().byActive())
           this.views.table.model.setActive()
           break
+        default:
+          break
       }
       this.renderHeader(this.model.getRecords().byActive())
+    },
+    updateOutMapType:function(){
+      console.log("OutView.updateOutMapType")
+      this.views.map.model.set("outType",this.model.getOutMapType())
     },
     renderHeader: function(activeRecords){
       this.$("nav").html(_.template(templateNav)({

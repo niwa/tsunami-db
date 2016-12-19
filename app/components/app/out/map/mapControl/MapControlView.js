@@ -15,8 +15,10 @@ define([
       "change #select-color-attribute" : "colorColumnChanged"
     },
     initialize : function () {      
+      this.handleActive()    
       
       this.render()
+      this.listenTo(this.model, "change:active",        this.handleActive);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);
       
     },
@@ -59,6 +61,14 @@ define([
     colorColumnChanged:function(e){      
       e.preventDefault()
       this.$el.trigger('colorColumnChanged',{column:$(e.target).val()})      
+    },
+    // event handlers for model change events
+    handleActive : function(){
+      if (this.model.isActive()) {
+        this.$el.show()    
+      } else {
+        this.$el.hide()
+      }
     },
     
     

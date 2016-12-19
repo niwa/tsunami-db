@@ -86,6 +86,9 @@ define([
     getOutColorColumn:function(){
       return this.attributes.outColorColumn
     }, 
+    getOutType:function(){
+      return this.attributes.outType
+    },     
   });
 
 

@@ -4,6 +4,7 @@ define([
   'esri.leaflet',
   'leaflet.rrose',
   './mapControl/MapControlView', './mapControl/MapControlModel',  
+  './mapPlot/mapPlotLat/MapPlotLatView', './mapPlot/MapPlotModel',  
   'text!./map.html',
   'text!./mapPopupMultipeRecords.html',
 ], function(
@@ -12,12 +13,14 @@ define([
   esriLeaflet,
   rrose,
   MapControlView, MapControlModel,    
+  MapPlotLatView, MapPlotModel,    
   template,
   templatePopupMultiple
 ){
   var MapView = Backbone.View.extend({
     events:{
-      "click .layer-select" : "layerSelect"
+      "click .layer-select" : "layerSelect",
+      "click .toggle-option" : "toggleOptionClick"
     },
     initialize : function(){
       console.log('MapView.initialize')
@@ -32,7 +35,8 @@ define([
       
       this.listenTo(this.model, "change:active",        this.handleActive);
       this.listenTo(this.model, "change:view",          this.handleViewUpdate);
-      this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);
+      this.listenTo(this.model, "change:outColorColumn",this.updateOutColorColumn);
+      this.listenTo(this.model, "change:outType",       this.updateOutType);
 
       this.listenTo(this.model, "change:invalidateSize",this.invalidateSize);      
       this.listenTo(this.model, "change:layersUpdated",this.layersUpdated);
@@ -48,9 +52,13 @@ define([
       console.log('MapView.render')      
       this.$el.html(_.template(template)({t:this.model.getLabels()}))
       this.configureMap()
-      this.initMapControlView()
+      this.initViews()
       return this
     },
+    initViews:function(){
+      this.initMapControlView()
+      this.initMapPlotLatView()
+    },        
     initMapControlView : function(){
       var componentId = '#map-control'
       
@@ -60,11 +68,51 @@ define([
           el:this.$(componentId),
           model: new MapControlModel({
             labels: this.model.getLabels(),
-            columnCollection:this.model.get("columnCollection")
+            columnCollection:this.model.get("columnCollection"),
+            active: false
           })              
         });           
       }
     },  
+    initMapPlotLatView : function(){
+      var componentId = '#map-plot-lat'
+      
+      if (this.$(componentId).length > 0) {
+
+        this.views.plotLat = this.views.plotLat || new MapPlotLatView({
+          el:this.$(componentId),
+          model: new MapPlotModel({
+            labels: this.model.getLabels(),
+            active: false
+          })              
+        });           
+      }
+    },  
+    updateOutType:function(){
+      console.log("OutView.updateOutType")
+      
+      this.$('#map-options button').removeClass('active')
+      this.$('#map-options [data-option="'+this.model.getOutType()+'"]').addClass('active')      
+      
+      switch(this.model.getOutType()){
+        case "control":
+          this.views.control.model.setActive()
+          this.views.plotLat.model.setActive(false)
+          this.$el.removeClass('full-width')
+          break
+        case "plot-lat":
+          this.views.plotLat.model.setActive()
+          this.views.control.model.setActive(false)
+          this.$el.removeClass('full-width')
+          break
+        default:
+          this.$el.addClass('full-width')
+          this.views.control.model.setActive(false)
+          this.views.plotLat.model.setActive(false)
+          break
+      }      
+      this.invalidateSize(true)
+    },
     updateOutColorColumn:function(){
       this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})    
     },
@@ -255,14 +303,7 @@ define([
         this.model.set("multipleTooltip",multiple_tooltip)
       } 
     },    
-    layerSelect:function(e){
-      console.log("MapView.layerSelect")
 
-      e.preventDefault()
-      this.$el.trigger('mapLayerSelect',{                
-        layerId: $(e.currentTarget).attr("data-layerid")
-      })
-    },
     updatePopupContent:function(){  
       console.log("MapView.selectedLayerIdChanged")    
       if(typeof this.model.get("multipleTooltip") !== "undefined"
@@ -377,6 +418,24 @@ define([
 
 
 
+
+
+    layerSelect:function(e){
+      console.log("MapView.layerSelect")
+
+      e.preventDefault()
+      this.$el.trigger('mapLayerSelect',{                
+        layerId: $(e.currentTarget).attr("data-layerid")
+      })
+    },
+
+    toggleOptionClick:function(e){
+      e.preventDefault()
+      
+      this.$el.trigger('mapOptionToggled',{                
+        option: $(e.currentTarget).attr("data-option")
+      })      
+    },
 
 
 
