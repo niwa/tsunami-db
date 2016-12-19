@@ -208,6 +208,14 @@ define([
       }
       
     },
+    setMouseOver : function(bool){
+      bool = typeof bool !== 'undefined' ? bool : true   
+      
+      // only when not active already
+      this.set('mouseOver',bool)      
+      this.updateStyle()
+
+    },
     setSelected : function(selected,anySelected){
       selected = typeof selected !== 'undefined' ? selected : true   
       anySelected = typeof anySelected !== 'undefined' ? anySelected : selected   
@@ -238,13 +246,19 @@ define([
         var that = this        
         this.getMapLayer(function(mapLayer){
           
-          if (that.isSelected()){
-           //set Selected Style            
-            mapLayer.setStyle(_.extend(
-              {},
-              that.attributes.layerStyle,
-              {fillOpacity:0.85,weight:1.5}
-            ))            
+          if (that.isSelected() || that.isMouseOver()){
+            if ((that.isSelected() && !that.isMouseOver())
+            || (!that.isSelected() && that.isMouseOver())){
+              //set Selected Style            
+               mapLayer.setStyle(_.extend(
+                 {},
+                 that.attributes.layerStyle,
+                 {fillOpacity:0.85,weight:1.5}
+               ))            
+            } else {
+              //setDefaultStyle
+              mapLayer.setStyle(that.attributes.layerStyle)
+            }
           } else {                        
             if(that.isAnySelected()){             
               //set Passive Style            
@@ -294,6 +308,9 @@ define([
     },      
     isSelected : function(){
       return this.attributes.selected
+    },      
+    isMouseOver : function(){
+      return this.attributes.mouseOver
     },      
     isAnySelected : function(){
       return this.attributes.anySelected

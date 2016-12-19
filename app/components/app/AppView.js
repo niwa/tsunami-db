@@ -346,7 +346,8 @@ define([
                 recordCollection: that.model.getRecords(),
                 mapConfig: that.model.getMapConfig(),
                 recordsUpdated:"",
-                recordsPopup:[]
+                recordsPopup:[],
+                recordMouseOverId :""
               })
             })
             if (that.model.isComponentActive(componentId)) {
@@ -354,8 +355,9 @@ define([
               // update Records
               that.updateRecords()  
 
-              that.views.out.model.setActive()
+//              that.views.out.model.setActive()
               that.views.out.model.set({
+                active:           true,
                 recordsUpdated :  Date.now(),
                 outType:          that.model.getOutType(),
                 outColorColumn:   that.model.getOutColorColumn(),
@@ -818,6 +820,9 @@ define([
             }); 
             
           }  
+          var record = this.model.getRecords().get(args.layerId)
+          this.views.out.model.set("recordMouseOverId",record.id) ; 
+          record.setMouseOver()     
         }          
       }          
     },
@@ -826,6 +831,9 @@ define([
       this.pointLayerMouseOverLayerId = null
       console.log("pointLayerMouseOut")
 
+      var record = this.model.getRecords().get(args.layerId)
+      this.views.out.model.set("recordMouseOverId","") ; 
+      record.setMouseOver(false)          
        
     },
     mapLayerSelect : function(e,args){

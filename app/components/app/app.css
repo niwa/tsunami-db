@@ -3,6 +3,11 @@
    ========================================================================== */
 
 
+a.hover {
+  text-decoration:underline
+}
+
+
 /* show-on-hover */
 .reveal-on-hover {
   position: relative;

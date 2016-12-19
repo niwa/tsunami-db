@@ -51,6 +51,24 @@ define([
       // only when not active already
       if (this.getLayer()){
         this.getLayer().setSelected(selected,anySelected) 
+        if (selected) {
+          this.bringToFront()
+        }        
+      }
+
+    },
+    isSelected:function(){
+      return this.attributes.mouseOver
+    },    
+    setMouseOver : function(bool){
+      bool = typeof bool !== 'undefined' ? bool : true   
+      this.set('mouseOver',bool)      
+      // only when not active already
+      if (this.getLayer()){
+        this.getLayer().setMouseOver(bool) 
+        if (bool) {
+          this.getLayer().bringToFront()
+        }
       }
 
     },
