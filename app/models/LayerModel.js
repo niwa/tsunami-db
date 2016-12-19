@@ -196,7 +196,7 @@ define([
           
           if(that.isActive()){             
             if (!that.attributes.layerGroup.hasLayer(mapLayer)) {
-              console.log("addLayer " + that.attributes.id)
+//              console.log("addLayer " + that.attributes.id)
 -             that.attributes.layerGroup.addLayer(mapLayer)
             }
           } else {
@@ -265,7 +265,7 @@ define([
     bringToFront:function(){
       if (typeof this.attributes.layerGroup !== "undefined") {
         if(this.isActive()){  
-          console.log("layerModel.brintofront " + this.id)
+//          console.log("layerModel.brintofront " + this.id)
           
           this.getMapLayer(function(mapLayer){
             mapLayer.bringToFront()
