@@ -36,9 +36,10 @@ define([
 
       this.listenTo(this.model, "change:invalidateSize",this.invalidateSize);      
       this.listenTo(this.model, "change:layersUpdated",this.layersUpdated);
-      this.listenTo(this.model, "change:multipleLayerPopup",this.multipleLayerPopup)
+      this.listenTo(this.model, "change:popupLayers",this.popupLayersUpdated)
       
-      this.listenTo(this.model, "change:selectedLayerId", this.selectedLayerIdChanged);      
+      this.listenTo(this.model, "change:selectedLayerId", this.updatePopupContent);      
+      this.listenTo(this.model, "change:mouseOverLayerId", this.updatePopupContent);      
       
 
 
@@ -237,19 +238,18 @@ define([
     },
 
 
-    multipleLayerPopup:function(){
-      console.log("MapView.multipleLayerPopup")
-      var layers = this.model.get("multipleLayerPopup")
+    popupLayersUpdated:function(){
+      console.log("MapView.popupLayers")
+      var layers = this.model.get("popupLayers")  
       var map = this.model.getMap()
       map.closePopup()      
-      console.log("multipleLayerPopup " +layers.length )
       if(layers.length > 0){
         var anchorLayer = layers[0]                
         var multiple_tooltip = new L.Rrose({ 
-          offset: new L.Point(0,0), 
+          offset: new L.Point(0,-4), 
           closeButton: false, 
           autoPan: false 
-        }).setContent(this.getMultiplesPopupContent(layers))
+        }).setContent(this.getMultiplesPopupContent())
           .setLatLng(anchorLayer.layer.getLayers()[0].getLatLng())
           .openOn(map)
         this.model.set("multipleTooltip",multiple_tooltip)
@@ -257,25 +257,21 @@ define([
     },    
     layerSelect:function(e){
       console.log("MapView.layerSelect")
-      console.log(this.model.attributes.multipleLayerPopup.length)
 
       e.preventDefault()
       this.$el.trigger('mapLayerSelect',{                
         layerId: $(e.currentTarget).attr("data-layerid")
       })
     },
-    selectedLayerIdChanged:function(){  
+    updatePopupContent:function(){  
       console.log("MapView.selectedLayerIdChanged")    
-      var layers = this.model.get("multipleLayerPopup")
       if(typeof this.model.get("multipleTooltip") !== "undefined"
       && this.model.get("multipleTooltip") !== null){
-        this.model.get("multipleTooltip").setContent(this.getMultiplesPopupContent(layers))
+        this.model.get("multipleTooltip").setContent(this.getMultiplesPopupContent())
       }
-      
-      
-      
-    },
-    getMultiplesPopupContent:function(layers){
+    },    
+    getMultiplesPopupContent:function(){
+      var layers = this.model.get("popupLayers")      
       return _.template(templatePopupMultiple)({
             layers:_.map(layers,function(layer){
               var crgba = layer.color.colorToRgb() 
@@ -284,7 +280,8 @@ define([
                 color:layer.color,
                 fillColor: 'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)',
                 id:layer.id,
-                selected:this.model.get("selectedLayerId") === layer.id
+                selected:this.model.get("selectedLayerId") === layer.id,
+                mouseOver:this.model.get("mouseOverLayerId") === layer.id
               }
             },this)
           })
