@@ -19,6 +19,9 @@ define([
     getOutColorColumn:function(){
       return this.attributes.outColorColumn
     },  
+    getOutPlotColumns:function(){
+      return this.attributes.outPlotColumns
+    },  
     getViews:function(){
       return this.attributes.views
     },  

@@ -79,6 +79,9 @@ define([
     getType : function(){
       return this.attributes.type
     },
+    getTitle : function(){
+      return this.attributes.title
+    },
     getColor:function(value){
       if(this.get("colorable") === 1) {
         value = value === null ? "null" : value

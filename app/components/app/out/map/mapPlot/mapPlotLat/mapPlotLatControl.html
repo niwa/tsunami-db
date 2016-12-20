@@ -1,0 +1,10 @@
+<form>
+<% _.each(columns,function(col){ %>
+  <div class="checkbox"> 
+    <label> 
+      <input class="select-column" data-columnid="<%= col.id %>" type="checkbox"<% if(col.active){ %> checked<% } %> > 
+        <%= col.title %>
+    </label> 
+  </div>
+<% }) %>
+</form>

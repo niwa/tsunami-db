@@ -1,16 +1,19 @@
 define([
   'jquery',  'underscore',  'backbone',
   'text!./mapPlotLat.html',
-  'text!./mapPlotLatPlot.html'
+  'text!./mapPlotLatPlot.html',
+  'text!./mapPlotLatControl.html'
 ], function (
   $, _, Backbone,
   template,
-  templatePlot
+  templatePlot,
+  templateControl
 ) {
 
   return Backbone.View.extend({
     events : {    
       "click .select-record" : "selectRecord",      
+      "change .select-column" : "selectColumn",      
       "mouseenter .select-record" : "mouseOverRecord",            
       "mouseleave .select-record" : "mouseOutRecord",            
     },
@@ -19,23 +22,38 @@ define([
       
       this.render()
       this.listenTo(this.model, "change:active",        this.handleActive);      
-      this.listenTo(this.model, "change:currentRecordCollection", this.update);      
+      this.listenTo(this.model, "change:currentRecordCollection", this.renderPlot);      
       this.listenTo(this.model, "change:selectedRecordId", this.selectedRecordUpdated);      
-      this.listenTo(this.model, "change:mouseOverRecordId", this.mouseOverRecordUpdated);      
+      this.listenTo(this.model, "change:mouseOverRecordId", this.mouseOverRecordUpdated);   
+      this.listenTo(this.model, "change:outPlotColumns",this.updateOutPlotColumns);
+      
       
     },
     render: function () {
-      this.$el.html(_.template(template)({
-        t:this.model.getLabels()
-      }))      
+      this.$el.html(template)     
+      this.renderControl()
       return this
     },
-    update : function(){
+    renderControl : function(){
+      this.$("#placeholder-control").html(_.template(templateControl)({
+        t:this.model.getLabels(),
+        columns : _.map(this.model.get("columnCollection").models,function(col){
+          return {
+            id:col.id,
+            title:col.getTitle(),
+            active:this.model.get("outPlotColumns").indexOf(col.id) > -1 
+          }
+        },this)
+      }))        
+    },
+    renderPlot : function(){
       var records = this.model.getCurrentRecords().models
       
       if (records.length > 0) {
       
-        var columns = this.model.get("columnCollection").models
+        var columns = _.reject(this.model.get("columnCollection").models,function(col){
+          return this.model.get("outPlotColumns").indexOf(col.id) === -1 
+        },this)
         var recordData = []
         var columnData = _.map(columns,function(col){
           return {
@@ -99,7 +117,7 @@ define([
     handleActive : function(){
       if (this.model.isActive()) {
         this.$el.show()   
-        this.update()
+        this.renderPlot()
       } else {
         this.$el.hide()
       }
@@ -116,7 +134,14 @@ define([
     },
     selectedRecordUpdated:function(){
       console.log("MapPlotLatView.selectedRecordUpdated")      
-      this.update()
+      this.renderPlot()
+    },    
+    
+    
+    updateOutPlotColumns:function(){
+      console.log("MapPlotLatView.updateOutPlotColumns")      
+      this.renderPlot()
+      this.renderControl()
     },    
     
     
@@ -132,6 +157,20 @@ define([
     
     
     
+    
+    selectColumn:function(e){      
+      e.preventDefault()
+      
+      var columns = []
+      
+      _.each(this.$("input.select-column"),function(col){
+        if($(col).is(':checked')){
+          columns.push($(col).attr("data-columnid"))
+        }
+      })
+      
+      this.$el.trigger('plotColumnsSelected',{columns:columns})      
+    },    
     
     selectRecord:function(e){      
       e.preventDefault()

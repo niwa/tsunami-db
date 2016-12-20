@@ -69,6 +69,7 @@ define([
       recordMouseOver: "recordMouseOver",
       recordMouseOut: "recordMouseOut",
       colorColumnChanged: "colorColumnChanged",
+      plotColumnsSelected: "plotColumnsSelected",
       
       // map view events
       mapViewUpdated: "mapViewUpdated",            
@@ -365,6 +366,7 @@ define([
                 outType:          that.model.getOutType(),
                 outMapType:       that.model.getOutMapType(),
                 outColorColumn:   that.model.getOutColorColumn(),
+                outPlotColumns:   that.model.getOutPlotColumns(),
                 mapView:          that.model.getActiveMapview(),
                 recordId :        that.model.getSelectedRecordId()
               })
@@ -764,6 +766,13 @@ define([
       
       this.model.getRouter().queryUpdate({
         colorby:args.column
+      })      
+    },    
+    plotColumnsSelected : function(e,args){
+      console.log("plotColumnsSelected")    
+            
+      this.model.getRouter().queryUpdate({
+        plot:args.columns
       })      
     },    
     

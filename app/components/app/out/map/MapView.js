@@ -38,6 +38,7 @@ define([
       this.listenTo(this.model, "change:active",        this.handleActive);
       this.listenTo(this.model, "change:view",          this.handleViewUpdate);
       this.listenTo(this.model, "change:outColorColumn",this.updateOutColorColumn);
+      this.listenTo(this.model, "change:outPlotColumns",this.updateOutPlotColumns);
       this.listenTo(this.model, "change:outType",       this.updateOutType);
 
       this.listenTo(this.model, "change:invalidateSize",this.invalidateSize);      
@@ -84,16 +85,17 @@ define([
       var componentId = '#map-plot-lat'
       
       if (this.$(componentId).length > 0) {
-
+        var plotColumns = this.model.get("columnCollection").byAttribute("plot")
         this.views.plotLat = this.views.plotLat || new MapPlotLatView({
           el:this.$(componentId),
           model: new MapPlotModel({
             labels: this.model.getLabels(),
-            columnCollection: this.model.get("columnCollection").byAttribute("plot"),            
+            columnCollection: plotColumns,            
             currentRecordCollection:[],
             mouseOverLayerId : "",
             selectedLayerId : "",
-            active: false
+            active: false,
+            outPlotColumns: _.pluck(plotColumns.models,"id")
           })              
         });           
       }
@@ -138,6 +140,13 @@ define([
     },
     updateOutColorColumn:function(){
       this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})  
+    },
+    updateOutPlotColumns:function(){
+      this.views.plotLat.model.set({outPlotColumns:
+        typeof this.model.getOutPlotColumns() !== "undefined" 
+        ? this.model.getOutPlotColumns()
+        : _.pluck(this.model.get("columnCollection").byAttribute("plot").models,"id")
+      })  
     },
     // map configuration has been read
     configureMap : function(){

@@ -157,7 +157,9 @@ define([
     getOutColor: function(){
       return this.attributes.route.query.colorby
     },
-
+    getOutPlotColumns: function(){
+      return this.attributes.route.query.plot      
+    },
     
     
 		appConfigured : function(){

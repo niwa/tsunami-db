@@ -29,6 +29,7 @@ define([
       this.listenTo(this.model, "change:outType", this.updateOutType);      
       this.listenTo(this.model, "change:outMapType", this.updateOutMapType);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
+      this.listenTo(this.model, "change:outPlotColumns", this.updateOutPlotColumns);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
       this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
       this.listenTo(this.model, "change:recordMouseOverId", this.updateMouseOverRecord);      
@@ -193,6 +194,9 @@ define([
     },
     updateOutColorColumn:function(){
       this.views.map.model.set("outColorColumn",this.model.getOutColorColumn())
+    },
+    updateOutPlotColumns:function(){
+      this.views.map.model.set("outPlotColumns",this.model.getOutPlotColumns())
     },
     toggleView:function(e){      
       this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      
