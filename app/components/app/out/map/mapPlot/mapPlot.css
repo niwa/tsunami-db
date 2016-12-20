@@ -9,3 +9,20 @@
   z-index: 1000;
   display: block;
 }
+
+
+.table-plot.table-plot-lat {
+    width: 100%;
+}
+
+.table-plot .key-color {
+  margin-right:0
+}
+
+.table-plot.table-plot-lat td.bars {
+  width:80%;
+}
+
+.list-plot-bar {
+  height: 5px;
+}

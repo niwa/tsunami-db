@@ -8,6 +8,12 @@ define([
       this.options = options || {};
       
     },  
+    setCurrentRecords : function(currentRecords){      
+      this.set('currentRecordCollection', currentRecords) // new active layers          
+    },          
+    getCurrentRecords : function(){      
+      return this.attributes.currentRecordCollection
+    },     
   });
   
 

@@ -22,11 +22,14 @@ define([
         searchable :      typeof this.attributes.searchable !== "undefined" ? this.attributes.searchable : 0,
         blanks :          typeof this.attributes.blanks !== "undefined" ? this.attributes.blanks : 0,
         multiples :       typeof this.attributes.multiples !== "undefined" ? this.attributes.multiples : 0,
+        plot :            typeof this.attributes.plot !== "undefined" ? this.attributes.plot : 0,
         values :          this.attributes.values || "auto",        
         combo:            typeof this.attributes.combo !== "undefined" ? this.attributes.combo : 0,
         comboColumnId:    this.attributes.comboColumnId || null,
         comboType:        this.attributes.comboType || null,
         comboFilter:      this.attributes.comboFilter || null,
+        plotMax:          this.attributes.plotMax || null,
+        plotColor:        this.attributes.plotColor || "#fff",
       })
       // set 
       this.set({
@@ -63,9 +66,12 @@ define([
       }
 
     },
-    getQueryColumn: function(type){
+    getQueryColumnByType: function(type){
       type = typeof type !== "undefined" ? type : "value"  
       return this.attributes.queryColumnByType[type]
+    },
+    getQueryColumn: function(){      
+      return this.attributes.queryColumn
     },
     getValues : function(){
       return this.attributes.values

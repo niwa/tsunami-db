@@ -10,6 +10,7 @@ define([
         this.mapAttributes(this.attributes.featureAttributeMap)
       }
       this.set('formatted',{})
+      this.set('selected',false)
 
     },
     mapAttributes:function(featureAttributeMap){
@@ -57,7 +58,7 @@ define([
       }
 
     },
-    isSelected:function(){
+    isMouseOver:function(){
       return this.attributes.mouseOver
     },    
     setMouseOver : function(bool){
@@ -203,12 +204,12 @@ define([
           var condition = query[key]
           
           // check min
-          if (key === columnModel.getQueryColumn("min")) {
+          if (key === columnModel.getQueryColumnByType("min")) {
             if(this.get(column) === null || this.get(column) < parseFloat(condition)) {
               pass = false
             }     
           // check max
-          } else if (key === columnModel.getQueryColumn("max")) {
+          } else if (key === columnModel.getQueryColumnByType("max")) {
             if(this.get(column) === null || this.get(column) > parseFloat(condition)) {
               pass = false
             }               

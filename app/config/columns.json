@@ -171,6 +171,9 @@
     "type":"quantitative",    
     "group":"details",        
     "blanks":1,
+    "plot":1,
+    "plotMax":20,
+    "plotColor":"#0483B0",
     "values":{      
       "stops":["min","max"],
       "color":["blue","red"]
@@ -198,6 +201,9 @@
     "group":"details",    
     "default":0,
     "blanks":1,
+    "plot":1,
+    "plotMax":1000,
+    "plotColor":"#50C6DD",
     "values":{      
       "stops":["min","max"],
       "color":["blue","red"]

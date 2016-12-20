@@ -1,0 +1,18 @@
+<table class="table-plot table-plot-lat"><tbody>
+  <% _.each(records,function(record){ %> 
+  <tr class="select-record <% if (record.selected) { %> active <% } %>"       
+       data-recordid="<%= record.id %>">
+    <td class="marker">
+      <span class="key-color" 
+            style="border-color:<%= record.marker_color %>;background-color:<%= record.marker_fillColor %>">             
+      </span>
+    </td>
+    <td class="bars">
+      <% _.each(columns,function(col,i){ %> 
+      <% var width = Math.max(Math.min(100,record.data[i]/Math.min(col.max,col.cap)*100),0) %> 
+      <div class="list-plot-bar" style="width: <%= width %>%;background-color:<%= col.color %>"></div>
+      <% }) %>          
+    </td>
+  </tr>
+  <% }) %>
+</tbody></table>

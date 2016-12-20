@@ -12,10 +12,9 @@ define([
     },    
     byActive: function(active){
       active = typeof active !== 'undefined' ? active : true         
-      var filtered = this.filter(function(model){
+      return new RecordCollection(this.filter(function(model){
         return model.isActive() === active
-      })
-      return new RecordCollection(filtered);         
+      }))   
     },
     updateActive:function(query){
       console.log("recordCollection.updateActive")      
@@ -51,17 +50,20 @@ define([
       
     },
     byXY:function(x,y){
-      var filtered = this.filter(function(model){
+      return new RecordCollection(this.filter(function(model){
         return model.passXY(x,y)
-      })
-      return new RecordCollection(filtered);
+      }));
     },
     byQuery: function(query){
-      var filtered = this.filter(function(model){
+      return new RecordCollection(this.filter(function(model){
         return model.pass(query)
-      })      
-      return new RecordCollection(filtered);         
-    },
+      }));         
+    },    
+    hasLocation: function(){
+      return new RecordCollection(this.reject(function(model){
+        return model.get('latitude') === null
+      }));         
+    },    
     getValuesForColumn:function(column){
       var values = []
       _.each(this.models,function(model){

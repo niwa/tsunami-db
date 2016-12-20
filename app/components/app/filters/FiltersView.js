@@ -91,8 +91,8 @@ define([
       switch (column.get("type")){
         case "quantitative":
         case "spatial":                    
-          var column_min = column.getQueryColumn("min")
-          var column_max = column.getQueryColumn("max")
+          var column_min = column.getQueryColumnByType("min")
+          var column_max = column.getQueryColumnByType("max")
 
           var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
             ? this.model.get("recQuery")[column_min]
@@ -115,8 +115,8 @@ define([
           }
           break;
         case "date" :
-          var column_min = column.getQueryColumn("min")
-          var column_max = column.getQueryColumn("max")
+          var column_min = column.getQueryColumnByType("min")
+          var column_max = column.getQueryColumnByType("max")
 
           var queryValue, column_id
           if (column_min !== null) {       
@@ -140,7 +140,7 @@ define([
           break;
         case "categorical":
         case "ordinal":
-          var column_id = column.getQueryColumn()
+          var column_id = column.getQueryColumnByType()
           var queryValue = typeof (this.model.get("recQuery")[column_id]) !== "undefined"
             ? this.model.get("recQuery")[column_id]
             : ""              

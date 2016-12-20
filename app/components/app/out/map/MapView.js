@@ -45,6 +45,7 @@ define([
       this.listenTo(this.model, "change:selectedLayerId", this.updatePopupContent);      
       this.listenTo(this.model, "change:mouseOverLayerId", this.updatePopupContent);      
       
+      this.listenTo(this.model, "change:currentRecordCollection", this.updateViews);      
 
 
     },
@@ -58,6 +59,9 @@ define([
     initViews:function(){
       this.initMapControlView()
       this.initMapPlotLatView()
+    },        
+    updateViews:function(){
+      this.updateMapPlotLatView()
     },        
     initMapControlView : function(){
       var componentId = '#map-control'
@@ -83,11 +87,16 @@ define([
           el:this.$(componentId),
           model: new MapPlotModel({
             labels: this.model.getLabels(),
+            columnCollection: this.model.get("columnCollection").byAttribute("plot"),            
+            currentRecordCollection:[],
             active: false
           })              
         });           
       }
     },  
+    updateMapPlotLatView:function(){
+      this.views.plotLat.model.setCurrentRecords(this.model.getCurrentRecords())
+    },
     updateOutType:function(){
       console.log("OutView.updateOutType")
       
@@ -114,7 +123,7 @@ define([
       this.invalidateSize(true)
     },
     updateOutColorColumn:function(){
-      this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})    
+      this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})  
     },
     // map configuration has been read
     configureMap : function(){

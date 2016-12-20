@@ -59,9 +59,7 @@ define([
     },
     byQueryColumn:function(queryColumn){
       return this.filter(function(model){
-        return model.getQueryColumn("value") === queryColumn
-          || model.getQueryColumn("min") === queryColumn
-          || model.getQueryColumn("max") === queryColumn
+        return model.getQueryColumn() === queryColumn          
       })[0]                        
     }
   });

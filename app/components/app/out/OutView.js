@@ -48,17 +48,17 @@ define([
     },    
     updateViews:function(){      
       console.log("OutView.updateView")      
-      var activeRecords = this.model.getRecords().byActive()
+      
       switch(this.model.getOutType()){
         case "map":
           
           this.updateMapView()
           break
         case "table":
-          this.updateTableView(activeRecords)     
+          this.updateTableView()     
           break
       }
-      this.renderHeader(activeRecords)
+      this.renderHeader()
     },
     updateOutType:function(){
       console.log("OutView.updateOutType")
@@ -70,19 +70,20 @@ define([
           break
         case "table":
           this.views.map.model.setActive(false)
-          this.updateTableView(this.model.getRecords().byActive())
+          this.updateTableView()
           this.views.table.model.setActive()
           break
         default:
           break
       }
-      this.renderHeader(this.model.getRecords().byActive())
+      this.renderHeader()
     },
     updateOutMapType:function(){
       console.log("OutView.updateOutMapType")
       this.views.map.model.set("outType",this.model.getOutMapType())
     },
-    renderHeader: function(activeRecords){
+    renderHeader: function(){
+      var activeRecords = this.model.getRecords().byActive()
       this.$("nav").html(_.template(templateNav)({
         active:this.model.getOutType(),
         record_no:typeof activeRecords !== "undefined" ? activeRecords.length : 0
@@ -147,13 +148,14 @@ define([
         : []
       })      
     },
-    updateTableView : function(activeRecords){    
-      this.views.table.model.setCurrentRecords(activeRecords)          
+    updateTableView : function(){    
+      this.views.table.model.setCurrentRecords(this.model.getRecords().byActive())          
     },
     updateMapView : function(){      
       console.log("OutView.updateMapView" )
       this.views.map.model.setView(this.model.getActiveMapview())
       this.views.map.model.invalidateSize()
+      this.views.map.model.setCurrentRecords(this.model.getRecords().byActive().hasLocation())      
       
     },
     updateSelectedRecord:function(){
