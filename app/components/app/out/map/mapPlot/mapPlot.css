@@ -26,3 +26,10 @@
 .list-plot-bar {
   height: 5px;
 }
+
+
+.table-plot tr.select-record.active,
+.table-plot tr.select-record:hover,
+.table-plot tr.select-record.hover {
+    background-color: #cacaca;
+}

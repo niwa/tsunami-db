@@ -10,7 +10,9 @@ define([
 
   return Backbone.View.extend({
     events : {    
-      "change " : "colorColumnChanged"
+      "click .select-record" : "selectRecord",      
+      "mouseenter .select-record" : "mouseOverRecord",            
+      "mouseleave .select-record" : "mouseOutRecord",            
     },
     initialize : function () {      
       this.handleActive()    
@@ -18,6 +20,8 @@ define([
       this.render()
       this.listenTo(this.model, "change:active",        this.handleActive);      
       this.listenTo(this.model, "change:currentRecordCollection", this.update);      
+      this.listenTo(this.model, "change:selectedRecordId", this.selectedRecordUpdated);      
+      this.listenTo(this.model, "change:mouseOverRecordId", this.mouseOverRecordUpdated);      
       
     },
     render: function () {
@@ -73,14 +77,16 @@ define([
               marker_color:record.getColor(),
               marker_fillColor:'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)',
               selected:record.isSelected(),
-              data: recordValues
+              data: recordValues,
+              id:record.id
             })
           }
         )
         
         this.$("#placeholder-plot").html(_.template(templatePlot)({
           records:recordData,
-          columns:columnData
+          columns:columnData,
+          anySelected:this.model.get("selectedLayerId") !== ""
         }))
       } else {
         this.$("#placeholder-plot").html("0 records with current filter settings")
@@ -99,7 +105,46 @@ define([
       }
     },
     
+    mouseOverRecordUpdated:function(){
+      console.log("MapPlotLatView.mouseOverRecordUpdated")            
+      var id = this.model.get("mouseOverRecordId")
+      this.$(".select-record").removeClass('hover')
+      if (id !== "") {
+        this.$(".select-record[data-recordid='"+id+"']").addClass('hover')
+      }       
+      
+    },
+    selectedRecordUpdated:function(){
+      console.log("MapPlotLatView.selectedRecordUpdated")      
+      this.update()
+    },    
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    selectRecord:function(e){      
+      e.preventDefault()
+      this.$el.trigger('recordSelect',{id:$(e.currentTarget).attr("data-recordid")})      
+    },    
+    mouseOverRecord:function(e){      
+      e.preventDefault()
+      this.$el.trigger('recordMouseOver',{id:$(e.currentTarget).attr("data-recordid")})      
+    },    
+    mouseOutRecord:function(e){      
+      e.preventDefault()
+      this.$el.trigger('recordMouseOut',{id:$(e.currentTarget).attr("data-recordid")})      
+    },    
   });
 
 });

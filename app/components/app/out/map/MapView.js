@@ -20,6 +20,8 @@ define([
   var MapView = Backbone.View.extend({
     events:{
       "click .layer-select" : "layerSelect",
+      "mouseenter .layer-select" : "layerMouseOver",
+      "mouseleave .layer-select" : "layerMouseOut",
       "click .toggle-option" : "toggleOptionClick"
     },
     initialize : function(){
@@ -42,8 +44,8 @@ define([
       this.listenTo(this.model, "change:layersUpdated",this.layersUpdated);
       this.listenTo(this.model, "change:popupLayers",this.popupLayersUpdated)
       
-      this.listenTo(this.model, "change:selectedLayerId", this.updatePopupContent);      
-      this.listenTo(this.model, "change:mouseOverLayerId", this.updatePopupContent);      
+      this.listenTo(this.model, "change:selectedLayerId", this.selectedLayerUpdated);      
+      this.listenTo(this.model, "change:mouseOverLayerId", this.mouseOverLayerUpdated);      
       
       this.listenTo(this.model, "change:currentRecordCollection", this.updateViews);      
 
@@ -89,6 +91,8 @@ define([
             labels: this.model.getLabels(),
             columnCollection: this.model.get("columnCollection").byAttribute("plot"),            
             currentRecordCollection:[],
+            mouseOverLayerId : "",
+            selectedLayerId : "",
             active: false
           })              
         });           
@@ -293,8 +297,14 @@ define([
         }
       )
     },
-
-
+    mouseOverLayerUpdated:function(){
+      this.updatePopupContent()
+      this.views.plotLat.model.set("mouseOverRecordId",this.model.get("mouseOverLayerId"))
+    },
+    selectedLayerUpdated:function(){
+      this.updatePopupContent()
+      this.views.plotLat.model.set("selectedRecordId",this.model.get("selectedLayerId"))
+    },
     popupLayersUpdated:function(){
       console.log("MapView.popupLayers")
       var layers = this.model.get("popupLayers")  
@@ -437,6 +447,15 @@ define([
         layerId: $(e.currentTarget).attr("data-layerid")
       })
     },
+    
+    layerMouseOver:function(e){      
+      e.preventDefault()
+      this.$el.trigger('mapLayerMouseOver',{id:$(e.currentTarget).attr("data-layerid")})      
+    },    
+    layerMouseOut:function(e){      
+      e.preventDefault()
+      this.$el.trigger('mapLayerMouseOut',{id:$(e.currentTarget).attr("data-layerid")})      
+    },      
 
     toggleOptionClick:function(e){
       e.preventDefault()

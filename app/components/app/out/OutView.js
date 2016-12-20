@@ -135,7 +135,7 @@ define([
 
       this.views.map.model.set({
         popupLayers:this.model.get("recordsPopup").length > 0 
-        ? _.map (this.model.get("recordsPopup").models,function(record){
+        ? _.map (this.model.get("recordsPopup"),function(record){
             return {
               id: record.getLayer().id,
               layer: record.getLayer().getMapLayerDirect(),
