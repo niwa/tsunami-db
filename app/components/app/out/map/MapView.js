@@ -99,7 +99,17 @@ define([
       }
     },  
     updateMapPlotLatView:function(){
-      this.views.plotLat.model.setCurrentRecords(this.model.getCurrentRecords())
+      if (typeof this.model.getCurrentRecords() !== "undefined") {
+        var ne = this.model.getMap().getBounds().getNorthEast()//.wrap()
+        var sw = this.model.getMap().getBounds().getSouthWest()//.wrap()
+        
+        this.views.plotLat.model.setCurrentRecords(this.model.getCurrentRecords().byBounds({
+          north:ne.lat,
+          east:ne.lng,
+          south:sw.lat,
+          west:sw.lng
+        }))
+      }
     },
     updateOutType:function(){
       console.log("OutView.updateOutType")
@@ -160,7 +170,7 @@ define([
       
       
       // position map on current view
-      this.updateMapView()
+//      this.updateMapView()
       
       console.log('MapView.configureMap  mapConfigured')
       this.model.mapConfigured(true)
@@ -225,7 +235,8 @@ define([
             if ( _map.getZoom() !== zoomUpdated
                   || this.roundDegrees(_map.getCenter().lat) !== currentView.center.lat
                   || this.roundDegrees(_map.getCenter().lng) !== currentView.center.lng) {
-              _map.setView(currentView.center, zoomUpdated,{animate:true})            
+              _map.setView(currentView.center, zoomUpdated,{animate:true})  
+
             }
           } else {
             // todo not sure about this one
@@ -250,7 +261,7 @@ define([
       } else {
         this.zoomToDefault()
       }
-
+      this.updateMapPlotLatView()
       this.triggerMapViewUpdated()
       
     },
@@ -293,7 +304,7 @@ define([
           return that.model.mapConfigured()
         },
         function(){
-          that.updateMapView()
+          that.updateMapView()          
         }
       )
     },

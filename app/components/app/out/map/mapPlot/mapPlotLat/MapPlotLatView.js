@@ -89,7 +89,7 @@ define([
           anySelected:this.model.get("selectedLayerId") !== ""
         }))
       } else {
-        this.$("#placeholder-plot").html("0 records with current filter settings")
+        this.$("#placeholder-plot").html("0 records with current zoom and filter settings")
       }
       
       

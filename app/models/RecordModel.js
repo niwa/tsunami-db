@@ -205,13 +205,38 @@ define([
           
           // check min
           if (key === columnModel.getQueryColumnByType("min")) {
-            if(this.get(column) === null || this.get(column) < parseFloat(condition)) {
-              pass = false
+            if (column === "longitude") {
+              if(this.get(column) === null) {
+                pass = false
+              } else {
+                var value = this.get(column) < 0 ? this.get(column) + 360 : this.get(column)
+                var condition = parseFloat(condition) < 0 ? parseFloat(condition) + 360 : parseFloat(condition)
+                if (value < condition) {
+                  pass = false
+                }
+              }
+            } else {
+              if(this.get(column) === null || this.get(column) < parseFloat(condition)) {
+                pass = false
+              }
             }     
           // check max
           } else if (key === columnModel.getQueryColumnByType("max")) {
-            if(this.get(column) === null || this.get(column) > parseFloat(condition)) {
-              pass = false
+            if (column === "longitude") {
+              if(this.get(column) === null) {
+                pass = false
+              } else {
+                var value = this.get(column) < 0 ? this.get(column) + 360 : this.get(column)
+                var condition = parseFloat(condition) < 0 ? parseFloat(condition) + 360 : parseFloat(condition)
+                
+                if (value > condition) {
+                  pass = false
+                }
+              }
+            } else {
+              if(this.get(column) === null || this.get(column) > parseFloat(condition)) {
+                pass = false
+              }               
             }               
           // check equality
           } else {            

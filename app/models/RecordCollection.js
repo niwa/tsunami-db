@@ -14,7 +14,7 @@ define([
       active = typeof active !== 'undefined' ? active : true         
       return new RecordCollection(this.filter(function(model){
         return model.isActive() === active
-      }))   
+      }),this.options)   
     },
     updateActive:function(query){
       console.log("recordCollection.updateActive")      
@@ -52,18 +52,33 @@ define([
     byXY:function(x,y){
       return new RecordCollection(this.filter(function(model){
         return model.passXY(x,y)
-      }));
+      }),this.options);
     },
     byQuery: function(query){
       return new RecordCollection(this.filter(function(model){
         return model.pass(query)
-      }));         
+      }),this.options);         
     },    
+    byBounds: function(bounds){
+      var lat_column = this.options.columns.get("lat")
+      var lng_column = this.options.columns.get("lng")
+      
+      var query = {}
+      
+      query[lat_column.getQueryColumnByType("min")] = bounds.south
+      query[lat_column.getQueryColumnByType("max")] = bounds.north
+      query[lng_column.getQueryColumnByType("min")] = bounds.west
+      query[lng_column.getQueryColumnByType("max")] = bounds.east
+      
+      return new RecordCollection(this.filter(function(model){
+        return model.pass(query)
+      }),this.options);       
+    },
     hasLocation: function(){
       return new RecordCollection(this.reject(function(model){
         return model.get('latitude') === null
-      }));         
-    },    
+      }),this.options);         
+    }, 
     getValuesForColumn:function(column){
       var values = []
       _.each(this.models,function(model){
