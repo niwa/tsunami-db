@@ -351,9 +351,10 @@ define([
                 layerCollection: that.model.getLayers(),
                 recordCollection: that.model.getRecords(),
                 mapConfig: that.model.getMapConfig(),
-                recordsUpdated:"",
+                recordsUpdated:0,
                 recordsPopup:[],
-                recordMouseOverId :""
+                recordMouseOverId :"",
+                geoQuery:{}
               })
             })
             if (that.model.isComponentActive(componentId)) {
@@ -370,7 +371,8 @@ define([
                 outColorColumn:   that.model.getOutColorColumn(),
                 outPlotColumns:   that.model.getOutPlotColumns(),
                 mapView:          that.model.getActiveMapview(),
-                recordId :        that.model.getSelectedRecordId()
+                recordId :        that.model.getSelectedRecordId(),
+                geoQuery:         that.model.getGeoQuery()
               })
             } else {
               that.views.out.model.setActive(false)
@@ -476,6 +478,7 @@ define([
       this.model.layersConfigured(true)
     },
     loadRecords : function(){      
+      console.log("loadRecords")
       
       var recordConfig = this.model.get("config").records
       var that = this      
@@ -496,6 +499,7 @@ define([
       }
     },      
     configureRecords : function(recordData) {
+      console.log("configureRecords")
       
       var recordConfig = this.model.get("config").records
       if (typeof recordConfig !== "undefined") {
@@ -548,13 +552,17 @@ define([
 
             that.model.setRecords(recordCollection)      
             that.model.recordsConfigured(true)
+            console.log("done... configureRecords")
+            
           }
         )
       }
     },    
     
 
-    configureColumns:function(){      
+    configureColumns:function(){    
+      console.log("configureColumns")
+      
       // store column groups
       this.model.setColumnGroups(new ColumnGroupCollection(this.model.get("columnGroupConfig")))
       // store and init columns
@@ -567,10 +575,13 @@ define([
       // store columns reference with record collection            
       this.model.getRecords().setColumns(this.model.get("columnCollection"))     
       this.model.columnsConfigured(true)
+      console.log("done... configureColumns")
+      
     },
     
     
     loadProxies : function(){      
+      console.log("loadProxies")
       
       var proxyConfig = this.model.get("config").proxies
       var that = this      
@@ -590,6 +601,7 @@ define([
       });
     },      
     configureProxies : function(proxyData) {
+      console.log("configureProxies")
       
       var proxyConfig = this.model.get("config").proxies
       
@@ -614,6 +626,8 @@ define([
         },    
         //then
         function(){ 
+          console.log("done... configureProxies")
+          
           that.model.getRecords().setProxies(that.model.getProxies()) 
           that.model.proxiesConfigured(true)  
         }        
@@ -621,7 +635,7 @@ define([
           
     },    
     loadReferences : function(){      
-      
+      console.log("loadReferencesa")          
       var refConfig = this.model.get("config").references
       var that = this      
       
@@ -640,7 +654,8 @@ define([
       });
     },      
     configureReferences : function(refData) {
-      
+      console.log("configureReferences")
+
       var refConfig = this.model.get("config").references
       
       var that = this
@@ -664,6 +679,8 @@ define([
         },    
         //then
         function(){ 
+          console.log("done... configureReferences")
+          
           that.model.getRecords().setReferences(that.model.getReferences())           
           that.model.referencesConfigured(true)   
         }        
