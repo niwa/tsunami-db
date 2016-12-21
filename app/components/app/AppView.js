@@ -84,7 +84,9 @@ define([
       
       mapLayerSelect: "mapLayerSelect",   
       mapPopupClosed:"mapPopupClosed",
-      mapOptionToggled:"mapOptionToggled"
+      mapOptionToggled:"mapOptionToggled",
+      
+      geoQuerySubmit:"geoQuerySubmit"
       
       
 
@@ -997,7 +999,26 @@ define([
         false // extend
       )      
     },
-
+    geoQuerySubmit:function(e,args){
+      var latColumn = this.model.getColumns().get("lat")
+      var lngColumn = this.model.getColumns().get("lng")      
+      
+      // new query
+      var query = {}
+      
+      query["q_"+latColumn.getQueryColumnByType("max")] = args.geoQuery.north.toString()
+      query["q_"+latColumn.getQueryColumnByType("min")] = args.geoQuery.south.toString()
+      query["q_"+lngColumn.getQueryColumnByType("max")] = args.geoQuery.east.toString()
+      query["q_"+lngColumn.getQueryColumnByType("min")] = args.geoQuery.west.toString()
+      
+      
+      this.model.getRouter().queryUpdate(
+        query,
+        true, // trigger
+        false, // replace
+        true // extend
+      )           
+    }
     
 
 

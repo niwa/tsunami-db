@@ -3,6 +3,7 @@ define([
   'leaflet',
   'esri.leaflet',
   'leaflet.rrose',
+  'leaflet.draw',  
   './mapControl/MapControlView', './mapControl/MapControlModel',  
   './mapPlot/mapPlotLat/MapPlotLatView', './mapPlot/MapPlotModel',  
   'text!./map.html',
@@ -12,6 +13,7 @@ define([
   leaflet,
   esriLeaflet,
   rrose,
+  ldraw,
   MapControlView, MapControlModel,    
   MapPlotLatView, MapPlotModel,    
   template,
@@ -57,8 +59,28 @@ define([
       console.log('MapView.render')      
       this.$el.html(_.template(template)({t:this.model.getLabels()}))
       this.configureMap()
-      this.initViews()
+      this.initViews()      
+      this.initDraw()      
       return this
+    },
+    initDraw : function(){
+      // Initialise the draw control and pass it the FeatureGroup of editable layers
+      var _map = this.model.getMap()
+      var drawControl = new L.Control.Draw({
+         draw: {
+             rectangle: true,
+             polyline: false,
+             polygon: false,
+             marker: false,
+             circle: false
+         },
+         edit: false                          
+      })
+      _map.addControl(drawControl)   
+      
+      
+      _map.on('draw:created', _.bind(this.onDrawCreated,this));
+      
     },
     initViews:function(){
       this.initMapControlView()
@@ -392,19 +414,19 @@ define([
           queryLayer = L.rectangle(
             L.latLngBounds(
               L.latLng(      
-                typeof geoQuery.south !== "undefined" ? parseInt(geoQuery.south) : -90,
+                typeof geoQuery.south !== "undefined" ? parseFloat(geoQuery.south) : -90,
                 typeof geoQuery.west !== "undefined" 
                   ? geoQuery.west < 0 
-                    ? parseInt(geoQuery.west) + 360
-                    : parseInt(geoQuery.west)
+                    ? parseFloat(geoQuery.west) + 360
+                    : parseFloat(geoQuery.west)
                   : 0
               ),
               L.latLng(
-                typeof geoQuery.north !== "undefined" ? parseInt(geoQuery.north) : 90,
+                typeof geoQuery.north !== "undefined" ? parseFloat(geoQuery.north) : 90,
                 typeof geoQuery.east !== "undefined" 
                     ? geoQuery.east < 0 
-                      ? parseInt(geoQuery.east) + 360
-                      : parseInt(geoQuery.east)
+                      ? parseFloat(geoQuery.east) + 360
+                      : parseFloat(geoQuery.east)
                     : 360
               )
             ),
@@ -553,6 +575,18 @@ define([
       })      
     },
 
+
+
+    onDrawCreated : function(e) {
+      this.$el.trigger('geoQuerySubmit',{
+        geoQuery: {
+          north:this.roundDegrees(e.layer.getBounds().getNorth()),
+          south:this.roundDegrees(e.layer.getBounds().getSouth()),
+          west:this.roundDegrees(e.layer.getBounds().getWest()),
+          east:this.roundDegrees(e.layer.getBounds().getEast())
+        }
+      })        
+    },
 
 
 
