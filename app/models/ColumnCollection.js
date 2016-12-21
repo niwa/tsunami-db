@@ -38,6 +38,12 @@ define([
         }
       },this)
     },
+    byType:function(type){
+      var filtered = this.filter(function(model){
+        return model.get("type") === type
+      })
+      return new ColumnCollection(filtered);  
+    },    
     byGroup:function(groupId){
       var filtered = this.filter(function(model){
         return model.get("group") === groupId

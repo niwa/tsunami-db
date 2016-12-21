@@ -49,6 +49,7 @@ define([
       this.listenTo(this.model, "change:mouseOverLayerId", this.mouseOverLayerUpdated);      
       
       this.listenTo(this.model, "change:currentRecordCollection", this.updateViews);      
+      this.listenTo(this.model, "change:geoQuery", this.updateGeoQuery);      
 
 
     },
@@ -193,7 +194,7 @@ define([
       
       // init layer groups
       var layerGroups = {}
-      _.each(config.layerGroups,function(group,id){        
+      _.each(config.layerGroups,function(conditions,id){        
         var layerGroup = new L.layerGroup()
         layerGroups[id] = layerGroup
         layerGroup.addTo(_map)        
@@ -366,6 +367,73 @@ define([
             },this)
           })
     },
+    
+    updateGeoQuery:function(){
+      var geoQuery = this.model.get("geoQuery")
+      var queryLayer = this.model.get("queryLayer")
+      var layerGroup = this.model.getLayerGroups()["default"]
+      
+      // remove layer from map
+      if (typeof queryLayer !== "undefined") {
+        if (layerGroup.hasLayer(queryLayer)){
+          layerGroup.removeLayer(queryLayer)
+        }
+      }
+      
+      // add layer from map if at least one boundary defined
+      if (typeof geoQuery !== "undefined") {
+        // have at least one undefined
+        if (typeof geoQuery.north !== "undefined" 
+        || typeof geoQuery.south !== "undefined" 
+        || typeof geoQuery.west !== "undefined" 
+        || typeof geoQuery.east !== "undefined" ) {
+          
+          
+          queryLayer = L.rectangle(
+            L.latLngBounds(
+              L.latLng(      
+                typeof geoQuery.south !== "undefined" ? parseInt(geoQuery.south) : -90,
+                typeof geoQuery.west !== "undefined" 
+                  ? geoQuery.west < 0 
+                    ? parseInt(geoQuery.west) + 360
+                    : parseInt(geoQuery.west)
+                  : 0
+              ),
+              L.latLng(
+                typeof geoQuery.north !== "undefined" ? parseInt(geoQuery.north) : 90,
+                typeof geoQuery.east !== "undefined" 
+                    ? geoQuery.east < 0 
+                      ? parseInt(geoQuery.east) + 360
+                      : parseInt(geoQuery.east)
+                    : 360
+              )
+            ),
+            this.model.getConfig().layerStyles.query
+          )
+          
+          layerGroup.addLayer(queryLayer)
+          queryLayer.bringToBack()
+          this.model.set("queryLayer",queryLayer)
+        }
+      }
+      
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // event Handlers for view events
     resize : function (){
       //console.log('MapView.resize')

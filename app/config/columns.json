@@ -255,8 +255,8 @@
     "id":"lat",
     "column":"latitude",
     "query":{
-      "min" : "lat_above",
-      "max" : "lat_below"
+      "min" : "south",
+      "max" : "north"
     },       
     "title":"Latitude (°)",
     "type":"spatial",    
@@ -267,8 +267,8 @@
     "id":"lng",
     "column":"longitude",
     "query":{
-      "min" : "lng_above",
-      "max" : "lng_below"
+      "min" : "west",
+      "max" : "east"
     },           
     "title":"Longitude (°)",
     "type":"spatial",    
@@ -357,8 +357,8 @@
   {
     "id":"source_lat",
     "query":{
-      "min" : "source_lat_above",
-      "max" : "source_lat_below"
+      "min" : "source_south",
+      "max" : "source_north"
     },       
     "title":"Source latitude (°)",
     "type":"spatial",    
@@ -369,8 +369,8 @@
     "id":"source_lng",
     "column":"source_lon",
     "query":{
-      "min" : "source_lng_above",
-      "max" : "source_lng_below"
+      "min" : "source_west",
+      "max" : "source_east"
     },      
     "title":"Source longitude (°)",
     "type":"spatial",    

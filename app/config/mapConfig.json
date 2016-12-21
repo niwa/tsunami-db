@@ -53,6 +53,13 @@
     }, 
     "raster" : {
       "opacity" : 1
+    },
+    "query" : {
+      "fillOpacity": 0,
+      "weight":1,
+      "opacity": 1,
+      "color":"#0483B0",
+      "dashArray":"5,5"
     }
   }        
 }  
