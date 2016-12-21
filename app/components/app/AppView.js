@@ -66,7 +66,10 @@ define([
       // out view events
       setOutView: "setOutView",
       recordSelect: "recordSelect",
+      recordMouseOver: "recordMouseOver",
+      recordMouseOut: "recordMouseOut",
       colorColumnChanged: "colorColumnChanged",
+      plotColumnsSelected: "plotColumnsSelected",
       
       // map view events
       mapViewUpdated: "mapViewUpdated",            
@@ -80,7 +83,8 @@ define([
       pointLayerMouseOut: "pointLayerMouseOut",  
       
       mapLayerSelect: "mapLayerSelect",   
-      mapPopupClosed:"mapPopupClosed"
+      mapPopupClosed:"mapPopupClosed",
+      mapOptionToggled:"mapOptionToggled"
       
       
 
@@ -128,6 +132,8 @@ define([
 
       // model change events
       this.listenTo(this.model, "change:route", this.routeChanged);
+      
+      
       
       $(window).on("resize", _.debounce(_.bind(this.resize, this), 100));
       this.checkWindowHeight()
@@ -360,7 +366,9 @@ define([
                 active:           true,
                 recordsUpdated :  Date.now(),
                 outType:          that.model.getOutType(),
+                outMapType:       that.model.getOutMapType(),
                 outColorColumn:   that.model.getOutColorColumn(),
+                outPlotColumns:   that.model.getOutPlotColumns(),
                 mapView:          that.model.getActiveMapview(),
                 recordId :        that.model.getSelectedRecordId()
               })
@@ -750,7 +758,7 @@ define([
       console.log("recordsPopup ")  
 
       this.views.out.model.set('recordsPopup',[]);   
-      this.views.out.model.set('recordsPopup',args.records);   
+      this.views.out.model.set('recordsPopup',args.records);   // models not collection
     },
     
     colorColumnChanged : function(e,args){
@@ -760,6 +768,13 @@ define([
       
       this.model.getRouter().queryUpdate({
         colorby:args.column
+      })      
+    },    
+    plotColumnsSelected : function(e,args){
+      console.log("plotColumnsSelected")    
+            
+      this.model.getRouter().queryUpdate({
+        plot:args.columns
       })      
     },    
     
@@ -793,7 +808,7 @@ define([
           var recordsOverlapping = this.model.getRecords().byXY(args.x,args.y)
                     
           this.$el.trigger('recordsPopup', { 
-            records: recordsOverlapping 
+            records: recordsOverlapping.models
           });            
           this.$el.trigger('recordSelect', { 
             id: layerId,
@@ -801,6 +816,39 @@ define([
           })                
           
         }          
+      }          
+    },
+    recordMouseOver : function(e,args){
+      // check if location a casestudy
+      console.log("recordMouseOver")
+      var recordId = args.id
+      
+      if (recordId !== "") {                
+        var record = this.model.getRecords().get(recordId)
+          
+        this.$el.trigger('recordsPopup', { 
+          records: [record] 
+        }); 
+
+        this.views.out.model.set("recordMouseOverId",recordId) ; 
+        record.setMouseOver()     
+      }          
+    },
+    recordMouseOut : function(e,args){
+      // check if location a casestudy
+      console.log("recordMouseOver")
+      var recordId = args.id
+      
+      if (recordId !== "") {                
+        var record = this.model.getRecords().get(recordId)
+          
+        this.$el.trigger('recordsPopup', { 
+          records: [] 
+        }); 
+            
+        this.views.out.model.set("recordMouseOverId","") ; 
+        record.setMouseOver(false)     
+
       }          
     },
     pointLayerMouseOver : function(e,args){
@@ -816,7 +864,7 @@ define([
             this.pointLayerMouseOverLayerId = layerId
             //detect other records            
             this.$el.trigger('recordsPopup', { 
-              records: this.model.getRecords().byActive().byXY(args.x,args.y) 
+              records: this.model.getRecords().byActive().byXY(args.x,args.y).models
             }); 
             
           }  
@@ -832,6 +880,30 @@ define([
       console.log("pointLayerMouseOut")
 
       var record = this.model.getRecords().get(args.layerId)
+      this.views.out.model.set("recordMouseOverId","") ; 
+      record.setMouseOver(false)          
+       
+    },
+    mapLayerMouseOver : function(e,args){
+      // check if location a casestudy
+      console.log("mapLayerMouseOver")
+      var layerId = args.id
+      
+      if (layerId !== "") {        
+        // for now only handle record layer clicks
+        if (this.model.getLayers().get(layerId).get("isRecordLayer")) { 
+          
+          var record = this.model.getRecords().get(args.id)
+          this.views.out.model.set("recordMouseOverId",record.id) ; 
+          record.setMouseOver()     
+        }          
+      }          
+    },
+    mapLayerMouseOut : function(e,args){
+      // check if location a casestudy
+      console.log("mapLayerMouseOut")
+
+      var record = this.model.getRecords().get(args.id)
       this.views.out.model.set("recordMouseOverId","") ; 
       record.setMouseOver(false)          
        
@@ -853,8 +925,20 @@ define([
       }          
     },
     mapPopupClosed:function(){
-      console.log("mapPopupClosed")  
+//      console.log("mapPopupClosed")  
       
+    },
+    
+    
+    mapOptionToggled:function(e,args){
+      this.model.getRouter().queryUpdate(
+        {
+          map:this.model.getOutMapType() !== args.option ? args.option : 'none'
+        },
+        true, // trigger
+        false, // replace
+        true // extend
+      )         
     },
     
     // record events

@@ -86,6 +86,18 @@ define([
     getOutColorColumn:function(){
       return this.attributes.outColorColumn
     }, 
+    getOutPlotColumns:function(){
+      return this.attributes.outPlotColumns
+    },  
+    getOutType:function(){
+      return this.attributes.outType
+    },     
+    setCurrentRecords : function(currentRecords){      
+      this.set('currentRecordCollection', currentRecords) // new active layers          
+    },          
+    getCurrentRecords : function(){      
+      return this.attributes.currentRecordCollection
+    },    
   });
 
 

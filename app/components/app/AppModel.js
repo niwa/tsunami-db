@@ -136,7 +136,7 @@ define([
 			return this.attributes.lastDBPath
 		},
 		getQuery : function (){
-			return this.attributes.route.query
+			return _.clone(this.attributes.route.query)
 		},
     getRecordQuery:function(){
       // prep column query
@@ -151,10 +151,15 @@ define([
     getOutType: function(){
       return this.attributes.route.query.out
     },
+    getOutMapType: function(){
+      return this.attributes.route.query.map
+    },
     getOutColor: function(){
       return this.attributes.route.query.colorby
     },
-
+    getOutPlotColumns: function(){
+      return this.attributes.route.query.plot      
+    },
     
     
 		appConfigured : function(){

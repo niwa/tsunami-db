@@ -27,7 +27,9 @@ define([
       this.listenTo(this.model, "change:mapInit", this.updateMapView);
       this.listenTo(this.model, "change:mapView", this.updateMapView);      
       this.listenTo(this.model, "change:outType", this.updateOutType);      
+      this.listenTo(this.model, "change:outMapType", this.updateOutMapType);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
+      this.listenTo(this.model, "change:outPlotColumns", this.updateOutPlotColumns);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
       this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
       this.listenTo(this.model, "change:recordMouseOverId", this.updateMouseOverRecord);      
@@ -47,20 +49,20 @@ define([
     },    
     updateViews:function(){      
       console.log("OutView.updateView")      
-      var activeRecords = this.model.getRecords().byActive()
+      
       switch(this.model.getOutType()){
         case "map":
           
           this.updateMapView()
           break
         case "table":
-          this.updateTableView(activeRecords)     
+          this.updateTableView()     
           break
       }
-      this.renderHeader(activeRecords)
+      this.renderHeader()
     },
     updateOutType:function(){
-      console.log("OutView.updateOuttype")
+      console.log("OutView.updateOutType")
       switch(this.model.getOutType()){
         case "map":
           this.views.map.model.setActive()
@@ -69,13 +71,20 @@ define([
           break
         case "table":
           this.views.map.model.setActive(false)
-          this.updateTableView(this.model.getRecords().byActive())
+          this.updateTableView()
           this.views.table.model.setActive()
           break
+        default:
+          break
       }
-      this.renderHeader(this.model.getRecords().byActive())
+      this.renderHeader()
     },
-    renderHeader: function(activeRecords){
+    updateOutMapType:function(){
+      console.log("OutView.updateOutMapType")
+      this.views.map.model.set("outType",this.model.getOutMapType())
+    },
+    renderHeader: function(){
+      var activeRecords = this.model.getRecords().byActive()
       this.$("nav").html(_.template(templateNav)({
         active:this.model.getOutType(),
         record_no:typeof activeRecords !== "undefined" ? activeRecords.length : 0
@@ -127,7 +136,7 @@ define([
 
       this.views.map.model.set({
         popupLayers:this.model.get("recordsPopup").length > 0 
-        ? _.map (this.model.get("recordsPopup").models,function(record){
+        ? _.map (this.model.get("recordsPopup"),function(record){
             return {
               id: record.getLayer().id,
               layer: record.getLayer().getMapLayerDirect(),
@@ -140,13 +149,14 @@ define([
         : []
       })      
     },
-    updateTableView : function(activeRecords){    
-      this.views.table.model.setCurrentRecords(activeRecords)          
+    updateTableView : function(){    
+      this.views.table.model.setCurrentRecords(this.model.getRecords().byActive())          
     },
     updateMapView : function(){      
       console.log("OutView.updateMapView" )
       this.views.map.model.setView(this.model.getActiveMapview())
       this.views.map.model.invalidateSize()
+      this.views.map.model.setCurrentRecords(this.model.getRecords().byActive().hasLocation())      
       
     },
     updateSelectedRecord:function(){
@@ -184,6 +194,9 @@ define([
     },
     updateOutColorColumn:function(){
       this.views.map.model.set("outColorColumn",this.model.getOutColorColumn())
+    },
+    updateOutPlotColumns:function(){
+      this.views.map.model.set("outPlotColumns",this.model.getOutPlotColumns())
     },
     toggleView:function(e){      
       this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      

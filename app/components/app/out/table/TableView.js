@@ -15,8 +15,7 @@ define([
   return Backbone.View.extend({
     events : {
       "click .expand-all": "expandAll",
-      "click .select-record" : "selectRecord",      
-//      "mouseover .select-record" : "selectRecord",      
+      "click .select-record" : "selectRecord"
     },
     initialize : function () {
       this.handleActive()    

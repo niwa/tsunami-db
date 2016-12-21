@@ -13,11 +13,7 @@ a.hover {
   position: relative;
 }
 .reveal-on-hover:hover .hide-on-hover, 
-.reveal-on-hover .show-on-hover, 
-.reveal-on-hover:hover .reveal-on-hover:hover .hide-on-hover,
-.reveal-on-hover:hover .reveal-on-hover:hover .hide-on-hover.hide-on-hover-inline,
-.reveal-on-hover:hover .reveal-on-hover .show-on-hover, 
-.reveal-on-hover:hover .reveal-on-hover .show-on-hover.show-on-hover-inline {
+.reveal-on-hover .show-on-hover {
   display:none;
 }
 
@@ -26,10 +22,9 @@ a.hover {
 .reveal-on-hover:hover .show-on-hover {
   display:block;
 }
+.active .show-on-active.show-on-active-inline,
 .show-on-hover.show-on-hover-inline.show-hover,
-.reveal-on-hover:hover .show-on-hover.show-on-hover-inline, 
-.reveal-on-hover:hover .reveal-on-hover:hover .show-on-hover.show-on-hover-inline,
-.reveal-on-hover:hover .reveal-on-hover:hover .show-on-hover.show-on-hover-inline {
+.reveal-on-hover:hover .show-on-hover.show-on-hover-inline {
   display:inline-block;
 }
 /* show-on-active */
