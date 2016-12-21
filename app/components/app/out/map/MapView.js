@@ -67,17 +67,20 @@ define([
       // Initialise the draw control and pass it the FeatureGroup of editable layers
       var _map = this.model.getMap()
       var drawControl = new L.Control.Draw({
-         draw: {
-             rectangle: true,
-             polyline: false,
-             polygon: false,
-             marker: false,
-             circle: false
-         },
-         edit: false                          
+        draw: {
+          rectangle: true,
+          polyline: false,
+          polygon: false,
+          marker: false,
+          circle: false
+        },
+        edit: false
       })
-      _map.addControl(drawControl)   
+      L.drawLocal.draw.toolbar.buttons.rectangle = 'Draw a rectangle to filter records'
+      L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Draw a rectangle to filter records'
+      L.drawLocal.draw.handlers.simpleshape.tooltip.end = 'Release mouse to set filter'              
       
+      _map.addControl(drawControl)   
       
       _map.on('draw:created', _.bind(this.onDrawCreated,this));
       
