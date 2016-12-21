@@ -234,7 +234,7 @@ define([
             route:"db",
             path:recordid,
             query : query,
-            extendQuery:true,
+            extendQuery:false,
             trigger:true,
             replace:true
           }
