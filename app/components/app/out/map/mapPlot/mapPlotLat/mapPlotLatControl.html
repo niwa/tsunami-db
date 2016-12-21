@@ -1,10 +1,16 @@
-<form>
+<table>
 <% _.each(columns,function(col){ %>
-  <div class="checkbox"> 
-    <label> 
-      <input class="select-column" data-columnid="<%= col.id %>" type="checkbox"<% if(col.active){ %> checked<% } %> > 
+  <tr class="select-column<% if(col.active){ %> active<% } %>" data-columnid="<%= col.id %>">          
+    <td class="select-checkbox">
+      <div class="select-checkbox-inner" 
+            style="background-color:<%= col.color %>">
+        <span class="show-on-active show-on-active-inline glyphicon glyphicon-ok" 
+            aria-hidden="true"></span>
+      </div>
+    </td>
+    <td class="select-label">
         <%= col.title %>
-    </label> 
-  </div>
+    </td>       
+  </tr>
 <% }) %>
-</form>
+</table>

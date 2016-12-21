@@ -13,7 +13,7 @@ define([
   return Backbone.View.extend({
     events : {    
       "click .select-record" : "selectRecord",      
-      "change .select-column" : "selectColumn",      
+      "click .select-column" : "selectColumn",      
       "mouseenter .select-record" : "mouseOverRecord",            
       "mouseleave .select-record" : "mouseOutRecord",            
     },
@@ -35,13 +35,14 @@ define([
       return this
     },
     renderControl : function(){
-      this.$("#placeholder-control").html(_.template(templateControl)({
+      this.$("#plot-control").html(_.template(templateControl)({
         t:this.model.getLabels(),
         columns : _.map(this.model.get("columnCollection").models,function(col){
           return {
             id:col.id,
             title:col.getTitle(),
-            active:this.model.get("outPlotColumns").indexOf(col.id) > -1 
+            active:this.model.get("outPlotColumns").indexOf(col.id) > -1 ,
+            color:col.get("plotColor")
           }
         },this)
       }))        
@@ -79,12 +80,12 @@ define([
             _.each(columns,function(col,i){
               var recordColumnValue = record.getColumnValue(col.getQueryColumn())
 
-              columnData[i].min = columnData[i].min === null || recordColumnValue < columnData[i].min
-                ? recordColumnValue
-                : columnData[i].min
-              columnData[i].max = columnData[i].max === null || recordColumnValue > columnData[i].max
-                ? recordColumnValue
-                : columnData[i].max
+//              columnData[i].min = columnData[i].min === null || recordColumnValue < columnData[i].min
+//                ? recordColumnValue
+//                : columnData[i].min
+//              columnData[i].max = columnData[i].max === null || recordColumnValue > columnData[i].max
+//                ? recordColumnValue
+//                : columnData[i].max
 
               recordValues.push(recordColumnValue)
             })
@@ -101,13 +102,13 @@ define([
           }
         )
         
-        this.$("#placeholder-plot").html(_.template(templatePlot)({
+        this.$("#plot-plot").html(_.template(templatePlot)({
           records:recordData,
           columns:columnData,
           anySelected:this.model.get("selectedLayerId") !== ""
         }))
       } else {
-        this.$("#placeholder-plot").html("0 records with current zoom and filter settings")
+        this.$("#plot-plot").html("0 records with current zoom and filter settings")
       }
       
       
@@ -161,13 +162,15 @@ define([
     selectColumn:function(e){      
       e.preventDefault()
       
-      var columns = []
+      var columns
       
-      _.each(this.$("input.select-column"),function(col){
-        if($(col).is(':checked')){
-          columns.push($(col).attr("data-columnid"))
-        }
-      })
+      var toggleColumn = $(e.currentTarget).attr("data-columnid")
+      
+      if (this.model.get("outPlotColumns").indexOf(toggleColumn) > -1){
+        columns = _.without(this.model.get("outPlotColumns"),toggleColumn)
+      } else {
+        columns = _.union(this.model.get("outPlotColumns"),[toggleColumn])
+      }
       
       this.$el.trigger('plotColumnsSelected',{columns:columns})      
     },    

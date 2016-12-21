@@ -136,7 +136,7 @@ define([
 			return this.attributes.lastDBPath
 		},
 		getQuery : function (){
-			return this.attributes.route.query
+			return _.clone(this.attributes.route.query)
 		},
     getRecordQuery:function(){
       // prep column query

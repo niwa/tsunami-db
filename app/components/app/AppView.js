@@ -133,6 +133,8 @@ define([
       // model change events
       this.listenTo(this.model, "change:route", this.routeChanged);
       
+      
+      
       $(window).on("resize", _.debounce(_.bind(this.resize, this), 100));
       this.checkWindowHeight()
     },
