@@ -34,6 +34,7 @@ define([
       this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
       this.listenTo(this.model, "change:recordMouseOverId", this.updateMouseOverRecord);      
       this.listenTo(this.model, "change:recordsPopup",this.recordsPopup)
+      this.listenTo(this.model, "change:geoQuery",this.updateGeoQuery)
     },
     render: function () {
       this.$el.html(_.template(template)({
@@ -83,6 +84,9 @@ define([
       console.log("OutView.updateOutMapType")
       this.views.map.model.set("outType",this.model.getOutMapType())
     },
+    updateGeoQuery:function(){
+      this.views.map.model.set("geoQuery",this.model.get('geoQuery'))      
+    },    
     renderHeader: function(){
       var activeRecords = this.model.getRecords().byActive()
       this.$("nav").html(_.template(templateNav)({

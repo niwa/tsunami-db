@@ -1,6 +1,7 @@
 @import url("./bootstrap.css");
 @import url("./leaflet.css");
 @import url("./leaflet.rrose.css");
+@import url("./leaflet.draw-src.css");
 @import url("./select2.css");
 @import url("../../app/components/app/app.css");
 @import url("../../app/components/app/nav/nav.css");

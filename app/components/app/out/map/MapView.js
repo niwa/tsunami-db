@@ -3,6 +3,7 @@ define([
   'leaflet',
   'esri.leaflet',
   'leaflet.rrose',
+  'leaflet.draw',  
   './mapControl/MapControlView', './mapControl/MapControlModel',  
   './mapPlot/mapPlotLat/MapPlotLatView', './mapPlot/MapPlotModel',  
   'text!./map.html',
@@ -12,6 +13,7 @@ define([
   leaflet,
   esriLeaflet,
   rrose,
+  ldraw,
   MapControlView, MapControlModel,    
   MapPlotLatView, MapPlotModel,    
   template,
@@ -49,6 +51,7 @@ define([
       this.listenTo(this.model, "change:mouseOverLayerId", this.mouseOverLayerUpdated);      
       
       this.listenTo(this.model, "change:currentRecordCollection", this.updateViews);      
+      this.listenTo(this.model, "change:geoQuery", this.updateGeoQuery);      
 
 
     },
@@ -56,8 +59,57 @@ define([
       console.log('MapView.render')      
       this.$el.html(_.template(template)({t:this.model.getLabels()}))
       this.configureMap()
-      this.initViews()
+      this.initViews()      
+      this.initDraw()      
       return this
+    },
+    initDraw : function(){
+      // Initialise the draw control and pass it the FeatureGroup of editable layers
+      var _map = this.model.getMap()
+      var drawControl = new L.Control.Draw({
+        draw: {
+          rectangle: true,
+          polyline: false,
+          polygon: false,
+          marker: false,
+          circle: false
+        },
+        edit: false
+      })
+      L.drawLocal.draw.toolbar.buttons.rectangle = 'Draw a rectangle to filter records by area'
+      L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Draw a rectangle to filter records by area'
+      L.drawLocal.draw.handlers.simpleshape.tooltip.end = 'Release mouse to set area filter'              
+      
+      _map.addControl(drawControl)   
+      
+      _map.on('draw:created', _.bind(this.onDrawCreated,this));
+      _map.on('draw:drawstart', _.bind(this.onDrawStart,this));
+      
+      var that = this
+      // add delete control
+      var deleteControl = L.Control.extend({
+
+        options: {
+          position: 'topleft' 
+        },
+        
+        onAdd: function () {
+          var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-delete');
+          var deleteLink = L.DomUtil.create('a', '',container);
+          $(deleteLink).attr('href',"#")
+          $(deleteLink).attr('title',"Clear area filter")
+          L.DomUtil.create('span', 'glyphicon glyphicon-trash',deleteLink);
+          
+          deleteLink.onclick = _.bind(that.queryDeleteClicked,that)
+          
+          return container;
+        },
+
+      })
+      
+      this.model.set("queryDeleteControl",new deleteControl())   
+      
+      
     },
     initViews:function(){
       this.initMapControlView()
@@ -193,7 +245,7 @@ define([
       
       // init layer groups
       var layerGroups = {}
-      _.each(config.layerGroups,function(group,id){        
+      _.each(config.layerGroups,function(conditions,id){        
         var layerGroup = new L.layerGroup()
         layerGroups[id] = layerGroup
         layerGroup.addTo(_map)        
@@ -366,6 +418,82 @@ define([
             },this)
           })
     },
+    
+    updateGeoQuery:function(){
+      var geoQuery = this.model.get("geoQuery")
+      var queryLayer = this.model.get("queryLayer")
+      var deleteControl = this.model.get("queryDeleteControl")
+      var layerGroup = this.model.getLayerGroups()["default"]
+      var _map = this.model.getMap()
+      
+      // remove layer from map
+      if (typeof queryLayer !== "undefined") {
+        if (layerGroup.hasLayer(queryLayer)){
+          layerGroup.removeLayer(queryLayer)
+        }
+      }
+      if (typeof deleteControl !== "undefined") {
+          deleteControl.remove()
+      }
+      
+      // add layer from map if at least one boundary defined
+      if (typeof geoQuery !== "undefined") {
+        // have at least one undefined
+        if (typeof geoQuery.north !== "undefined" 
+        || typeof geoQuery.south !== "undefined" 
+        || typeof geoQuery.west !== "undefined" 
+        || typeof geoQuery.east !== "undefined" ) {
+          
+          
+          queryLayer = L.rectangle(
+            L.latLngBounds(
+              L.latLng(      
+                typeof geoQuery.south !== "undefined" ? parseFloat(geoQuery.south) : -90,
+                typeof geoQuery.west !== "undefined" 
+                  ? geoQuery.west < 0 
+                    ? parseFloat(geoQuery.west) + 360
+                    : parseFloat(geoQuery.west)
+                  : 0
+              ),
+              L.latLng(
+                typeof geoQuery.north !== "undefined" ? parseFloat(geoQuery.north) : 90,
+                typeof geoQuery.east !== "undefined" 
+                    ? geoQuery.east < 0 
+                      ? parseFloat(geoQuery.east) + 360
+                      : parseFloat(geoQuery.east)
+                    : 360
+              )
+            ),
+            this.model.getConfig().layerStyles.query
+          )
+          
+          layerGroup.addLayer(queryLayer)
+          queryLayer.bringToBack()
+          this.model.set("queryLayer",queryLayer)
+          
+          
+          _map.addControl(deleteControl)
+          
+        }
+      }
+      
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // event Handlers for view events
     resize : function (){
       //console.log('MapView.resize')
@@ -457,7 +585,10 @@ define([
 
 
 
-
+    queryDeleteClicked:function(e){
+      e.preventDefault()
+      this.$el.trigger('geoQueryDelete')
+    },
 
     layerSelect:function(e){
       console.log("MapView.layerSelect")
@@ -485,6 +616,28 @@ define([
       })      
     },
 
+
+
+    onDrawStart : function(e) {
+      var map = this.model.getMap()
+      map.closePopup()
+      $(map.getPane("popupPane")).hide()
+      
+    },
+    onDrawCreated : function(e) {
+      var map = this.model.getMap()
+      map.closePopup()
+      $(map.getPane("popupPane")).show()
+      
+      this.$el.trigger('geoQuerySubmit',{
+        geoQuery: {
+          north:this.roundDegrees(e.layer.getBounds().getNorth()),
+          south:this.roundDegrees(e.layer.getBounds().getSouth()),
+          west:this.roundDegrees(e.layer.getBounds().getWest()),
+          east:this.roundDegrees(e.layer.getBounds().getEast())
+        }
+      })        
+    },
 
 
 

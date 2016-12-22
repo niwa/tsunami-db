@@ -148,6 +148,18 @@ define([
       })          
       return query
     },
+    getGeoQuery:function(){
+      var latColumn = this.attributes.columnCollection.get("lat")
+      var lngColumn = this.attributes.columnCollection.get("lng")
+      var recordQuery = this.getRecordQuery()
+      
+      return {
+        north:recordQuery[latColumn.getQueryColumnByType("max")],
+        south:recordQuery[latColumn.getQueryColumnByType("min")],
+        east:recordQuery[lngColumn.getQueryColumnByType("max")],
+        west:recordQuery[lngColumn.getQueryColumnByType("min")]
+      }
+    },
     getOutType: function(){
       return this.attributes.route.query.out
     },
