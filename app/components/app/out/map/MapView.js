@@ -76,13 +76,39 @@ define([
         },
         edit: false
       })
-      L.drawLocal.draw.toolbar.buttons.rectangle = 'Draw a rectangle to filter records'
-      L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Draw a rectangle to filter records'
-      L.drawLocal.draw.handlers.simpleshape.tooltip.end = 'Release mouse to set filter'              
+      L.drawLocal.draw.toolbar.buttons.rectangle = 'Draw a rectangle to filter records by area'
+      L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Draw a rectangle to filter records by area'
+      L.drawLocal.draw.handlers.simpleshape.tooltip.end = 'Release mouse to set area filter'              
       
       _map.addControl(drawControl)   
       
       _map.on('draw:created', _.bind(this.onDrawCreated,this));
+      _map.on('draw:drawstart', _.bind(this.onDrawStart,this));
+      
+      var that = this
+      // add delete control
+      var deleteControl = L.Control.extend({
+
+        options: {
+          position: 'topleft' 
+        },
+        
+        onAdd: function () {
+          var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-delete');
+          var deleteLink = L.DomUtil.create('a', '',container);
+          $(deleteLink).attr('href',"#")
+          $(deleteLink).attr('title',"Clear area filter")
+          L.DomUtil.create('span', 'glyphicon glyphicon-trash',deleteLink);
+          
+          deleteLink.onclick = _.bind(that.queryDeleteClicked,that)
+          
+          return container;
+        },
+
+      })
+      
+      this.model.set("queryDeleteControl",new deleteControl())   
+      
       
     },
     initViews:function(){
@@ -396,13 +422,18 @@ define([
     updateGeoQuery:function(){
       var geoQuery = this.model.get("geoQuery")
       var queryLayer = this.model.get("queryLayer")
+      var deleteControl = this.model.get("queryDeleteControl")
       var layerGroup = this.model.getLayerGroups()["default"]
+      var _map = this.model.getMap()
       
       // remove layer from map
       if (typeof queryLayer !== "undefined") {
         if (layerGroup.hasLayer(queryLayer)){
           layerGroup.removeLayer(queryLayer)
         }
+      }
+      if (typeof deleteControl !== "undefined") {
+          deleteControl.remove()
       }
       
       // add layer from map if at least one boundary defined
@@ -439,6 +470,10 @@ define([
           layerGroup.addLayer(queryLayer)
           queryLayer.bringToBack()
           this.model.set("queryLayer",queryLayer)
+          
+          
+          _map.addControl(deleteControl)
+          
         }
       }
       
@@ -550,7 +585,10 @@ define([
 
 
 
-
+    queryDeleteClicked:function(e){
+      e.preventDefault()
+      this.$el.trigger('geoQueryDelete')
+    },
 
     layerSelect:function(e){
       console.log("MapView.layerSelect")
@@ -580,7 +618,17 @@ define([
 
 
 
+    onDrawStart : function(e) {
+      var map = this.model.getMap()
+      map.closePopup()
+      $(map.getPane("popupPane")).hide()
+      
+    },
     onDrawCreated : function(e) {
+      var map = this.model.getMap()
+      map.closePopup()
+      $(map.getPane("popupPane")).show()
+      
       this.$el.trigger('geoQuerySubmit',{
         geoQuery: {
           north:this.roundDegrees(e.layer.getBounds().getNorth()),

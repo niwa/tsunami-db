@@ -86,7 +86,8 @@ define([
       mapPopupClosed:"mapPopupClosed",
       mapOptionToggled:"mapOptionToggled",
       
-      geoQuerySubmit:"geoQuerySubmit"
+      geoQuerySubmit:"geoQuerySubmit",
+      geoQueryDelete:"geoQueryDelete"
       
       
 
@@ -999,7 +1000,21 @@ define([
         false // extend
       )      
     },
+    geoQueryDelete:function(e){
+      console.log("geoQueryDelete")    
+      
+      var latColumn = this.model.getColumns().get("lat")
+      var lngColumn = this.model.getColumns().get("lng")      
+      this.model.getRouter().queryDelete([
+        "q_"+latColumn.getQueryColumnByType("max"),
+        "q_"+latColumn.getQueryColumnByType("min"),
+        "q_"+lngColumn.getQueryColumnByType("max"),
+        "q_"+lngColumn.getQueryColumnByType("min"),
+      ])
+    },
     geoQuerySubmit:function(e,args){
+      console.log("geoQuerySubmit")    
+      
       var latColumn = this.model.getColumns().get("lat")
       var lngColumn = this.model.getColumns().get("lng")      
       
