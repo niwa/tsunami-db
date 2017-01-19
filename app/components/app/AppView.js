@@ -87,8 +87,10 @@ define([
       mapOptionToggled:"mapOptionToggled",
       
       geoQuerySubmit:"geoQuerySubmit",
-      geoQueryDelete:"geoQueryDelete"
+      geoQueryDelete:"geoQueryDelete",
       
+      // page view events
+      pageClose:"pageClose"
       
 
     }, // end view events
@@ -1033,7 +1035,16 @@ define([
         false, // replace
         true // extend
       )           
-    }
+    },
+    
+    // page events
+    pageClose : function(e){    
+      this.model.getRouter().update({
+        route:"db",
+        path:""        
+      })
+    
+    },
     
 
 

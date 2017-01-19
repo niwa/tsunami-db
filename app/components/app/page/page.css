@@ -5,4 +5,11 @@
   left: 0;
   right:0;
   width: auto;   
+  overflow-y: auto;
+  background: #F2F3F4;
+}
+.page-outer {
+  padding:50px 0;
+  background: #FFF;
+  min-height: 100vh;
 }

@@ -8,6 +8,7 @@ define([
 
   var PageView = Backbone.View.extend({
     events : {
+      "click .close-page" : "closePage"      
     },
     initialize : function () {
       this.render()
@@ -25,7 +26,8 @@ define([
     loadPage: function(){
       var page = this.model.getActivePage()
       this.$el.html(_.template(template)({
-        t:this.model.getLabels()
+        t:this.model.getLabels(),
+        classes:page.getClass()
       }))        
       if (this.model.hasActivePage()) {
         var that = this
@@ -43,7 +45,13 @@ define([
       } else {
         this.$el.hide()
       }
-    }
+    },
+    
+    closePage : function(e){
+      e.preventDefault()
+      
+      this.$el.trigger('pageClose')      
+    }    
         
   });
 

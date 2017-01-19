@@ -23,6 +23,47 @@ define([
     },
     getClass:function(){
       return this.attributes.class
+    },
+    //overrides ContentModel.getContent
+    getContent : function(callback){
+            
+      // temporary workaround #225
+      if (this.isContentLoaded && typeof this.attributes.content !== 'undefined' && this.attributes.content[0].innerHTML !== ''){        
+        callback(this.attributes.content)
+      } else {
+        var that = this
+        // already loading
+        if (this.isContentLoading) {
+          waitFor(
+            function(){ 
+              return that.isContentLoaded 
+            },
+            function(){ 
+              callback(that.attributes.content, that )
+            }
+          )
+        } else {	
+          this.isContentLoading = true
+          
+          this.loadContent(function(content){
+            
+            // according to NIWA's content XML structure
+            var html = content["#document"]["result"]["nodes"]["item"]["body"]["und"]["item"]["safe_value"]
+            
+            that.set('content', that.setupContent($(html)))
+            that.isContentLoading = false
+            that.isContentLoaded = true
+            callback(that.attributes.content)
+          })        
+        }
+      }
+    },
+    setupContent:function($content){
+      $content.find('img').each(function(i, img){
+        $(img).addClass("img-responsive")
+      })
+      
+      return $content
     }
     
   });
