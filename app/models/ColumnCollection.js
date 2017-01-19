@@ -38,6 +38,12 @@ define([
         }
       },this)
     },
+    byType:function(type){
+      var filtered = this.filter(function(model){
+        return model.get("type") === type
+      })
+      return new ColumnCollection(filtered);  
+    },    
     byGroup:function(groupId){
       var filtered = this.filter(function(model){
         return model.get("group") === groupId
@@ -59,9 +65,9 @@ define([
     },
     byQueryColumn:function(queryColumn){
       return this.filter(function(model){
-        return model.getQueryColumn("value") === queryColumn
-          || model.getQueryColumn("min") === queryColumn
-          || model.getQueryColumn("max") === queryColumn
+        return model.getQueryColumnByType("value") === queryColumn
+          || model.getQueryColumnByType("min") === queryColumn
+          || model.getQueryColumnByType("max") === queryColumn
       })[0]                        
     }
   });

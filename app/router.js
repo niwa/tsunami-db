@@ -219,9 +219,13 @@ define([
         query = query !== null && typeof query !=='undefined' ? $.deparam(query) : {}
         // set default output options if not set
         if (typeof query.out === "undefined" || query.out === null || query.out === ""
+          || typeof query.map === "undefined" || query.map === null || query.map === "" 
           || typeof query.colorby === "undefined" || query.colorby === null || query.colorby === "" ) {
           if (typeof query.out === "undefined" || query.out === null || query.out === ""){
             _.extend(query,{out:"map"})
+          }
+          if (typeof query.map === "undefined" || query.map === null || query.map === ""){
+            _.extend(query,{map:"control"})
           }
           if (typeof query.colorby === "undefined" || query.colorby === null || query.colorby === ""){
             _.extend(query,{colorby:"validity"})
@@ -230,7 +234,7 @@ define([
             route:"db",
             path:recordid,
             query : query,
-            extendQuery:true,
+            extendQuery:false,
             trigger:true,
             replace:true
           }

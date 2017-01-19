@@ -27,10 +27,14 @@ define([
       this.listenTo(this.model, "change:mapInit", this.updateMapView);
       this.listenTo(this.model, "change:mapView", this.updateMapView);      
       this.listenTo(this.model, "change:outType", this.updateOutType);      
+      this.listenTo(this.model, "change:outMapType", this.updateOutMapType);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
+      this.listenTo(this.model, "change:outPlotColumns", this.updateOutPlotColumns);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
       this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
+      this.listenTo(this.model, "change:recordMouseOverId", this.updateMouseOverRecord);      
       this.listenTo(this.model, "change:recordsPopup",this.recordsPopup)
+      this.listenTo(this.model, "change:geoQuery",this.updateGeoQuery)
     },
     render: function () {
       this.$el.html(_.template(template)({
@@ -46,20 +50,20 @@ define([
     },    
     updateViews:function(){      
       console.log("OutView.updateView")      
-      var activeRecords = this.model.getRecords().byActive()
+      
       switch(this.model.getOutType()){
         case "map":
           
           this.updateMapView()
           break
         case "table":
-          this.updateTableView(activeRecords)     
+          this.updateTableView()     
           break
       }
-      this.renderHeader(activeRecords)
+      this.renderHeader()
     },
     updateOutType:function(){
-      console.log("OutView.updateOuttype")
+      console.log("OutView.updateOutType")
       switch(this.model.getOutType()){
         case "map":
           this.views.map.model.setActive()
@@ -68,13 +72,23 @@ define([
           break
         case "table":
           this.views.map.model.setActive(false)
-          this.updateTableView(this.model.getRecords().byActive())
+          this.updateTableView()
           this.views.table.model.setActive()
           break
+        default:
+          break
       }
-      this.renderHeader(this.model.getRecords().byActive())
+      this.renderHeader()
     },
-    renderHeader: function(activeRecords){
+    updateOutMapType:function(){
+      console.log("OutView.updateOutMapType")
+      this.views.map.model.set("outType",this.model.getOutMapType())
+    },
+    updateGeoQuery:function(){
+      this.views.map.model.set("geoQuery",this.model.get('geoQuery'))      
+    },    
+    renderHeader: function(){
+      var activeRecords = this.model.getRecords().byActive()
       this.$("nav").html(_.template(templateNav)({
         active:this.model.getOutType(),
         record_no:typeof activeRecords !== "undefined" ? activeRecords.length : 0
@@ -111,7 +125,7 @@ define([
             layerCollection:this.model.getLayers(),
             columnCollection: this.model.get("columnCollection"),            
             active: false,
-            multipleLayerPopup:[],
+            popupLayers:[],
             selectedLayerId: ""
           })              
         });   
@@ -125,52 +139,68 @@ define([
       console.log("OutView.recordsPopup ")
 
       this.views.map.model.set({
-        multipleLayerPopup:this.model.get("recordsPopup").length > 0 
-        ? _.map (this.model.get("recordsPopup").models,function(record){
+        popupLayers:this.model.get("recordsPopup").length > 0 
+        ? _.map (this.model.get("recordsPopup"),function(record){
             return {
               id: record.getLayer().id,
               layer: record.getLayer().getMapLayerDirect(),
               color: record.getColor(),
               label: record.getTitle(),
-              selected:record.isSelected()
+              selected:record.isSelected(),
+              mouseOver:record.id === this.model.get("recordMouseOverId")
             }
-          })
+          },this)
         : []
       })      
     },
-    updateTableView : function(activeRecords){    
-      this.views.table.model.setCurrentRecords(activeRecords)       
-      this.views.table.model.set("recordId",this.model.get("recordId"))      
+    updateTableView : function(){    
+      this.views.table.model.setCurrentRecords(this.model.getRecords().byActive())          
     },
     updateMapView : function(){      
       console.log("OutView.updateMapView" )
       this.views.map.model.setView(this.model.getActiveMapview())
       this.views.map.model.invalidateSize()
-      
-      this.views.map.model.set("selectedLayerId",
-        this.model.get("recordId") !== "" 
-        ? this.model.getRecords().get(this.model.get("recordId")).getLayer().id
-        : ""
-      )
-//      this.recordsPopup()
+      this.views.map.model.setCurrentRecords(this.model.getRecords().byActive().hasLocation())      
       
     },
     updateSelectedRecord:function(){
       console.log("OutView.updateSelectedRecord")
-      this.updateViews()
+      
       var recordId = this.model.get("recordId")
+      
       if (recordId !== "") {
+        // update map and table views
         var record = this.model.getRecords().get(recordId)
-        if (record.isActive()){
-          record.bringToFront()
-//          record.centerMap()
-        }        
-      }      
+        if (record.isActive()){                    
+          this.views.map.model.set("selectedLayerId",record.getLayer().id)
+          this.views.table.model.set("recordId",recordId)  
+        }                
+      } else {        
+        this.views.map.model.set("selectedLayerId","")
+        this.views.table.model.set("recordId","")
+      } 
+      
+    },
+    updateMouseOverRecord:function(){
+      console.log("OutView.updateMouseOverRecord")
+      
+      var recordId = this.model.get("recordMouseOverId")
+           
+      if (recordId !== "") {
+        // update map  view
+        var record = this.model.getRecords().get(recordId)
+        if (record.isActive()){                    
+          this.views.map.model.set("mouseOverLayerId",record.getLayer().id)
+        }                
+      } else {        
+        this.views.map.model.set("mouseOverLayerId","")
+      }           
     },
     updateOutColorColumn:function(){
-      this.views.map.model.set({
-        outColorColumn:this.model.getOutColorColumn()
-      })
+      this.views.map.model.set("outColorColumn",this.model.getOutColorColumn())
+    },
+    updateOutPlotColumns:function(){
+      this.views.map.model.set("outPlotColumns",this.model.getOutPlotColumns())
     },
     toggleView:function(e){      
       this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      

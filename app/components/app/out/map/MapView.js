@@ -3,7 +3,9 @@ define([
   'leaflet',
   'esri.leaflet',
   'leaflet.rrose',
+  'leaflet.draw',  
   './mapControl/MapControlView', './mapControl/MapControlModel',  
+  './mapPlot/mapPlotLat/MapPlotLatView', './mapPlot/MapPlotModel',  
   'text!./map.html',
   'text!./mapPopupMultipeRecords.html',
 ], function(
@@ -11,13 +13,18 @@ define([
   leaflet,
   esriLeaflet,
   rrose,
+  ldraw,
   MapControlView, MapControlModel,    
+  MapPlotLatView, MapPlotModel,    
   template,
   templatePopupMultiple
 ){
   var MapView = Backbone.View.extend({
     events:{
-      "click .layer-select" : "layerSelect"
+      "click .layer-select" : "layerSelect",
+      "mouseenter .layer-select" : "layerMouseOver",
+      "mouseleave .layer-select" : "layerMouseOut",
+      "click .toggle-option" : "toggleOptionClick"
     },
     initialize : function(){
       console.log('MapView.initialize')
@@ -32,14 +39,19 @@ define([
       
       this.listenTo(this.model, "change:active",        this.handleActive);
       this.listenTo(this.model, "change:view",          this.handleViewUpdate);
-      this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);
+      this.listenTo(this.model, "change:outColorColumn",this.updateOutColorColumn);
+      this.listenTo(this.model, "change:outPlotColumns",this.updateOutPlotColumns);
+      this.listenTo(this.model, "change:outType",       this.updateOutType);
 
       this.listenTo(this.model, "change:invalidateSize",this.invalidateSize);      
       this.listenTo(this.model, "change:layersUpdated",this.layersUpdated);
-      this.listenTo(this.model, "change:multipleLayerPopup",this.multipleLayerPopup)
+      this.listenTo(this.model, "change:popupLayers",this.popupLayersUpdated)
       
-      this.listenTo(this.model, "change:selectedLayerId", this.selectedLayerIdChanged);      
+      this.listenTo(this.model, "change:selectedLayerId", this.selectedLayerUpdated);      
+      this.listenTo(this.model, "change:mouseOverLayerId", this.mouseOverLayerUpdated);      
       
+      this.listenTo(this.model, "change:currentRecordCollection", this.updateViews);      
+      this.listenTo(this.model, "change:geoQuery", this.updateGeoQuery);      
 
 
     },
@@ -47,9 +59,65 @@ define([
       console.log('MapView.render')      
       this.$el.html(_.template(template)({t:this.model.getLabels()}))
       this.configureMap()
-      this.initMapControlView()
+      this.initViews()      
+      this.initDraw()      
       return this
     },
+    initDraw : function(){
+      // Initialise the draw control and pass it the FeatureGroup of editable layers
+      var _map = this.model.getMap()
+      var drawControl = new L.Control.Draw({
+        draw: {
+          rectangle: true,
+          polyline: false,
+          polygon: false,
+          marker: false,
+          circle: false
+        },
+        edit: false
+      })
+      L.drawLocal.draw.toolbar.buttons.rectangle = 'Draw a rectangle to filter records by area'
+      L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Draw a rectangle to filter records by area'
+      L.drawLocal.draw.handlers.simpleshape.tooltip.end = 'Release mouse to set area filter'              
+      
+      _map.addControl(drawControl)   
+      
+      _map.on('draw:created', _.bind(this.onDrawCreated,this));
+      _map.on('draw:drawstart', _.bind(this.onDrawStart,this));
+      
+      var that = this
+      // add delete control
+      var deleteControl = L.Control.extend({
+
+        options: {
+          position: 'topleft' 
+        },
+        
+        onAdd: function () {
+          var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-delete');
+          var deleteLink = L.DomUtil.create('a', '',container);
+          $(deleteLink).attr('href',"#")
+          $(deleteLink).attr('title',"Clear area filter")
+          L.DomUtil.create('span', 'glyphicon glyphicon-trash',deleteLink);
+          
+          deleteLink.onclick = _.bind(that.queryDeleteClicked,that)
+          
+          return container;
+        },
+
+      })
+      
+      this.model.set("queryDeleteControl",new deleteControl())   
+      
+      
+    },
+    initViews:function(){
+      this.initMapControlView()
+      this.initMapPlotLatView()
+    },        
+    updateViews:function(){
+      this.updateMapPlotLatView()
+    },        
     initMapControlView : function(){
       var componentId = '#map-control'
       
@@ -59,13 +127,78 @@ define([
           el:this.$(componentId),
           model: new MapControlModel({
             labels: this.model.getLabels(),
-            columnCollection:this.model.get("columnCollection")
+            columnCollection:this.model.get("columnCollection"),
+            active: false
           })              
         });           
       }
     },  
+    initMapPlotLatView : function(){
+      var componentId = '#map-plot-lat'
+      
+      if (this.$(componentId).length > 0) {
+        var plotColumns = this.model.get("columnCollection").byAttribute("plot")
+        this.views.plotLat = this.views.plotLat || new MapPlotLatView({
+          el:this.$(componentId),
+          model: new MapPlotModel({
+            labels: this.model.getLabels(),
+            columnCollection: plotColumns,            
+            currentRecordCollection:[],
+            mouseOverLayerId : "",
+            selectedLayerId : "",
+            active: false,
+            outPlotColumns: _.pluck(plotColumns.models,"id")
+          })              
+        });           
+      }
+    },  
+    updateMapPlotLatView:function(){
+      if (typeof this.model.getCurrentRecords() !== "undefined") {
+        var ne = this.model.getMap().getBounds().getNorthEast()//.wrap()
+        var sw = this.model.getMap().getBounds().getSouthWest()//.wrap()
+        
+        this.views.plotLat.model.setCurrentRecords(this.model.getCurrentRecords().byBounds({
+          north:ne.lat,
+          east:ne.lng,
+          south:sw.lat,
+          west:sw.lng
+        }))
+      }
+    },
+    updateOutType:function(){
+      console.log("OutView.updateOutType")
+      
+      this.$('#map-options button').removeClass('active')
+      this.$('#map-options [data-option="'+this.model.getOutType()+'"]').addClass('active')      
+      
+      switch(this.model.getOutType()){
+        case "control":
+          this.views.control.model.setActive()
+          this.views.plotLat.model.setActive(false)
+          this.$el.removeClass('full-width')
+          break
+        case "plot-lat":
+          this.views.plotLat.model.setActive()
+          this.views.control.model.setActive(false)
+          this.$el.removeClass('full-width')
+          break
+        default:
+          this.$el.addClass('full-width')
+          this.views.control.model.setActive(false)
+          this.views.plotLat.model.setActive(false)
+          break
+      }      
+      this.invalidateSize(true)
+    },
     updateOutColorColumn:function(){
-      this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})    
+      this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})  
+    },
+    updateOutPlotColumns:function(){
+      this.views.plotLat.model.set({outPlotColumns:
+        typeof this.model.getOutPlotColumns() !== "undefined" 
+        ? this.model.getOutPlotColumns()
+        : _.pluck(this.model.get("columnCollection").byAttribute("plot").models,"id")
+      })  
     },
     // map configuration has been read
     configureMap : function(){
@@ -98,7 +231,7 @@ define([
       
       
       // position map on current view
-      this.updateMapView()
+//      this.updateMapView()
       
       console.log('MapView.configureMap  mapConfigured')
       this.model.mapConfigured(true)
@@ -112,7 +245,7 @@ define([
       
       // init layer groups
       var layerGroups = {}
-      _.each(config.layerGroups,function(group,id){        
+      _.each(config.layerGroups,function(conditions,id){        
         var layerGroup = new L.layerGroup()
         layerGroups[id] = layerGroup
         layerGroup.addTo(_map)        
@@ -163,7 +296,8 @@ define([
             if ( _map.getZoom() !== zoomUpdated
                   || this.roundDegrees(_map.getCenter().lat) !== currentView.center.lat
                   || this.roundDegrees(_map.getCenter().lng) !== currentView.center.lng) {
-              _map.setView(currentView.center, zoomUpdated,{animate:true})            
+              _map.setView(currentView.center, zoomUpdated,{animate:true})  
+
             }
           } else {
             // todo not sure about this one
@@ -188,7 +322,7 @@ define([
       } else {
         this.zoomToDefault()
       }
-
+      this.updateMapPlotLatView()
       this.triggerMapViewUpdated()
       
     },
@@ -231,51 +365,45 @@ define([
           return that.model.mapConfigured()
         },
         function(){
-          that.updateMapView()
+          that.updateMapView()          
         }
       )
     },
-
-
-    multipleLayerPopup:function(){
-      console.log("MapView.multipleLayerPopup")
-      var layers = this.model.get("multipleLayerPopup")
+    mouseOverLayerUpdated:function(){
+      this.updatePopupContent()
+      this.views.plotLat.model.set("mouseOverRecordId",this.model.get("mouseOverLayerId"))
+    },
+    selectedLayerUpdated:function(){
+      this.updatePopupContent()
+      this.views.plotLat.model.set("selectedRecordId",this.model.get("selectedLayerId"))
+    },
+    popupLayersUpdated:function(){
+      console.log("MapView.popupLayers")
+      var layers = this.model.get("popupLayers")  
       var map = this.model.getMap()
       map.closePopup()      
-      console.log("multipleLayerPopup " +layers.length )
       if(layers.length > 0){
         var anchorLayer = layers[0]                
         var multiple_tooltip = new L.Rrose({ 
-          offset: new L.Point(0,0), 
+          offset: new L.Point(0,-4), 
           closeButton: false, 
           autoPan: false 
-        }).setContent(this.getMultiplesPopupContent(layers))
+        }).setContent(this.getMultiplesPopupContent())
           .setLatLng(anchorLayer.layer.getLayers()[0].getLatLng())
           .openOn(map)
         this.model.set("multipleTooltip",multiple_tooltip)
       } 
     },    
-    layerSelect:function(e){
-      console.log("MapView.layerSelect")
-      console.log(this.model.attributes.multipleLayerPopup.length)
 
-      e.preventDefault()
-      this.$el.trigger('mapLayerSelect',{                
-        layerId: $(e.currentTarget).attr("data-layerid")
-      })
-    },
-    selectedLayerIdChanged:function(){  
+    updatePopupContent:function(){  
       console.log("MapView.selectedLayerIdChanged")    
-      var layers = this.model.get("multipleLayerPopup")
       if(typeof this.model.get("multipleTooltip") !== "undefined"
       && this.model.get("multipleTooltip") !== null){
-        this.model.get("multipleTooltip").setContent(this.getMultiplesPopupContent(layers))
+        this.model.get("multipleTooltip").setContent(this.getMultiplesPopupContent())
       }
-      
-      
-      
-    },
-    getMultiplesPopupContent:function(layers){
+    },    
+    getMultiplesPopupContent:function(){
+      var layers = this.model.get("popupLayers")      
       return _.template(templatePopupMultiple)({
             layers:_.map(layers,function(layer){
               var crgba = layer.color.colorToRgb() 
@@ -284,11 +412,88 @@ define([
                 color:layer.color,
                 fillColor: 'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)',
                 id:layer.id,
-                selected:this.model.get("selectedLayerId") === layer.id
+                selected:this.model.get("selectedLayerId") === layer.id,
+                mouseOver:this.model.get("mouseOverLayerId") === layer.id
               }
             },this)
           })
     },
+    
+    updateGeoQuery:function(){
+      var geoQuery = this.model.get("geoQuery")
+      var queryLayer = this.model.get("queryLayer")
+      var deleteControl = this.model.get("queryDeleteControl")
+      var layerGroup = this.model.getLayerGroups()["default"]
+      var _map = this.model.getMap()
+      
+      // remove layer from map
+      if (typeof queryLayer !== "undefined") {
+        if (layerGroup.hasLayer(queryLayer)){
+          layerGroup.removeLayer(queryLayer)
+        }
+      }
+      if (typeof deleteControl !== "undefined") {
+          deleteControl.remove()
+      }
+      
+      // add layer from map if at least one boundary defined
+      if (typeof geoQuery !== "undefined") {
+        // have at least one undefined
+        if (typeof geoQuery.north !== "undefined" 
+        || typeof geoQuery.south !== "undefined" 
+        || typeof geoQuery.west !== "undefined" 
+        || typeof geoQuery.east !== "undefined" ) {
+          
+          
+          queryLayer = L.rectangle(
+            L.latLngBounds(
+              L.latLng(      
+                typeof geoQuery.south !== "undefined" ? parseFloat(geoQuery.south) : -90,
+                typeof geoQuery.west !== "undefined" 
+                  ? geoQuery.west < 0 
+                    ? parseFloat(geoQuery.west) + 360
+                    : parseFloat(geoQuery.west)
+                  : 0
+              ),
+              L.latLng(
+                typeof geoQuery.north !== "undefined" ? parseFloat(geoQuery.north) : 90,
+                typeof geoQuery.east !== "undefined" 
+                    ? geoQuery.east < 0 
+                      ? parseFloat(geoQuery.east) + 360
+                      : parseFloat(geoQuery.east)
+                    : 360
+              )
+            ),
+            this.model.getConfig().layerStyles.query
+          )
+          
+          layerGroup.addLayer(queryLayer)
+          queryLayer.bringToBack()
+          this.model.set("queryLayer",queryLayer)
+          
+          
+          _map.addControl(deleteControl)
+          
+        }
+      }
+      
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // event Handlers for view events
     resize : function (){
       //console.log('MapView.resize')
@@ -380,7 +585,59 @@ define([
 
 
 
+    queryDeleteClicked:function(e){
+      e.preventDefault()
+      this.$el.trigger('geoQueryDelete')
+    },
 
+    layerSelect:function(e){
+      console.log("MapView.layerSelect")
+
+      e.preventDefault()
+      this.$el.trigger('mapLayerSelect',{                
+        layerId: $(e.currentTarget).attr("data-layerid")
+      })
+    },
+    
+    layerMouseOver:function(e){      
+      e.preventDefault()
+      this.$el.trigger('mapLayerMouseOver',{id:$(e.currentTarget).attr("data-layerid")})      
+    },    
+    layerMouseOut:function(e){      
+      e.preventDefault()
+      this.$el.trigger('mapLayerMouseOut',{id:$(e.currentTarget).attr("data-layerid")})      
+    },      
+
+    toggleOptionClick:function(e){
+      e.preventDefault()
+      
+      this.$el.trigger('mapOptionToggled',{                
+        option: $(e.currentTarget).attr("data-option")
+      })      
+    },
+
+
+
+    onDrawStart : function(e) {
+      var map = this.model.getMap()
+      map.closePopup()
+      $(map.getPane("popupPane")).hide()
+      
+    },
+    onDrawCreated : function(e) {
+      var map = this.model.getMap()
+      map.closePopup()
+      $(map.getPane("popupPane")).show()
+      
+      this.$el.trigger('geoQuerySubmit',{
+        geoQuery: {
+          north:this.roundDegrees(e.layer.getBounds().getNorth()),
+          south:this.roundDegrees(e.layer.getBounds().getSouth()),
+          west:this.roundDegrees(e.layer.getBounds().getWest()),
+          east:this.roundDegrees(e.layer.getBounds().getEast())
+        }
+      })        
+    },
 
 
 

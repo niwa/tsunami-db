@@ -136,7 +136,7 @@ define([
 			return this.attributes.lastDBPath
 		},
 		getQuery : function (){
-			return this.attributes.route.query
+			return _.clone(this.attributes.route.query)
 		},
     getRecordQuery:function(){
       // prep column query
@@ -148,13 +148,30 @@ define([
       })          
       return query
     },
+    getGeoQuery:function(){
+      var latColumn = this.attributes.columnCollection.get("lat")
+      var lngColumn = this.attributes.columnCollection.get("lng")
+      var recordQuery = this.getRecordQuery()
+      
+      return {
+        north:recordQuery[latColumn.getQueryColumnByType("max")],
+        south:recordQuery[latColumn.getQueryColumnByType("min")],
+        east:recordQuery[lngColumn.getQueryColumnByType("max")],
+        west:recordQuery[lngColumn.getQueryColumnByType("min")]
+      }
+    },
     getOutType: function(){
       return this.attributes.route.query.out
+    },
+    getOutMapType: function(){
+      return this.attributes.route.query.map
     },
     getOutColor: function(){
       return this.attributes.route.query.colorby
     },
-
+    getOutPlotColumns: function(){
+      return this.attributes.route.query.plot      
+    },
     
     
 		appConfigured : function(){

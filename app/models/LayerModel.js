@@ -196,7 +196,7 @@ define([
           
           if(that.isActive()){             
             if (!that.attributes.layerGroup.hasLayer(mapLayer)) {
-              console.log("addLayer " + that.attributes.id)
+//              console.log("addLayer " + that.attributes.id)
 -             that.attributes.layerGroup.addLayer(mapLayer)
             }
           } else {
@@ -207,6 +207,14 @@ define([
         })
       }
       
+    },
+    setMouseOver : function(bool){
+      bool = typeof bool !== 'undefined' ? bool : true   
+      
+      // only when not active already
+      this.set('mouseOver',bool)      
+      this.updateStyle()
+
     },
     setSelected : function(selected,anySelected){
       selected = typeof selected !== 'undefined' ? selected : true   
@@ -238,13 +246,19 @@ define([
         var that = this        
         this.getMapLayer(function(mapLayer){
           
-          if (that.isSelected()){
-           //set Selected Style            
-            mapLayer.setStyle(_.extend(
-              {},
-              that.attributes.layerStyle,
-              {fillOpacity:0.85,weight:1.5}
-            ))            
+          if (that.isSelected() || that.isMouseOver()){
+            if ((that.isSelected() && !that.isMouseOver())
+            || (!that.isSelected() && that.isMouseOver())){
+              //set Selected Style            
+               mapLayer.setStyle(_.extend(
+                 {},
+                 that.attributes.layerStyle,
+                 {fillOpacity:0.85,weight:1.5}
+               ))            
+            } else {
+              //setDefaultStyle
+              mapLayer.setStyle(that.attributes.layerStyle)
+            }
           } else {                        
             if(that.isAnySelected()){             
               //set Passive Style            
@@ -265,7 +279,7 @@ define([
     bringToFront:function(){
       if (typeof this.attributes.layerGroup !== "undefined") {
         if(this.isActive()){  
-          console.log("layerModel.brintofront " + this.id)
+//          console.log("layerModel.brintofront " + this.id)
           
           this.getMapLayer(function(mapLayer){
             mapLayer.bringToFront()
@@ -294,6 +308,9 @@ define([
     },      
     isSelected : function(){
       return this.attributes.selected
+    },      
+    isMouseOver : function(){
+      return this.attributes.mouseOver
     },      
     isAnySelected : function(){
       return this.attributes.anySelected

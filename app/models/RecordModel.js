@@ -10,6 +10,7 @@ define([
         this.mapAttributes(this.attributes.featureAttributeMap)
       }
       this.set('formatted',{})
+      this.set('selected',false)
 
     },
     mapAttributes:function(featureAttributeMap){
@@ -51,6 +52,24 @@ define([
       // only when not active already
       if (this.getLayer()){
         this.getLayer().setSelected(selected,anySelected) 
+        if (selected) {
+          this.bringToFront()
+        }        
+      }
+
+    },
+    isMouseOver:function(){
+      return this.attributes.mouseOver
+    },    
+    setMouseOver : function(bool){
+      bool = typeof bool !== 'undefined' ? bool : true   
+      this.set('mouseOver',bool)      
+      // only when not active already
+      if (this.getLayer()){
+        this.getLayer().setMouseOver(bool) 
+        if (bool) {
+          this.getLayer().bringToFront()
+        }
       }
 
     },
@@ -185,14 +204,39 @@ define([
           var condition = query[key]
           
           // check min
-          if (key === columnModel.getQueryColumn("min")) {
-            if(this.get(column) === null || this.get(column) < parseFloat(condition)) {
-              pass = false
+          if (key === columnModel.getQueryColumnByType("min")) {
+            if (column === "longitude") {
+              if(this.get(column) === null) {
+                pass = false
+              } else {
+                var value = this.get(column) < 0 ? this.get(column) + 360 : this.get(column)
+                var condition = parseFloat(condition) < 0 ? parseFloat(condition) + 360 : parseFloat(condition)
+                if (value < condition) {
+                  pass = false
+                }
+              }
+            } else {
+              if(this.get(column) === null || this.get(column) < parseFloat(condition)) {
+                pass = false
+              }
             }     
           // check max
-          } else if (key === columnModel.getQueryColumn("max")) {
-            if(this.get(column) === null || this.get(column) > parseFloat(condition)) {
-              pass = false
+          } else if (key === columnModel.getQueryColumnByType("max")) {
+            if (column === "longitude") {
+              if(this.get(column) === null) {
+                pass = false
+              } else {
+                var value = this.get(column) < 0 ? this.get(column) + 360 : this.get(column)
+                var condition = parseFloat(condition) < 0 ? parseFloat(condition) + 360 : parseFloat(condition)
+                
+                if (value > condition) {
+                  pass = false
+                }
+              }
+            } else {
+              if(this.get(column) === null || this.get(column) > parseFloat(condition)) {
+                pass = false
+              }               
             }               
           // check equality
           } else {            

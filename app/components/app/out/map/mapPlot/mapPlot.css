@@ -1,0 +1,170 @@
+#map-plot-lat {
+  position: absolute;
+  top: 0;
+  bottom: 0;  
+  right:0;
+  width: 200px;  
+  overflow-y: auto;
+  background:#F5F6F6;
+  z-index: 1000;
+  display: block;
+  overflow-x: hidden;
+}
+
+
+
+.table-plot.table-plot-lat {
+  width: 100%;
+}
+.table-plot td.marker {
+    text-align: center;
+    width: 30px;
+    padding-right: 10px;
+    padding-left: 5px;
+}
+
+.table-plot .key-color {
+    margin-right: 0;
+    width: 10px;
+    height: 10px;
+}
+
+.table-plot.table-plot-lat td.bars {
+  width: 120px;
+  padding: 3px 0;
+  border-left: 1px solid #999;
+  position: relative
+}
+.list-plot-bar-grid {
+  border-right: 1px solid #ddd;
+  width: 1px;
+  height: 30px;
+  position: absolute;
+  top: 0;
+}
+
+.list-plot-bar-grid-25{
+  left:25%
+}
+.list-plot-bar-grid-50{
+  left:50%
+}
+.list-plot-bar-grid-75{
+  left:75%
+}
+.list-plot-bar-grid-100{
+  left:100%
+}
+
+.table-plot.table-plot-lat td.bars-below, 
+.table-plot.table-plot-lat td.bars-above {
+    padding: 3px 0px;
+    width: 9px;
+}
+.table-plot.table-plot-lat td.bars-above {
+    width: auto;
+}
+.list-plot-bar {
+    height: 12px;
+    position: relative;
+}
+.list-plot-bar-excess {
+    height: 12px;
+    display: block;
+    font-size: 0;
+}
+.list-plot-bar-excess-item {
+    width: 1px;
+    height: 12px;
+    display: inline-block;
+    margin: 0 1px;
+}
+
+.list-plot-bar-label {
+    position: absolute;
+    left: 100%;
+    padding: 0 2px;
+    font-size: 11px;
+    line-height: 12px;
+    font-weight: bold;
+    top: 0;
+    min-width: 50px;
+    white-space: nowrap;
+}
+
+.text-inside .list-plot-bar-label {
+    position: relative;
+    left: auto;
+    top:auto;
+    float: right;
+    color: #fff!important;
+    min-width: 0
+}
+
+.table-plot tr.select-record.active,
+.table-plot tr.select-record:hover,
+.table-plot tr.select-record.hover {
+    background-color: #fff;
+}
+
+
+.table-plot tr.tr-column-scale-spacer th{
+  padding: 4px 0
+}
+.table-plot th.th-column-scale-line {
+  border-bottom: 1px solid;
+  border-right:1px solid;
+  border-left:1px solid;
+  height:2px;
+}
+
+.column-scale-min {
+    position: absolute;
+    left: 0;
+}
+.column-scale-mid {
+    position: absolute;
+    left: 50%;
+}
+.column-scale-max {
+    position: absolute;
+    left: 100%;
+}
+.column-scale {
+    position: relative;
+    height: 15px;
+    font-size: 12px;
+}
+
+
+.axis-label {
+    right: 50%;
+    position: relative;
+}
+
+
+tr.select-column,
+tr.select-record {
+    cursor: pointer;
+}
+
+.select-column .select-checkbox{
+  padding-right: 5px;
+}
+.select-column .select-checkbox-inner {
+    color: #fff;
+    font-size: 10px;
+    padding: 2px;
+    height: 16px;
+    width: 16px;
+}
+td.select-label {
+    font-weight: bold;
+    font-size: 12px;
+    padding: 4px 0;
+    line-height: 14px;
+}
+
+#plot-control {
+  margin-bottom: 15px;
+}

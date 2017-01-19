@@ -13,8 +13,14 @@ define([
     getOutType:function(){
       return this.attributes.outType
     },  
+    getOutMapType:function(){
+      return this.attributes.outMapType
+    },  
     getOutColorColumn:function(){
       return this.attributes.outColorColumn
+    },  
+    getOutPlotColumns:function(){
+      return this.attributes.outPlotColumns
     },  
     getViews:function(){
       return this.attributes.views

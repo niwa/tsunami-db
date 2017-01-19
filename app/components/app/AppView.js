@@ -66,7 +66,10 @@ define([
       // out view events
       setOutView: "setOutView",
       recordSelect: "recordSelect",
+      recordMouseOver: "recordMouseOver",
+      recordMouseOut: "recordMouseOut",
       colorColumnChanged: "colorColumnChanged",
+      plotColumnsSelected: "plotColumnsSelected",
       
       // map view events
       mapViewUpdated: "mapViewUpdated",            
@@ -80,7 +83,11 @@ define([
       pointLayerMouseOut: "pointLayerMouseOut",  
       
       mapLayerSelect: "mapLayerSelect",   
-      mapPopupClosed:"mapPopupClosed"
+      mapPopupClosed:"mapPopupClosed",
+      mapOptionToggled:"mapOptionToggled",
+      
+      geoQuerySubmit:"geoQuerySubmit",
+      geoQueryDelete:"geoQueryDelete"
       
       
 
@@ -128,6 +135,8 @@ define([
 
       // model change events
       this.listenTo(this.model, "change:route", this.routeChanged);
+      
+      
       
       $(window).on("resize", _.debounce(_.bind(this.resize, this), 100));
       this.checkWindowHeight()
@@ -345,8 +354,10 @@ define([
                 layerCollection: that.model.getLayers(),
                 recordCollection: that.model.getRecords(),
                 mapConfig: that.model.getMapConfig(),
-                recordsUpdated:"",
-                recordsPopup:[]
+                recordsUpdated:0,
+                recordsPopup:[],
+                recordMouseOverId :"",
+                geoQuery:{}
               })
             })
             if (that.model.isComponentActive(componentId)) {
@@ -354,13 +365,17 @@ define([
               // update Records
               that.updateRecords()  
 
-              that.views.out.model.setActive()
+//              that.views.out.model.setActive()
               that.views.out.model.set({
+                active:           true,
                 recordsUpdated :  Date.now(),
                 outType:          that.model.getOutType(),
+                outMapType:       that.model.getOutMapType(),
                 outColorColumn:   that.model.getOutColorColumn(),
+                outPlotColumns:   that.model.getOutPlotColumns(),
                 mapView:          that.model.getActiveMapview(),
-                recordId :        that.model.getSelectedRecordId()
+                recordId :        that.model.getSelectedRecordId(),
+                geoQuery:         that.model.getGeoQuery()
               })
             } else {
               that.views.out.model.setActive(false)
@@ -466,6 +481,7 @@ define([
       this.model.layersConfigured(true)
     },
     loadRecords : function(){      
+      console.log("loadRecords")
       
       var recordConfig = this.model.get("config").records
       var that = this      
@@ -486,6 +502,7 @@ define([
       }
     },      
     configureRecords : function(recordData) {
+      console.log("configureRecords")
       
       var recordConfig = this.model.get("config").records
       if (typeof recordConfig !== "undefined") {
@@ -538,13 +555,17 @@ define([
 
             that.model.setRecords(recordCollection)      
             that.model.recordsConfigured(true)
+            console.log("done... configureRecords")
+            
           }
         )
       }
     },    
     
 
-    configureColumns:function(){      
+    configureColumns:function(){    
+      console.log("configureColumns")
+      
       // store column groups
       this.model.setColumnGroups(new ColumnGroupCollection(this.model.get("columnGroupConfig")))
       // store and init columns
@@ -557,10 +578,13 @@ define([
       // store columns reference with record collection            
       this.model.getRecords().setColumns(this.model.get("columnCollection"))     
       this.model.columnsConfigured(true)
+      console.log("done... configureColumns")
+      
     },
     
     
     loadProxies : function(){      
+      console.log("loadProxies")
       
       var proxyConfig = this.model.get("config").proxies
       var that = this      
@@ -580,6 +604,7 @@ define([
       });
     },      
     configureProxies : function(proxyData) {
+      console.log("configureProxies")
       
       var proxyConfig = this.model.get("config").proxies
       
@@ -604,6 +629,8 @@ define([
         },    
         //then
         function(){ 
+          console.log("done... configureProxies")
+          
           that.model.getRecords().setProxies(that.model.getProxies()) 
           that.model.proxiesConfigured(true)  
         }        
@@ -611,7 +638,7 @@ define([
           
     },    
     loadReferences : function(){      
-      
+      console.log("loadReferencesa")          
       var refConfig = this.model.get("config").references
       var that = this      
       
@@ -630,7 +657,8 @@ define([
       });
     },      
     configureReferences : function(refData) {
-      
+      console.log("configureReferences")
+
       var refConfig = this.model.get("config").references
       
       var that = this
@@ -654,6 +682,8 @@ define([
         },    
         //then
         function(){ 
+          console.log("done... configureReferences")
+          
           that.model.getRecords().setReferences(that.model.getReferences())           
           that.model.referencesConfigured(true)   
         }        
@@ -748,7 +778,7 @@ define([
       console.log("recordsPopup ")  
 
       this.views.out.model.set('recordsPopup',[]);   
-      this.views.out.model.set('recordsPopup',args.records);   
+      this.views.out.model.set('recordsPopup',args.records);   // models not collection
     },
     
     colorColumnChanged : function(e,args){
@@ -758,6 +788,13 @@ define([
       
       this.model.getRouter().queryUpdate({
         colorby:args.column
+      })      
+    },    
+    plotColumnsSelected : function(e,args){
+      console.log("plotColumnsSelected")    
+            
+      this.model.getRouter().queryUpdate({
+        plot:args.columns
       })      
     },    
     
@@ -791,7 +828,7 @@ define([
           var recordsOverlapping = this.model.getRecords().byXY(args.x,args.y)
                     
           this.$el.trigger('recordsPopup', { 
-            records: recordsOverlapping 
+            records: recordsOverlapping.models
           });            
           this.$el.trigger('recordSelect', { 
             id: layerId,
@@ -799,6 +836,39 @@ define([
           })                
           
         }          
+      }          
+    },
+    recordMouseOver : function(e,args){
+      // check if location a casestudy
+      console.log("recordMouseOver")
+      var recordId = args.id
+      
+      if (recordId !== "") {                
+        var record = this.model.getRecords().get(recordId)
+          
+        this.$el.trigger('recordsPopup', { 
+          records: [record] 
+        }); 
+
+        this.views.out.model.set("recordMouseOverId",recordId) ; 
+        record.setMouseOver()     
+      }          
+    },
+    recordMouseOut : function(e,args){
+      // check if location a casestudy
+      console.log("recordMouseOver")
+      var recordId = args.id
+      
+      if (recordId !== "") {                
+        var record = this.model.getRecords().get(recordId)
+          
+        this.$el.trigger('recordsPopup', { 
+          records: [] 
+        }); 
+            
+        this.views.out.model.set("recordMouseOverId","") ; 
+        record.setMouseOver(false)     
+
       }          
     },
     pointLayerMouseOver : function(e,args){
@@ -814,10 +884,13 @@ define([
             this.pointLayerMouseOverLayerId = layerId
             //detect other records            
             this.$el.trigger('recordsPopup', { 
-              records: this.model.getRecords().byActive().byXY(args.x,args.y) 
+              records: this.model.getRecords().byActive().byXY(args.x,args.y).models
             }); 
             
           }  
+          var record = this.model.getRecords().get(args.layerId)
+          this.views.out.model.set("recordMouseOverId",record.id) ; 
+          record.setMouseOver()     
         }          
       }          
     },
@@ -826,6 +899,33 @@ define([
       this.pointLayerMouseOverLayerId = null
       console.log("pointLayerMouseOut")
 
+      var record = this.model.getRecords().get(args.layerId)
+      this.views.out.model.set("recordMouseOverId","") ; 
+      record.setMouseOver(false)          
+       
+    },
+    mapLayerMouseOver : function(e,args){
+      // check if location a casestudy
+      console.log("mapLayerMouseOver")
+      var layerId = args.id
+      
+      if (layerId !== "") {        
+        // for now only handle record layer clicks
+        if (this.model.getLayers().get(layerId).get("isRecordLayer")) { 
+          
+          var record = this.model.getRecords().get(args.id)
+          this.views.out.model.set("recordMouseOverId",record.id) ; 
+          record.setMouseOver()     
+        }          
+      }          
+    },
+    mapLayerMouseOut : function(e,args){
+      // check if location a casestudy
+      console.log("mapLayerMouseOut")
+
+      var record = this.model.getRecords().get(args.id)
+      this.views.out.model.set("recordMouseOverId","") ; 
+      record.setMouseOver(false)          
        
     },
     mapLayerSelect : function(e,args){
@@ -845,8 +945,20 @@ define([
       }          
     },
     mapPopupClosed:function(){
-      console.log("mapPopupClosed")  
+//      console.log("mapPopupClosed")  
       
+    },
+    
+    
+    mapOptionToggled:function(e,args){
+      this.model.getRouter().queryUpdate(
+        {
+          map:this.model.getOutMapType() !== args.option ? args.option : 'none'
+        },
+        true, // trigger
+        false, // replace
+        true // extend
+      )         
     },
     
     // record events
@@ -888,7 +1000,40 @@ define([
         false // extend
       )      
     },
-
+    geoQueryDelete:function(e){
+      console.log("geoQueryDelete")    
+      
+      var latColumn = this.model.getColumns().get("lat")
+      var lngColumn = this.model.getColumns().get("lng")      
+      this.model.getRouter().queryDelete([
+        "q_"+latColumn.getQueryColumnByType("max"),
+        "q_"+latColumn.getQueryColumnByType("min"),
+        "q_"+lngColumn.getQueryColumnByType("max"),
+        "q_"+lngColumn.getQueryColumnByType("min"),
+      ])
+    },
+    geoQuerySubmit:function(e,args){
+      console.log("geoQuerySubmit")    
+      
+      var latColumn = this.model.getColumns().get("lat")
+      var lngColumn = this.model.getColumns().get("lng")      
+      
+      // new query
+      var query = {}
+      
+      query["q_"+latColumn.getQueryColumnByType("max")] = args.geoQuery.north.toString()
+      query["q_"+latColumn.getQueryColumnByType("min")] = args.geoQuery.south.toString()
+      query["q_"+lngColumn.getQueryColumnByType("max")] = args.geoQuery.east.toString()
+      query["q_"+lngColumn.getQueryColumnByType("min")] = args.geoQuery.west.toString()
+      
+      
+      this.model.getRouter().queryUpdate(
+        query,
+        true, // trigger
+        false, // replace
+        true // extend
+      )           
+    }
     
 
 

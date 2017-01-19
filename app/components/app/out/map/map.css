@@ -14,9 +14,12 @@
   top: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  width: 100%;
+  right: 200px;
   background-color: #f7f7f7;
+}
+
+#map.full-width #map-container {
+  right:0
 }
 
 .control-disabled .leaflet-container {
@@ -153,22 +156,58 @@ a.leaflet-control-zoom-in{
     margin: 12px auto 0;
 }
 
-.leaflet-rrose-tip-se {
-    margin: 12px 11px 11px -8px; overflow: hidden;
-}
-.leaflet-rrose-tip-sw {
-    margin: 12px 11px 11px 32px; overflow: hidden;
-}
-
 .leaflet-rrose-content a.active{
   font-weight:bold
 }
 
-/*
-.leaflet-rrose{
-    pointer-events: none;
+.leaflet-rrose-tip-container {
+    width: 40px;
+    height: 10px;
 }
 
-.leaflet-rrose-content-wrapper {
-    pointer-events: all;
-}*/
+
+.leaflet-rrose-tip {
+    width: 8px;
+    height: 8px;
+}
+.leaflet-rrose-tip-n {
+    margin: -4px auto 0;
+}
+.leaflet-rrose-tip-s {
+    margin: 7px auto 0;
+}
+
+.leaflet-rrose-tip-se {
+    margin: 7px 7px 7px -4px; overflow: hidden;
+}
+
+.leaflet-rrose-tip-sw {
+    margin: 7px 7px 7px 32px; overflow: hidden;
+}
+
+.leaflet-rrose-tip-ne {
+    margin: -4px 7px 7px -4px; overflow: hidden;
+}
+
+.leaflet-rrose-tip-nw {
+    margin: -4px 7px 7px 32px; overflow: hidden;
+}
+
+
+#map-options {
+    position: absolute;
+    top: 0;
+    right: 200px;
+    z-index: 2000;
+}
+#map.full-width #map-options {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2000;
+}
+
+#map-options .toggle-option {
+    display: block;
+    border-radius: 0;
+}

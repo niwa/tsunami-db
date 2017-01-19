@@ -13,6 +13,7 @@
     'leaflet': 'libs/leaflet-src', //gis
     'esri.leaflet' : 'libs/esri-leaflet-src',//gis
     'leaflet.rrose' : 'libs/leaflet.rrose-src',//tooltip    
+    'leaflet.draw' : 'libs/leaflet.draw-src',//draw        
     'templates': 'templates',//core
     "ga": "//www.google-analytics.com/analytics"    
   },    
