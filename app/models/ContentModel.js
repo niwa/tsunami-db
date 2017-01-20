@@ -1,6 +1,7 @@
 define([
-  'jquery', 'underscore', 'backbone'
-], function($,_, Backbone
+  'jquery', 'underscore', 'backbone',
+  'jquery.xml2json'
+], function($,_, Backbone,xml2json
 ){
   
   var ContentModel = Backbone.Model.extend({
@@ -20,7 +21,7 @@ define([
       
         
           if (that.getFormat() === "xml") {
-            callback(content)
+            callback($.xml2json(content))
           }
         },
         error: function(){
@@ -63,9 +64,9 @@ define([
         } else {	
           this.isContentLoading = true
           
-          this.loadContent(function(result){
+          this.loadContent(function(content){
             // todo add error handling 
-            that.set('content', result)
+            that.set('content', content)
             that.isContentLoading = false
             that.isContentLoaded = true
             callback(that.attributes.content)

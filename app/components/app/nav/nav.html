@@ -17,9 +17,32 @@
     <div id="navbar" class="navbar-collapse collapse">          
       <ul class="nav navbar-nav">
         <% _.each(navitems,function(item){ %>                  
-          <li class="<%= item.class %>" > 
-            <a class="nav-link" href="#" data-route='<%= item.route %>' data-id='<%= item.id %>'><%= item.title %></a>
-          </li>
+        <li class="<%= item.class %>" > 
+          <a class="nav-link" 
+             href="#" 
+             data-route='<%= item.route %>' 
+             data-type='<%= item.type %>' 
+             data-id='<%= item.id %>'>
+            <%= item.title %>
+          </a>
+          <% if (!!item.navitems) { %>
+          <div class="nav-subnav show-on-active">
+          <ul class="nav navbar-nav ">
+            <% _.each(item.navitems,function(childItem){ %>                  
+            <li class="<%= childItem.class %>" > 
+              <a class="nav-link" 
+                 href="#" 
+                 data-route='<%= childItem.route %>' 
+                 data-type='<%= childItem.type %>' 
+                 data-id='<%= childItem.id %>'>
+                <%= childItem.title %>
+              </a>              
+            </li>
+            <% }) %>                  
+          </ul>
+          </div>
+          <% } %>            
+        </li>
         <% }) %>
       </ul>
     </div>

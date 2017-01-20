@@ -8,6 +8,7 @@ define([
 
   var PageView = Backbone.View.extend({
     events : {
+      "click .close-page" : "closePage"      
     },
     initialize : function () {
       this.render()
@@ -23,15 +24,20 @@ define([
       return this
     },    
     loadPage: function(){
-      var page = this.model.getActivePage()
-      this.$el.html(_.template(template)({
-        t:this.model.getLabels()
-      }))        
-      if (this.model.hasActivePage()) {
-        var that = this
-        page.getContent(function(content){      
-          that.$('.placeholder-content').html(content)
-        })
+      var page = this.model.getActivePage()      
+      if (typeof page !== "undefined") {      
+        this.$el.html(_.template(template)({
+          t:this.model.getLabels(),
+          classes:page.getClass()
+        }))        
+        if (this.model.hasActivePage()) {
+          var that = this
+          page.getContent(function(content){      
+            that.$('.placeholder-content').html(content)
+          })
+        }
+      } else {
+        this.$el.html("")
       }
     },
     handlePageChange : function(){
@@ -43,7 +49,13 @@ define([
       } else {
         this.$el.hide()
       }
-    }
+    },
+    
+    closePage : function(e){
+      e.preventDefault()
+      
+      this.$el.trigger('pageClose')      
+    }    
         
   });
 

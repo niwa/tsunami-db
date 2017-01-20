@@ -76,14 +76,30 @@
 
 
 /*bootstrap override*/
-
+.nav > li {
+    position: static;
+}
+.navbar-fixed-top {
+    border-width: 0;
+}
 
 
 
 /* navbar */
+.nav-subnav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: #555;
+    text-align: center;
+    width: 100%;
+}
 
-
-
+.nav-subnav ul.navbar-nav {
+    float: none;
+    display: inline-block;
+}
 
 
 
