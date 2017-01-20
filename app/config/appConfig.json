@@ -8,14 +8,69 @@
     {
       "id":"db",
       "route":"db",
-      "title":"Explore database"
+      "title":"Explore database",
+      "type":"component"
     },
     {
-      "id":"palaeotsunami",
-      "route":"page",      
-      "title":"What is a palaeotsunami?",
-      "path": "//content.niwa.co.nz/content/resource_by_name/What%20is%20a%20palaeotsunami",
-      "format":"xml"
+      "id":"about",      
+      "title":"About",
+      "type":"group",
+      "navitems":[
+        {
+          "id":"about",
+          "title":"About",
+          "path": "//content.niwa.co.nz/content/resource_by_name/About",
+          "format":"xml"
+        },
+        {
+          "id":"methodology",
+          "title":"Methodology",
+          "path": "//content.niwa.co.nz/content/resource_by_name/Methodology",
+          "format":"xml"
+        },
+        {
+          "id":"attributes",
+          "title":"Attributes",
+          "list":"columns",
+          "type": "list"
+        },
+        {
+          "id":"usage",
+          "title":"Data Usage",
+          "path": "//content.niwa.co.nz/content/resource_by_name/Data%20usage",
+          "format":"xml"          
+        },
+        {
+          "id":"contact",
+          "title":"Contact",
+          "path": "//content.niwa.co.nz/content/resource_by_name/Contact",
+          "format":"xml"
+        }        
+      ]
+    },
+    {
+      "id":"learn",      
+      "title":"Learn more",
+      "type":"group",
+      "navitems":[
+        {
+          "id":"palaeotsunami",
+          "title":"What is a palaeotsunami?",
+          "path": "//content.niwa.co.nz/content/resource_by_name/What%20is%20a%20palaeotsunami",
+          "format":"xml"
+        },
+        {
+          "id":"sources",
+          "title":"Sources and travel times",
+          "path": "//content.niwa.co.nz/content/resource_by_name/Sources%20and%20travel%20times",
+          "format":"xml"
+        }        
+      ]
+    },
+    {
+      "id":"share",
+      "title":"Share",
+      "type":"modal"
     }
   ],
   "records":{    

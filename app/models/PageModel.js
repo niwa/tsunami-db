@@ -46,9 +46,15 @@ define([
           this.isContentLoading = true
           
           this.loadContent(function(content){
-            
+            var html = ""
             // according to NIWA's content XML structure
-            var html = content["#document"]["result"]["nodes"]["item"]["body"]["und"]["item"]["safe_value"]
+            if (typeof content["#document"] !== "undefined") {
+              if (content["#document"]["result"]["nodes"] !== "") {
+                html = content["#document"]["result"]["nodes"]["item"]["body"]["und"]["item"]["safe_value"]
+              } else {
+                html = "<p>ERROR LOADING RESOURCE: requested resource does not exist</p>"
+              }
+            }
             
             that.set('content', that.setupContent($(html)))
             that.isContentLoading = false

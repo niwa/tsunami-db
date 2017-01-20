@@ -440,10 +440,22 @@ define([
 
 
     configurePages : function(){      
-      this.model.setPages(new ContentCollection(
-        _.where(this.model.getConfig().navitems,{route:"page"}), 
-        {model: PageModel}
-      ))
+      var pagesCollection = new ContentCollection([],{model:PageModel})
+      
+      _.each(this.model.getConfig().navitems,function(item){
+        if (!(item.type !== "page")) {
+          pagesCollection.add(item)
+        }
+        if (item.type === "group") {
+          _.each(item.navitems,function(childItem){
+            if (!(childItem.type !== "page")) {
+              pagesCollection.add(childItem)
+            }            
+          })
+        }
+      })
+      
+      this.model.setPages(pagesCollection)
       this.model.pagesConfigured(true)
     },
     configureLayers : function(){      
@@ -1041,7 +1053,7 @@ define([
     pageClose : function(e){    
       this.model.getRouter().update({
         route:"db",
-        path:""        
+        path:this.model.getLastDBPath()        
       })
     
     },

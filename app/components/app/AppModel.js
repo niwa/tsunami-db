@@ -116,8 +116,8 @@ define([
     },
 		setRoute : function(route) {
 			// console.log('AppModel.setRoute')
-      if (route.route !== "db") {
-        this.set("lastDBPath",this.attributes.route.path)
+      if (route.route === "db") {
+        this.set("lastDBPath",route.path)
       }
 			this.set('route',{
 				route : route.route,
