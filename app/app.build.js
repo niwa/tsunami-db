@@ -8,6 +8,7 @@
     'jquery.deparam': 'libs/jquery.deparam',
     'jquery.select2': 'libs/select2',        
     'jquery.xml2json': 'libs/jquery.xml2json',        
+    'showdown': 'libs/showdown', //markdown support        
     'underscore': 'libs/underscore', //core
     'backbone': 'libs/backbone', //core
     'bootstrap': 'libs/bootstrap', //carousel

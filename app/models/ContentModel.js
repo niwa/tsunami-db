@@ -1,7 +1,8 @@
 define([
   'jquery', 'underscore', 'backbone',
-  'jquery.xml2json'
-], function($,_, Backbone,xml2json
+  'jquery.xml2json',
+  'showdown'
+], function($,_, Backbone,xml2json,showdown
 ){
   
   var ContentModel = Backbone.Model.extend({
@@ -12,24 +13,54 @@ define([
       
     },    
     loadContent : function (callback, selector){
-      // default: could be overridden in specific model to apply specific content transformation
-      var that = this
-      $.ajax({
-        dataType:this.getFormat(),
-        url:this.getUrl(),
-        success:function(content) {
-      
-        
-          if (that.getFormat() === "xml") {
-            callback($.xml2json(content))
+      if (!!this.getUrl()) {
+        // default: could be overridden in specific model to apply specific content transformation
+        var that = this
+        $.ajax({
+          dataType:this.getFormat(),
+          url:this.getUrl(),
+          success:function(content) {
+
+
+            switch (that.getFormat()) {                    
+              case "xml":
+                var content = $.xml2json(content)
+                // according to NIWA's content XML structure
+                if (typeof content["#document"] !== "undefined") {
+                  if (content["#document"]["result"]["nodes"] !== "") {
+                    content = content["#document"]["result"]["nodes"]["item"]["body"]["und"]["item"]["safe_value"]
+                  } else {
+                    content = "<p>ERROR LOADING RESOURCE: requested resource does not exist</p>"
+                  }
+                }
+                callback(content)
+                break
+              default:
+                callback(content)
+                break                
+            }
+          },
+          error: function(){
+            callback("error loading content from " + that.getUrl())
+            console.log("error loading terms config")
           }
-        },
-        error: function(){
-          callback("error loading content from " + that.getUrl())
-          console.log("error loading terms config")
+
+        })
+      } else {
+        if (typeof this.attributes.content !== "undefined") {
+          switch (this.getFormat()) {                    
+            case "markdown": 
+              var converter = new showdown.Converter({ghCodeBlocks: false});              
+              callback(converter.makeHtml(this.attributes.content))
+              break           
+            default:
+              callback(this.attributes.content)
+              break
+          }
+        } else {
+          callback ("<p>ERROR LOADING CONTENT: requested content not specified</p>")
         }
-        
-      })
+      }
     },
     getFormat:function(){
       return "html"
