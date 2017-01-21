@@ -19,32 +19,32 @@
         {
           "id":"about",
           "title":"About",
-          "path": "//content.niwa.co.nz/content/resource_by_name/About",
-          "format":"xml"
+          "format":"markdown",          
+          "content": "# The New Zealand Palaeotsunami Database \n\n> This page needs some text about this project. \n\n---\n\nWould be nice to learn about purpose here as well as give credit to the creators \n\n<https://github.com/dumparkltd/tsunami-db/issues/30> "
         },
         {
           "id":"methodology",
           "title":"Methodology",
-          "path": "//content.niwa.co.nz/content/resource_by_name/Methodology",
-          "format":"xml"
+          "format":"markdown",          
+          "content": "# How the database was created \n\n> This page should explain the methodology. \n\n---\n\nSomething for James? \n\n<https://github.com/dumparkltd/tsunami-db/issues/29>"
         },
         {
           "id":"attributes",
           "title":"Attributes",
-          "list":"columns",
-          "type": "list"
+          "format":"markdown",          
+          "content": "# The record attributes \n\n> We'll generate this page from the attribute configuration file. \n\n---\n\n<https://github.com/dumparkltd/tsunami-db/issues/31>"        
         },
         {
           "id":"usage",
           "title":"Data Usage",
-          "path": "//content.niwa.co.nz/content/resource_by_name/Data%20usage",
-          "format":"xml"          
+          "format":"markdown",          
+          "content": "# Data usage terms \n\n> This page should explain the legalities around using the data. \n\n---\n\n<https://github.com/dumparkltd/tsunami-db/issues/20>"        
         },
         {
           "id":"contact",
           "title":"Contact",
-          "path": "//content.niwa.co.nz/content/resource_by_name/Contact",
-          "format":"xml"
+          "format":"markdown",          
+          "content": "# Contact \n\n---\n\nPlease get in touch if you would like to provide feedback, have a question or report a potential issue: \n\n[timo@dumpark.com](mailto:timo@dumpark.com)"
         }        
       ]
     },
@@ -62,9 +62,9 @@
         {
           "id":"sources",
           "title":"Sources and travel times",
-          "path": "//content.niwa.co.nz/content/resource_by_name/Sources%20and%20travel%20times",
-          "format":"xml"
-        }        
+          "format":"markdown",         
+          "content": "# Info on common tsunami sources and travel times \n\n> This page should explain where tsunamis originate and how long it takes them to hit NZ shores. \n\n---\n\nCould also explain local, regional and distant tsunami sources... \n\n<https://github.com/dumparkltd/tsunami-db/issues/24>"                  
+        }
       ]
     },
     {
