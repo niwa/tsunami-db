@@ -10,6 +10,25 @@
       "route":"db",
       "title":"Explore database",
       "type":"component"
+    },    
+    {
+      "id":"learn",      
+      "title":"Learn more",
+      "type":"group",
+      "navitems":[
+        {
+          "id":"palaeotsunami",
+          "title":"What is a palaeotsunami?",
+          "path": "//content.niwa.co.nz/content/resource_by_name/What%20is%20a%20palaeotsunami",
+          "format":"xml"
+        },
+        {
+          "id":"sources",
+          "title":"Sources and travel times",
+          "format":"markdown",         
+          "content": "# Info on common tsunami sources and travel times \n\n> This page should explain where tsunamis originate and how long it takes them to hit NZ shores. \n\n---\n\nCould also explain local, regional and distant tsunami sources... \n\n<https://github.com/dumparkltd/tsunami-db/issues/24>"                  
+        }
+      ]
     },
     {
       "id":"about",      
@@ -46,25 +65,6 @@
           "format":"markdown",          
           "content": "# Contact \n\n---\n\nPlease get in touch if you would like to provide feedback, have a question or report a potential issue: \n\n[timo@dumpark.com](mailto:timo@dumpark.com)"
         }        
-      ]
-    },
-    {
-      "id":"learn",      
-      "title":"Learn more",
-      "type":"group",
-      "navitems":[
-        {
-          "id":"palaeotsunami",
-          "title":"What is a palaeotsunami?",
-          "path": "//content.niwa.co.nz/content/resource_by_name/What%20is%20a%20palaeotsunami",
-          "format":"xml"
-        },
-        {
-          "id":"sources",
-          "title":"Sources and travel times",
-          "format":"markdown",         
-          "content": "# Info on common tsunami sources and travel times \n\n> This page should explain where tsunamis originate and how long it takes them to hit NZ shores. \n\n---\n\nCould also explain local, regional and distant tsunami sources... \n\n<https://github.com/dumparkltd/tsunami-db/issues/24>"                  
-        }
       ]
     },
     {
