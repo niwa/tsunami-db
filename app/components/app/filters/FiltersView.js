@@ -90,6 +90,29 @@ define([
     getFilterHtml:function(column, groupId){      
       switch (column.get("type")){
         case "quantitative":
+          var column_min = column.getQueryColumnByType("min")
+          var column_max = column.getQueryColumnByType("max")
+
+          var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
+            ? this.model.get("recQuery")[column_min]
+            : ""              
+          var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
+            ? this.model.get("recQuery")[column_max]
+            : ""                      
+          if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
+            return _.template(templateFilterMinMax)({
+              title:column.get("title"),
+              title_min:column.get("placeholders").min,
+              title_max:column.get("placeholders").max,
+              column_min:column_min,
+              column_max:column_max,
+              value_min:value_min,
+              value_max:value_max
+            })        
+          } else {
+            return false
+          }
+          break;
         case "spatial":                    
           var column_min = column.getQueryColumnByType("min")
           var column_max = column.getQueryColumnByType("max")
@@ -103,8 +126,8 @@ define([
           if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMax)({
               title:column.get("title"),
-              title_min:"Min",
-              title_max:"Max",
+              title_min:column.get("placeholders").min,
+              title_max:column.get("placeholders").max,
               column_min:column_min,
               column_max:column_max,
               value_min:value_min,

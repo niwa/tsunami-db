@@ -12,6 +12,7 @@ define([
       this.set({
         column :          this.attributes.column || this.attributes.id,        
         title :           this.attributes.title || this.attributes.id,
+        placeholders :    this.attributes.placeholders || null,
         hint :            this.attributes.hint || "",
         type :            this.attributes.type || "text",
         group :           this.attributes.group || "meta",
@@ -55,6 +56,14 @@ define([
             max: null
           }
       })      
+      
+      
+      if (this.attributes.type === "spatial" || this.attributes.type === "quantitative") {
+        if (this.attributes.placeholders === null){
+          this.set("placeholders", {min:"Min",max:"Max"})                      
+        }
+      }
+       
       if (this.attributes.values !== "auto" 
         && typeof this.attributes.values.values !== "undefined") {
         if(typeof this.attributes.values.labels === "undefined") {

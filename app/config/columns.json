@@ -258,7 +258,16 @@
       "min" : "south",
       "max" : "north"
     },       
-    "title":"Latitude (°)",
+    "title":"Latitude",
+    "placeholders":{
+      "min" : "South (eg -45)",
+      "max" : "North (eg -40)"
+    },       
+    "validation":{
+      "min" : -90,
+      "max" : 90,
+      "message" : "Values must be between -180 and 180 degrees"
+    },    
     "type":"spatial",    
     "group":"site",    
     "blanks":1
@@ -269,8 +278,17 @@
     "query":{
       "min" : "west",
       "max" : "east"
-    },           
-    "title":"Longitude (°)",
+    },      
+    "title":"Longitude",    
+    "placeholders":{
+      "min" : "West (eg 170)",
+      "max" : "East (eg -175)" 
+    },      
+    "validation":{
+      "min" : -180,
+      "max" : 180,
+      "message" : "Values must be between -180 and 180 degrees"
+    },
     "type":"spatial",    
     "group":"site",    
     "blanks":1
@@ -360,7 +378,17 @@
       "min" : "source_south",
       "max" : "source_north"
     },       
-    "title":"Source latitude (°)",
+    "title":"Source latitude",
+    "placeholders":{
+      "min" : "South",
+      "max" : "North"
+    },       
+    "validation":{
+      "min" : -90,
+      "max" : 90,
+      "message" : "Values must be between -180 and 180 degrees"
+    },    
+    
     "type":"spatial",    
     "group":"source",    
     "blanks":1
@@ -372,7 +400,16 @@
       "min" : "source_west",
       "max" : "source_east"
     },      
-    "title":"Source longitude (°)",
+    "title":"Source longitude",
+    "placeholders":{
+      "min" : "West",
+      "max" : "East"
+    },      
+    "validation":{
+      "min" : -180,
+      "max" : 180,
+      "message" : "Values must be between -180 and 180 degrees"
+    },    
     "type":"spatial",    
     "group":"source", 
     "blanks":1

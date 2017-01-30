@@ -42,3 +42,7 @@
 .btn-query-submit {
   margin:19px;
 }
+
+.column-filter-min-max input {
+  text-align:right;
+}
