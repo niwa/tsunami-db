@@ -245,11 +245,8 @@ define([
         var colMax = $(this).attr('data-column-max')          
         slider.noUiSlider.off()
         slider.noUiSlider.on('slide', function ( values, handle ) {   
-          if (handle === 0) {
-            that.$('input#text-'+colMin).val(values[0])      
-          } else {
-            that.$('input#text-'+colMax).val(values[1])
-          }          
+          that.$('input#text-'+colMin).val(values[0])      
+          that.$('input#text-'+colMax).val(values[1])
         })
         slider.noUiSlider.on('change', function ( values, handle ) {   
           that.querySubmit()          
