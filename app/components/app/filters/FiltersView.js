@@ -1,28 +1,33 @@
 define([
   'jquery',  'underscore',  'backbone',
   'jquery.select2/select2',
+  'nouislider',
   'text!./filters.html',
   'text!./filterMultiSelect.html',
   'text!./filterText.html',
   'text!./filterButtons.html',  
-  'text!./filterMinMax.html'
+  'text!./filterMinMax.html',
+  'text!./filterMinMaxSlider.html'
 ], function (
   $, _, Backbone,
   select2,
+  noUiSlider,
   template,
   templateFilterMultiSelect,
   templateFilterText,
   templateFilterButtons,
-  templateFilterMinMax
+  templateFilterMinMax,
+  templateFilterMinMaxSlider
 ) {
 
   var FiltersView = Backbone.View.extend({
     events : {
       "click .expand-all": "expandAll",
       "click .expand-group": "expandGroup",
-      "click .query-submit": "querySubmit",
+      "click .query-submit": "querySubmitClick",
       "click .query-reset": "queryReset",
       "click .filter-button": "filterButtonClick",
+      "click .slider-track-click": "filterSliderTrackClick"
     },
     initialize : function () {
       this.render()
@@ -83,9 +88,11 @@ define([
         )
       }))
       this.initMultiselect()      
+      this.initRangeSlider()      
       
       return this
     },    
+    
     
     getFilterHtml:function(column, groupId){      
       switch (column.get("type")){
@@ -98,17 +105,26 @@ define([
             : ""              
           var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
             ? this.model.get("recQuery")[column_max]
-            : ""                      
+            : ""       
+          
+          var range = column.getValues().range
+          var value_min_overall = range.min
+          var value_max_overall = range.max
+          
           if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
-            return _.template(templateFilterMinMax)({
+            return _.template(templateFilterMinMaxSlider)({
               title:column.get("title"),
               title_min:column.get("placeholders").min,
               title_max:column.get("placeholders").max,
               column_min:column_min,
               column_max:column_max,
               value_min:value_min,
-              value_max:value_max
-            })        
+              value_max:value_max,
+              value_min_overall:value_min_overall,
+              value_max_overall:value_max_overall,
+              slider_active:value_min !== "" || value_max !== "",
+              value_range:JSON.stringify(range).replace(/'/g, "\\'")
+            })               
           } else {
             return false
           }
@@ -209,6 +225,39 @@ define([
       }
     },
     
+    initRangeSlider: function(){
+      var that = this
+      this.$('.column-filter-min-max-slider .filter-slider').each(function(){
+        var slider = this;
+                
+        var ranges = JSON.parse($(this).attr('data-value-range'))
+        
+        noUiSlider.create(slider,{
+          start: [parseFloat($(this).attr('data-value-min')), parseFloat($(this).attr('data-value-max'))],
+          range: ranges,          
+          connect: true,
+          pips:{
+            "mode":"range",
+            "density": 3
+          }
+        })
+        var colMin = $(this).attr('data-column-min')     
+        var colMax = $(this).attr('data-column-max')          
+        slider.noUiSlider.off()
+        slider.noUiSlider.on('slide', function ( values, handle ) {   
+          if (handle === 0) {
+            that.$('input#text-'+colMin).val(values[0])      
+          } else {
+            that.$('input#text-'+colMax).val(values[1])
+          }          
+        })
+        slider.noUiSlider.on('change', function ( values, handle ) {   
+          that.querySubmit()          
+        })
+        
+      })
+      
+    },
     initMultiselect: function(){
       var that = this
       this.$('.column-filter-multiselect').each(function(){
@@ -218,7 +267,8 @@ define([
           placeholder : "Select " + title
         })
         .on("select2:select", function(e){
-          that.querySubmit(e)
+          e.preventDefault();
+          that.querySubmit()
         })
         
         // hack to prevent selct2 from opening "ghost" list after unselect
@@ -231,7 +281,7 @@ define([
             e.preventDefault();
             $(this).select2('close').removeData('unselecting');            
             // only submit query once opened
-            that.querySubmit(e)
+            that.querySubmit()
           }
         })             
         
@@ -254,13 +304,16 @@ define([
       
       $(e.currentTarget).toggleClass('active')
       
-      this.querySubmit(e)
+      this.querySubmit()
       
     },
     
     
-    querySubmit:function(e){     
+    querySubmitClick:function(e){    
       e.preventDefault()
+      this.querySubmit()
+    },
+    querySubmit:function(){     
       
       var query = {}
       

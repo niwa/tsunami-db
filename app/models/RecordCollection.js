@@ -83,7 +83,11 @@ define([
       var values = []
       _.each(this.models,function(model){
         if(model.get(column) !== null) {
-          values = _.union(values,_.map(model.get(column).split(','),function(val){return val.trim()}))
+          if (isNumber(model.get(column))) {
+            values.push(model.get(column))
+          } else {
+            values = _.union(values,_.map(model.get(column).split(','),function(val){return val.trim()}))
+          }
         }
       })           
       return values.sort(function(a,b){

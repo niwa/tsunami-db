@@ -503,6 +503,7 @@ define([
         $.ajax({
           dataType: "jsonp",
           jsonpCallback:"parseResponse",
+          cache:true,
           url: recordConfig.path,
           success: function(data) {
             console.log("success loading records data")          
@@ -606,6 +607,7 @@ define([
       $.ajax({
         dataType: "jsonp",
         jsonpCallback:"parseResponse",        
+        cache:true,       
         url: proxyConfig.path,
         success: function(data) {
           console.log("success loading proxies data")          
@@ -658,7 +660,8 @@ define([
       
       $.ajax({
         dataType: "jsonp",
-        jsonpCallback:"parseResponse",        
+        jsonpCallback:"parseResponse",  
+        cache:true,
         url: refConfig.path,
         success: function(data) {
           console.log("success loading ref data")          

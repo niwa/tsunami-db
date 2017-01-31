@@ -11,7 +11,30 @@ define([
     },
     initializeModels:function(){      
       _.each(this.models,function(column){    
-        if (column.get("type") === "categorical" || column.get("type") === "ordinal") {
+        if (column.get("type") === "quantitative") {
+          if(column.getValues() === 'auto'){
+            var values = this.options.records.getValuesForColumn(column.get('queryColumn'))
+            column.set("values",{
+              "range": {
+                "min":values[0],
+                "max":values[values.length-1]
+              }
+            })
+          } else {
+            if (typeof column.getValues().range !== "undefined" 
+            && (column.getValues().range.min === "auto" 
+                || column.getValues().range.max === "auto")){
+              var values = this.options.records.getValuesForColumn(column.get('queryColumn'))
+              if (column.getValues().range.min === "auto") {
+                column.getValues().range.min = values[0]
+              }
+              if (column.getValues().range.max === "auto") {
+                column.getValues().range.max = values[values.length-1]
+              }                
+            }
+          }
+                   
+        } else if (column.get("type") === "categorical" || column.get("type") === "ordinal") {
         // replace auto values (generate from actual record values where not explicitly set)
           if(column.getValues() === 'auto'){
             var values = this.options.records.getValuesForColumn(column.get('queryColumn'))

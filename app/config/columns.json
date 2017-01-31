@@ -174,10 +174,15 @@
     "plot":1,
     "plotMax":20,
     "plotColor":"#0483B0",
-    "values":{      
-      "stops":["min","max"],
-      "color":["blue","red"]
-    }   
+    "values":{
+      "range" : {
+        "min" : "auto",
+        "25%" : [0],        
+        "50%" : [10],        
+        "75%" : [20],
+        "max" : "auto"
+      }
+    }
   },
   {
     "id":"elevation_c",
@@ -204,10 +209,15 @@
     "plot":1,
     "plotMax":1000,
     "plotColor":"#50C6DD",
-    "values":{      
-      "stops":["min","max"],
-      "color":["blue","red"]
-    }   
+    "values":{
+      "range" : {
+        "min" : "auto",
+        "25%" : [100],        
+        "50%" : [200],
+        "75%" : [1000],
+        "max" : "auto"
+      }
+    }
   },
   {
     "id":"landward_limit_c",
@@ -229,10 +239,14 @@
     "type":"quantitative",    
     "group":"details",    
     "blanks":1,
-    "values":{      
-      "stops":["min","max"],
-      "color":["blue","red"]
-    }   
+    "values":{
+      "range" : {
+        "min" : "auto",
+        "50%" : [1],
+        "75%" : [10],
+        "max" : "auto"
+      }
+    }
   },    
   {
     "id":"region",
