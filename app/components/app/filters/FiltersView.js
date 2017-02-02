@@ -27,6 +27,7 @@ define([
       "click .query-submit": "querySubmitClick",
       "click .query-reset": "queryReset",
       "click .filter-button": "filterButtonClick",
+      "click .filter-range-checkbox:checkbox": "filterRangeCheckboxClick",
       "click .slider-track-click": "filterSliderTrackClick"
     },
     initialize : function () {
@@ -99,12 +100,17 @@ define([
         case "quantitative":
           var column_min = column.getQueryColumnByType("min")
           var column_max = column.getQueryColumnByType("max")
+          var column_value = column.getQueryColumnByType("value")
 
           var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
             ? this.model.get("recQuery")[column_min]
             : ""              
           var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
             ? this.model.get("recQuery")[column_max]
+            : ""       
+          
+          var value_column = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
+            ? this.model.get("recQuery")[column_value]
             : ""       
           
           var range = column.getValues().range
@@ -118,6 +124,9 @@ define([
               title_max:column.get("placeholders").max,
               column_min:column_min,
               column_max:column_max,
+              column_val:column_value,
+              specified:value_min !== "" || value_max !== "",
+              unspecified:value_column === "null",
               value_min:value_min,
               value_max:value_max,
               value_min_overall:value_min_overall,
@@ -305,6 +314,45 @@ define([
       
     },
     
+    filterRangeCheckboxClick:function(e){
+      var $target = $(e.target);
+      var $fields = $target.closest(".column-filter").find('.filter-input-fields')
+      var selected = $target.is(':checked');      
+      var value = $target.val()  
+      var colMin = $target.attr('data-column-min')     
+      var colMax = $target.attr('data-column-max') 
+        
+      if (value === "specified") {
+        if(selected) {
+          // toggle off unspecified
+          $target.closest(".filter-unspecified").find(".filter-checkbox-unspecified").prop('checked',false)
+          // add min/max values
+          var valMin = $target.attr('data-value-min-overall')     
+          var valMax = $target.attr('data-value-max-overall')           
+          $fields.find('input#text-'+colMin).val(valMin)
+          $fields.find('input#text-'+colMax).val(valMax)
+          
+        } else {
+          // remove min/max values
+          
+          $fields.find('input#text-'+colMin).val("")
+          $fields.find('input#text-'+colMax).val("")
+          
+        }
+      } else { //if (value === "null") {
+        if(selected) {
+          // toggle off specified
+          $target.closest(".filter-unspecified").find(".filter-checkbox-specified").prop('checked',false)
+          // remove min/max values
+          $fields.find('input#text-'+colMin).val("")
+          $fields.find('input#text-'+colMax).val("")                    
+        }
+      }
+      
+      
+      this.querySubmit()      
+    },
+    
     
     querySubmitClick:function(e){    
       e.preventDefault()
@@ -313,6 +361,13 @@ define([
     querySubmit:function(){     
       
       var query = {}
+      
+      this.$('.column-filter-checkbox').each(function(index){
+        var $filter = $(this)
+        if ($filter.val().trim() !== "" && $filter.is(':checked')) {
+          query[$filter.attr('data-column')] = $filter.val().trim()
+        }
+      })
       
       this.$('.column-filter-text').each(function(index){
         var $filter = $(this)
@@ -341,6 +396,8 @@ define([
           query[$filter.attr('data-column')] = val
         }            
       })
+      
+      
       
       this.$el.trigger('recordQuerySubmit',{query:query})
     },    

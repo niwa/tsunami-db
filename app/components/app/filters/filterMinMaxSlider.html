@@ -1,5 +1,5 @@
 <label for="<%= column_min %>"><%= title %></label>
-<div class="column-filter-min-max-slider <%= slider_active ? ' slider-active' : ' slider-inactive' %>">  
+<div class="column-filter column-filter-min-max-slider <%= slider_active ? ' slider-active' : ' slider-inactive' %>">  
   <div class="filter-input-fields clearfix">  
     <input type="text"
       class="form-control column-filter-text pull-left" 
@@ -16,13 +16,44 @@
       value="<%= value_max %>">   
   
   </div>
-  <div class="filter-slider"
-    data-column-min="<%= column_min %>"
-    data-column-max="<%= column_max %>"
-    data-value-min="<%= value_min !== '' ? value_min : value_min_overall %>"
-    data-value-max="<%= value_max !== '' ? value_max : value_max_overall %>"
-    data-value-min-overall="<%= value_min_overall %>"
-    data-value-max-overall="<%= value_max_overall %>"             
-    data-value-range='<%= value_range %>'             
-  ></div>
+  <div class="filter-slider-wrap">
+    <div class="filter-slider"
+      data-column-min="<%= column_min %>"
+      data-column-max="<%= column_max %>"
+      data-value-min="<%= value_min !== '' ? value_min : value_min_overall %>"
+      data-value-max="<%= value_max !== '' ? value_max : value_max_overall %>"
+      data-value-min-overall="<%= value_min_overall %>"
+      data-value-max-overall="<%= value_max_overall %>"             
+      data-value-range='<%= value_range %>'             
+    ></div>
+  </div>
+  <div class="filter-unspecified">
+    <label class="checkbox-inline">
+      <input type="checkbox" 
+        data-column-min="<%= column_min %>"
+        data-column-max="<%= column_max %>"    
+        data-value-min-overall="<%= value_min_overall %>"
+        data-value-max-overall="<%= value_max_overall %>"          
+        value="specified"
+        class="filter-range-checkbox filter-checkbox-specified"
+        <% if (specified) { %>
+        checked
+        <% } %>
+      >
+      Specified
+    </label>
+    <label class="checkbox-inline">
+      <input type="checkbox" 
+        data-column="<%= column_val %>"  
+        data-column-min="<%= column_min %>"
+        data-column-max="<%= column_max %>"      
+        value="null"
+        class="column-filter-checkbox filter-range-checkbox filter-checkbox-unspecified"
+        <% if (unspecified) { %>
+        checked
+        <% } %>
+      >
+      Unspecified
+    </label>
+  </div>
 </div>

@@ -59,7 +59,9 @@
 }
 .column-filter-min-max-slider {
     position: relative;
-    padding: 0 0 50px;
+}
+.filter-slider-wrap{
+    padding: 0 0 32px;
 }
 
 .noUi-pips-horizontal{
@@ -89,4 +91,8 @@
 }
 .slider-inactive .noUi-connect {
   background: #ddd;
+}
+
+.noUi-pips-horizontal {
+  padding-bottom:5px
 }
