@@ -16,12 +16,14 @@
 }
 
 .li-filter{
-  margin-bottom:20px
+  margin-bottom:30px
 }
 .filter-button {
   white-space: normal;
 }
-
+.form-group.well {
+    margin-bottom: 40px;
+}
 .form-group.well h3 {
     text-align: right;
     margin: 0;
@@ -55,7 +57,7 @@
 
 .filter-slider {
     position: relative;
-    margin: 12px 2px;
+    margin: 14px 24px;
 }
 .column-filter-min-max-slider {
     position: relative;
