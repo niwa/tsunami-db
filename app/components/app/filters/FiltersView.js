@@ -340,6 +340,9 @@ define([
         isNegative = true
         value_str = value_str.replace('BP', '').trim()
       }
+      if(value_str.indexOf('AD') > -1) {
+        value_str = value_str.replace('AD', '').trim()
+      }
       if(value_str.indexOf('k') > -1) {
         isThousands = true
         value_str = value_str.replace('k', '').trim()
