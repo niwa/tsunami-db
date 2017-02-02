@@ -98,42 +98,59 @@ define([
     getFilterHtml:function(column, groupId){      
       switch (column.get("type")){
         case "date":
-          var title
+        case "quantitative":
+          
+          // create the range slider element
+          
+          var title, // filter title
+              column_min, // the query argument for min value
+              column_max, // the query argument for max value
+              column_value, // the actual query column
+              value_min, // the current query min value
+              value_max, // the current query max value
+              value_column, // the current actual query column value, here can ne null for unspecified
+              value_min_overall, // the largest possible value based on dataset
+              value_max_overall, // the smallest possible value based on dataset
+              range // the scale range definitions as defined in columns.json config and as needed for nouislider
+                    
+          title = column.get("title")
+          column_min = column.getQueryColumnByType("min")
+          column_max = column.getQueryColumnByType("max")  
+          column_value = column.getQueryColumnByType("value")
+          range = column.getValues().range   
+            
+          // combo column specific values
+          // for every column marked as "combo" there should be a "combo_column", 
+          // one will have to be type "min" and the other "max"            
           if(column.get('combo') === 1) {  
-            title = column.get("comboTitle")
-            // figure out the query columns 
-            var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))
+            // override title
+            title = column.get("comboTitle")            
+            // get the combo column
+            var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))            
+            // update range and query columns from combo column depedning on type
+            var combo_column_range = combo_column.getValues().range
             if(column.get('comboType') === "min") {
-              var column_min = column.getQueryColumnByType("min")
-              var column_max = combo_column.getQueryColumnByType("max")
-            } else {                         
-              var column_min = combo_column.getQueryColumnByType("min")
-              var column_max = column.getQueryColumnByType("max")
-            }             
-            var column_value = column.getQueryColumnByType("value")
-
-            // figure out the query values for each query column
-            var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
-              ? this.model.get("recQuery")[column_min]
-              : ""              
-            var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
-              ? this.model.get("recQuery")[column_max]
-              : ""       
-            var value_column = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
-              ? this.model.get("recQuery")[column_value]
-              : ""       
-
-            // figure out the value ranges
-            var range = column.getValues().range
-            var combo_range = combo_column.getValues().range
-            if(column.get('comboType') === "min") {
-              range.min = combo_range.min
-            } else {
-              range.max = combo_range.max
-            }
-            var value_min_overall = range.min[0]
-            var value_max_overall = range.max[0]        
-          } 
+              range.min = combo_column_range.min
+              column_max = combo_column.getQueryColumnByType("max")
+            } else if(column.get('comboType') === "max"){
+              range.max = combo_column_range.max
+              column_min = combo_column.getQueryColumnByType("min")
+            }           
+          }
+          // get possible min/max values
+          value_min_overall = range.min[0]
+          value_max_overall = range.max[0]   
+          
+          // figure out the query values from query for each query column          
+          value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
+            ? this.model.get("recQuery")[column_min]
+            : ""              
+          value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
+            ? this.model.get("recQuery")[column_max]
+            : ""       
+          value_column = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
+            ? this.model.get("recQuery")[column_value]
+            : ""         
 
           if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMaxSlider)({
@@ -157,48 +174,7 @@ define([
             return false
           }
           break;
-        case "quantitative":
-          var column_min = column.getQueryColumnByType("min")
-          var column_max = column.getQueryColumnByType("max")
-          var column_value = column.getQueryColumnByType("value")
-
-          var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
-            ? this.model.get("recQuery")[column_min]
-            : ""              
-          var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
-            ? this.model.get("recQuery")[column_max]
-            : ""       
-          
-          var value_column = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
-            ? this.model.get("recQuery")[column_value]
-            : ""       
-          
-          var range = column.getValues().range
-          var value_min_overall = range.min[0]
-          var value_max_overall = range.max[0]
-
-          if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
-            return _.template(templateFilterMinMaxSlider)({
-              title:column.get("title"),
-              type:column.get("type"),              
-              title_min:column.get("placeholders").min,
-              title_max:column.get("placeholders").max,
-              column_min:column_min,
-              column_max:column_max,
-              column_val:column_value,
-              specified:value_min !== "" || value_max !== "",
-              unspecified:value_column === "null",
-              value_min:value_min,
-              value_max:value_max,
-              value_min_overall:value_min_overall,
-              value_max_overall:value_max_overall,
-              slider_active:value_min !== "" || value_max !== "",
-              value_range:JSON.stringify(range).replace(/'/g, "\\'")
-            })               
-          } else {
-            return false
-          }
-          break;
+        
         case "spatial":                    
           var column_min = column.getQueryColumnByType("min")
           var column_max = column.getQueryColumnByType("max")
