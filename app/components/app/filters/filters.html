@@ -20,19 +20,26 @@
           <ul class="list-unstyled">
             <% _.each(group.groupFilters,function(filter){ %>
             <% if (filter) { %>
-            <li class="clearfix li-filter">
+            <li class="clearfix li-filter column-filter">
               <%= filter %>
             </li>
             <% } %>
             <% }) %>
           </ul>
-          <div class="btn btn-info expand-group hidden-expanded-group" data-group="<%= group.id %>">
-            More filter options +
-          </div>
-          <div class="btn btn-info expand-group visible-expanded-group" data-group="<%= group.id %>">
-            Less filter options -
-          </div>          
-        </div>          
+          <div class="pull-right group-bottom-buttons">
+            <% if (group.groupReset) { %>
+            <div class="btn btn-primary query-group-reset" data-group="<%= group.id %>">
+              Clear 
+            </div>          
+            <% } %>              
+            <div class="btn btn-info expand-group hidden-expanded-group" data-group="<%= group.id %>">
+              More filter options +
+            </div>
+            <div class="btn btn-info expand-group visible-expanded-group" data-group="<%= group.id %>">
+              Less filter options -
+            </div>                  
+          </div>         
+        </div>         
         
         <% }) %>        
         <button type="submit" class="btn btn-info btn-query-submit query-submit pull-right">Submit</button>        

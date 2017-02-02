@@ -24,6 +24,7 @@ define([
       "click .expand-group": "expandGroup",
       "click .query-submit": "querySubmitClick",
       "click .query-reset": "queryReset",
+      "click .query-group-reset": "queryGroupReset",
       "click .filter-button": "filterButtonClick",
       "click .filter-range-checkbox:checkbox": "filterRangeCheckboxClick",
       "click .slider-track-click": "filterSliderTrackClick"
@@ -74,6 +75,9 @@ define([
               hint:group.get("hint"),
               id:group.id,
               classes: classes,
+              groupReset: _.reduce(columnsByGroup,function(memo, column){
+                return memo || this.isColumnSet(column)
+              }, false, this),
               groupFilters: _.filter(
                 _.map(columnsByGroup,function(column){
                   return this.getFilterHtml(column, group.id)                              
@@ -96,6 +100,40 @@ define([
       return this
     },    
     
+    isColumnSet:function(column){
+          //
+        var column_min = "", // the query argument for min value
+            column_max = "", // the query argument for max value
+            column_value = "", // the actual query column
+            queryMin = "", // the current query min value
+            queryMax = "", // the current query max value
+            queryValue = "", // the current actual query column value, here can ne null for unspecified
+
+        column_min = column.getQueryColumnByType("min")
+        column_max = column.getQueryColumnByType("max")  
+        column_value = column.getQueryColumnByType("value")
+        if(column.get('combo') === 1) {  
+          // get the combo column
+          var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))            
+          if(column.get('comboType') === "min") {
+            column_max = combo_column.getQueryColumnByType("max")
+          } else if(column.get('comboType') === "max"){
+            column_min = combo_column.getQueryColumnByType("min")
+          }           
+        }
+        // figure out the query values from query for each query column          
+        queryMin = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
+          ? this.model.get("recQuery")[column_min]
+          : ""              
+        queryMax = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
+          ? this.model.get("recQuery")[column_max]
+          : ""       
+        queryValue = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
+          ? this.model.get("recQuery")[column_value]
+          : ""         
+
+        return queryMin.length > 0 || queryMax.length > 0 || queryValue.length > 0 
+    },
     
     getFilterHtml:function(column, groupId){      
       switch (column.get("type")){
@@ -107,22 +145,22 @@ define([
           var column_min = column.getQueryColumnByType("min")
           var column_max = column.getQueryColumnByType("max")
 
-          var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
+          var queryMin = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
             ? this.model.get("recQuery")[column_min]
             : ""              
-          var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
+          var queryMax = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
             ? this.model.get("recQuery")[column_max]
             : ""                      
-          if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
+          if (column.get("default") || queryMin.trim() !== "" || queryMax.trim() !== "" || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMax)({
               title:column.get("title"),
               title_min:column.get("placeholders").min,
               title_max:column.get("placeholders").max,
               column_min:column_min,
               column_max:column_max,
-              column_type:column.get("type"),
-              value_min:value_min,
-              value_max:value_max
+              type:column.get("type"),
+              value_min:queryMin,
+              value_max:queryMax
             })        
           } else {
             return false
@@ -139,9 +177,9 @@ define([
               column_min, // the query argument for min value
               column_max, // the query argument for max value
               column_value, // the actual query column
-              value_min, // the current query min value
-              value_max, // the current query max value
-              value_column, // the current actual query column value, here can ne null for unspecified
+              queryMin, // the current query min value
+              queryMax, // the current query max value
+              queryValue, // the current actual query column value, here can ne null for unspecified
               value_min_overall, // the largest possible value based on dataset
               value_max_overall, // the smallest possible value based on dataset
               range // the scale range definitions as defined in columns.json config and as needed for nouislider
@@ -175,17 +213,21 @@ define([
           value_max_overall = range.max[0]   
           
           // figure out the query values from query for each query column          
-          value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
+          queryMin = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
             ? this.model.get("recQuery")[column_min]
             : ""              
-          value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
+          queryMax = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
             ? this.model.get("recQuery")[column_max]
             : ""       
-          value_column = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
+          queryValue = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
             ? this.model.get("recQuery")[column_value]
             : ""         
 
-          if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
+          if (column.get("default") 
+                  || queryMin.length > 0 
+                  || queryMax.length > 0
+                  || queryValue.length > 0
+                  || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMaxSlider)({
               title:title,
               type:column.get("type"),
@@ -194,13 +236,13 @@ define([
               column_min:column_min,
               column_max:column_max,
               column_val:column_value,
-              specified:value_min !== "" || value_max !== "",
-              unspecified:value_column === "null",
-              value_min:value_min,
-              value_max:value_max,
+              specified:queryMin !== "" || queryMax !== "",
+              unspecified:queryValue === "null",
+              value_min:queryMin,
+              value_max:queryMax,
               value_min_overall:value_min_overall,
               value_max_overall:value_max_overall,
-              slider_active:value_min !== "" || value_max !== "",
+              slider_active:queryMin !== "" || queryMax !== "",
               value_range:JSON.stringify(range).replace(/'/g, "\\'")
             })               
           } else {
@@ -221,7 +263,7 @@ define([
             ? this.model.get("recQuery")[column_id]
             : ""              
           // only show default columns or those that are set unless group expanded                        
-          if (column.get("default") || queryValue.length || this.model.isExpanded(groupId) ) {
+          if (column.get("default") || queryValue.length > 0 || this.model.isExpanded(groupId) ) {
 
             var options = []
 
@@ -307,69 +349,7 @@ define([
       })
       
     },
-    formatYearTo : function(value){
-      var isNegative = value < 0
-      var value_abs = Math.abs(value) 
-      
-      var value_abbr = Math.round(value_abs)
-      if (value_abs >= 10000000) {
-        value_abbr = Math.round(value_abs/1000000) + 'M'
-      } else if(value_abs >= 10000) {
-        value_abbr = Math.round(value_abs/1000) + 'k' 
-      } 
-      
-      return isNegative 
-        ? value_abbr + " BC"
-        : value_abbr
-        
-    },
-    formatYearFrom : function(value){
-      var isNegative = false
-      var isThousands = false
-      var isMillions = false
-      
-      //make sure we have a string
-      var value_str = value.toString()
-      
-      //check for possible year qualifiers
-      if(value_str.indexOf('BC') > -1) {
-        isNegative = true
-        value_str = value_str.replace('BC', '').trim()
-      }
-      if(value_str.indexOf('BP') > -1) {
-        isNegative = true
-        value_str = value_str.replace('BP', '').trim()
-      }
-      if(value_str.indexOf('AD') > -1) {
-        value_str = value_str.replace('AD', '').trim()
-      }
-      if(value_str.indexOf('k') > -1) {
-        isThousands = true
-        value_str = value_str.replace('k', '').trim()
-      }
-      if(value_str.indexOf('K') > -1) {
-        isThousands = true
-        value_str = value_str.replace('K', '').trim()
-      }
-      if(value_str.indexOf('m') > -1) {
-        isMillions = true
-        value_str = value_str.replace('m', '').trim()
-      }
-      if(value_str.indexOf('M') > -1) {
-        isMillions = true
-        value_str = value_str.replace('M', '').trim()
-      }
-      
-      if (isNumber(value_str)) {
-        value = parseFloat(value_str)
-        value = isNegative ? value * -1 : value 
-        value = isThousands ? value * 1000 : value 
-        value = isMillions ? value * 1000000 : value 
-      } else {
-        value = value_str
-      }     
-      return parseInt(value)
-    },
+   
     
     initMultiselect: function(){
       var that = this
@@ -490,7 +470,7 @@ define([
       
       this.$('.column-filter-multiselect').each(function(index){
         var $filter = $(this)         
-        if ($filter.val() !== null && $filter.val().length) {
+        if ($filter.val() !== null && $filter.val().length > 0) {
           query[$filter.attr('data-column')] = $filter.val()
         }    
         $filter.select('destroy')
@@ -513,6 +493,17 @@ define([
       
       this.$el.trigger('recordQuerySubmit',{query:query})
     },    
+    queryGroupReset:function(e){      
+      e.preventDefault()
+      var $target = $(e.target);      
+      
+      this.$('.group-'+$target.attr("data-group")).find('.column-filter').each(function(){      
+        $(this).find('.column-filter-checkbox, .column-filter-text, .column-filter-multiselect').val("")
+        $(this).find('.column-filter-buttongroup .filter-button').removeClass("active")
+      })
+
+      this.querySubmit()
+    },
     queryReset:function(e){      
       e.preventDefault()
       this.$el.trigger('recordQuerySubmit',{query:{}})
@@ -532,6 +523,84 @@ define([
         this.model.addExpanded(groupId)
       }
     },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // UTIL
+    
+    formatYearTo : function(value){
+      var isNegative = value < 0
+      var value_abs = Math.abs(value) 
+      
+      var value_abbr = Math.round(value_abs)
+      if (value_abs >= 10000000) {
+        value_abbr = Math.round(value_abs/1000000) + 'M'
+      } else if(value_abs >= 10000) {
+        value_abbr = Math.round(value_abs/1000) + 'k' 
+      } 
+      
+      return isNegative 
+        ? value_abbr + " BC"
+        : value_abbr
+        
+    },
+    formatYearFrom : function(value){
+      var isNegative = false
+      var isThousands = false
+      var isMillions = false
+      
+      //make sure we have a string
+      var value_str = value.toString()
+      
+      //check for possible year qualifiers
+      if(value_str.indexOf('BC') > -1) {
+        isNegative = true
+        value_str = value_str.replace('BC', '').trim()
+      }
+      if(value_str.indexOf('BP') > -1) {
+        isNegative = true
+        value_str = value_str.replace('BP', '').trim()
+      }
+      if(value_str.indexOf('AD') > -1) {
+        value_str = value_str.replace('AD', '').trim()
+      }
+      if(value_str.indexOf('k') > -1) {
+        isThousands = true
+        value_str = value_str.replace('k', '').trim()
+      }
+      if(value_str.indexOf('K') > -1) {
+        isThousands = true
+        value_str = value_str.replace('K', '').trim()
+      }
+      if(value_str.indexOf('m') > -1) {
+        isMillions = true
+        value_str = value_str.replace('m', '').trim()
+      }
+      if(value_str.indexOf('M') > -1) {
+        isMillions = true
+        value_str = value_str.replace('M', '').trim()
+      }
+      
+      if (isNumber(value_str)) {
+        value = parseFloat(value_str)
+        value = isNegative ? value * -1 : value 
+        value = isThousands ? value * 1000 : value 
+        value = isMillions ? value * 1000000 : value 
+      } else {
+        value = value_str
+      }     
+      return parseInt(value)
+    },    
     
   });
 
