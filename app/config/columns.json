@@ -80,7 +80,7 @@
     "values":{      
       "values":["Prehistoric BP","Prehistoric AD","Historical","Unknown"],            
       "labels":["Prehistoric BC","Prehistoric AD","Historical","Unknown"],           
-      "hints":["before 0","0 - 1800","1800 and later","Unknown"],      
+      "hints":["before 0","0 - 1800","1800 and later",""],      
       "colors":["#225ea8","#41b6c4","#6bd28d","#969696"]      
     }
   },   
