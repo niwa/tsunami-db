@@ -43,7 +43,7 @@ define([
               "labels": _.clone(values),
               "hints":[],
               "colors":column.get("colorable") === 1 
-                ? _.map(values,function(val){
+                ? _.map(values,function(){
                     return '#969696'
                   })
                 : []

@@ -251,7 +251,11 @@ define([
               if( this.get(column) === null || this.get(column) === "") {
                 values = ["null"]
               } else {
-                values = _.map(this.get(column).split(','),function(val){return val.trim()})
+                if(isNumber(this.get(column))){
+                  values = [this.get(column)]
+                } else {
+                  values = _.map(this.get(column).split(','),function(val){return val.trim()})
+                }                
               }        
               var conditions = typeof condition === 'string' ? [condition] : condition                
               if(_.intersection(conditions,values).length === 0) {

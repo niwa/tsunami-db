@@ -40,7 +40,7 @@ define([
         queryColumnByType: typeof this.attributes.query !== "undefined"
           ? typeof this.attributes.query === "object" 
             ? {
-                value: null,
+                value: this.attributes.queryColumn,
                 min: this.attributes.query.min || null,
                 max: this.attributes.query.max || null
               }
