@@ -63,6 +63,11 @@ define([
           this.set("placeholders", {min:"Min",max:"Max"})                      
         }
       }
+      if (this.attributes.type === "date") {
+        if (this.attributes.placeholders === null){
+          this.set("placeholders", {min:"After",max:"Before"})                      
+        }
+      }
        
       if (this.attributes.values !== "auto" 
         && typeof this.attributes.values.values !== "undefined") {

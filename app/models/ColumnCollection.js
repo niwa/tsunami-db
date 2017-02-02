@@ -11,7 +11,7 @@ define([
     },
     initializeModels:function(){      
       _.each(this.models,function(column){    
-        if (column.get("type") === "quantitative") {
+        if (column.get("type") === "quantitative" || column.get("type") === "date" ) {
           if(column.getValues() === 'auto'){
             var values = this.options.records.getValuesForColumn(column.get('queryColumn'))
             column.set("values",{
@@ -22,14 +22,14 @@ define([
             })
           } else {
             if (typeof column.getValues().range !== "undefined" 
-            && (column.getValues().range.min === "auto" 
-                || column.getValues().range.max === "auto")){
+            && (column.getValues().range.min[0] === "auto"
+                || column.getValues().range.max[0] === "auto")){
               var values = this.options.records.getValuesForColumn(column.get('queryColumn'))
-              if (column.getValues().range.min === "auto") {
-                column.getValues().range.min = values[0]
+              if (column.getValues().range.min[0] === "auto") {
+                column.getValues().range.min[0] = values[0]
               }
-              if (column.getValues().range.max === "auto") {
-                column.getValues().range.max = values[values.length-1]
+              if (column.getValues().range.max[0] === "auto") {
+                column.getValues().range.max[0] = values[values.length-1]
               }                
             }
           }
@@ -78,10 +78,8 @@ define([
       var filtered = this.filter(function(model){
         if ($.isArray(val)){          
           return val.indexOf(model.get(att)) > -1
-                && model.get("combo") !== 1 //temp
         } else {
           return model.get(att) === val 
-                && model.get("combo") !== 1 //temp
         }
       })      
       return new ColumnCollection(filtered);  

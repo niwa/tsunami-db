@@ -85,81 +85,86 @@
     }
   },   
   {
-    "id":"date_inferred",    
-    "title":"Inferred Date",
-    "combo":1,
-    "type":"dateCombo",      
-    "group":"time",
-    "table":0,
-    "blanks":1,
-    "values":{      
-      "stops":["min",0,1800,"max"]
-    }    
-  },
-  {
-    "id":"inferred_date_range_min",
-    "queryColumn":"inferred_date_range_max",
-    "title":"Date Inferred (min)",
+    "id":"date_max",    
+    "title":"Date range",
     "type":"date",    
     "group":"time",    
-    "comboColumnId":"date_inferred",    
-    "comboType":"min",    
-    "query":{
-      "min" : "date_inferred_after"
-    },        
-    "blanks":1
-  },
-  {
-    "id":"inferred_date_range_max",
-    "queryColumn":"inferred_date_range_min",
-    "title":"Date Inferred (max)",
-    "type":"date",    
-    "group":"time",    
-    "comboColumnId":"date_inferred",    
-    "comboType":"max",    
-    "query":{
-      "max" : "date_inferred_before"
-    },    
-    "blanks":1
-  },
-  {
-    "id":"date",    
-    "title":"Date",
-    "combo":1,
-    "type":"dateCombo",      
-    "group":"time",
-    "default":0,
-    "table":0,
-    "values":{      
-      "stops":["min",0,1800,"max"]
-    }    
-  },  
-  {
-    "id":"date_min",
-    "queryColumn":"date_max",    
-    "title":"Date (min)",
-    "type":"date",    
-    "group":"time",    
-    "comboColumnId":"date",    
+    "combo":1,    
+    "comboColumnId":"date_min",    
     "comboType":"min", 
     "query":{      
       "min" : "date_after"
     },        
-    "blanks":1
+    "blanks":1,
+    "values":{
+      "range" : {
+        "min" : ["auto",10000],
+        "25%" : [-10000,100],        
+        "50%" : [0,1],
+        "75%" : [1800,1],
+        "max" : ["auto"]
+      }
+    }
   },
   {
-    "id":"date_max",
-    "queryColumn":"date_min",        
+    "id":"date_min",
+    "filterable":0,        
     "title":"Date (max)",
     "type":"date",    
     "group":"time",    
-    "comboColumnId":"date",    
+    "combo":1,        
     "comboType":"max",    
     "query":{      
       "max" : "date_before"
     },      
-    "blanks":1
-  },   
+    "blanks":1,
+    "values":{
+      "range" : {
+        "min" : ["auto",10000],
+        "max" : ["auto"]
+      }
+    }
+  },
+  {
+    "id":"inferred_date_range_max",
+    "title":"Inferred date range",
+    "type":"date",    
+    "group":"time",    
+    "combo":1,    
+    "comboColumnId":"inferred_date_range_min",    
+    "comboType":"min",    
+    "query":{
+      "min" : "date_inferred_after"
+    },        
+    "blanks":1,
+    "values":{
+      "range" : {
+        "min" : ["auto",10000],
+        "25%" : [-10000,100],        
+        "50%" : [0,1],
+        "75%" : [1800,1],
+        "max" : ["auto"]
+      }
+    }
+  },
+  {
+    "id":"inferred_date_range_min",          
+    "type":"date",    
+    "group":"time",    
+    "filterable":0,    
+    "combo":1,      
+    "comboType":"max",    
+    "query":{
+      "max" : "date_inferred_before"
+    },    
+    "blanks":1,
+    "values":{
+      "range" : {
+        "min" : ["auto",10000],
+        "max" : ["auto"]
+      }
+    }
+  },    
   {
     "id":"elevation",
     "query":{
@@ -177,11 +182,11 @@
     "plotColor":"#0483B0",
     "values":{
       "range" : {
-        "min" : "auto",
-        "25%" : [0],        
-        "50%" : [10],        
-        "75%" : [20],
-        "max" : "auto"
+        "min" : ["auto",0.1],
+        "25%" : [0,0.1],        
+        "50%" : [10,0.1],        
+        "75%" : [20,1],
+        "max" : ["auto"]
       }
     }
   },
@@ -212,11 +217,11 @@
     "plotColor":"#50C6DD",
     "values":{
       "range" : {
-        "min" : "auto",
-        "25%" : [100],        
-        "50%" : [200],
-        "75%" : [1000],
-        "max" : "auto"
+        "min" : ["auto",1],
+        "25%" : [100,1],        
+        "50%" : [200,10],
+        "75%" : [1000,100],
+        "max" : ["auto"]
       }
     }
   },
@@ -242,10 +247,10 @@
     "blanks":1,
     "values":{
       "range" : {
-        "min" : "auto",
-        "75%" : [1],
-        "87.5%" : [10],
-        "max" : "auto"
+        "min" : ["auto",0.01],
+        "75%" : [1,0.1],
+        "87.5%" : [10,1],
+        "max" : ["auto"]
       }
     }
   },    

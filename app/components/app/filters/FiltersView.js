@@ -97,6 +97,64 @@ define([
     
     getFilterHtml:function(column, groupId){      
       switch (column.get("type")){
+        case "date":
+          if(column.get('combo') === 1) {                                    
+            // figure out the query columns 
+            var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))
+            if(column.get('comboType') === "min") {
+              var column_min = column.getQueryColumnByType("min")
+              var column_max = combo_column.getQueryColumnByType("max")
+            } else {                         
+              var column_min = combo_column.getQueryColumnByType("min")
+              var column_max = column.getQueryColumnByType("max")
+            }             
+            var column_value = column.getQueryColumnByType("value")
+
+            // figure out the query values for each query column
+            var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
+              ? this.model.get("recQuery")[column_min]
+              : ""              
+            var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
+              ? this.model.get("recQuery")[column_max]
+              : ""       
+            var value_column = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
+              ? this.model.get("recQuery")[column_value]
+              : ""       
+
+            // figure out the value ranges
+            var range = column.getValues().range
+            var combo_range = combo_column.getValues().range
+            if(column.get('comboType') === "min") {
+              range.min = combo_range.min
+            } else {
+              range.max = combo_range.max
+            }
+            var value_min_overall = range.min[0]
+            var value_max_overall = range.max[0]        
+          }
+
+          if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
+            return _.template(templateFilterMinMaxSlider)({
+              title:column.get("title"),
+              type:column.get("type"),
+              title_min:column.get("placeholders").min,
+              title_max:column.get("placeholders").max,
+              column_min:column_min,
+              column_max:column_max,
+              column_val:column_value,
+              specified:value_min !== "" || value_max !== "",
+              unspecified:value_column === "null",
+              value_min:value_min,
+              value_max:value_max,
+              value_min_overall:value_min_overall,
+              value_max_overall:value_max_overall,
+              slider_active:value_min !== "" || value_max !== "",
+              value_range:JSON.stringify(range).replace(/'/g, "\\'")
+            })               
+          } else {
+            return false
+          }
+          break;
         case "quantitative":
           var column_min = column.getQueryColumnByType("min")
           var column_max = column.getQueryColumnByType("max")
@@ -114,12 +172,13 @@ define([
             : ""       
           
           var range = column.getValues().range
-          var value_min_overall = range.min
-          var value_max_overall = range.max
-          
+          var value_min_overall = range.min[0]
+          var value_max_overall = range.max[0]
+
           if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMaxSlider)({
               title:column.get("title"),
+              type:column.get("type"),              
               title_min:column.get("placeholders").min,
               title_max:column.get("placeholders").max,
               column_min:column_min,
@@ -161,31 +220,7 @@ define([
           } else {
             return false
           }
-          break;
-        case "date" :
-          var column_min = column.getQueryColumnByType("min")
-          var column_max = column.getQueryColumnByType("max")
-
-          var queryValue, column_id
-          if (column_min !== null) {       
-            column_id = column_min             
-          }  
-          if (column_max !== null) { 
-            column_id = column_max       
-          }     
-          queryValue = typeof (this.model.get("recQuery")[column_id]) !== "undefined"
-            ? this.model.get("recQuery")[column_id]
-            : ""          
-          if (column.get("default") || queryValue.trim() !== "" || this.model.isExpanded(groupId) ) {
-            return _.template(templateFilterText)({
-              title:column.get("title") ,
-              column:column_id,
-              value:queryValue
-            })
-          } else {
-            return false
-          }
-          break;
+          break;       
         case "categorical":
         case "ordinal":
           var column_id = column.getQueryColumnByType()
@@ -240,22 +275,38 @@ define([
         var slider = this;
                 
         var ranges = JSON.parse($(this).attr('data-value-range'))
+        var colType = $(this).attr('data-column-type') 
         
-        noUiSlider.create(slider,{
-          start: [parseFloat($(this).attr('data-value-min')), parseFloat($(this).attr('data-value-max'))],
-          range: ranges,          
-          connect: true,
-          pips:{
+        var sliderOptions = {
+          "start": [parseFloat($(this).attr('data-value-min')), parseFloat($(this).attr('data-value-max'))],
+          "range": ranges,          
+          "connect": true,
+          "pips":{
             "mode":"range",
             "density": 3
           }
-        })
+        }
+        if (colType === "date") {
+          sliderOptions.pips.format = {
+            "to" : that.formatYearTo,
+            "from" : that.formatYearFrom
+          }
+        }
+        
+        noUiSlider.create(slider,sliderOptions)
+        
         var colMin = $(this).attr('data-column-min')     
         var colMax = $(this).attr('data-column-max')          
+                 
         slider.noUiSlider.off()
-        slider.noUiSlider.on('slide', function ( values, handle ) {   
-          that.$('input#text-'+colMin).val(values[0])      
-          that.$('input#text-'+colMax).val(values[1])
+        slider.noUiSlider.on('slide', function ( values, handle ) {
+          if(colType === "date") {
+            that.$('input#text-'+colMin).val(Math.round(values[0]))      
+            that.$('input#text-'+colMax).val(Math.round(values[1]))
+          } else {
+            that.$('input#text-'+colMin).val(values[0])      
+            that.$('input#text-'+colMax).val(values[1])
+          }
         })
         slider.noUiSlider.on('change', function ( values, handle ) {   
           that.querySubmit()          
@@ -264,6 +315,26 @@ define([
       })
       
     },
+    formatYearTo : function(value){
+      var isNegative = value < 0
+      var value_abs = Math.abs(value) 
+      
+      var value_abbr = Math.round(value_abs)
+      if (value_abs >= 10000000) {
+        value_abbr = Math.round(value_abs/1000000) + 'M'
+      } else if(value_abs >= 10000) {
+        value_abbr = Math.round(value_abs/1000) + 'k' 
+      } 
+      
+      return isNegative 
+        ? value_abbr + " BC"
+        : value_abbr
+        
+    },
+    formatYearFrom : function(value){
+      return parseInt(value.replace('k', '000'))
+    },
+    
     initMultiselect: function(){
       var that = this
       this.$('.column-filter-multiselect').each(function(){
