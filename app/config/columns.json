@@ -283,8 +283,8 @@
     },       
     "title":"Latitude",
     "placeholders":{
-      "min" : "South (eg -45)",
-      "max" : "North (eg -40)"
+      "min" : "South",
+      "max" : "North"
     },       
     "validation":{
       "min" : -90,
@@ -304,8 +304,8 @@
     },      
     "title":"Longitude",    
     "placeholders":{
-      "min" : "West (eg 170)",
-      "max" : "East (eg -175)" 
+      "min" : "West",
+      "max" : "East" 
     },      
     "validation":{
       "min" : -180,
