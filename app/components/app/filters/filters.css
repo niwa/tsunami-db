@@ -42,3 +42,57 @@
 .btn-query-submit {
   margin:19px;
 }
+
+.column-filter-min-max input {
+  text-align:right;
+}
+
+
+.column-filter-min-max-slider .filter-input-fields input {
+    width: 100px;
+    text-align: center;
+}
+
+.filter-slider {
+    position: relative;
+    margin: 12px 2px;
+}
+.column-filter-min-max-slider {
+    position: relative;
+}
+.filter-slider-wrap{
+    padding: 0 0 32px;
+}
+
+.noUi-pips-horizontal{
+  height:50px
+}
+.noUi-value-horizontal{
+  line-height:1.75
+}
+
+.noUi-handle {
+    border-radius: 999px;
+    width: 22px !important;
+    left: -11px !important;
+    top: -7px !important;
+    height: 22px !important;
+    box-shadow: 0 3px 6px -3px #BBB;
+}
+.noUi-handle:before, .noUi-handle:after {
+    display: none;
+}
+.noUi-horizontal {
+    height: 12px;
+}
+
+.noUi-connect {
+  background: #5bc0de;
+}
+.slider-inactive .noUi-connect {
+  background: #ddd;
+}
+
+.noUi-pips-horizontal {
+  padding-bottom:5px
+}

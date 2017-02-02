@@ -85,9 +85,33 @@ define([
           }  
                        
           break
-        case "quantitative":
-        case "spatial":                              
         case "date" :
+          if(column.get('combo') === 1) {
+            if (column.get('filterable') === 1) {
+              var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))
+              var value = ""
+              if(column.get('comboType') === "min") {
+                value = record.getColumnValue(combo_column.get("column"),true)
+                  + " - " 
+                  + record.getColumnValue(column.get("column"),true)      
+                
+              } else {
+                value = record.getColumnValue(column.get("column"),true)
+                  + " - " 
+                  + record.getColumnValue(combo_column.get("column"),true)          
+              }
+              
+              return _.template(templateColumnText)({
+                title:column.get("title"),            
+                value:value
+              })                 
+            } else {
+              return ""
+            }
+          }
+          break
+        case "quantitative":
+        case "spatial":                                      
         case "categorical":
         case "ordinal":
         case "text":

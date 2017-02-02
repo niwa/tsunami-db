@@ -11,7 +11,8 @@ define([
       //default settings
       this.set({
         column :          this.attributes.column || this.attributes.id,        
-        title :           this.attributes.title || this.attributes.id,
+        title :           this.attributes.title || this.attributes.id,        
+        placeholders :    this.attributes.placeholders || null,
         hint :            this.attributes.hint || "",
         type :            this.attributes.type || "text",
         group :           this.attributes.group || "meta",
@@ -27,7 +28,7 @@ define([
         combo:            typeof this.attributes.combo !== "undefined" ? this.attributes.combo : 0,
         comboColumnId:    this.attributes.comboColumnId || null,
         comboType:        this.attributes.comboType || null,
-        comboFilter:      this.attributes.comboFilter || null,
+        comboTitle:       this.attributes.comboTitle || this.attributes.title || this.attributes.id,
         plotMax:          this.attributes.plotMax || null,
         plotColor:        this.attributes.plotColor || "#fff",
       })
@@ -39,7 +40,7 @@ define([
         queryColumnByType: typeof this.attributes.query !== "undefined"
           ? typeof this.attributes.query === "object" 
             ? {
-                value: null,
+                value: this.attributes.queryColumn,
                 min: this.attributes.query.min || null,
                 max: this.attributes.query.max || null
               }
@@ -55,6 +56,19 @@ define([
             max: null
           }
       })      
+      
+      
+      if (this.attributes.type === "spatial" || this.attributes.type === "quantitative") {
+        if (this.attributes.placeholders === null){
+          this.set("placeholders", {min:"Min",max:"Max"})                      
+        }
+      }
+      if (this.attributes.type === "date") {
+        if (this.attributes.placeholders === null){
+          this.set("placeholders", {min:"After",max:"Before"})                      
+        }
+      }
+       
       if (this.attributes.values !== "auto" 
         && typeof this.attributes.values.values !== "undefined") {
         if(typeof this.attributes.values.labels === "undefined") {

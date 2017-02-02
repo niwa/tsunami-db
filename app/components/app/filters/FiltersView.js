@@ -1,28 +1,34 @@
 define([
   'jquery',  'underscore',  'backbone',
   'jquery.select2/select2',
+  'nouislider',
   'text!./filters.html',
   'text!./filterMultiSelect.html',
   'text!./filterText.html',
   'text!./filterButtons.html',  
-  'text!./filterMinMax.html'
+  'text!./filterMinMax.html',
+  'text!./filterMinMaxSlider.html'
 ], function (
   $, _, Backbone,
   select2,
+  noUiSlider,
   template,
   templateFilterMultiSelect,
   templateFilterText,
   templateFilterButtons,
-  templateFilterMinMax
+  templateFilterMinMax,
+  templateFilterMinMaxSlider
 ) {
 
   var FiltersView = Backbone.View.extend({
     events : {
       "click .expand-all": "expandAll",
       "click .expand-group": "expandGroup",
-      "click .query-submit": "querySubmit",
+      "click .query-submit": "querySubmitClick",
       "click .query-reset": "queryReset",
       "click .filter-button": "filterButtonClick",
+      "click .filter-range-checkbox:checkbox": "filterRangeCheckboxClick",
+      "click .slider-track-click": "filterSliderTrackClick"
     },
     initialize : function () {
       this.render()
@@ -83,13 +89,116 @@ define([
         )
       }))
       this.initMultiselect()      
+      this.initRangeSlider()      
       
       return this
     },    
     
+    
     getFilterHtml:function(column, groupId){      
       switch (column.get("type")){
+        case "date":
+          var title
+          if(column.get('combo') === 1) {  
+            title = column.get("comboTitle")
+            // figure out the query columns 
+            var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))
+            if(column.get('comboType') === "min") {
+              var column_min = column.getQueryColumnByType("min")
+              var column_max = combo_column.getQueryColumnByType("max")
+            } else {                         
+              var column_min = combo_column.getQueryColumnByType("min")
+              var column_max = column.getQueryColumnByType("max")
+            }             
+            var column_value = column.getQueryColumnByType("value")
+
+            // figure out the query values for each query column
+            var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
+              ? this.model.get("recQuery")[column_min]
+              : ""              
+            var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
+              ? this.model.get("recQuery")[column_max]
+              : ""       
+            var value_column = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
+              ? this.model.get("recQuery")[column_value]
+              : ""       
+
+            // figure out the value ranges
+            var range = column.getValues().range
+            var combo_range = combo_column.getValues().range
+            if(column.get('comboType') === "min") {
+              range.min = combo_range.min
+            } else {
+              range.max = combo_range.max
+            }
+            var value_min_overall = range.min[0]
+            var value_max_overall = range.max[0]        
+          } 
+
+          if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
+            return _.template(templateFilterMinMaxSlider)({
+              title:title,
+              type:column.get("type"),
+              title_min:column.get("placeholders").min,
+              title_max:column.get("placeholders").max,
+              column_min:column_min,
+              column_max:column_max,
+              column_val:column_value,
+              specified:value_min !== "" || value_max !== "",
+              unspecified:value_column === "null",
+              value_min:value_min,
+              value_max:value_max,
+              value_min_overall:value_min_overall,
+              value_max_overall:value_max_overall,
+              slider_active:value_min !== "" || value_max !== "",
+              value_range:JSON.stringify(range).replace(/'/g, "\\'")
+            })               
+          } else {
+            return false
+          }
+          break;
         case "quantitative":
+          var column_min = column.getQueryColumnByType("min")
+          var column_max = column.getQueryColumnByType("max")
+          var column_value = column.getQueryColumnByType("value")
+
+          var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
+            ? this.model.get("recQuery")[column_min]
+            : ""              
+          var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
+            ? this.model.get("recQuery")[column_max]
+            : ""       
+          
+          var value_column = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
+            ? this.model.get("recQuery")[column_value]
+            : ""       
+          
+          var range = column.getValues().range
+          var value_min_overall = range.min[0]
+          var value_max_overall = range.max[0]
+
+          if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
+            return _.template(templateFilterMinMaxSlider)({
+              title:column.get("title"),
+              type:column.get("type"),              
+              title_min:column.get("placeholders").min,
+              title_max:column.get("placeholders").max,
+              column_min:column_min,
+              column_max:column_max,
+              column_val:column_value,
+              specified:value_min !== "" || value_max !== "",
+              unspecified:value_column === "null",
+              value_min:value_min,
+              value_max:value_max,
+              value_min_overall:value_min_overall,
+              value_max_overall:value_max_overall,
+              slider_active:value_min !== "" || value_max !== "",
+              value_range:JSON.stringify(range).replace(/'/g, "\\'")
+            })               
+          } else {
+            return false
+          }
+          break;
         case "spatial":                    
           var column_min = column.getQueryColumnByType("min")
           var column_max = column.getQueryColumnByType("max")
@@ -103,8 +212,8 @@ define([
           if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMax)({
               title:column.get("title"),
-              title_min:"Min",
-              title_max:"Max",
+              title_min:column.get("placeholders").min,
+              title_max:column.get("placeholders").max,
               column_min:column_min,
               column_max:column_max,
               value_min:value_min,
@@ -113,31 +222,7 @@ define([
           } else {
             return false
           }
-          break;
-        case "date" :
-          var column_min = column.getQueryColumnByType("min")
-          var column_max = column.getQueryColumnByType("max")
-
-          var queryValue, column_id
-          if (column_min !== null) {       
-            column_id = column_min             
-          }  
-          if (column_max !== null) { 
-            column_id = column_max       
-          }     
-          queryValue = typeof (this.model.get("recQuery")[column_id]) !== "undefined"
-            ? this.model.get("recQuery")[column_id]
-            : ""          
-          if (column.get("default") || queryValue.trim() !== "" || this.model.isExpanded(groupId) ) {
-            return _.template(templateFilterText)({
-              title:column.get("title") ,
-              column:column_id,
-              value:queryValue
-            })
-          } else {
-            return false
-          }
-          break;
+          break;       
         case "categorical":
         case "ordinal":
           var column_id = column.getQueryColumnByType()
@@ -186,6 +271,72 @@ define([
       }
     },
     
+    initRangeSlider: function(){
+      var that = this
+      this.$('.column-filter-min-max-slider .filter-slider').each(function(){
+        var slider = this;
+                
+        var ranges = JSON.parse($(this).attr('data-value-range'))
+        var colType = $(this).attr('data-column-type') 
+        
+        var sliderOptions = {
+          "start": [parseFloat($(this).attr('data-value-min')), parseFloat($(this).attr('data-value-max'))],
+          "range": ranges,          
+          "connect": true,
+          "pips":{
+            "mode":"range",
+            "density": 3
+          }
+        }
+        if (colType === "date") {
+          sliderOptions.pips.format = {
+            "to" : that.formatYearTo,
+            "from" : that.formatYearFrom
+          }
+        }
+        
+        noUiSlider.create(slider,sliderOptions)
+        
+        var colMin = $(this).attr('data-column-min')     
+        var colMax = $(this).attr('data-column-max')          
+                 
+        slider.noUiSlider.off()
+        slider.noUiSlider.on('slide', function ( values, handle ) {
+          if(colType === "date") {
+            that.$('input#text-'+colMin).val(Math.round(values[0]))      
+            that.$('input#text-'+colMax).val(Math.round(values[1]))
+          } else {
+            that.$('input#text-'+colMin).val(values[0])      
+            that.$('input#text-'+colMax).val(values[1])
+          }
+        })
+        slider.noUiSlider.on('change', function ( values, handle ) {   
+          that.querySubmit()          
+        })
+        
+      })
+      
+    },
+    formatYearTo : function(value){
+      var isNegative = value < 0
+      var value_abs = Math.abs(value) 
+      
+      var value_abbr = Math.round(value_abs)
+      if (value_abs >= 10000000) {
+        value_abbr = Math.round(value_abs/1000000) + 'M'
+      } else if(value_abs >= 10000) {
+        value_abbr = Math.round(value_abs/1000) + 'k' 
+      } 
+      
+      return isNegative 
+        ? value_abbr + " BC"
+        : value_abbr
+        
+    },
+    formatYearFrom : function(value){
+      return parseInt(value.replace('k', '000'))
+    },
+    
     initMultiselect: function(){
       var that = this
       this.$('.column-filter-multiselect').each(function(){
@@ -195,7 +346,8 @@ define([
           placeholder : "Select " + title
         })
         .on("select2:select", function(e){
-          that.querySubmit(e)
+          e.preventDefault();
+          that.querySubmit()
         })
         
         // hack to prevent selct2 from opening "ghost" list after unselect
@@ -208,7 +360,7 @@ define([
             e.preventDefault();
             $(this).select2('close').removeData('unselecting');            
             // only submit query once opened
-            that.querySubmit(e)
+            that.querySubmit()
           }
         })             
         
@@ -231,15 +383,64 @@ define([
       
       $(e.currentTarget).toggleClass('active')
       
-      this.querySubmit(e)
+      this.querySubmit()
       
     },
     
+    filterRangeCheckboxClick:function(e){
+      var $target = $(e.target);
+      var $fields = $target.closest(".column-filter").find('.filter-input-fields')
+      var selected = $target.is(':checked');      
+      var value = $target.val()  
+      var colMin = $target.attr('data-column-min')     
+      var colMax = $target.attr('data-column-max') 
+        
+      if (value === "specified") {
+        if(selected) {
+          // toggle off unspecified
+          $target.closest(".filter-unspecified").find(".filter-checkbox-unspecified").prop('checked',false)
+          // add min/max values
+          var valMin = $target.attr('data-value-min-overall')     
+          var valMax = $target.attr('data-value-max-overall')           
+          $fields.find('input#text-'+colMin).val(valMin)
+          $fields.find('input#text-'+colMax).val(valMax)
+          
+        } else {
+          // remove min/max values
+          
+          $fields.find('input#text-'+colMin).val("")
+          $fields.find('input#text-'+colMax).val("")
+          
+        }
+      } else { //if (value === "null") {
+        if(selected) {
+          // toggle off specified
+          $target.closest(".filter-unspecified").find(".filter-checkbox-specified").prop('checked',false)
+          // remove min/max values
+          $fields.find('input#text-'+colMin).val("")
+          $fields.find('input#text-'+colMax).val("")                    
+        }
+      }
+      
+      
+      this.querySubmit()      
+    },
     
-    querySubmit:function(e){     
+    
+    querySubmitClick:function(e){    
       e.preventDefault()
+      this.querySubmit()
+    },
+    querySubmit:function(){     
       
       var query = {}
+      
+      this.$('.column-filter-checkbox').each(function(index){
+        var $filter = $(this)
+        if ($filter.val().trim() !== "" && $filter.is(':checked')) {
+          query[$filter.attr('data-column')] = $filter.val().trim()
+        }
+      })
       
       this.$('.column-filter-text').each(function(index){
         var $filter = $(this)
@@ -268,6 +469,8 @@ define([
           query[$filter.attr('data-column')] = val
         }            
       })
+      
+      
       
       this.$el.trigger('recordQuerySubmit',{query:query})
     },    
