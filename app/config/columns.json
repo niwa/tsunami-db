@@ -85,31 +85,9 @@
     }
   },   
   {
-    "id":"date_max",    
-    "title":"Date range",
-    "type":"date",    
-    "group":"time",    
-    "combo":1,    
-    "comboColumnId":"date_min",    
-    "comboType":"min", 
-    "query":{      
-      "min" : "date_after"
-    },        
-    "blanks":1,
-    "values":{
-      "range" : {
-        "min" : ["auto",10000],
-        "25%" : [-10000,100],        
-        "50%" : [0,1],
-        "75%" : [1800,1],
-        "max" : ["auto"]
-      }
-    }
-  },
-  {
     "id":"date_min",
     "filterable":0,        
-    "title":"Date (max)",
+    "title":"Date (min)",
     "type":"date",    
     "group":"time",    
     "combo":1,        
@@ -126,8 +104,51 @@
     }
   },
   {
+    "id":"date_max",    
+    "title":"Date (max)",
+    "type":"date",    
+    "group":"time",    
+    "combo":1,    
+    "comboColumnId":"date_min",    
+    "comboType":"min", 
+    "comboTitle":"Date range", 
+    "query":{      
+      "min" : "date_after"
+    },        
+    "blanks":1,
+    "values":{
+      "range" : {
+        "min" : ["auto",10000],
+        "25%" : [-10000,100],        
+        "50%" : [0,1],
+        "75%" : [1800,1],
+        "max" : ["auto"]
+      }
+    }
+  },  
+  {
+    "id":"inferred_date_range_min",          
+    "title":"Inferred date (min)",
+    "type":"date",    
+    "group":"time",    
+    "filterable":0,    
+    "combo":1,      
+    "comboType":"max",    
+    "query":{
+      "max" : "date_inferred_before"
+    },    
+    "blanks":1,
+    "values":{
+      "range" : {
+        "min" : ["auto",10000],
+        "max" : ["auto"]
+      }
+    }
+  },  
+  {
     "id":"inferred_date_range_max",
-    "title":"Inferred date range",
+    "title":"Inferred date (max)",
+    "comboTitle":"Inferred date range",
     "type":"date",    
     "group":"time",    
     "combo":1,    
@@ -147,24 +168,6 @@
       }
     }
   },
-  {
-    "id":"inferred_date_range_min",          
-    "type":"date",    
-    "group":"time",    
-    "filterable":0,    
-    "combo":1,      
-    "comboType":"max",    
-    "query":{
-      "max" : "date_inferred_before"
-    },    
-    "blanks":1,
-    "values":{
-      "range" : {
-        "min" : ["auto",10000],
-        "max" : ["auto"]
-      }
-    }
-  },    
   {
     "id":"elevation",
     "query":{

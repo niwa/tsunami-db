@@ -11,7 +11,7 @@ define([
       //default settings
       this.set({
         column :          this.attributes.column || this.attributes.id,        
-        title :           this.attributes.title || this.attributes.id,
+        title :           this.attributes.title || this.attributes.id,        
         placeholders :    this.attributes.placeholders || null,
         hint :            this.attributes.hint || "",
         type :            this.attributes.type || "text",
@@ -28,7 +28,7 @@ define([
         combo:            typeof this.attributes.combo !== "undefined" ? this.attributes.combo : 0,
         comboColumnId:    this.attributes.comboColumnId || null,
         comboType:        this.attributes.comboType || null,
-        comboFilter:      this.attributes.comboFilter || null,
+        comboTitle:       this.attributes.comboTitle || this.attributes.title || this.attributes.id,
         plotMax:          this.attributes.plotMax || null,
         plotColor:        this.attributes.plotColor || "#fff",
       })

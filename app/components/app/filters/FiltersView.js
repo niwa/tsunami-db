@@ -98,7 +98,9 @@ define([
     getFilterHtml:function(column, groupId){      
       switch (column.get("type")){
         case "date":
-          if(column.get('combo') === 1) {                                    
+          var title
+          if(column.get('combo') === 1) {  
+            title = column.get("comboTitle")
             // figure out the query columns 
             var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))
             if(column.get('comboType') === "min") {
@@ -131,11 +133,11 @@ define([
             }
             var value_min_overall = range.min[0]
             var value_max_overall = range.max[0]        
-          }
+          } 
 
           if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMaxSlider)({
-              title:column.get("title"),
+              title:title,
               type:column.get("type"),
               title_min:column.get("placeholders").min,
               title_max:column.get("placeholders").max,
