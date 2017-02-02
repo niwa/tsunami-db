@@ -4,7 +4,6 @@ define([
   'nouislider',
   'text!./filters.html',
   'text!./filterMultiSelect.html',
-  'text!./filterText.html',
   'text!./filterButtons.html',  
   'text!./filterMinMax.html',
   'text!./filterMinMaxSlider.html'
@@ -14,7 +13,6 @@ define([
   noUiSlider,
   template,
   templateFilterMultiSelect,
-  templateFilterText,
   templateFilterButtons,
   templateFilterMinMax,
   templateFilterMinMaxSlider
@@ -52,6 +50,10 @@ define([
       
       var columnCollection = this.model.get("columnCollection").byAttribute("filterable")
       
+      
+      // generate filter template 
+      // this is crazy! it gets generated again with every filter interaction!!!
+      // TODO: optimise
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),        
         columnGroups:_.filter(
@@ -97,11 +99,42 @@ define([
     
     getFilterHtml:function(column, groupId){      
       switch (column.get("type")){
+         
+        case "spatial":     
+          //
+          // min max text field filter
+          //
+          var column_min = column.getQueryColumnByType("min")
+          var column_max = column.getQueryColumnByType("max")
+
+          var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
+            ? this.model.get("recQuery")[column_min]
+            : ""              
+          var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
+            ? this.model.get("recQuery")[column_max]
+            : ""                      
+          if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
+            return _.template(templateFilterMinMax)({
+              title:column.get("title"),
+              title_min:column.get("placeholders").min,
+              title_max:column.get("placeholders").max,
+              column_min:column_min,
+              column_max:column_max,
+              column_type:column.get("type"),
+              value_min:value_min,
+              value_max:value_max
+            })        
+          } else {
+            return false
+          }
+          break;       
+          
+          
         case "date":
         case "quantitative":
-          
-          // create the range slider element
-          
+          //
+          // range slider filter
+          //
           var title, // filter title
               column_min, // the query argument for min value
               column_max, // the query argument for max value
@@ -175,39 +208,20 @@ define([
           }
           break;
         
-        case "spatial":                    
-          var column_min = column.getQueryColumnByType("min")
-          var column_max = column.getQueryColumnByType("max")
-
-          var value_min = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
-            ? this.model.get("recQuery")[column_min]
-            : ""              
-          var value_max = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
-            ? this.model.get("recQuery")[column_max]
-            : ""                      
-          if (column.get("default") || value_min.trim() !== "" || value_max.trim() !== "" || this.model.isExpanded(groupId) ) {        
-            return _.template(templateFilterMinMax)({
-              title:column.get("title"),
-              title_min:column.get("placeholders").min,
-              title_max:column.get("placeholders").max,
-              column_min:column_min,
-              column_max:column_max,
-              value_min:value_min,
-              value_max:value_max
-            })        
-          } else {
-            return false
-          }
-          break;       
+        
+       
+          
         case "categorical":
         case "ordinal":
+          //
+          // button or multiselect filters depending on number of options
+          //
           var column_id = column.getQueryColumnByType()
           var queryValue = typeof (this.model.get("recQuery")[column_id]) !== "undefined"
             ? this.model.get("recQuery")[column_id]
             : ""              
           // only show default columns or those that are set unless group expanded                        
           if (column.get("default") || queryValue.length || this.model.isExpanded(groupId) ) {
-
 
             var options = []
 
@@ -310,7 +324,48 @@ define([
         
     },
     formatYearFrom : function(value){
-      return parseInt(value.replace('k', '000'))
+      var isNegative = false
+      var isThousands = false
+      var isMillions = false
+      
+      //make sure we have a string
+      var value_str = value.toString()
+      
+      //check for possible year qualifiers
+      if(value_str.indexOf('BC') > -1) {
+        isNegative = true
+        value_str = value_str.replace('BC', '').trim()
+      }
+      if(value_str.indexOf('BP') > -1) {
+        isNegative = true
+        value_str = value_str.replace('BP', '').trim()
+      }
+      if(value_str.indexOf('k') > -1) {
+        isThousands = true
+        value_str = value_str.replace('k', '').trim()
+      }
+      if(value_str.indexOf('K') > -1) {
+        isThousands = true
+        value_str = value_str.replace('K', '').trim()
+      }
+      if(value_str.indexOf('m') > -1) {
+        isMillions = true
+        value_str = value_str.replace('m', '').trim()
+      }
+      if(value_str.indexOf('M') > -1) {
+        isMillions = true
+        value_str = value_str.replace('M', '').trim()
+      }
+      
+      if (isNumber(value_str)) {
+        value = parseFloat(value_str)
+        value = isNegative ? value * -1 : value 
+        value = isThousands ? value * 1000 : value 
+        value = isMillions ? value * 1000000 : value 
+      } else {
+        value = value_str
+      }     
+      return parseInt(value)
     },
     
     initMultiselect: function(){
@@ -418,10 +473,15 @@ define([
         }
       })
       
+      var that = this
       this.$('.column-filter-text').each(function(index){
         var $filter = $(this)
         if ($filter.val().trim() !== "") {
-          query[$filter.attr('data-column')] = $filter.val().trim()
+          var value = $filter.val().trim()
+          if ((!isNumber(value)) && $filter.attr('data-column-type') === "date") {
+            value = that.formatYearFrom(value)              
+          }       
+          query[$filter.attr('data-column')] = value.toString()
         }
       })
       
