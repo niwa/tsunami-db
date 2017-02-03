@@ -6,7 +6,8 @@ define([
   'text!./filterMultiSelect.html',
   'text!./filterButtons.html',  
   'text!./filterMinMax.html',
-  'text!./filterMinMaxSlider.html'
+  'text!./filterMinMaxSlider.html',
+  'text!./filterText.html'
 ], function (
   $, _, Backbone,
   select2,
@@ -15,7 +16,8 @@ define([
   templateFilterMultiSelect,
   templateFilterButtons,
   templateFilterMinMax,
-  templateFilterMinMaxSlider
+  templateFilterMinMaxSlider,
+  templateFilterText
 ) {
 
   var FiltersView = Backbone.View.extend({
@@ -52,11 +54,22 @@ define([
       var columnCollection = this.model.get("columnCollection").byAttribute("filterable")
       
       
+      var queryKeyword = typeof (this.model.get("recQuery")["s"]) !== "undefined"
+          ? this.model.get("recQuery")["s"]
+          : "" 
+      
       // generate filter template 
       // this is crazy! it gets generated again with every filter interaction!!!
       // TODO: optimise
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),        
+        search:_.template(templateFilterText)({
+          title:false,
+          column:"s",
+          type:"keyword",
+          value:queryKeyword,
+          placeholder:"Search by keyword or record id"
+        }),
         columnGroups:_.filter(
           _.map(this.model.get("columnGroupCollection").models,function(group){
           // group classes

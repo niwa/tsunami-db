@@ -1,8 +1,8 @@
-<label for="<%= column %>"><%= title %></label>
+<% if(title){ %><label for="<%= column %>"><%= title %></label><% } %>
 <input type="text"
   class="form-control column-filter-text" 
   data-column="<%= column %>"
   data-column-type="<%= type %>"  
   id="text-<%= column %>" 
-  placeholder="" 
+  placeholder="<%= placeholder %>" 
   value="<%= value %>">   

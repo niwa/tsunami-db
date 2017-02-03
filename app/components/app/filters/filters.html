@@ -14,6 +14,9 @@
   <div class="row">
     <div class="col-sm-12">
       <form>      
+        <div class="form-search">          
+          <%= search %>
+        </div>          
         <% _.each(columnGroups,function(group){ %>
         <div class="form-group <%= group.classes %> well">          
           <h3><%= group.title %></h3>

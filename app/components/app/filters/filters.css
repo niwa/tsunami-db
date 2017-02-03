@@ -94,3 +94,12 @@
 .noUi-pips-horizontal {
   padding-bottom:5px
 }
+
+
+.form-search {
+    margin: 20px 0;
+}
+
+.form-search input.column-filter-text {
+    border-radius: 999px;
+}
