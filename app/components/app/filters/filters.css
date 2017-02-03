@@ -32,10 +32,6 @@
     font-weight: bold;
 }
 
-.form-group.well .expand-group {
-    float: right;
-}
-
 .filter-top-buttons{
   padding-right:19px;
   padding-bottom:19px;
@@ -46,7 +42,7 @@
 }
 
 .column-filter-min-max input {
-  text-align:right;
+  text-align:center;
 }
 
 
@@ -97,4 +93,13 @@
 
 .noUi-pips-horizontal {
   padding-bottom:5px
+}
+
+
+.form-search {
+    margin: 20px 0;
+}
+
+.form-search input.column-filter-text {
+    border-radius: 999px;
 }

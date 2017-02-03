@@ -191,79 +191,119 @@ define([
     },    
     
     pass:function(query) {
-      var columns = this.collection.options.columns
+      var columnCollection = this.collection.options.columns
       var pass = true
       var keys = _.keys(query)
-      var len = keys.length
       var i = 0
-      while(i < len && pass) {
+      while(i < keys.length && pass) {
         var key = keys[i]
-        var columnModel = columns.byQueryColumn(key)
-        if (typeof columnModel !== "undefined") {
-          var column = columnModel.get("queryColumn")
-          var condition = query[key]
+        // keyword search
+        if (key === "s") {
+          // pass when match with any searchable columns
+          pass = false
+          var columns  = columnCollection.byAttribute("searchable").models
+          var queryStr = query["s"].toString()
           
-          // check min
-          if (key === columnModel.getQueryColumnByType("min")) {
-            if (column === "longitude") {
-              if(this.get(column) === null) {
-                pass = false
+          // match multiple words
+          // see http://stackoverflow.com/questions/5421952/how-to-match-multiple-words-in-regex
+          var regex = ''    
+          _.each(queryStr.split(' '), function(str){
+            regex += '(?=.*\\b'+str+')'
+          })            
+          var pattern = new RegExp(regex, "i")
+          
+          var j = 0
+          while (j < columns.length && !pass){
+            var column = columns[j].get("queryColumn")
+            var value = this.get(column)
+            if (value !== null && value !== ""){              
+              // exact match for id
+              if (column === "id") {
+                pass = value.toString() === queryStr
               } else {
-                var value = this.get(column) < 0 ? this.get(column) + 360 : this.get(column)
-                var condition = parseFloat(condition) < 0 ? parseFloat(condition) + 360 : parseFloat(condition)
-                if (value < condition) {
-                  pass = false
+                if (queryStr.length > 3) {
+                  value = value.toString()
+                    .replace(/[āĀ]/, "a")
+                    .replace(/[ēĒ]/, "e")
+                    .replace(/[īĪ]/, "i")
+                    .replace(/[ōŌ]/, "o")
+                    .replace(/[ūŪ]/, "u")       
+
+                  pass = pattern.test(value)                                
                 }
-              }
-            } else {
-              if(this.get(column) === null || this.get(column) < parseFloat(condition)) {
-                pass = false
-              }
-            }     
-          // check max
-          } else if (key === columnModel.getQueryColumnByType("max")) {
-            if (column === "longitude") {
-              if(this.get(column) === null) {
-                pass = false
-              } else {
-                var value = this.get(column) < 0 ? this.get(column) + 360 : this.get(column)
-                var condition = parseFloat(condition) < 0 ? parseFloat(condition) + 360 : parseFloat(condition)
-                
-                if (value > condition) {
-                  pass = false
-                }
-              }
-            } else {
-              if(this.get(column) === null || this.get(column) > parseFloat(condition)) {
-                pass = false
-              }               
-            }               
-          // check equality
-          } else {            
-            // try number
-            if(isNumber(condition)) {            
-              if(this.get(column) === null || this.get(column) !== parseFloat(condition)) {
-                pass = false
-              } 
-            } else {
-              // test null
-              var values
-              if( this.get(column) === null || this.get(column) === "") {
-                values = ["null"]
-              } else {
-                if(isNumber(this.get(column))){
-                  values = [this.get(column)]
-                } else {
-                  values = _.map(this.get(column).split(','),function(val){return val.trim()})
-                }                
-              }        
-              var conditions = typeof condition === 'string' ? [condition] : condition                
-              if(_.intersection(conditions,values).length === 0) {
-                pass = false
               }
             }
+            j++
           }
-        }          
+        } else {
+        
+          var columnModel = columnCollection.byQueryColumn(key)
+          if (typeof columnModel !== "undefined") {
+            var column = columnModel.get("queryColumn")
+            var condition = query[key]
+
+            // check min
+            if (key === columnModel.getQueryColumnByType("min")) {
+              if (column === "longitude") {
+                if(this.get(column) === null) {
+                  pass = false
+                } else {
+                  var value = this.get(column) < 0 ? this.get(column) + 360 : this.get(column)
+                  var condition = parseFloat(condition) < 0 ? parseFloat(condition) + 360 : parseFloat(condition)
+                  if (value < condition) {
+                    pass = false
+                  }
+                }
+              } else {
+                if(this.get(column) === null || this.get(column) < parseFloat(condition)) {
+                  pass = false
+                }
+              }     
+            // check max
+            } else if (key === columnModel.getQueryColumnByType("max")) {
+              if (column === "longitude") {
+                if(this.get(column) === null) {
+                  pass = false
+                } else {
+                  var value = this.get(column) < 0 ? this.get(column) + 360 : this.get(column)
+                  var condition = parseFloat(condition) < 0 ? parseFloat(condition) + 360 : parseFloat(condition)
+
+                  if (value > condition) {
+                    pass = false
+                  }
+                }
+              } else {
+                if(this.get(column) === null || this.get(column) > parseFloat(condition)) {
+                  pass = false
+                }               
+              }               
+            // check equality
+            } else {            
+              // try number
+              if(isNumber(condition)) {            
+                if(this.get(column) === null || this.get(column) !== parseFloat(condition)) {
+                  pass = false
+                } 
+              } else {
+                // test null
+                var values
+                if( this.get(column) === null || this.get(column) === "") {
+                  values = ["null"]
+                } else {
+                  if(isNumber(this.get(column))){
+                    values = [this.get(column)]
+                  } else {
+                    values = _.map(this.get(column).split(','),function(val){return val.trim()})
+                  }                
+                }        
+                var conditions = typeof condition === 'string' ? [condition] : condition                
+                if(_.intersection(conditions,values).length === 0) {
+                  pass = false
+                }
+              }
+            }
+          }                    
+        } 
         i++
       }          
       return pass 
