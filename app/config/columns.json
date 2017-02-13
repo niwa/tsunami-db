@@ -3,6 +3,7 @@
     "id":"id",    
     "column":"id",    
     "title":"ID",
+    "description":"Record identification number",
     "type":"id",      
     "default":1,
     "filterable":0,    
@@ -12,6 +13,7 @@
   {
     "id":"validity",
     "title":"Validity",
+    "description":"Based upon number of palaeotsunami criteria.",
     "type":"ordinal",    
     "default":1,
     "colorable":1,
@@ -27,11 +29,18 @@
     "id":"datingt",
     "column":"datingtechnique",
     "title":"Dating technique",
+    "description":"Please refer to the relevant publication for more details.",    
     "type":"categorical",    
     "multiples":1,
     "searchable":1,
     "values":{
       "values":["Geological data","Historical data","No specific method"],      
+      "labels":["Geological","Historical","No specific method"],      
+      "descriptions":[
+        "Chronology established using one or more of a suite of 'Geo' dating techniques, these are often detailed in the Geodating technique column with additional details sometimes provided in 'Additional comment' ",
+        "Historical data",
+        "If this relates to a Pūrākau (oral record) then it is assumed to be most probably post-Maori occupation and pre-European arrival and unless otherwise stated is given an arbitrary 'Inferred date range' of AD 1250-1800"
+      ],      
       "colors":["#bf812d","#35978f","#969696"]
     }
   },
@@ -39,6 +48,7 @@
     "id":"geodatingt",
     "column":"geodatingtechnique",
     "title":"Geodating technique",
+    "description":"",
     "type":"categorical",    
     "multiples":1,
     "searchable":1,
@@ -48,6 +58,8 @@
     "id":"event_c",
     "column":"eventcomment",
     "title":"Additional comment",
+    "description":"These generally relate to chronological information, but can also highlight possible linkages with other similarly-aged sites.",
+    "descriptionMore":"A full citation of specific references cited in the comments section only is provided to assist the database user if they wish to search further. There is occasionally reference to 'C14 yr BP' which is an uncalibrated, Conventional Radiocarbon Age. If needed, the database user should refer to the relevant publication for more details.",
     "filterable":0,
     "blanks":1,
     "searchable":1,
@@ -56,19 +68,26 @@
   {
     "id":"natureofevidence",
     "title":"Nature of evidence",
+    "description":"Nature of evidence at that site",
     "type":"categorical",    
     "group":"meta",
     "colorable":1,  
     "searchable":1,  
     "values":{
       "values":["Primary","Secondary","Cultural"],
-      "hints":["Sedimentary","Geomorphic","Anthropological"],      
+      "hints":["Sedimentary","Geomorphic","Anthropological"],   
+      "descriptions":[
+        "Sedimentary/Artefactual",
+        "Geomorphic",
+        "Anthropological/Pūrākau [Oral record]"
+      ],
       "colors":["#8c510a","#dfc27d","#80cdc1"]
     }
   },  
   {
     "id":"natureofevidencedesc",
     "title":"Nature of evidence (description)",
+    "description":"",
     "type":"text",    
     "group":"meta",    
     "filterable":0,
@@ -77,6 +96,7 @@
   {
     "id":"classification",
     "title":"Classification",
+    "description":"",
     "type":"ordinal",
     "colorable":1,    
     "searchable":1,
@@ -93,6 +113,7 @@
     "id":"date_min",
     "filterable":0,        
     "title":"Date (min)",
+    "description":"Minimum date (youngest) of site specific event based solely upon chronological data from that site",
     "type":"date",    
     "group":"time",    
     "combo":1,        
@@ -111,6 +132,8 @@
   {
     "id":"date_max",    
     "title":"Date (max)",
+    "description":"Maximum date (oldest) of site specific event based solely upon chronological data from that site",    
+    "comboDescription":"Date range of site specific event based solely upon chronological data from that site",
     "type":"date",    
     "group":"time",    
     "combo":1,    
@@ -134,6 +157,7 @@
   {
     "id":"inferred_date_range_min",          
     "title":"Inferred date (min)",
+    "description":"Inferred minimum date of site specific eventsource. This may or may not involve cross-correlation with other sites in the database",
     "type":"date",    
     "group":"time",    
     "filterable":0,    
@@ -153,6 +177,8 @@
   {
     "id":"inferred_date_range_max",
     "title":"Inferred date (max)",
+    "description":"Inferred maximum date of site specific eventsource. This may or may not involve cross-correlation with other sites in the database",
+    "comboDescription":"Inferred date range of site specific eventsource. This may or may not involve cross-correlation with other sites in the database",
     "comboTitle":"Inferred date range",
     "type":"date",    
     "group":"time",    
@@ -180,7 +206,7 @@
       "max" : "elevation_below"
     },    
     "title":"Elevation (m)",
-    "hint":"Proxy for runup-height",
+    "description":"Inferred elevation of deposit in metres above mean sea level at the estimated time of deposition, where available. This is a proxy for minimum runup height",
     "type":"quantitative",    
     "group":"details",        
     "blanks":1,    
@@ -202,6 +228,7 @@
     "id":"elevation_c",
     "column":"elevation_comment",
     "title":"Elevation (comment)",
+    "description":"If elevation data are unclear or need further explanation then a comment is inserted. In most cases an elevation range is suggested or the information is questioned ('?' or an elevation followed by '?'). If needed, the database user should refer to the relevant publication for more details",
     "type":"text",    
     "group":"details",    
     "filterable":0,
@@ -216,6 +243,8 @@
       "max" : "landward_limit_below"
     },        
     "title":"Estimated minimum landward limit (m)",
+    "description":"Distance inland from the coastline in metres at the time of deposition, where available.",
+    "descriptionMore":"(n.b. in many cases by necessity this estimate relates to the contemporary coastline as and such the database user should refer to the relevant publication for more details)",
     "type":"quantitative",    
     "group":"details",    
     "blanks":1,    
@@ -237,6 +266,7 @@
     "id":"landward_limit_c",
     "column":"est_min_landward_limit_comment",
     "title":"Estimated minimum landward limit (comment)",
+    "description":"Where a notable query exists concerning estimated minimum landward limits this is noted (usually with a distance in metres preceded by either ‘~’, ‘>’, or followed by '?' or simply marked by '?')",
     "type":"text",    
     "group":"details",    
     "filterable":0,
@@ -250,6 +280,7 @@
       "max" : "thickness_below"
     },       
     "title":"Deposit thickness (m)",
+    "description":"The inferred maximum thickness in metres, where a deposit is present and data are available",
     "type":"quantitative",    
     "group":"details",    
     "blanks":1,
@@ -264,9 +295,10 @@
   },    
   {
     "id":"region",
-    "column":"location_region",
+    "column":"location_region",    
     "title":"Region",
     "type":"categorical",    
+    "description":"Council region, district or offshore location where site is situated",
     "group":"site",
     "searchable":1,    
     "default":1
@@ -274,6 +306,7 @@
   {
     "id":"location_site",
     "title":"Location",
+    "description":"Site specific location",
     "type":"categorical",    
     "group":"site",    
     "filterable":1,
@@ -288,9 +321,15 @@
       "max" : "north"
     },       
     "title":"Latitude",
+    "description":"Site location latitude using decimal degrees (4 decimal places)",
+    "hint":"Alternatively you can set the filter area by drawing a rectangle on the map",    
     "placeholders":{
       "min" : "South",
       "max" : "North"
+    },       
+    "addons":{
+      "min" : "S",
+      "max" : "N"
     },       
     "validation":{
       "min" : -90,
@@ -308,11 +347,17 @@
       "min" : "west",
       "max" : "east"
     },      
-    "title":"Longitude",    
+    "title":"Longitude",
+    "description":"Site location longitude using decimal degrees (4 decimal places)",  
+    "hint":"Alternatively you can set the filter area by drawing a rectangle on the map",        
     "placeholders":{
       "min" : "West",
       "max" : "East" 
-    },      
+    },     
+    "addons":{
+      "min" : "W",
+      "max" : "E"
+    },     
     "validation":{
       "min" : -180,
       "max" : 180,
@@ -325,6 +370,7 @@
   {
     "id":"sitestatus",
     "title":"Site status",
+    "description":"State of the physical evidence at a site",
     "type":"categorical",    
     "group":"site",
     "colorable":1,
@@ -338,6 +384,8 @@
     "id":"physical",
     "column":"physical_characteristics",
     "title":"Physical characteristics",
+    "description":"Brief description of main physical characteristics of event at the site",
+    "descriptionMore":"(If the site record relates to a Pūrākau [oral record] then this entry simply reads 'Pūrākau')",
     "group":"site",    
     "filterable":0,
     "blanks":1,
@@ -346,6 +394,7 @@
   {
     "id":"source_cause",
     "title":"Source cause",
+    "description":"There are a range of tsunamigenic sources given",
     "type":"categorical",    
     "group":"source",    
     "blanks":1,
@@ -369,6 +418,15 @@
         "Pyroclastic flow",
         "Geyser",
         "Bollide"
+      ],      
+      "descriptions":[
+        "Earthquake/fault rupture",
+        "Sub-aerial or submarine landslide ",
+        "Volcanic eruption",
+        "Volcanic slope failure",
+        "Associated with volcanic activity",
+        "Associated with geothermal activity",
+        "Meteorite/Asteroid impact"
       ]
     }
   },
@@ -376,6 +434,7 @@
     "id":"source_cause_c",
     "column":"source_cause_comment",
     "title":"Source cause (comment)",
+    "description":"Where given, this provides some additional information concerning the source cause such as a qualifier (e.g. Meteorite), or offering suggestions of possible alternative sources (e.g. Could relate to more local source)",
     "group":"source",    
     "filterable":0,
     "blanks":1,
@@ -386,6 +445,7 @@
     "id":"source_certainty",
     "column":"sourcecertainty",
     "title":"Source certainty",
+    "description":"Where a source is given this applies to the degree of certainty for the source estimation",
     "type":"categorical",    
     "group":"source",
     "colorable":1,    
@@ -393,12 +453,18 @@
     "searchable":1,
     "values":{      
       "values":["Inferred","Known"],
+      "descriptions":[
+        "Almost exclusively related to palaeotsunamis – while in many cases there is a strong likelihood that the inferred source is correct, there are no weightings given",
+        "Invariably relates to historical events"
+        ],
       "colors":["#a6611a","#80cdc1"]      
     }
   },  
   {
     "id":"source_location",
     "title":"Source location",
+    "description":"Where possible, a local, regional or distant source location is given.",
+    "descriptionMore":"This can range from specific (e.g. Kerepahi fault) to general (e.g. S. America) and is, in most cases, either based upon a relevant publication(s) or an association with other possible related sites or similar events noted in the database",
     "type":"categorical",    
     "group":"source",    
     "multiples":1,
@@ -412,16 +478,21 @@
       "max" : "source_north"
     },       
     "title":"Source latitude",
+    "description":"Source location latitude using decimal degrees.",
+    "descriptionMore":"While 4 decimal places are given, it normally refers to a general point source location delimited to one or two decimal places since most of the known or inferred sources are linear fault ruptures. In essence, the point identifies the general fault zone",
     "placeholders":{
       "min" : "South",
       "max" : "North"
     },       
+    "addons":{
+      "min" : "S",
+      "max" : "N"
+    },      
     "validation":{
       "min" : -90,
       "max" : 90,
       "message" : "Values must be between -180 and 180 degrees"
     },    
-    
     "type":"spatial",    
     "group":"source",    
     "blanks":1
@@ -434,9 +505,15 @@
       "max" : "source_east"
     },      
     "title":"Source longitude",
+    "description":"Source location longitude using decimal degrees.",
+    "descriptionMore":"While 4 decimal places are given, it normally refers to a general point source location delimited to one or two decimal places since most of the known or inferred sources are linear fault ruptures. In essence, the point identifies the general fault zone",
     "placeholders":{
       "min" : "West",
       "max" : "East"
+    },      
+    "addons":{
+      "min" : "W",
+      "max" : "E"
     },      
     "validation":{
       "min" : -180,
@@ -450,6 +527,7 @@
   {
     "id":"proxies",
     "title":"Record proxies",
+    "description":"A list of numbered palaeotsunami criteria based on 'diagnostic criteria' developed through a series of published iterations (and hence the database has been designed to allow this list to grow over time). For more details refer to: Chagué-Goff et al. (2011), Goff et al. (2001, 2010, 2012), Goff & McFadgen (2003), McFadgen & Goff (2007) and Morton et al. (2007)",
     "type":"index",    
     "multiples":1,
     "blanks":1,
@@ -460,6 +538,7 @@
   {
     "id":"references",
     "title":"References",
+    "description":"Relevant references are listed here (this is not an exhaustive list but, if required, the database user should be able to find additional appropriate references cited within those provided)",
     "type":"index",    
     "multiples":1,
     "blanks":1,

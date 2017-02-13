@@ -1,6 +1,7 @@
 define([
-  'jquery', 'underscore', 'backbone'
-], function($,_, Backbone
+  'jquery', 'underscore', 'backbone',
+  'showdown'
+], function($,_, Backbone,showdown
 ){
   
   return Backbone.Model.extend({
@@ -13,6 +14,9 @@ define([
         column :          this.attributes.column || this.attributes.id,        
         title :           this.attributes.title || this.attributes.id,        
         placeholders :    this.attributes.placeholders || null,
+        addons :          this.attributes.addons || null,
+        description :     this.attributes.description || "",
+        descriptionMore:  this.attributes.descriptionMore || "",        
         hint :            this.attributes.hint || "",
         type :            this.attributes.type || "text",
         group :           this.attributes.group || "meta",
@@ -29,6 +33,7 @@ define([
         comboColumnId:    this.attributes.comboColumnId || null,
         comboType:        this.attributes.comboType || null,
         comboTitle:       this.attributes.comboTitle || this.attributes.title || this.attributes.id,
+        comboDescription: this.attributes.comboDescription || this.attributes.description || "",
         plotMax:          this.attributes.plotMax || null,
         plotColor:        this.attributes.plotColor || "#fff",
       })
@@ -63,6 +68,11 @@ define([
           this.set("placeholders", {min:"Min",max:"Max"})                      
         }
       }
+      if (this.attributes.type === "spatial") {
+        if (this.attributes.addons === null){
+          this.set("addons", {min:"Min",max:"Max"})                      
+        }
+      }
       if (this.attributes.type === "date") {
         if (this.attributes.placeholders === null){
           this.set("placeholders", {min:"After",max:"Before"})                      
@@ -77,6 +87,11 @@ define([
         if(typeof this.attributes.values.hints === "undefined") {
           this.attributes.values.hints = []        
         }
+      }
+      
+      if (this.attributes.description !== ""){
+        var converter = new showdown.Converter({ghCodeBlocks: false});              
+        this.attributes.description = converter.makeHtml(this.attributes.description)
       }
 
     },
@@ -95,6 +110,10 @@ define([
     },
     getTitle : function(){
       return this.attributes.title
+    },
+    hasMoreDescription: function(){
+      return this.attributes.descriptionMore !== "" 
+        || typeof this.attributes.values.descriptions !== "undefined"
     },
     getColor:function(value){
       if(this.get("colorable") === 1) {
