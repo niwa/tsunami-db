@@ -1,0 +1,15 @@
+<% if(title){ %><label for="<%= forId %>">
+  <%= title %>  
+  <% if(tooltip !== "") {%><a 
+     data-toggle="tooltip" 
+     data-placement="top" 
+     title="<%= tooltip_more ? tooltip + '<p><em>Click for more information</em></p>' : tooltip%>" 
+     data-html="true"
+     href="#"
+     class="nav-link"
+     data-page-anchor="<%= id %>"
+     data-id="attributes">
+    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+  </a><% } %>
+</label>
+<% if(hint !== "") {%><div class="column-hint small"><%= hint %></div><% } %><% } %>

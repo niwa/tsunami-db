@@ -7,7 +7,8 @@ define([
   'text!./filterButtons.html',    
   'text!./filterMinMaxAddon.html',
   'text!./filterMinMaxSlider.html',
-  'text!./filterText.html'
+  'text!./filterText.html',
+  'text!./filterLabel.html'
 ], function (
   $, _, Backbone,
   select2,
@@ -17,7 +18,8 @@ define([
   templateFilterButtons,  
   templateFilterMinMaxAddon,
   templateFilterMinMaxSlider,
-  templateFilterText
+  templateFilterText,
+  templateFilterLabel  
 ) {
 
   var FiltersView = Backbone.View.extend({
@@ -29,7 +31,8 @@ define([
       "click .query-group-reset": "queryGroupReset",
       "click .filter-button": "filterButtonClick",
       "click .filter-range-checkbox:checkbox": "filterRangeCheckboxClick",
-      "click .slider-track-click": "filterSliderTrackClick"
+      "click .slider-track-click": "filterSliderTrackClick",
+      "click .nav-link" : "handleNavLink"
     },
     initialize : function () {
       this.render()
@@ -84,7 +87,7 @@ define([
             return false
           } else {          
             return {
-              title:group.get("title"),
+              title:group.get("title"),              
               hint:group.get("hint"),
               id:group.id,
               classes: classes,
@@ -109,6 +112,7 @@ define([
       }))
       this.initMultiselect()      
       this.initRangeSlider()      
+      this.initTooltips()      
       
       return this
     },    
@@ -166,7 +170,14 @@ define([
             : ""                      
           if (column.get("default") || queryMin.trim() !== "" || queryMax.trim() !== "" || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMaxAddon)({
-              title:column.get("title"),
+              label:_.template(templateFilterLabel)({
+                id:column_min,
+                forId:"text-"+column_min,
+                tooltip:column.get("description"),
+                tooltip_more:column.hasMoreDescription(),
+                title:column.get("title"),
+                hint:column.get("hint")
+              }),
               title_min:column.get("placeholders").min,
               title_max:column.get("placeholders").max,
               addon_min:column.get("addons").min,
@@ -189,6 +200,7 @@ define([
           // range slider filter
           //
           var title, // filter title
+              description, // filter description used for tooltip
               column_min, // the query argument for min value
               column_max, // the query argument for max value
               column_value, // the actual query column
@@ -200,6 +212,7 @@ define([
               range // the scale range definitions as defined in columns.json config and as needed for nouislider
                     
           title = column.get("title")
+          description = column.get("description")
           column_min = column.getQueryColumnByType("min")
           column_max = column.getQueryColumnByType("max")  
           column_value = column.getQueryColumnByType("value")
@@ -211,6 +224,7 @@ define([
           if(column.get('combo') === 1) {  
             // override title
             title = column.get("comboTitle")            
+            description = column.get("comboDescription")            
             // get the combo column
             var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))            
             // update range and query columns from combo column depedning on type
@@ -244,7 +258,14 @@ define([
                   || queryValue.length > 0
                   || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMaxSlider)({
-              title:title,
+              label:_.template(templateFilterLabel)({
+                id:column_min,
+                forId:"text-"+column_min,
+                tooltip:description,
+                tooltip_more:column.hasMoreDescription(),
+                title:title,
+                hint:column.get("hint")              
+              }),             
               type:column.get("type"),
               title_min:column.get("placeholders").min,
               title_max:column.get("placeholders").max,
@@ -294,16 +315,32 @@ define([
               
             }
             
+
             if (options.length > 4) {
-            
+
               return _.template(templateFilterMultiSelect)({
-                title:column.get("title") ,
+                label: _.template(templateFilterLabel)({
+                  id:column_id,
+                  forId:"multiselect-"+column_id,
+                  tooltip:column.get("description"),
+                  tooltip_more:column.hasMoreDescription(),                  
+                  title:column.get("title"),
+                  hint:column.get("hint")
+                }),                 
+                title:column.get("title"),
                 column:column_id,
                 options:options
               })
             } else {
               return _.template(templateFilterButtons)({
-                title:column.get("title") ,
+                label:_.template(templateFilterLabel)({
+                  id:column_id,
+                  forId:"buttons-"+column_id,
+                  tooltip:column.get("description"),
+                  tooltip_more:column.hasMoreDescription(),                  
+                  title:column.get("title"),
+                  hint:column.get("hint")
+                }),                                 
                 column:column_id,
                 options:options
               })
@@ -316,6 +353,10 @@ define([
         default:
           return false
       }
+    },
+    
+    initTooltips:function(){
+      this.$('[data-toggle="tooltip"]').tooltip()
     },
     
     initRangeSlider: function(){
@@ -616,7 +657,16 @@ define([
       }     
       return parseInt(value)
     },    
-    
+    handleNavLink : function(e){
+      e.preventDefault()
+      e.stopPropagation()
+      
+      this.$el.trigger('navLink',{
+        id:$(e.currentTarget).data('id'),
+        route:"page",
+        type:"page"
+      })      
+    },
   });
 
   return FiltersView;

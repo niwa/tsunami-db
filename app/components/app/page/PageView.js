@@ -14,6 +14,7 @@ define([
       this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:pageId", this.handlePageChange);      
+      this.listenTo(this.model, "change:pageAnchor", this.handlePageAnchorChange);      
     },
     render: function () {
       if (this.model.hasActivePage()) {
@@ -55,6 +56,22 @@ define([
       e.preventDefault()
       
       this.$el.trigger('pageClose')      
+    },
+    handlePageAnchorChange : function(){
+      var anchor = this.model.getPageAnchor()
+      if (this.model.hasActivePage() && anchor !== "") {
+        var that = this
+        var page = this.model.getActivePage()     
+        waitFor(function(){
+          return page.isContentReady()
+        },function(){
+          page.imagesLoaded(function(){
+            var $anchor = that.$('#'+anchor)            
+            that.$('.content-scroll').scrollTop($anchor.offset().top-30)
+          })
+          
+        })
+      }
     }    
         
   });
