@@ -7,7 +7,12 @@
       data-column-type="<%= type %>"
       id="text-<%= column_min %>" 
       placeholder="<%= title_min %>" 
-      value="<%= value_min %>">     
+      value="<%= value_min %>"
+      data-toggle="tooltip" 
+      data-placement="right" 
+      data-trigger="manual"
+      title="Press enter to submit"       
+    >     
   
     <input type="text"
       class="form-control column-filter-text pull-right" 
@@ -15,7 +20,12 @@
       data-column-type="<%= type %>"
       id="text-<%= column_max %>" 
       placeholder="<%= title_max %>" 
-      value="<%= value_max %>">   
+      value="<%= value_max %>"
+      data-toggle="tooltip" 
+      data-placement="left" 
+      data-trigger="manual"
+      title="Press enter to submit" 
+    >   
   
   </div>
   <div class="filter-slider-wrap">

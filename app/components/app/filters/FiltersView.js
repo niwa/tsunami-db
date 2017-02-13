@@ -357,6 +357,20 @@ define([
     
     initTooltips:function(){
       this.$('[data-toggle="tooltip"]').tooltip()
+      this.$('input[type="text"][data-toggle="tooltip"]').each(function(){
+        $(this).on("input",function(){               
+          if ($(this).val().trim() !== "") {
+            $(this).tooltip('show')
+          } else {
+            $(this).tooltip('hide')
+          }                  
+        })
+        $(this).on("focusout",function(){               
+          $(this).tooltip('hide')
+        })
+      })
+      
+      
     },
     
     initRangeSlider: function(){
