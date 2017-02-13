@@ -1,0 +1,27 @@
+<label for="<%= column_min %>"><%= title %></label>
+<div class="row column-filter-min-max-addon">
+  <div class="col-sm-4">
+    <div class="input-group">
+      <div class="input-group-addon"><%= addon_min %></div>    
+      <input type="text"
+        class="form-control column-filter-text" 
+        data-column="<%= column_min %>"      
+        data-column-type="<%= type %>"      
+        id="text-<%= column_min %>" 
+        placeholder="<%= title_min %>" 
+        value="<%= value_min %>">   
+    </div>
+  </div>
+  <div class="col-sm-4">    
+    <div class="input-group">
+      <div class="input-group-addon"><%= addon_max %></div>    
+      <input type="text"
+        class="form-control column-filter-text" 
+        data-column="<%= column_max %>"    
+        data-column-type="<%= type %>"      
+        id="text-<%= column_max %>" 
+        placeholder="<%= title_max %>" 
+        value="<%= value_max %>">   
+    </div>
+  </div>
+</div>

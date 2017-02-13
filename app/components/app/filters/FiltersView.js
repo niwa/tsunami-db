@@ -4,8 +4,8 @@ define([
   'nouislider',
   'text!./filters.html',
   'text!./filterMultiSelect.html',
-  'text!./filterButtons.html',  
-  'text!./filterMinMax.html',
+  'text!./filterButtons.html',    
+  'text!./filterMinMaxAddon.html',
   'text!./filterMinMaxSlider.html',
   'text!./filterText.html'
 ], function (
@@ -14,8 +14,8 @@ define([
   noUiSlider,
   template,
   templateFilterMultiSelect,
-  templateFilterButtons,
-  templateFilterMinMax,
+  templateFilterButtons,  
+  templateFilterMinMaxAddon,
   templateFilterMinMaxSlider,
   templateFilterText
 ) {
@@ -165,10 +165,12 @@ define([
             ? this.model.get("recQuery")[column_max]
             : ""                      
           if (column.get("default") || queryMin.trim() !== "" || queryMax.trim() !== "" || this.model.isExpanded(groupId) ) {        
-            return _.template(templateFilterMinMax)({
+            return _.template(templateFilterMinMaxAddon)({
               title:column.get("title"),
               title_min:column.get("placeholders").min,
               title_max:column.get("placeholders").max,
+              addon_min:column.get("addons").min,
+              addon_max:column.get("addons").max,
               column_min:column_min,
               column_max:column_max,
               type:column.get("type"),
