@@ -1,0 +1,135 @@
+
+.icon-icon_arrow-down {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpolyline%20points%3D%2212%206%208%2010%204%206%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_arrow-right-hover {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpolyline%20points%3D%226%204%2010%208%206%2012%22%20style%3D%22fill%3Anone%3Bstroke%3A%23404e59%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_arrow-right {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpolyline%20points%3D%226%204%2010%208%206%2012%22%20style%3D%22fill%3Anone%3Bstroke%3A%23b2b8bd%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_arrow-up {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpolyline%20points%3D%224%2010%208%206%2012%2010%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_close {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2060%2060%22%3E%3Ctitle%3Eicon%3C/title%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2256%22%20height%3D%2256%22%20rx%3D%2228%22%20ry%3D%2228%22%20style%3D%22fill%3Anone%3Bstroke%3A%23009dd6%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3Cline%20x1%3D%2219.64%22%20y1%3D%2219.61%22%20x2%3D%2240.36%22%20y2%3D%2240.39%22%20style%3D%22fill%3Anone%3Bstroke%3A%23009dd6%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3Cline%20x1%3D%2240.36%22%20y1%3D%2219.61%22%20x2%3D%2219.64%22%20y2%3D%2240.39%22%20style%3D%22fill%3Anone%3Bstroke%3A%23009dd6%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_detail {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpath%20d%3D%22M23%2C13.63c0%2C3.94-7%2C11.88-7%2C11.88S9%2C17.56%2C9%2C13.63a7%2C7%2C0%2C1%2C1%2C14%2C0Z%22%20style%3D%22fill%3A%23808990%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_download-blue {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cline%20x1%3D%228%22%20y1%3D%221%22%20x2%3D%228%22%20y2%3D%228.89%22%20style%3D%22fill%3Anone%3Bstroke%3A%23009dd6%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2.5px%22/%3E%3Cpolygon%20points%3D%2211.8%208.38%204.2%208.38%208%2012.18%2011.8%208.38%22%20style%3D%22fill%3A%23009dd6%22/%3E%3Cline%20x1%3D%221%22%20y1%3D%2215%22%20x2%3D%2215%22%20y2%3D%2215%22%20style%3D%22fill%3Anone%3Bstroke%3A%23009dd6%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_download-grey {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cline%20x1%3D%228%22%20y1%3D%221%22%20x2%3D%228%22%20y2%3D%228.89%22%20style%3D%22fill%3Anone%3Bstroke%3A%23b2b8bd%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2.5px%22/%3E%3Cpolygon%20points%3D%2211.8%208.38%204.2%208.38%208%2012.18%2011.8%208.38%22%20style%3D%22fill%3A%23b2b8bd%22/%3E%3Cline%20x1%3D%221%22%20y1%3D%2215%22%20x2%3D%2215%22%20y2%3D%2215%22%20style%3D%22fill%3Anone%3Bstroke%3A%23b2b8bd%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_download-white {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cline%20x1%3D%228%22%20y1%3D%221%22%20x2%3D%228%22%20y2%3D%228.89%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2.5px%22/%3E%3Cpolygon%20points%3D%2211.8%208.38%204.2%208.38%208%2012.18%2011.8%208.38%22%20style%3D%22fill%3A%23fff%22/%3E%3Cline%20x1%3D%221%22%20y1%3D%2215%22%20x2%3D%2215%22%20y2%3D%2215%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_draw {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2026%2026%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpolyline%20points%3D%2219%2018%2019%2019%2018%2019%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%2216%22%20y1%3D%2219%22%20x2%3D%229%22%20y2%3D%2219%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%3Bstroke-dasharray%3A2%2C2%22/%3E%3Cpolyline%20points%3D%228%2019%207%2019%207%2018%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%227%22%20y1%3D%2216%22%20x2%3D%227%22%20y2%3D%229%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%3Bstroke-dasharray%3A2%2C2%22/%3E%3Cpolyline%20points%3D%227%208%207%207%208%207%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%2210%22%20y1%3D%227%22%20x2%3D%2217%22%20y2%3D%227%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%3Bstroke-dasharray%3A2%2C2%22/%3E%3Cpolyline%20points%3D%2218%207%2019%207%2019%208%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%2219%22%20y1%3D%2210%22%20x2%3D%2219%22%20y2%3D%2217%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%3Bstroke-dasharray%3A2%2C2%22/%3E%3Cpolygon%20points%3D%2215.91%2023.17%2015.91%2010.72%2024.11%2020.22%2019.19%2019.89%2015.91%2023.17%22%20style%3D%22fill%3A%234c5a64%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_facebook {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpath%20d%3D%22M20.15%2C10.66H18.65c-1.18%2C0-1.41.56-1.41%2C1.38v1.82h2.82l-.37%2C2.84H17.24V24H14.3V16.7H11.85V13.86H14.3v-2.1A3.43%2C3.43%2C0%2C0%2C1%2C18%2C8a20.14%2C20.14%2C0%2C0%2C1%2C2.19.11Z%22%20style%3D%22fill%3A%23fff%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_filter-close {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cline%20x1%3D%2211.5%22%20y1%3D%228%22%20x2%3D%224.5%22%20y2%3D%228%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_filter-open {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cline%20x1%3D%228%22%20y1%3D%224.5%22%20x2%3D%228%22%20y2%3D%2211.5%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%2211.5%22%20y1%3D%228%22%20x2%3D%224.5%22%20y2%3D%228%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_filter {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cline%20x1%3D%228%22%20y1%3D%2210%22%20x2%3D%2224%22%20y2%3D%2210%22%20style%3D%22fill%3Anone%3Bstroke%3A%23808990%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3Cline%20x1%3D%228%22%20y1%3D%2216%22%20x2%3D%2224%22%20y2%3D%2216%22%20style%3D%22fill%3Anone%3Bstroke%3A%23808990%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3Cline%20x1%3D%228%22%20y1%3D%2222%22%20x2%3D%2224%22%20y2%3D%2222%22%20style%3D%22fill%3Anone%3Bstroke%3A%23808990%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3Ccircle%20cx%3D%229.5%22%20cy%3D%2210%22%20r%3D%222.5%22%20style%3D%22fill%3A%23808990%22/%3E%3Ccircle%20cx%3D%2219%22%20cy%3D%2216%22%20r%3D%222.5%22%20style%3D%22fill%3A%23808990%22/%3E%3Ccircle%20cx%3D%2214.5%22%20cy%3D%2222%22%20r%3D%222.5%22%20style%3D%22fill%3A%23808990%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_info-hover {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%227%22%20style%3D%22fill%3Anone%3Bstroke%3A%23404e59%3Bstroke-miterlimit%3A10%22/%3E%3Cpath%20d%3D%22M8.61%2C9.73H7.37c0-.18%2C0-.29%2C0-.33a2.19%2C2.19%2C0%2C0%2C1%2C.2-1%2C3%2C3%2C0%2C0%2C1%2C.8-.88%2C6%2C6%2C0%2C0%2C0%2C.72-.64.85.85%2C0%2C0%2C0%2C.18-.53.89.89%2C0%2C0%2C0-.32-.69%2C1.24%2C1.24%2C0%2C0%2C0-.86-.29%2C1.31%2C1.31%2C0%2C0%2C0-.87.3%2C1.58%2C1.58%2C0%2C0%2C0-.48.91L5.46%2C6.44A2.09%2C2.09%2C0%2C0%2C1%2C6.21%2C5%2C2.64%2C2.64%2C0%2C0%2C1%2C8%2C4.34%2C2.74%2C2.74%2C0%2C0%2C1%2C9.9%2C5a1.87%2C1.87%2C0%2C0%2C1%2C.7%2C1.44%2C1.58%2C1.58%2C0%2C0%2C1-.26.86%2C5.63%2C5.63%2C0%2C0%2C1-1.1%2C1.1%2C2.1%2C2.1%2C0%2C0%2C0-.54.58A1.94%2C1.94%2C0%2C0%2C0%2C8.61%2C9.73ZM7.37%2C11.57V10.2H8.74v1.37Z%22%20style%3D%22fill%3A%23404e59%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_info {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%227%22%20style%3D%22fill%3Anone%3Bstroke%3A%23b2b8bd%3Bstroke-miterlimit%3A10%22/%3E%3Cpath%20d%3D%22M8.61%2C9.73H7.37c0-.18%2C0-.29%2C0-.33a2.19%2C2.19%2C0%2C0%2C1%2C.2-1%2C3%2C3%2C0%2C0%2C1%2C.8-.88%2C6%2C6%2C0%2C0%2C0%2C.72-.64.85.85%2C0%2C0%2C0%2C.18-.53.89.89%2C0%2C0%2C0-.32-.69%2C1.24%2C1.24%2C0%2C0%2C0-.86-.29%2C1.31%2C1.31%2C0%2C0%2C0-.87.3%2C1.58%2C1.58%2C0%2C0%2C0-.48.91L5.46%2C6.44A2.09%2C2.09%2C0%2C0%2C1%2C6.21%2C5%2C2.64%2C2.64%2C0%2C0%2C1%2C8%2C4.34%2C2.74%2C2.74%2C0%2C0%2C1%2C9.9%2C5a1.87%2C1.87%2C0%2C0%2C1%2C.7%2C1.44%2C1.58%2C1.58%2C0%2C0%2C1-.26.86%2C5.63%2C5.63%2C0%2C0%2C1-1.1%2C1.1%2C2.1%2C2.1%2C0%2C0%2C0-.54.58A1.94%2C1.94%2C0%2C0%2C0%2C8.61%2C9.73ZM7.37%2C11.57V10.2H8.74v1.37Z%22%20style%3D%22fill%3A%23b2b8bd%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_latplot {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Ctitle%3Eicon%3C/title%3E%3Crect%20x%3D%2212%22%20y%3D%2211%22%20width%3D%2210%22%20height%3D%225%22%20style%3D%22fill%3A%23fff%22/%3E%3Crect%20x%3D%2212%22%20y%3D%2218%22%20width%3D%2228%22%20height%3D%225%22%20style%3D%22fill%3A%23fff%22/%3E%3Crect%20x%3D%2212%22%20y%3D%2225%22%20width%3D%2223%22%20height%3D%225%22%20style%3D%22fill%3A%23fff%22/%3E%3Crect%20x%3D%2212%22%20y%3D%2232%22%20width%3D%2215%22%20height%3D%225%22%20style%3D%22fill%3A%23fff%22/%3E%3Cline%20x1%3D%2212%22%20y1%3D%229%22%20x2%3D%2212%22%20y2%3D%2239%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_longplot {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Ctitle%3Eicon%3C/title%3E%3Crect%20x%3D%228.5%22%20y%3D%2230.5%22%20width%3D%2210%22%20height%3D%225%22%20transform%3D%22translate%28-19.5%2046.5%29%20rotate%28-90%29%22%20style%3D%22fill%3A%23fff%22/%3E%3Crect%20x%3D%226.5%22%20y%3D%2221.5%22%20width%3D%2228%22%20height%3D%225%22%20transform%3D%22translate%28-3.5%2044.5%29%20rotate%28-90%29%22%20style%3D%22fill%3A%23fff%22/%3E%3Crect%20x%3D%2216%22%20y%3D%2224%22%20width%3D%2223%22%20height%3D%225%22%20transform%3D%22translate%281%2054%29%20rotate%28-90%29%22%20style%3D%22fill%3A%23fff%22/%3E%3Crect%20x%3D%2227%22%20y%3D%2228%22%20width%3D%2215%22%20height%3D%225%22%20transform%3D%22translate%284%2065%29%20rotate%28-90%29%22%20style%3D%22fill%3A%23fff%22/%3E%3Cline%20x1%3D%229%22%20y1%3D%2238%22%20x2%3D%2239%22%20y2%3D%2238%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%3Bstroke-width%3A2px%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_minus {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2026%2026%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cline%20x1%3D%228%22%20y1%3D%2213%22%20x2%3D%2218%22%20y2%3D%2213%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_nz-active {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpolygon%20points%3D%2216.19%205.09%2016.7%205.61%2016.34%206.19%2018.5%208.48%2019.18%2010.51%2018.77%2012.19%2017.79%2012.68%2017.81%2013.01%2019.74%2014.16%2019.06%2016.07%2020.11%2016.64%2022.34%2013.54%2022.27%2012.84%2023%2012.42%2023.65%2012.58%2024.5%2010.19%2023.8%209.95%2022.7%2010.4%2021.51%209.82%2020.66%208.63%2019.32%208.82%2019.04%207.77%2018.57%206.18%2017.27%205.59%2016.5%205%2016.19%205.09%22%20style%3D%22fill%3A%23fff%22/%3E%3Cpath%20d%3D%22M16.34%2C14.53%2C17%2C16.15%2C18%2C15.31l.4%2C1.68-1.38%2C1.84-.57%2C1%2C.32.51.08.16s-.13.2-.19.22l-1.22.21-1.13.52-.26%2C1.16-.43.76-.57%2C1-1.7%2C1.34-3.48-.83-.39-1%2C2.68-3%2C1.74-.77%2C3.17-3.43.33-1.18.29-.56Z%22%20style%3D%22fill%3A%23fff%22/%3E%3Cpolygon%20points%3D%229.67%2025.69%2010.09%2026.57%208.72%2027%209.36%2025.78%209.67%2025.69%22%20style%3D%22fill%3A%23fff%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_nz {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpolygon%20points%3D%2216.19%205.09%2016.7%205.61%2016.34%206.19%2018.5%208.48%2019.18%2010.51%2018.77%2012.19%2017.79%2012.68%2017.81%2013.01%2019.74%2014.16%2019.06%2016.07%2020.11%2016.64%2022.34%2013.54%2022.27%2012.84%2023%2012.42%2023.65%2012.58%2024.5%2010.19%2023.8%209.95%2022.7%2010.4%2021.51%209.82%2020.66%208.63%2019.32%208.82%2019.04%207.77%2018.57%206.18%2017.27%205.59%2016.5%205%2016.19%205.09%22%20style%3D%22fill%3A%23b2b8bd%22/%3E%3Cpath%20d%3D%22M16.34%2C14.53%2C17%2C16.15%2C18%2C15.31l.4%2C1.68-1.38%2C1.84-.57%2C1%2C.32.51.08.16s-.13.2-.19.22l-1.22.21-1.13.52-.26%2C1.16-.43.76-.57%2C1-1.7%2C1.34-3.48-.83-.39-1%2C2.68-3%2C1.74-.77%2C3.17-3.43.33-1.18.29-.56Z%22%20style%3D%22fill%3A%23b2b8bd%22/%3E%3Cpolygon%20points%3D%229.67%2025.69%2010.09%2026.57%208.72%2027%209.36%2025.78%209.67%2025.69%22%20style%3D%22fill%3A%23b2b8bd%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_plus {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2026%2026%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cline%20x1%3D%228%22%20y1%3D%2213%22%20x2%3D%2218%22%20y2%3D%2213%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%2213%22%20y1%3D%228%22%20x2%3D%2213%22%20y2%3D%2218%22%20style%3D%22fill%3Anone%3Bstroke%3A%234c5a64%3Bstroke-miterlimit%3A10%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_settings {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpath%20d%3D%22M26.92%2C33.47c-1.26%2C1.71-2.37%2C3.08-2.92%2C3.75-1.82-2.2-9.5-11.8-9.5-16.72a9.77%2C9.77%2C0%2C0%2C1%2C9.5-10%2C9.47%2C9.47%2C0%2C0%2C1%2C8.51%2C5.58%2C9.19%2C9.19%2C0%2C0%2C1%2C1.14.09A10.52%2C10.52%2C0%2C0%2C0%2C24%2C9.5a10.77%2C10.77%2C0%2C0%2C0-10.5%2C11c0%2C5.92%2C9.71%2C17.34%2C10.12%2C17.83l.38.44.38-.44c.16-.18%2C1.66-2%2C3.47-4.4a2.3%2C2.3%2C0%2C0%2C1-.81-.36Z%22%20style%3D%22fill%3A%23fff%22/%3E%3Cpath%20d%3D%22M32.46%2C18.08a7.23%2C7.23%2C0%2C0%2C1%2C1.47.15.26.26%2C0%2C0%2C1%2C.16.17c.08.45.14.9.2%2C1.36a.9.9%2C0%2C0%2C0%2C0%2C.1c0%2C.14.65.38.91.38a.17.17%2C0%2C0%2C0%2C.1%2C0l1.25-.94a7.38%2C7.38%2C0%2C0%2C1%2C2.21%2C2.18.27.27%2C0%2C0%2C1%2C0%2C.23c-.27.37-.55.73-.81%2C1.1a.42.42%2C0%2C0%2C0%2C0%2C.29c0%2C.11.1.2.12.3.06.35.29.46.62.48s.72.11%2C1.08.15c.14%2C0%2C.18.08.2.2a7.65%2C7.65%2C0%2C0%2C1%2C0%2C2.88c0%2C.13-.08.18-.21.19l-1.33.19c-.15%2C0-.23.07-.26.22a.43.43%2C0%2C0%2C1-.06.16.69.69%2C0%2C0%2C0%2C.12%2C1c.21.21.35.48.54.7a.28.28%2C0%2C0%2C1%2C0%2C.41%2C8.09%2C8.09%2C0%2C0%2C1-1.93%2C1.93.37.37%2C0%2C0%2C1-.2.08.3.3%2C0%2C0%2C1-.19-.08c-.34-.28-.69-.54-1.05-.79a.31.31%2C0%2C0%2C0-.17%2C0H35c-.11%2C0-.21.11-.33.13-.33.06-.44.26-.46.58s-.1.72-.14%2C1.08c0%2C.14-.06.2-.2.23a7.91%2C7.91%2C0%2C0%2C1-1.44.13A7.77%2C7.77%2C0%2C0%2C1%2C31%2C33.09a.2.2%2C0%2C0%2C1-.2-.21c-.05-.44-.13-.89-.19-1.33a.87.87%2C0%2C0%2C0%2C0-.1c0-.14-.65-.38-.91-.38a.17.17%2C0%2C0%2C0-.1%2C0c-.36.27-.72.53-1.07.81a.31.31%2C0%2C0%2C1-.19.08.29.29%2C0%2C0%2C1-.17-.06%2C8.06%2C8.06%2C0%2C0%2C1-2-2%2C.23.23%2C0%2C0%2C1%2C0-.33c.27-.35.53-.71.8-1.05a.25.25%2C0%2C0%2C0%2C0-.34.84.84%2C0%2C0%2C1-.13-.3c-.06-.35-.29-.44-.6-.46s-.72-.1-1.08-.14c-.14%2C0-.18-.07-.21-.2a7.73%2C7.73%2C0%2C0%2C1%2C0-2.88.2.2%2C0%2C0%2C1%2C.21-.19c.45-.06.91-.12%2C1.36-.2.08%2C0%2C.16-.11.23-.18s0-.13.08-.19a.7.7%2C0%2C0%2C0-.12-1c-.21-.23-.38-.5-.57-.75a.22.22%2C0%2C0%2C1%2C0-.31%2C7.92%2C7.92%2C0%2C0%2C1%2C2-2%2C.28.28%2C0%2C0%2C1%2C.16-.06.28.28%2C0%2C0%2C1%2C.17.07c.35.28.71.55%2C1.08.8a.31.31%2C0%2C0%2C0%2C.17%2C0h.12c.1%2C0%2C.18-.1.28-.11.4-.06.49-.32.51-.68a8.47%2C8.47%2C0%2C0%2C1%2C.15-1%2C.28.28%2C0%2C0%2C1%2C.17-.19%2C7.19%2C7.19%2C0%2C0%2C1%2C1.45-.15m0%2C10.3a2.77%2C2.77%2C0%2C0%2C0%2C0-5.55h0a2.77%2C2.77%2C0%2C0%2C0%2C0%2C5.55h0%22%20style%3D%22fill%3A%23fff%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_table-active {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Ctitle%3Eicon%3C/title%3E%3Crect%20x%3D%226%22%20y%3D%228%22%20width%3D%2220%22%20height%3D%2216%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%226.47%22%20y1%3D%2213.33%22%20x2%3D%2226%22%20y2%3D%2213.33%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%226.47%22%20y1%3D%2218.67%22%20x2%3D%2226%22%20y2%3D%2218.67%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%2212.5%22%20y1%3D%2224%22%20x2%3D%2212.5%22%20y2%3D%228%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%2219.5%22%20y1%3D%2224%22%20x2%3D%2219.5%22%20y2%3D%228%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_table {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Ctitle%3Eicon%3C/title%3E%3Crect%20x%3D%226%22%20y%3D%228%22%20width%3D%2220%22%20height%3D%2216%22%20style%3D%22fill%3Anone%3Bstroke%3A%23b2b8bd%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%226.47%22%20y1%3D%2213.33%22%20x2%3D%2226%22%20y2%3D%2213.33%22%20style%3D%22fill%3Anone%3Bstroke%3A%23b2b8bd%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%226.47%22%20y1%3D%2218.67%22%20x2%3D%2226%22%20y2%3D%2218.67%22%20style%3D%22fill%3Anone%3Bstroke%3A%23b2b8bd%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%2212.5%22%20y1%3D%2224%22%20x2%3D%2212.5%22%20y2%3D%228%22%20style%3D%22fill%3Anone%3Bstroke%3A%23b2b8bd%3Bstroke-miterlimit%3A10%22/%3E%3Cline%20x1%3D%2219.5%22%20y1%3D%2224%22%20x2%3D%2219.5%22%20y2%3D%228%22%20style%3D%22fill%3Anone%3Bstroke%3A%23b2b8bd%3Bstroke-miterlimit%3A10%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_tick {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpolyline%20points%3D%224.28%207.74%207.39%2010.85%2013.27%203.59%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-miterlimit%3A10%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
+
+.icon-icon_twitter {
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Ctitle%3Eicon%3C/title%3E%3Cpath%20d%3D%22M22.36%2C12.74q0%2C.21%2C0%2C.42A9.34%2C9.34%2C0%2C0%2C1%2C8%2C21a6.67%2C6.67%2C0%2C0%2C0%2C.78%2C0%2C6.59%2C6.59%2C0%2C0%2C0%2C4.08-1.41%2C3.29%2C3.29%2C0%2C0%2C1-3.07-2.28%2C3.29%2C3.29%2C0%2C0%2C0%2C1.48-.06%2C3.28%2C3.28%2C0%2C0%2C1-2.63-3.22v0a3.27%2C3.27%2C0%2C0%2C0%2C1.49.41%2C3.29%2C3.29%2C0%2C0%2C1-1-4.38%2C9.32%2C9.32%2C0%2C0%2C0%2C6.77%2C3.43%2C3.28%2C3.28%2C0%2C0%2C1%2C5.59-3%2C6.57%2C6.57%2C0%2C0%2C0%2C2.08-.8%2C3.29%2C3.29%2C0%2C0%2C1-1.44%2C1.82A6.56%2C6.56%2C0%2C0%2C0%2C24%2C11%2C6.67%2C6.67%2C0%2C0%2C1%2C22.36%2C12.74Z%22%20style%3D%22fill%3A%23fff%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+}
