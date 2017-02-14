@@ -1092,13 +1092,9 @@ define([
   
     // page events
     pageClose : function(e){    
-      this.model.getRouter().update({
-        route:"db",
-        path:this.model.getLastDBPath(),
-        query:{
-          anchor:''
-        }
-      })
+      this.model.getRouter().update(
+        this.model.getLastDBRoute()
+      )
     
     },
     

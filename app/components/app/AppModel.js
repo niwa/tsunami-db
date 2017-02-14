@@ -118,6 +118,7 @@ define([
 			// console.log('AppModel.setRoute')
       if (route.route === "db") {
         this.set("lastDBPath",route.path)
+        this.set("lastDBRoute",route)
       }
 			this.set('route',{
 				route : route.route,
@@ -134,6 +135,9 @@ define([
 		},
 		getLastDBPath : function (){
 			return this.attributes.lastDBPath
+		},
+		getLastDBRoute : function (){
+			return this.attributes.lastDBRoute
 		},
 		getQuery : function (){
 			return _.clone(this.attributes.route.query)
