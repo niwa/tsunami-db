@@ -3,13 +3,15 @@ define([
   'text!./table.html',
   'text!./table_records.html',
   'text!./table_record_row.html',
-  'text!./table_header.html'
+  'text!./table_header.html',
+  'text!./table_body.html'
 ], function (
   $, _, Backbone,
   template,
   template_records,
   template_record_row,
-  template_header
+  template_header,
+  template_body  
 ) {
 
   return Backbone.View.extend({
@@ -33,37 +35,66 @@ define([
       
     },
     render: function () {
+      console.log("tableview render")      
       this.$el.html(_.template(template)({t:this.model.getLabels()}))      
-      this.update()
-      return this
-    },
-    update : function(){
-      var columnsSorted = _.clone(this.model.get('columnsSorted'))
-      if (this.model.allExpanded()) {
-        this.$el.addClass("expanded")         
-      } else {
-        this.$el.removeClass("expanded")         
-        columnsSorted = _.filter(columnsSorted,function(column){
-          return column.get("default")
-        })
-      }      
       if (typeof this.model.getCurrentRecords() !== "undefined") {
-        var records = this.model.getSortedRecords()
         
+        var columnsSorted 
+        if (this.model.allExpanded()) {
+          this.$el.addClass("expanded")         
+          columnsSorted = this.model.get('columnsSorted')
+        } else {
+          this.$el.removeClass("expanded")         
+          columnsSorted = _.filter(_.clone(this.model.get('columnsSorted')),function(column){
+            return column.get("default")
+          })
+        }      
+
         this.$(".record-table").html(_.template(template_records)({
           header:this.getHeaderHtml(
             columnsSorted, 
             this.model.get("tableSortColumn"), 
             this.model.get("tableSortOrder")
           ),
-          rows:_.map(records,function(record){
-            return {
-              html: this.getRecordHtml(record,columnsSorted)
-            }
-          },this)
+          body: this.getBodyHtml(
+            this.model.getSortedRecords(),
+            columnsSorted
+          )
         }))
+        this.recordChanged()
       }
-      this.recordChanged()
+      
+    },
+    update : function(){
+      if (this.$(".record-table .table-responsive").length === 0) {
+        this.render()
+      } else {
+        // figure out columns
+        var columnsSorted
+        if (this.model.allExpanded()) {
+          this.$el.addClass("expanded")         
+          columnsSorted = this.model.get('columnsSorted')
+        } else {
+          this.$el.removeClass("expanded")         
+          columnsSorted = _.filter(_.clone(this.model.get('columnsSorted')),function(column){
+            return column.get("default")
+          })
+        }            
+        
+        // update header active sort class
+        this.$(".record-table thead th a.active").removeClass("active")
+        this.$(".record-table thead th a[data-column="+this.model.get("tableSortColumn")+"]").addClass("active")
+        
+        // update body html
+        this.$(".record-table tbody").html(this.getBodyHtml(
+          this.model.getSortedRecords(),
+          columnsSorted
+        ))
+
+        // mark active record
+        this.recordChanged()
+      }
+      
     },
     getHeaderHtml: function(columnsSorted, sortColumn, sortOrder){
       
@@ -73,11 +104,15 @@ define([
         sortOrder : sortOrder,
       })
     },
-    getRecordHtml: function(record,columnsSorted){
-      return _.template(template_record_row)({
-        record : record,
-        columns : columnsSorted
-      })
+    getBodyHtml: function(records,columnsSorted){
+      return _.template(template_body)({
+        rows:_.map(records,function(record){
+          return {
+            record : record,
+            columns : columnsSorted
+          }           
+        },this)
+      })      
     },
     recordChanged:function(){      
       var activeId = this.model.get("recordId")
@@ -112,7 +147,7 @@ define([
       this.update()      
     },    
     expanded: function(){      
-      this.update()
+      this.render()
     },    
     
     

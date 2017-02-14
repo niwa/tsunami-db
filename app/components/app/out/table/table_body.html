@@ -1,0 +1,18 @@
+<% _.each(rows,function(row){ %>
+  <tr class="select-record tr-record tr-record-<%= row.record.id %>" data-recordid="<%= row.record.id %>">
+  <% _.each(row.columns,function(col, index){ %>
+  <td class="column-<%= col.id %>">
+    <% if (index === 0) { %>
+    <a href="#"
+       title="Select record <%=row. record.id %>" 
+       class="select-record" 
+       data-recordid="<%= row.record.id %>">
+    <% } %>
+    <%= row.record.getColumnValue(col.get("column"),true) %>
+    <% if (index === 0) { %>
+    </a>
+    <% } %>    
+  </td>
+  <% }) %>
+</tr>
+<% }) %>
