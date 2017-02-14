@@ -14,7 +14,7 @@ define([
       this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:pageId", this.handlePageChange);      
-      this.listenTo(this.model, "change:pageAnchor", this.handlePageAnchorChange);      
+      this.listenTo(this.model, "change:anchor", this.handlePageAnchorChange);      
     },
     render: function () {
       if (this.model.hasActivePage()) {
@@ -33,9 +33,11 @@ define([
         }))        
         if (this.model.hasActivePage()) {
           var that = this
-          page.getContent(function(content){      
+          
+          page.getContent(function(content){                  
             that.$('.placeholder-content').html(content)
-          })
+          })            
+          
         }
       } else {
         this.$el.html("")
@@ -65,11 +67,14 @@ define([
         waitFor(function(){
           return page.isContentReady()
         },function(){
-          page.imagesLoaded(function(){
-            var $anchor = that.$('#'+anchor)            
-            that.$('.content-scroll').scrollTop($anchor.offset().top-30)
-          })
-          
+          var $anchor = that.$('#'+anchor)            
+          if ($anchor.length > 0) {
+            that.$el.scrollTop( 
+              that.$el.scrollTop() 
+              + $anchor.parent().offset().top 
+              - that.$el.offset().top
+            )          
+          }
         })
       }
     }    

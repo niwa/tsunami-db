@@ -24,6 +24,12 @@ define([
     hasActivePage:function(){
       return typeof this.attributes.pageId !== 'undefined' && this.attributes.pageId !== ""
     },    
+    getPageAnchor:function(){
+      return this.attributes.anchor
+    },    
+    setPageAnchor:function(anchor){
+      this.set('anchor',anchor)
+    },      
    
   });
   

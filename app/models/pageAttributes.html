@@ -1,0 +1,60 @@
+<h1>Attributes</h1>
+<blockquote>
+  Some introductory text about attribute definitions (TODO)
+</blockquote>
+<hr/>
+<div class="row">
+  <div class="col-sm-12">
+    <% _.each(columnGroups,function(group){ %>
+    <div class="group <%= group.classes %>">          
+      <h2><%= group.title %></h2>
+      <p><%= group.hint %></p>
+      <div class="record-columns"> 
+      <% _.each(group.groupColumns,function(column){ %>
+      <% if (column) { %>                          
+        <div class="well">
+          <h3 id="<%= column.getQueryColumn() %>">
+            <%= column.get("title") %> 
+          </h3>
+          <p><%= column.get("description") %> </p>
+          <p><%= column.get("descriptionMore") %> </p>
+          <hr/>
+          <p>Database column name: <code><%= column.getQueryColumn() %></code></p>
+          <% if(column.get('showOnPage').values) { %>   
+          <hr/>
+          <h4>Values<h4/>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Label</th>
+                  <% if(column.get('showOnPage').valueDescription) { %>
+                  <th>Description</th>
+                  <% } %>                    
+                  <th>Database value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% _.each(column.getValues().labels,function(label,i){ %>
+                <% if(column.getValues().values[i] !== "null") { %>
+                <tr>
+                  <td><%= label %></td>
+                  <% if(column.get('showOnPage').valueDescription) { %>
+                  <td><%= column.getValues().descriptions[i] %></td>                    
+                  <% } %>                    
+                  <td><code><%= column.getValues().values[i] %></code></td>
+                </tr>
+                <% } %>
+                <% }) %>
+              </tbody>                
+            </table>                
+          </div>             
+          <% } %>
+        </div>          
+      <% } %>
+      <% }) %>
+      </div>
+    </div>                  
+    <% }) %>       
+  </div>
+</div>

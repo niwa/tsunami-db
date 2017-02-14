@@ -7,7 +7,7 @@ define([
   './record/RecordView', './record/RecordViewModel',
   './out/OutView', './out/OutModel',  
   './page/PageView', './page/PageViewModel',  
-  'models/ContentCollection',  'models/PageModel',
+  'models/PageCollection',  'models/PageModel',
   'models/RecordCollection',  'models/RecordModel',
   'models/ProxyCollection',
   'models/ReferenceCollection',
@@ -28,7 +28,7 @@ define([
   RecordView, RecordViewModel,
   OutView, OutModel,
   PageView, PageViewModel,
-  ContentCollection, PageModel,
+  PageCollection, PageModel,
   RecordCollection,RecordModel,
   ProxyCollection,
   ReferenceCollection,
@@ -175,6 +175,15 @@ define([
           that.loadReferences() 
           that.loadProxies() 
           that.configureLayers() 
+        }
+      )      
+      waitFor(
+        //when
+        function(){
+          return that.model.columnsConfigured()
+        },
+        //then
+        function(){ 
           that.configurePages() 
         }
       )      
@@ -409,10 +418,15 @@ define([
                           
               that.views.page.model.setActive()
               that.views.page.model.set({
-                pageId:that.model.getPath()          
+                pageId:that.model.getPath(),      
+                anchor:that.model.getPageAnchor()          
               })
             } else {
               that.views.page.model.setActive(false)
+              that.views.page.model.set({
+                pageId:"",      
+                anchor:""
+              })              
             }
 
           }
@@ -440,7 +454,11 @@ define([
 
 
     configurePages : function(){      
-      var pagesCollection = new ContentCollection([],{model:PageModel})
+      var pagesCollection = new PageCollection([],{
+          model:PageModel,
+          columnCollection: this.model.get("columnCollection"),        
+          columnGroupCollection: this.model.get("columnGroupCollection")
+        })
       
       _.each(this.model.getConfig().navitems,function(item){
         if (!(item.type !== "page")) {
@@ -450,7 +468,7 @@ define([
           _.each(item.navitems,function(childItem){
             if (!(childItem.type !== "page")) {
               pagesCollection.add(childItem)
-            }            
+            }
           })
         }
       })
@@ -761,7 +779,11 @@ define([
         route:args.route,
         path:args.id === "db" 
           ? this.model.getLastDBPath()
-          : args.id
+          : args.id,        
+        query: {
+          anchor:typeof args.anchor !== "undefined" ? args.anchor : ""
+        },
+        extendQuery:true,
       })
       
     },
@@ -1056,7 +1078,10 @@ define([
     pageClose : function(e){    
       this.model.getRouter().update({
         route:"db",
-        path:this.model.getLastDBPath()        
+        path:this.model.getLastDBPath(),
+        query:{
+          anchor:''
+        }
       })
     
     },

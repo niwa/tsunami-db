@@ -7,7 +7,7 @@ define([
   return Backbone.Model.extend({
     initialize : function(options) {
       this.options = options || {};    
-      
+            
       
       //default settings
       this.set({
@@ -15,7 +15,7 @@ define([
         title :           this.attributes.title || this.attributes.id,        
         placeholders :    this.attributes.placeholders || null,
         addons :          this.attributes.addons || null,
-        description :     this.attributes.description || "",
+        description :     this.attributes.description || this.attributes.title || this.attributes.hint ,
         descriptionMore:  this.attributes.descriptionMore || "",        
         hint :            this.attributes.hint || "",
         type :            this.attributes.type || "text",
@@ -36,6 +36,10 @@ define([
         comboDescription: this.attributes.comboDescription || this.attributes.description || "",
         plotMax:          this.attributes.plotMax || null,
         plotColor:        this.attributes.plotColor || "#fff",
+        showOnPage:       {          
+          values: false,
+          valueDescription: false
+        }
       })
       // set 
       this.set({
@@ -78,21 +82,36 @@ define([
           this.set("placeholders", {min:"After",max:"Before"})                      
         }
       }
-       
-      if (this.attributes.values !== "auto" 
-        && typeof this.attributes.values.values !== "undefined") {
-        if(typeof this.attributes.values.labels === "undefined") {
-          this.attributes.values.labels = _.clone(this.attributes.values.values)
-        }
-        if(typeof this.attributes.values.hints === "undefined") {
-          this.attributes.values.hints = []        
-        }
-      }
       
       if (this.attributes.description !== ""){
         var converter = new showdown.Converter({ghCodeBlocks: false});              
         this.attributes.description = converter.makeHtml(this.attributes.description)
       }
+      
+      
+      if (this.attributes.values === "auto") { 
+        this.attributes.showOnPage.values = false
+      } else {        
+        if(typeof this.attributes.values.values !== "undefined") {
+          this.attributes.showOnPage.values = true
+          if(typeof this.attributes.values.labels === "undefined") {
+            this.attributes.showOnPage.values = false
+            this.attributes.values.labels = _.clone(this.attributes.values.values)
+          }
+          if(typeof this.attributes.values.hints === "undefined") {
+            this.attributes.values.hints = []        
+          }
+          if(typeof this.attributes.values.descriptions === "undefined") {            
+            this.attributes.values.descriptions = this.attributes.values.hints
+          }
+          if (this.attributes.values.descriptions.length > 0){
+            this.attributes.showOnPage.values = true
+            this.attributes.showOnPage.valueDescription = true
+          }
+        } 
+      }
+      
+
 
     },
     getQueryColumnByType: function(type){
@@ -113,7 +132,7 @@ define([
     },
     hasMoreDescription: function(){
       return this.attributes.descriptionMore !== "" 
-        || typeof this.attributes.values.descriptions !== "undefined"
+      || (typeof this.attributes.values.descriptions !== "undefined" && this.attributes.values.descriptions.length > 0)
     },
     getColor:function(value){
       if(this.get("colorable") === 1) {

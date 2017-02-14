@@ -14,7 +14,8 @@ define([
 
   var RecordView = Backbone.View.extend({
     events : {
-      "click .close-record" : "closeRecord"
+      "click .close-record" : "closeRecord",
+      "click .nav-link" : "handleNavLink"
     },
     initialize : function () {
       this.render()
@@ -64,9 +65,13 @@ define([
         )
       }))
       
+      this.initTooltips()        
       
     },    
     
+    initTooltips:function(){
+      this.$('[data-toggle="tooltip"]').tooltip()
+    },    
     getColumnHtml:function(column){      
       
       var record = this.model.get("record")
@@ -75,12 +80,20 @@ define([
           if (column.id === 'references') {              
             return _.template(templateColumnReferences)({
               title:column.get("title"),            
-              references:record.getReferences()
+              references:record.getReferences(),
+              id:column.getQueryColumn(),
+              tooltip:column.get("description"),
+              tooltip_more:column.hasMoreDescription(),
+              hint:column.get("hint")                  
             })
           } else if (column.id === 'proxies') {              
             return _.template(templateColumnProxies)({
               title:column.get("title"),            
-              proxies:record.getProxies()
+              proxies:record.getProxies(),
+              id:column.getQueryColumn(),
+              tooltip:column.get("description"),
+              tooltip_more:column.hasMoreDescription(),
+              hint:column.get("hint")                  
             })
           }  
                        
@@ -103,7 +116,11 @@ define([
               
               return _.template(templateColumnText)({
                 title:column.get("title"),            
-                value:value
+                value:value,
+                id:column.getQueryColumn(),
+                tooltip:column.get("description"),
+                tooltip_more:column.hasMoreDescription(),
+                hint:column.get("hint")                
               })                 
             } else {
               return ""
@@ -117,7 +134,11 @@ define([
         case "text":
           return _.template(templateColumnText)({
             title:column.get("title"),            
-            value:record.getColumnValue(column.get("column"),true)
+            value:record.getColumnValue(column.get("column"),true),
+            id:column.getQueryColumn(),
+            tooltip:column.get("description"),
+            tooltip_more:column.hasMoreDescription(),
+            hint:column.get("hint")
           })          
           
           break
@@ -142,7 +163,18 @@ define([
       e.preventDefault()
       
       this.$el.trigger('recordClose')      
-    }
+    },
+    handleNavLink : function(e){
+      e.preventDefault()
+      e.stopPropagation()
+      
+      this.$el.trigger('navLink',{
+        id:$(e.currentTarget).attr("data-id"),
+        anchor:$(e.currentTarget).attr("data-page-anchor"),
+        route:"page",
+        type:"page"
+      })      
+    },    
     
     
   });

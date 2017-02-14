@@ -1,6 +1,20 @@
 <div class="record-column">
   <div class="row">
     <div class="col-xs-12">
+      <div class="column-title">
+        <%= title %>
+        <% if(tooltip !== "") {%><a 
+          data-toggle="tooltip" 
+          data-placement="top" 
+          title="<%= tooltip_more ? tooltip + '<p><em>Click for more information</em></p>' : tooltip%>" 
+          data-html="true"
+          href="#"
+          class="nav-link"
+          data-page-anchor="<%= id %>"
+          data-id="attributes">
+         <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+       </a><% } %>
+      </div>      
       <% _.each(references,function(ref){ %> 
       <div class="strong"><%= ref.getTitle() %></div> 
       <% if (ref.getReference() !== null) { %>      

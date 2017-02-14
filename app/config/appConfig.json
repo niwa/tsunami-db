@@ -49,9 +49,7 @@
         },
         {
           "id":"attributes",
-          "title":"Attributes",
-          "format":"markdown",          
-          "content": "# The record attributes \n\n> We'll generate this page from the attribute configuration file. \n\n---\n\n<https://github.com/dumparkltd/tsunami-db/issues/31>"        
+          "title":"Attributes"      
         },
         {
           "id":"usage",

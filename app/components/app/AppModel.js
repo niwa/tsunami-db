@@ -524,6 +524,14 @@ define([
         return null
       }
     },    
+    getPageAnchor:function(){
+      if (typeof this.getQuery().anchor !== 'undefined'){
+        return this.getQuery().anchor
+      } else {
+        return ""
+      }
+    },
+    
 	});
 
 

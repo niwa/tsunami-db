@@ -676,7 +676,8 @@ define([
       e.stopPropagation()
       
       this.$el.trigger('navLink',{
-        id:$(e.currentTarget).data('id'),
+        id:$(e.currentTarget).attr("data-id"),
+        anchor:$(e.currentTarget).attr("data-page-anchor"),
         route:"page",
         type:"page"
       })      

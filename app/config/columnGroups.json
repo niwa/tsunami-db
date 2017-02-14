@@ -1,40 +1,36 @@
 [
   {
     "id":"id",        
-    "title":"Record Id",
+    "title":"Record",
     "hint":""    
   },   
   {
     "id":"site",        
     "title":"Site",
-    "hint":"Where it happened"    
+    "hint":"Attributes related to the records geographical location"    
   },   
   {
     "id":"time",        
     "title":"Time",
-    "hint":"When it happened"    
+    "hint":"Attributes characterising the record by time"    
   },     
   {
     "id":"meta",        
     "title":"Meta",
-    "hint":"What was found"    
+    "hint":"Attributes categorising the record"    
   },  
   {
     "id":"details",        
-    "title":"Details",
-    "hint":"By the numbers"    
+    "title":"Numbers",
+    "hint":"Attributes quantifying the record"    
   },
   {
     "id":"source",        
     "title":"Source",
-    "hint":"Where it came from"  
+    "hint":"Attributes desciring the record's event source"  
   },
   {
-    "id":"proxies",        
-    "title":"Proxies"    
-  },
-  {
-    "id":"references",        
-    "title":"References"    
-  }  
+    "id":"other",        
+    "title":"Proxies & References"    
+  }
 ]
