@@ -25,6 +25,7 @@ define([
         table :           typeof this.attributes.table !== "undefined" ? this.attributes.table : 1,
         default :         typeof this.attributes.default !== "undefined" ? this.attributes.default : 0,        
         searchable :      typeof this.attributes.searchable !== "undefined" ? this.attributes.searchable : 0,
+        sortable :        typeof this.attributes.sortable !== "undefined" ? this.attributes.sortable : 1,
         blanks :          typeof this.attributes.blanks !== "undefined" ? this.attributes.blanks : 0,
         multiples :       typeof this.attributes.multiples !== "undefined" ? this.attributes.multiples : 0,
         plot :            typeof this.attributes.plot !== "undefined" ? this.attributes.plot : 0,

@@ -118,7 +118,28 @@ define([
     getReferences: function(){
       return this.options.references
     },      
+    sortBy:function(column,order){
+      var records = this.clone()
+            
+      records.comparator = function(a,b){
+        var aval = a.get(column)
+        var bval = b.get(column)
+        if (aval === null || aval === "" || bval === null || bval === "" ) {
+          if ((aval === null || aval === "") && (bval !== null && bval !== "" )) {
+            return 1
+          }
+          if ((aval !== null && aval !== "") && (bval === null || bval === "" )) {
+            return -1
+          }
+          return (aval > bval ? 1 : (bval > aval) ? -1 : 0) * order;                               
+        }
         
+        return (aval > bval ? 1 : -1) * order        
+        
+      }
+      records.sort()
+      return records.models
+    }
     
   });
 

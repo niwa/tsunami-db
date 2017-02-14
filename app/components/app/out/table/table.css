@@ -36,3 +36,8 @@ tr.select-record.selected{
 tr.select-record:hover{
   background-color:#f9f9f9
 }
+
+
+.record-table th .active {
+    text-decoration: underline;
+}

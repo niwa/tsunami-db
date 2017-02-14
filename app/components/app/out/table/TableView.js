@@ -15,28 +15,27 @@ define([
   return Backbone.View.extend({
     events : {
       "click .expand-all": "expandAll",
-      "click .select-record" : "selectRecord"
+      "click .select-record" : "selectRecord",
+      "click .sort-by" : "sortRecords",
     },
     initialize : function () {
       this.handleActive()    
       
-      this.sortColumns()
+      this.initColumns()
       
       this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:currentRecordCollection", this.update);      
       this.listenTo(this.model, "change:expanded", this.expanded);      
-      this.listenTo(this.model, "change:recordId", this.recordChanged);      
+      this.listenTo(this.model, "change:recordId", this.recordChanged);
+      this.listenTo(this.model, "change:tableSortColumn", this.updateTableSortColumn);      
+      this.listenTo(this.model, "change:tableSortOrder", this.updateTableSortOrder);        
       
     },
     render: function () {
       this.$el.html(_.template(template)({t:this.model.getLabels()}))      
       this.update()
       return this
-    },
-    expanded: function(){      
-      this.update()
-      this.recordChanged()
     },
     update : function(){
       var columnsSorted = _.clone(this.model.get('columnsSorted'))
@@ -49,20 +48,29 @@ define([
         })
       }      
       if (typeof this.model.getCurrentRecords() !== "undefined") {
+        var records = this.model.getSortedRecords()
+        
         this.$(".record-table").html(_.template(template_records)({
-          header:this.getHeaderHtml(columnsSorted),
-          rows:_.map(this.model.getCurrentRecords().models,function(record){
+          header:this.getHeaderHtml(
+            columnsSorted, 
+            this.model.get("tableSortColumn"), 
+            this.model.get("tableSortOrder")
+          ),
+          rows:_.map(records,function(record){
             return {
               html: this.getRecordHtml(record,columnsSorted)
             }
           },this)
         }))
       }
+      this.recordChanged()
     },
-    getHeaderHtml: function(columnsSorted){
+    getHeaderHtml: function(columnsSorted, sortColumn, sortOrder){
       
       return _.template(template_header)({
-        columns : columnsSorted
+        columns : columnsSorted,
+        sortColumn : sortColumn,
+        sortOrder : sortOrder,
       })
     },
     getRecordHtml: function(record,columnsSorted){
@@ -80,7 +88,10 @@ define([
        
     },
     
-    sortColumns: function(){
+    initColumns: function(){
+      
+      this.model.set('tableSortColumn','id')
+      this.model.set('tableSortOrder',1)
       
       var columnsSorted = []
       
@@ -91,7 +102,22 @@ define([
       },this)
       
       this.model.set('columnsSorted',columnsSorted)
+      
     },
+    
+    updateTableSortColumn:function(){
+      this.update()
+    },
+    updateTableSortOrder:function(){
+      this.update()      
+    },    
+    expanded: function(){      
+      this.update()
+    },    
+    
+    
+    
+    
     
     // event handlers for model change events    
     
@@ -114,6 +140,14 @@ define([
     selectRecord:function(e){      
       e.preventDefault()
       this.$el.trigger('recordSelect',{id:$(e.currentTarget).attr("data-recordid")})      
+    },
+    sortRecords:function(e){      
+      e.preventDefault()
+      var col = $(e.currentTarget).attr("data-column")
+      this.$el.trigger('sortRecords',{
+        column:col,
+        order:col === this.model.get("tableSortColumn") ? parseInt(this.model.get("tableSortOrder")) * -1 : 1
+      })      
     },
     
     

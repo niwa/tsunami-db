@@ -89,6 +89,9 @@ define([
       geoQuerySubmit:"geoQuerySubmit",
       geoQueryDelete:"geoQueryDelete",
       
+      // table view events
+      sortRecords:"sortRecords",
+
       // page view events
       pageClose:"pageClose"
       
@@ -386,7 +389,9 @@ define([
                 outPlotColumns:   that.model.getOutPlotColumns(),
                 mapView:          that.model.getActiveMapview(),
                 recordId :        that.model.getSelectedRecordId(),
-                geoQuery:         that.model.getGeoQuery()
+                geoQuery:         that.model.getGeoQuery(),
+                tableSortColumn:  that.model.getOutTableSortColumn(),
+                tableSortOrder:   that.model.getOutTableSortOrder()
               })
             } else {
               that.views.out.model.setActive(false)
@@ -1074,6 +1079,17 @@ define([
       )           
     },
     
+    // map events
+    sortRecords : function(e,args){    
+      this.model.getRouter().queryUpdate({
+          sortcol : args.column,
+          sortorder : args.order.toString()
+        },
+        true, // trigger
+        true // replace
+      )      
+    },
+  
     // page events
     pageClose : function(e){    
       this.model.getRouter().update({

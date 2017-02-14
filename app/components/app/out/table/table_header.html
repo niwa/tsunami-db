@@ -1,5 +1,15 @@
 <tr>
   <% _.each(columns,function(col){ %>
-  <th class="column-<%= col.id %>"><%= col.get("title") %></th>
+  <th class="column-<%= col.id %>">
+    <% if (col.get("sortable")) { %> 
+    <a href="#" 
+       class="sort-by <%= col.getQueryColumn() === sortColumn ? 'active' : '' %>" 
+       data-column="<%= col.getQueryColumn() %>">
+      <%= col.get("title") %>
+    </a>
+    <% } else { %>
+      <%= col.get("title") %>
+    <% }  %>
+  </th>
   <% }) %>
 </tr>

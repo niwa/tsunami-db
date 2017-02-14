@@ -172,6 +172,12 @@ define([
     getOutPlotColumns: function(){
       return this.attributes.route.query.plot      
     },
+    getOutTableSortColumn: function(){
+      return this.attributes.route.query.sortcol      
+    },
+    getOutTableSortOrder: function(){     
+      return this.attributes.route.query.sortorder
+    },
     
     
 		appConfigured : function(){

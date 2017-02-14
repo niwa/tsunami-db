@@ -30,6 +30,8 @@ define([
       this.listenTo(this.model, "change:outMapType", this.updateOutMapType);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
       this.listenTo(this.model, "change:outPlotColumns", this.updateOutPlotColumns);      
+      this.listenTo(this.model, "change:tableSortColumn", this.updateTableSortColumn);      
+      this.listenTo(this.model, "change:tableSortOrder", this.updateTableSortOrder);      
       this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
       this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
       this.listenTo(this.model, "change:recordMouseOverId", this.updateMouseOverRecord);      
@@ -201,6 +203,12 @@ define([
     },
     updateOutPlotColumns:function(){
       this.views.map.model.set("outPlotColumns",this.model.getOutPlotColumns())
+    },
+    updateTableSortColumn:function(){
+      this.views.table.model.set("tableSortColumn",this.model.get("tableSortColumn"))
+    },
+    updateTableSortOrder:function(){
+      this.views.table.model.set("tableSortOrder",this.model.get("tableSortOrder"))
     },
     toggleView:function(e){      
       this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      

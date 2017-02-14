@@ -56,6 +56,7 @@
     "type":"text",    
     "group":"meta",    
     "filterable":0,
+    "sortable":0,
     "searchable":1
   },  
   {
@@ -66,6 +67,7 @@
     "type":"categorical",    
     "multiples":1,
     "searchable":1,
+    "sortable":0,    
     "values":{
       "values":["Geological data","Historical data","No specific method"],      
       "labels":["Geological","Historical","No specific method"],      
@@ -85,7 +87,8 @@
     "type":"categorical",    
     "multiples":1,
     "searchable":1,
-    "blanks":1    
+    "sortable":0,
+    "blanks":1 
   },  
   {
     "id":"event_c",
@@ -96,7 +99,8 @@
     "filterable":0,
     "blanks":1,
     "searchable":1,
-    "table":0
+    "table":0,
+    "sortable":0
   },  
   {
     "id":"classification",
@@ -111,6 +115,12 @@
       "values":["Prehistoric BP","Prehistoric AD","Historical","Unknown"],            
       "labels":["Prehistoric BC","Prehistoric AD","Historical","Unknown"],           
       "hints":["before 0","0 - 1800","1800 and later",""],      
+      "descriptions":[
+        "before 0",
+        "0 - 1800",
+        "1800 and later",
+        ""
+      ],      
       "colors":["#225ea8","#41b6c4","#6bd28d","#969696"]      
     }
   },   
@@ -241,7 +251,8 @@
     "group":"details",    
     "filterable":0,
     "blanks":1,
-    "searchable":1
+    "searchable":1,
+    "sortable":0
   },
   {
     "id":"landward_limit",
@@ -279,7 +290,8 @@
     "group":"details",    
     "filterable":0,
     "blanks":1,
-    "searchable":1
+    "searchable":1,
+    "sortable":0
   },
   {
     "id":"thickness",
@@ -319,6 +331,7 @@
     "group":"site",    
     "filterable":1,
     "searchable":1,
+    "sortable":0,
     "table":1
   },  
   {
@@ -398,7 +411,8 @@
     "group":"site",    
     "filterable":0,
     "blanks":1,
-    "searchable":1
+    "searchable":1,
+    "sortable":0
   },
   {
     "id":"source_cause",
@@ -448,7 +462,8 @@
     "filterable":0,
     "blanks":1,
     "searchable":1,
-    "table":0
+    "table":0,
+    "sortable":0
   },
   {
     "id":"source_certainty",
@@ -478,7 +493,8 @@
     "group":"source",    
     "multiples":1,
     "searchable":1,
-    "blanks":1
+    "blanks":1,
+    "sortable":0
   },
   {
     "id":"source_lat",
@@ -543,7 +559,8 @@
     "blanks":1,
     "filterable":0,
     "group":"other",
-    "table":1
+    "table":1,
+    "sortable":0
   },  
   {
     "id":"references",
@@ -555,6 +572,7 @@
     "blanks":1,
     "filterable":0,
     "group":"other",
-    "table":1
+    "table":1,
+    "sortable":0
   }   
 ]
