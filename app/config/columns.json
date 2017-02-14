@@ -31,6 +31,34 @@
     }
   },
   {
+    "id":"natureofevidence",
+    "title":"Nature of evidence",
+    "description":"Nature of evidence at that site",
+    "type":"categorical",    
+    "group":"meta",
+    "colorable":1,  
+    "searchable":1,  
+    "values":{
+      "values":["Primary","Secondary","Cultural"],
+      "hints":["Sedimentary","Geomorphic","Anthropological"],   
+      "descriptions":[
+        "Sedimentary/Artefactual",
+        "Geomorphic",
+        "Anthropological/Pūrākau [Oral record]"
+      ],
+      "colors":["#8c510a","#dfc27d","#80cdc1"]
+    }
+  },  
+  {
+    "id":"natureofevidencedesc",
+    "title":"Nature of evidence (description)",
+    "description":"",
+    "type":"text",    
+    "group":"meta",    
+    "filterable":0,
+    "searchable":1
+  },  
+  {
     "id":"datingt",
     "column":"datingtechnique",
     "title":"Dating technique",
@@ -71,37 +99,9 @@
     "table":0
   },  
   {
-    "id":"natureofevidence",
-    "title":"Nature of evidence",
-    "description":"Nature of evidence at that site",
-    "type":"categorical",    
-    "group":"meta",
-    "colorable":1,  
-    "searchable":1,  
-    "values":{
-      "values":["Primary","Secondary","Cultural"],
-      "hints":["Sedimentary","Geomorphic","Anthropological"],   
-      "descriptions":[
-        "Sedimentary/Artefactual",
-        "Geomorphic",
-        "Anthropological/Pūrākau [Oral record]"
-      ],
-      "colors":["#8c510a","#dfc27d","#80cdc1"]
-    }
-  },  
-  {
-    "id":"natureofevidencedesc",
-    "title":"Nature of evidence (description)",
-    "description":"",
-    "type":"text",    
-    "group":"meta",    
-    "filterable":0,
-    "searchable":1
-  },  
-  {
     "id":"classification",
     "title":"Classification",
-    "description":"",
+    "description":"Classification based on estimated time period",
     "type":"ordinal",
     "colorable":1,    
     "searchable":1,
@@ -117,7 +117,7 @@
   {
     "id":"date_min",
     "filterable":0,        
-    "title":"Date (min)",
+    "title":"Date range, minimum",
     "description":"Minimum date (youngest) of site specific event based solely upon chronological data from that site",
     "type":"date",    
     "group":"time",    
@@ -136,7 +136,7 @@
   },
   {
     "id":"date_max",    
-    "title":"Date (max)",
+    "title":"Date range, maximum",
     "description":"Maximum date (oldest) of site specific event based solely upon chronological data from that site",    
     "comboDescription":"Date range of site specific event based solely upon chronological data from that site",
     "hint":"Negative numbers refer to a year BC",                   
@@ -162,7 +162,7 @@
   },  
   {
     "id":"inferred_date_range_min",          
-    "title":"Inferred date (min)",
+    "title":"Inferred date range, minimum",
     "description":"Inferred minimum date of site specific eventsource. This may or may not involve cross-correlation with other sites in the database",
     "type":"date",    
     "group":"time",    
@@ -182,7 +182,7 @@
   },  
   {
     "id":"inferred_date_range_max",
-    "title":"Inferred date (max)",
+    "title":"Inferred date range, maximum",
     "description":"Inferred maximum date of site specific eventsource. This may or may not involve cross-correlation with other sites in the database",
     "comboDescription":"Inferred date range of site specific eventsource. This may or may not involve cross-correlation with other sites in the database",
     "comboTitle":"Inferred date range",

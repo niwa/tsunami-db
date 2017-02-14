@@ -7,21 +7,21 @@
   {
     "id":"site",        
     "title":"Site",
-    "hint":"Attributes related to the records geographical location"    
+    "hint":"Attributes related to the records location"    
   },   
   {
     "id":"time",        
     "title":"Time",
-    "hint":"Attributes characterising the record by time"    
+    "hint":"Attributes related to the estimated time of deposition"    
   },     
   {
     "id":"meta",        
     "title":"Meta",
-    "hint":"Attributes categorising the record"    
+    "hint":"Attributes characterising the record by meta data"    
   },  
   {
     "id":"details",        
-    "title":"Numbers",
+    "title":"Metrics",
     "hint":"Attributes quantifying the record"    
   },
   {
