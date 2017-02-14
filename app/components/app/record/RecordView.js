@@ -115,10 +115,10 @@ define([
               }
               
               return _.template(templateColumnText)({
-                title:column.get("title"),            
+                title:column.get("comboTitle"),            
                 value:value,
                 id:column.getQueryColumn(),
-                tooltip:column.get("description"),
+                tooltip:column.get("comboDescription"),
                 tooltip_more:column.hasMoreDescription(),
                 hint:column.get("hint")                
               })                 
