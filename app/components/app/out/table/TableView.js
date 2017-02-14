@@ -39,16 +39,7 @@ define([
       this.$el.html(_.template(template)({t:this.model.getLabels()}))      
       if (typeof this.model.getCurrentRecords() !== "undefined") {
         
-        var columnsSorted 
-        if (this.model.allExpanded()) {
-          this.$el.addClass("expanded")         
-          columnsSorted = this.model.get('columnsSorted')
-        } else {
-          this.$el.removeClass("expanded")         
-          columnsSorted = _.filter(_.clone(this.model.get('columnsSorted')),function(column){
-            return column.get("default")
-          })
-        }      
+        var columnsSorted = this.getSortedColumns()  
 
         this.$(".record-table").html(_.template(template_records)({
           header:this.getHeaderHtml(
@@ -68,18 +59,7 @@ define([
     update : function(){
       if (this.$(".record-table .table-responsive").length === 0) {
         this.render()
-      } else {
-        // figure out columns
-        var columnsSorted
-        if (this.model.allExpanded()) {
-          this.$el.addClass("expanded")         
-          columnsSorted = this.model.get('columnsSorted')
-        } else {
-          this.$el.removeClass("expanded")         
-          columnsSorted = _.filter(_.clone(this.model.get('columnsSorted')),function(column){
-            return column.get("default")
-          })
-        }            
+      } else {        
         
         // update header active sort class
         this.$(".record-table thead th a.active").removeClass("active")
@@ -88,13 +68,20 @@ define([
         // update body html
         this.$(".record-table tbody").html(this.getBodyHtml(
           this.model.getSortedRecords(),
-          columnsSorted
+          this.getSortedColumns()
         ))
 
         // mark active record
         this.recordChanged()
       }
       
+    },
+    getSortedColumns : function(){
+      return this.model.allExpanded()
+      ? this.model.get('columnsSorted')
+      : _.filter(_.clone(this.model.get('columnsSorted')),function(column){
+        return column.get("default")
+      },this)
     },
     getHeaderHtml: function(columnsSorted, sortColumn, sortOrder){
       
@@ -120,7 +107,6 @@ define([
       if (activeId !== "") {
         this.$('.tr-record-'+activeId).addClass('selected')
       }
-       
     },
     
     initColumns: function(){
@@ -148,6 +134,11 @@ define([
     },    
     expanded: function(){      
       this.render()
+      if (this.model.allExpanded()) {
+        this.$el.addClass("expanded")         
+      } else {
+        this.$el.removeClass("expanded")         
+      }    
     },    
     
     

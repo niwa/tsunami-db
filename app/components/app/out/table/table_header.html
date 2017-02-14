@@ -5,7 +5,7 @@
     <a href="#" 
        class="sort-by <%= col.getQueryColumn() === sortColumn ? 'active' : '' %>" 
        data-column="<%= col.getQueryColumn() %>">
-      <%= col.get("title") %>
+      <%= col.get("title") %>      
     </a>
     <% } else { %>
       <%= col.get("title") %>
