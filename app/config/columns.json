@@ -127,7 +127,7 @@
   {
     "id":"date_min",
     "filterable":0,        
-    "title":"Date range, minimum",
+    "title":"Date, minimum",
     "description":"Minimum date (youngest) of site specific event based solely upon chronological data from that site",
     "type":"date",    
     "group":"time",    
@@ -146,7 +146,7 @@
   },
   {
     "id":"date_max",    
-    "title":"Date range, maximum",
+    "title":"Date, maximum",
     "description":"Maximum date (oldest) of site specific event based solely upon chronological data from that site",    
     "comboDescription":"Date range of site specific event based solely upon chronological data from that site",
     "hint":"Negative numbers refer to a year BC",                   
@@ -172,7 +172,7 @@
   },  
   {
     "id":"inferred_date_range_min",          
-    "title":"Inferred date range, minimum",
+    "title":"Inferred date, minimum",
     "description":"Inferred minimum date of site specific eventsource. This may or may not involve cross-correlation with other sites in the database",
     "type":"date",    
     "group":"time",    
@@ -192,7 +192,7 @@
   },  
   {
     "id":"inferred_date_range_max",
-    "title":"Inferred date range, maximum",
+    "title":"Inferred date, maximum",
     "description":"Inferred maximum date of site specific eventsource. This may or may not involve cross-correlation with other sites in the database",
     "comboDescription":"Inferred date range of site specific eventsource. This may or may not involve cross-correlation with other sites in the database",
     "comboTitle":"Inferred date range",
@@ -222,7 +222,7 @@
       "min" : "elevation_above",
       "max" : "elevation_below"
     },    
-    "title":"Elevation (m)",
+    "title":"Elevation",
     "description":"Proxy for minimum runup height",
     "descriptionMore":"Inferred elevation of deposit in metres above mean sea level at the estimated time of deposition, where available.",
     "type":"quantitative",    
@@ -261,8 +261,8 @@
       "min" : "landward_limit_above",
       "max" : "landward_limit_below"
     },        
-    "title":"Estimated minimum landward limit (m)",
-    "description":"Distance inland from the coastline in metres at the time of deposition, where available.",
+    "title":"Landward limit",
+    "description":"Estimated minimum landward limit: Distance inland from the coastline in metres at the time of deposition, where available.",
     "descriptionMore":"(n.b. in many cases by necessity this estimate relates to the contemporary coastline as and such the database user should refer to the relevant publication for more details)",
     "type":"quantitative",    
     "group":"details",    
@@ -284,7 +284,7 @@
   {
     "id":"landward_limit_c",
     "column":"est_min_landward_limit_comment",
-    "title":"Estimated minimum landward limit (comment)",
+    "title":"Landward limit (comment)",
     "description":"Where a notable query exists concerning estimated minimum landward limits this is noted (usually with a distance in metres preceded by either ‘~’, ‘>’, or followed by '?' or simply marked by '?')",
     "type":"text",    
     "group":"details",    
@@ -299,7 +299,7 @@
       "min" : "thickness_above",
       "max" : "thickness_below"
     },       
-    "title":"Deposit thickness (m)",
+    "title":"Deposit thickness",
     "description":"The inferred maximum thickness in metres, where a deposit is present and data are available",
     "type":"quantitative",    
     "group":"details",    

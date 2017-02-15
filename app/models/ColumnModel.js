@@ -1,7 +1,6 @@
 define([
-  'jquery', 'underscore', 'backbone',
-  'showdown'
-], function($,_, Backbone,showdown
+  'jquery', 'underscore', 'backbone'
+], function($,_, Backbone
 ){
   
   return Backbone.Model.extend({
@@ -82,11 +81,6 @@ define([
         if (this.attributes.placeholders === null){
           this.set("placeholders", {min:"After",max:"Before"})                      
         }
-      }
-      
-      if (this.attributes.description !== ""){
-        var converter = new showdown.Converter({ghCodeBlocks: false});              
-        this.attributes.description = converter.makeHtml(this.attributes.description)
       }
       
       

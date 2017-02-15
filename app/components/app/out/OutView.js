@@ -68,14 +68,14 @@ define([
       console.log("OutView.updateOutType")
       switch(this.model.getOutType()){
         case "map":
-          this.views.map.model.setActive()
-          this.updateMapView()
-          this.views.table.model.setActive(false)
+          this.views.table.model.setActive(false)          
+          this.views.map.model.setActive()          
+          this.updateMapView()          
           break
         case "table":
           this.views.map.model.setActive(false)
-          this.updateTableView()
           this.views.table.model.setActive()
+          this.updateTableView()
           break
         default:
           break
@@ -107,7 +107,7 @@ define([
             labels: this.model.getLabels(),
             columnCollection: this.model.get("columnCollection").byAttribute("table"),
             columnGroupCollection: this.model.get("columnGroupCollection"),
-            active: false,
+            active: true,
             recordId:""
           })              
         });        

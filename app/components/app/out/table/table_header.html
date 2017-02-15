@@ -1,15 +1,22 @@
 <tr>
   <% _.each(columns,function(col){ %>
-  <th class="column-<%= col.id %>">
+  <th class="column-<%= col.id %> column-type-<%= col.getType() %>">
+    <div>
+    <%= col.get("title") %>
     <% if (col.get("sortable")) { %> 
     <a href="#" 
-       class="sort-by <%= col.getQueryColumn() === sortColumn ? 'active' : '' %>" 
+       class="sort-by <%= (col.getQueryColumn() === sortColumn ? ' active' : '')%> <%= (sortOrder === 1 ? ' asc' : 'desc')%>" 
        data-column="<%= col.getQueryColumn() %>">
-      <%= col.get("title") %>      
-    </a>
-    <% } else { %>
-      <%= col.get("title") %>
+      <span class="show-on-active show-on-active-inline">
+        <span class="glyphicon glyphicon-sort-by-attributes show-on-asc show-on-asc-inline" aria-hidden="true"></span>        
+        <span class="glyphicon glyphicon-sort-by-attributes-alt hide-on-asc" aria-hidden="true"></span>
+      </span>
+      <span class="hide-on-active">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+      </span>
+    </a>          
     <% }  %>
+    </div>
   </th>
   <% }) %>
 </tr>
