@@ -23,7 +23,7 @@ define([
       
       this.initColumns()
       
-      this.render()
+//      this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:currentRecordCollection", this.update);      
       this.listenTo(this.model, "change:expanded", this.expanded);      
@@ -33,6 +33,7 @@ define([
       
     },
     render: function () {
+      console.log("tableView render")
       this.$el.html(_.template(template)({t:this.model.getLabels()}))      
       if (typeof this.model.getCurrentRecords() !== "undefined") {
         
@@ -55,7 +56,7 @@ define([
       
     },
     initTable:function(){
-      
+      console.log("tableView initTable")
       // clone table head
       var $placeholder = this.$(".record-table-inner thead")
       $placeholder.show()
@@ -96,18 +97,24 @@ define([
 			} );
     },
     update : function(){
+      console.log("tableView update")
       if (this.$(".record-table .record-table-inner tbody").length === 0) {
         this.render()
-      } else {        
+      } else {     
+        console.log("tableView update body")
         // update body html
         this.$(".record-table-inner table tbody").html(this.getBodyHtml(
           this.model.getSortedRecords(),
           this.getSortedColumns()
         ))
-        this.copyWidths( 
-          this.$(".record-table-head thead th"),
-          this.$(".record-table-inner tbody tr:first-child td")
-        );
+        if (this.$(".record-table .record-table-head thead").length !== 0) {
+          this.copyWidths( 
+            this.$(".record-table-head thead th"),
+            this.$(".record-table-inner tbody tr:first-child td")
+          );
+        } else {
+          this.initTable()
+        }
         // mark active record
         this.recordChanged()
       }
@@ -194,7 +201,8 @@ define([
     
     handleActive : function(){
       if (this.model.isActive()) {
-        this.$el.show()        
+        this.$el.show()       
+        console.log("tableView active")
       } else {
         this.$el.hide()
       }

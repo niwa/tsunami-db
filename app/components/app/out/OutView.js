@@ -26,7 +26,7 @@ define([
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:mapInit", this.updateMapView);
       this.listenTo(this.model, "change:mapView", this.updateMapView);      
-      this.listenTo(this.model, "change:outType", this.updateOutType);      
+      this.listenTo(this.model, "change:outType", this.updateViews);      
       this.listenTo(this.model, "change:outMapType", this.updateOutMapType);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
       this.listenTo(this.model, "change:outPlotColumns", this.updateOutPlotColumns);      
@@ -52,20 +52,7 @@ define([
     },    
     updateViews:function(){      
       console.log("OutView.updateView")      
-      
-      switch(this.model.getOutType()){
-        case "map":
-          
-          this.updateMapView()
-          break
-        case "table":
-          this.updateTableView()     
-          break
-      }
-      this.renderHeader()
-    },
-    updateOutType:function(){
-      console.log("OutView.updateOutType")
+
       switch(this.model.getOutType()){
         case "map":
           this.views.table.model.setActive(false)          
@@ -97,6 +84,7 @@ define([
       }))
     },
     initTableView : function(){
+      console.log("OutView.initTableView")
       var componentId = '#table'
       
       if (this.$(componentId).length > 0) {
