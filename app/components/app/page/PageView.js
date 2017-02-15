@@ -36,6 +36,9 @@ define([
           
           page.getContent(function(content){                  
             that.$('.placeholder-content').html(content)
+            if (that.model.getPageAnchor() === "") {
+              that.$el.scrollTop(0)
+            }
           })            
           
         }
@@ -48,7 +51,7 @@ define([
     },    
     handleActive : function(){
       if (this.model.isActive()) {
-        this.$el.show()        
+        this.$el.show()       
       } else {
         this.$el.hide()
       }
