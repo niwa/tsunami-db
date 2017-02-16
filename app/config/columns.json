@@ -22,7 +22,6 @@
     "values":{      
       "values":["Excellent (9+ criteria)","Moderate (5-8 criteria)","Poor (1-4 criteria)"],
       "labels":["Excellent","Moderate","Poor"],
-      "hints":["9+ criteria","5-8 criteria","1-4 criteria"],
       "descriptions":[
         "Record satisfies 9 or more palaeotsunami criteria",
         "Record satisfies between 5 and 8 palaeotsunami criteria",
@@ -112,8 +111,7 @@
     "group":"time",    
     "default":1,
     "values":{      
-      "values":["Prehistoric BP","Prehistoric AD","Historical","Unknown"],            
-      "labels":["Prehistoric BC","Prehistoric AD","Historical","Unknown"],           
+      "values":["Prehistoric BP","Prehistoric AD","Historical","Unknown"],                  
       "hints":["before 0","0 - 1800","1800 and later",""],      
       "descriptions":[
         "before 0",
