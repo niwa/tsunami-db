@@ -172,6 +172,7 @@
     "id":"inferred_date_range_min",          
     "title":"Inferred date, minimum",
     "description":"Inferred minimum date of site specific eventsource",
+    "descriptionMore":"A full citation of specific references cited in the comments section only is provided to assist the database user if they wish to search further. There is occasionally reference to 'C14 yr BP' which is an uncalibrated, Conventional Radiocarbon Age. If needed, the database user should refer to the relevant publication for more details.",    
     "type":"date",    
     "group":"time",    
     "filterable":0,    
