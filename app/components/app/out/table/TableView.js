@@ -26,66 +26,135 @@ define([
 //      this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:currentRecordCollection", this.update);      
-      this.listenTo(this.model, "change:expanded", this.expanded);      
-      this.listenTo(this.model, "change:recordId", this.recordChanged);
+      this.listenTo(this.model, "change:expanded", this.render);      
+      this.listenTo(this.model, "change:recordId", this.updateActiveRecord);
       this.listenTo(this.model, "change:tableSortColumn", this.updateTableSortColumn);      
       this.listenTo(this.model, "change:tableSortOrder", this.updateTableSortOrder);        
-      
+      $(window).on("resize", _.debounce(_.bind(this.resize, this), 100));
     },
+    resize: function(){
+      // set max height
+      this.setTableHeight()     
+    },  
     render: function () {
-      console.log("tableView render")
+      if (this.model.allExpanded()) {
+        this.$el.addClass("expanded")         
+      } else {
+        this.$el.removeClass("expanded")         
+      }
       this.$el.html(_.template(template)({t:this.model.getLabels()}))      
       if (typeof this.model.getCurrentRecords() !== "undefined") {
         
         var columnsSorted = this.getSortedColumns()  
 
-        this.$(".record-table-inner table").html(_.template(template_records)({
-          header:this.getHeaderHtml(
-            columnsSorted, 
-            this.model.get("tableSortColumn"), 
-            this.model.get("tableSortOrder")
-          ),
+        this.$(".record-table-scrolling-y table").html(_.template(template_records)({
+          header: _.template(template_header)({
+            columns : columnsSorted,
+            sortColumn : this.model.get("tableSortColumn"),
+            sortOrder : this.model.get("tableSortOrder"),
+          }),
           body: this.getBodyHtml(
             this.model.getSortedRecords(),
             columnsSorted
           )
         }))
-        this.recordChanged()
+
+        this.updateActiveRecord()
+        
         this.initTable()
+        
+        this.setTableHeight()
+        
+      }
+      
+    },
+    
+    update : function(){
+      if (this.$(".record-table .record-table-scrolling-y tbody").length === 0) {
+        this.render()
+      } else {     
+        // update body html
+        this.$(".record-table-scrolling-y table tbody").html(this.getBodyHtml(
+          this.model.getSortedRecords(),
+          this.getSortedColumns()
+        ))
+        
+        // mark active record
+        this.updateActiveRecord()
+        this.updateTable()   
+        
+        // set max height
+        this.setTableHeight()
       }
       
     },
     initTable:function(){
-      console.log("tableView initTable")
+      // variables
+      var $floating = this.$(".record-table-floating")      
+      var $floatingTable = $floating.find("table")      
+      var $scrolling = this.$(".record-table-scrolling-y")     
+      
       // clone table head
-      var $placeholder = this.$(".record-table-inner thead")
-      $placeholder.show()
-      this.$(".record-table-head table").empty()
-      $placeholder.clone().appendTo( this.$(".record-table-head table") );
       
-      // clone widths
-      this.$(".record-table-head table").css("width",$placeholder.width())
-      this.$(".record-table-inner table").css("width",$placeholder.width())
-      this.$(".record-table-head").css("width",this.$(".record-table-inner").width())
-      
-      this.$(".record-table-inner table").css("tableLayout","auto")
-			this.copyWidths( 
-        this.$(".record-table-inner thead th"),
-        this.$(".record-table-head thead th")
-      );
-      this.$(".record-table-head table").css("tableLayout","fixed")
-			this.copyWidths( 
-        this.$(".record-table-inner thead th"),
-        this.$(".record-table-inner tbody tr:first-child td")
-      );
-      this.$(".record-table-inner table").css("tableLayout","fixed")
+      $floatingTable.empty()      
+      $scrolling.find("table thead")
+        .clone()
+        .appendTo( $floatingTable );
+
+      this.setTableWidths()
       
       // adjust position
-      this.$(".record-table-inner").css("top",this.$(".record-table-head").outerHeight())
+      $scrolling.css("top",$floating.outerHeight())
       
-      // hide original table head
-      $placeholder.hide()      
+    },
+    setTableHeight:function(){
+      // set max height
+      this.$(".record-table-scrolling-y").css("maxHeight",
+        this.$(".record-table-scrolling-x").outerHeight() 
+        - this.$(".record-table-floating").outerHeight() 
+        - this.$(".record-table-scrolling-y").css("marginTop").replace('px', '')
+      )   
+    },
+    setTableWidths:function(){
       
+      var $floating = this.$(".record-table-floating")      
+      var $floatingTable = $floating.find("table")      
+      var $scrolling = this.$(".record-table-scrolling-y")
+      var $scrollingTable = $scrolling.find("table")
+      var $scrollingTableHead = $scrollingTable.find("thead")    
+      
+      
+      $scrollingTableHead.show()
+      
+      // copy outer widths 
+      $floatingTable.css("width",$scrollingTableHead.width())
+      $scrollingTable.css("width",$scrollingTableHead.width())      
+      $floating.css("width",$scrolling.width())
+
+      // setup tables
+      $scrollingTable.css("tableLayout","auto")
+      $floatingTable.css("tableLayout","auto")
+
+      // copy column widths      
+      this.copyWidths( 
+        $scrollingTableHead.find("th"),
+        $floatingTable.find("thead th")
+      );
+      this.copyWidths( 
+        $scrollingTableHead.find("th"),
+        $scrollingTable.find("tbody tr:first-child td")
+      );
+
+      $floatingTable.css("tableLayout","fixed")
+      $scrollingTable.css("tableLayout","fixed")
+      $scrollingTableHead.hide()
+    },
+    updateTable:function(){
+      if (this.$(".record-table .record-table-floating thead").length === 0) {
+        this.initTable()
+      } else {
+        this.setTableWidths()     
+      }     
     },
    /**
 	 * Copy widths from the cells in one element to another. 
@@ -95,31 +164,9 @@ define([
         var w = $($from[i]).outerWidth()
 				$(this).css( {width: w, minWidth: w} );
 			} );
-    },
-    update : function(){
-      console.log("tableView update")
-      if (this.$(".record-table .record-table-inner tbody").length === 0) {
-        this.render()
-      } else {     
-        console.log("tableView update body")
-        // update body html
-        this.$(".record-table-inner table tbody").html(this.getBodyHtml(
-          this.model.getSortedRecords(),
-          this.getSortedColumns()
-        ))
-        if (this.$(".record-table .record-table-head thead").length !== 0) {
-          this.copyWidths( 
-            this.$(".record-table-head thead th"),
-            this.$(".record-table-inner tbody tr:first-child td")
-          );
-        } else {
-          this.initTable()
-        }
-        // mark active record
-        this.recordChanged()
-      }
-      
-    },
+    },    
+    
+    
     getSortedColumns : function(){
       return this.model.allExpanded()
       ? this.model.get('columnsSorted')
@@ -127,14 +174,7 @@ define([
         return column.get("default")
       },this)
     },
-    getHeaderHtml: function(columnsSorted, sortColumn, sortOrder){
-      
-      return _.template(template_header)({
-        columns : columnsSorted,
-        sortColumn : sortColumn,
-        sortOrder : sortOrder,
-      })
-    },
+
     getBodyHtml: function(records,columnsSorted){
       return _.template(template_body)({
         rows:_.map(records,function(record){
@@ -145,7 +185,7 @@ define([
         },this)
       })      
     },
-    recordChanged:function(){      
+    updateActiveRecord:function(){      
       var activeId = this.model.get("recordId")
       this.$('.tr-record').removeClass('selected')
       if (activeId !== "") {
@@ -173,25 +213,18 @@ define([
     updateTableSortColumn:function(){
         // update header active sort class
       this.$(".record-table thead th a.active").removeClass("active")
-      this.$(".record-table thead th a[data-column="+this.model.get("tableSortColumn")+"]").addClass("active")      
-      this.update()
+      this.$(".record-table thead th a[data-column="+this.model.get("tableSortColumn")+"]").addClass("active")    
+      this.updateTableSortOrder()      
     },
     updateTableSortOrder:function(){      
+      // update header sort order class
       if (this.model.get("tableSortOrder") === "1") {
         this.$(".record-table thead th a[data-column="+this.model.get("tableSortColumn")+"]").addClass("asc")
       } else {
         this.$(".record-table thead th a.asc").removeClass("asc")
       }              
       this.update()      
-    },    
-    expanded: function(){      
-      if (this.model.allExpanded()) {
-        this.$el.addClass("expanded")         
-      } else {
-        this.$el.removeClass("expanded")         
-      }
-      this.render()
-    },    
+    },     
     
     
     
@@ -202,7 +235,6 @@ define([
     handleActive : function(){
       if (this.model.isActive()) {
         this.$el.show()       
-        console.log("tableView active")
       } else {
         this.$el.hide()
       }

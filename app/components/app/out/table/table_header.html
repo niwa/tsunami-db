@@ -5,7 +5,7 @@
     <%= col.get("title") %>
     <% if (col.get("sortable")) { %> 
     <a href="#" 
-       class="sort-by <%= (col.getQueryColumn() === sortColumn ? ' active' : '')%> <%= (sortOrder === 1 ? ' asc' : 'desc')%>" 
+       class="sort-by <%= (col.getQueryColumn() === sortColumn ? ' active' : '')%> <%= (sortOrder === '1' ? ' asc' : 'desc')%>" 
        data-column="<%= col.getQueryColumn() %>">
       <span class="show-on-active show-on-active-inline">
         <span class="glyphicon glyphicon-sort-by-attributes show-on-asc show-on-asc-inline" aria-hidden="true"></span>        

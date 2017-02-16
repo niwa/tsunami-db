@@ -7,6 +7,8 @@ define([
     initialize : function(options){
       this.options = options || {};
       this.set('expanded',false)
+      this.set("tableSortOrder","1")      
+      this.set("tableSortColumn","id")      
       
     },
     setCurrentRecords : function(currentRecords){      

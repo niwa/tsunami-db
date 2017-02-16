@@ -7,6 +7,7 @@
   width: auto;  
   overflow-y: auto;
   background: #F5F6F6;
+  z-index: 10;
 }
 
 @-moz-document url-prefix() {
@@ -39,52 +40,65 @@ tr.select-record:hover{
 }
 
 
-.record-table-head {
-  overflow-x: hidden;
-    overflow-y: scroll;
-}
 .record-table {
     position: absolute;
     bottom: 0;
-    left: 20px;
-    right: 20px;
+    left: 0px;
+    right: 0px;
     top: 50px;
     width: auto;
-    overflow: hidden;
-    -webkit-box-shadow: 0px 2px 10px 1px rgba(209,209,209,1);
-    -moz-box-shadow: 0px 2px 10px 1px rgba(209,209,209,1);
-    box-shadow: 0px 2px 10px 1px rgba(209,209,209,1);
+    overflow: hidden;    
 }
-.expanded  .record-table {
-  right: 0;
-}
-.record-table-scroller {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    overflow-x: auto;    
+.record-table-scrolling-x {
+    overflow-x: auto;
     overflow-y: hidden;
-}
-.record-table-inner {
     position: absolute;
-    left: 0;
     top: 0;
-    min-width: 100%;
-    display: block;
     bottom: 0;
+    left: 0;
+    right: 0;
+}
+/*.expanded  .record-table-wrap  {
+  right: 0;
+}*/
+
+.record-table-floating {
     overflow-x: hidden;
     overflow-y: scroll;
+    -webkit-box-shadow: 0px 2px 10px 1px rgba(209,209,209,1);
+    -moz-box-shadow: 0px 2px 10px 1px rgba(209,209,209,1);
+    box-shadow: 0px 2px 10px 1px rgba(209,209,209,1); 
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 5px;
 }
 
+.record-table-scrolling-y {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: absolute;
+    top: 0;
+    left: 0;   
+    -webkit-box-shadow: 0px 5px 10px 1px rgba(209,209,209,1);
+    -moz-box-shadow: 0px 5px 10px 1px rgba(209,209,209,1);
+    box-shadow: 0px 5px 10px 1px rgba(209,209,209,1); 
+    left: 20px;
+    right: 20px;    
+    margin-top: 5px;
+}
+.expanded  .record-table-scrolling-y {
+  right:auto;
+}
+.expanded  .record-table-floating   {
+  margin-right: 0 
+}
 
 .record-table th .active {
   text-decoration: underline;
 }
 
-.record-table-inner table,
-.record-table-head table {
+.record-table-scrolling-y table,
+.record-table-floating table {
   min-width: 100%;  
 }
 
