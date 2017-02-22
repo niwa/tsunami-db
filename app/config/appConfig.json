@@ -54,8 +54,8 @@
         {
           "id":"usage",
           "title":"Data Usage",
-          "format":"markdown",          
-          "content": "# Data usage terms \n\n> This page should explain the legalities around using the data. May be added on 'About page' \n\n---\n\n<https://github.com/dumparkltd/tsunami-db/issues/20>"        
+          "format":"xml",          
+          "path": "//content.niwa.co.nz/content/resource_by_name/Data%20Usage%20ptdb"        
         },
         {
           "id":"contact",
