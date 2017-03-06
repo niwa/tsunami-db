@@ -7,8 +7,8 @@
   "type": "raster",
   "model": "mapbox",
   "options": {
-    "id": "tsunamidb.4r22l57m",
-    "token": "pk.eyJ1IjoidHN1bmFtaWRiIiwiYSI6ImNpdzQyZmVvNjAyaDEydHIxOGl3M2F3YWoifQ.mxC3d7yieEQozBJVbc0ehQ",
+    "id": "edith.17p5jdv8",
+    "token": "pk.eyJ1IjoiZWRpdGgiLCJhIjoiY2l6YWk4NmdqMDMzZDMycWlzMHg5OHM0OSJ9.bVzIEXixBxm03GAGThifzg",
     "minZoom": 1,
     "maxZoom": 10,
     "noWrap":false
@@ -27,7 +27,7 @@
     "id": "OceansLabels"
   },
   "style" :{
-    "opacity" : 1
+    "opacity" : 0.8
   }
 },{
   "id": "regions",		

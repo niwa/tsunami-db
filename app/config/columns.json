@@ -295,7 +295,33 @@
     "multiples":1,
     "searchable":1,
     "sortable":0,
-    "blanks":1 
+    "blanks":1,
+    "values":{
+       "values":[
+         "Archaeological information",
+         "Cs137",
+         "Geochem",
+         "Trace element geochemistry",
+         "Dendrochronology",
+         "First appearance of a variety of exotic pollens",
+         "Optically Stimulated Luminescence",
+         "Radiocarbon",
+         "Sediment Accumulation Rates",
+         "Stratigraphic Correlation"        
+       ],
+       "labels":[
+         "Archaeological information",
+         "Cs137",
+         "Geochem",
+         "Trace element geochemistry",
+         "Dendrochronology",
+         "First appearance of a variety of exotic pollens",
+         "Optically Stimulated Luminescence",
+         "Radiocarbon",
+         "Sediment Accumulation Rates",
+         "Stratigraphic Correlation"        
+       ]  	    
+     }	  
   },  
   {
     "id":"event_c",
