@@ -30,3 +30,11 @@
     line-height: 24px;
     vertical-align: middle;
 }
+
+.data-outer {
+    position: relative;
+    z-index: 9999;
+    background: #333;
+    color: #fff;
+    padding:50px;
+}

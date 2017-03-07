@@ -353,6 +353,7 @@ define([
           function(){
             return that.model.recordsConfigured() 
               && that.model.columnsConfigured()
+              && that.model.proxiesConfigured()
               && that.model.referencesConfigured()
           },    
           function(){ 
@@ -372,7 +373,12 @@ define([
                 recordsPopup:[],
                 recordMouseOverId :"",
                 querySet:false,               
-                geoQuery:{}
+                geoQuery:{},
+                paths:{
+                  records:that.model.get("config").records.path,
+                  proxies:that.model.get("config").proxies.path,
+                  references:that.model.get("config").references.path
+                }
               })
             })
             if (that.model.isComponentActive(componentId)) {
@@ -530,7 +536,7 @@ define([
           dataType: "jsonp",
           jsonpCallback:"parseResponse",
           cache:true,
-          url: recordConfig.path,
+          url: recordConfig.path + "&outputFormat=text/javascript",
           success: function(data) {
             console.log("success loading records data")          
             that.configureRecords(data)            
@@ -634,7 +640,7 @@ define([
         dataType: "jsonp",
         jsonpCallback:"parseResponse",        
         cache:true,       
-        url: proxyConfig.path,
+        url: proxyConfig.path + "&outputFormat=text/javascript",
         success: function(data) {
           console.log("success loading proxies data")          
           that.configureProxies(data)            
@@ -688,7 +694,7 @@ define([
         dataType: "jsonp",
         jsonpCallback:"parseResponse",  
         cache:true,
-        url: refConfig.path,
+        url: refConfig.path + "&outputFormat=text/javascript",
         success: function(data) {
           console.log("success loading ref data")          
           that.configureReferences(data)            

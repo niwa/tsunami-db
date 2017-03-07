@@ -1,20 +1,26 @@
 define([
   'jquery',  'underscore',  'backbone',
+  'bootstrap',  
   './map/MapView', './map/MapModel',
   './table/TableView', './table/TableModel',
   'text!./out.html',
-  'text!./out_nav.html'
+  'text!./out_nav.html',
+  'text!./out_data.html'
 ], function (
   $, _, Backbone,
+  bootstrap,
   MapView, MapModel,  
   TableView, TableModel,  
   template,
-  templateNav
+  templateNav,
+  templateData
 ) {
 
   var OutView = Backbone.View.extend({
     events : {
       "click .toggle-view" : "toggleView",
+      "click .toggle-data" : "toggleData",
+      "click .close-data" : "closeData",
       "click .query-reset": "queryReset",      
     },
     initialize : function () {
@@ -39,6 +45,7 @@ define([
       this.listenTo(this.model, "change:recordsPopup",this.recordsPopup)
       this.listenTo(this.model, "change:querySet",this.updateQuerySet)
       this.listenTo(this.model, "change:geoQuery",this.updateGeoQuery)
+      this.listenTo(this.model, "change:dataToggled",this.renderData)
     },
     render: function () {
       this.$el.html(_.template(template)({
@@ -88,6 +95,76 @@ define([
         active:this.model.getOutType(),
         record_no:typeof activeRecords !== "undefined" ? activeRecords.length : 0
       }))
+    },
+    renderData: function(){
+      if (this.model.get('dataToggled')) {
+        this.$("#data-view").html(_.template(templateData)({
+          download : {
+            formats: [
+              {
+                id: "download-csv",
+                title: "CSV",
+                format: "csv"
+              }
+            ],
+            tables : [
+              {    
+                id:"records",
+                title: "Records",
+                collection: this.model.get("recordCollection")
+              },
+              { 
+                id:"proxies",
+                title: "Proxies",
+                collection: this.model.get("recordCollection").getProxies(),
+              },              
+              {                
+                id:"references",
+                title: "References",
+                collection: this.model.get("recordCollection").getReferences(),
+              },
+            ]            
+          },
+          api : {
+            formats: [
+              {
+                id: "api-csv",                
+                title: "XML",
+                format: "xml",
+                path: ""
+              },
+              {
+                id: "api-json",                
+                title: "JSON",
+                format: "json",
+                path: "&outputFormat=text/javascript"
+              },              
+            ],
+            tables : [
+              {                
+                title: "Records",
+                path: this.model.get("paths").records
+              },
+              {                
+                title: "Proxies",
+                path: this.model.get("paths").proxies
+              },              
+              {                
+                title: "References",
+                path: this.model.get("paths").references
+              },
+            ]
+          }
+        }))
+        this.$('#data-view .nav-tabs a').click(function (e) {
+          e.preventDefault()
+          $(this).tab('show')
+        })
+        this.$('#data-view .select-on-click').on('click', this.selectOnClick)
+        
+      } else {
+        this.$("#data-view").html("")        
+      }
     },
     initTableView : function(){
       console.log("OutView.initTableView")
@@ -227,6 +304,22 @@ define([
       e.preventDefault()
       this.$el.trigger('recordQuerySubmit',{query:{}})
     },    
+    toggleData: function(e){
+      e.preventDefault()
+      this.model.set('dataToggled', !this.model.get('dataToggled'))
+    },
+    closeData: function(e){
+      e.preventDefault()
+      this.model.set('dataToggled', false)
+    },
+    selectOnClick: function(e){
+      e.preventDefault()
+      e.target.focus();
+      e.target.select();
+      setTimeout(function () {
+        e.target.setSelectionRange(0, 9999);
+      }, 1);
+    },      
   });
 
   return OutView;

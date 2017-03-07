@@ -7,6 +7,7 @@ define([
     initialize : function(options){
       this.options = options || {}
       
+      this.set("dataToggled",false)
       this.set("mapInit",false)
       this.set("views",{})
     },
