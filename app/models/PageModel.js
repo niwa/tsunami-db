@@ -52,9 +52,7 @@ define([
         } else {	
           this.isContentLoading = true
           this.loadContent(function(content){
-            
-
-            
+                        
             if (that.id === "attributes") {
               var columnCollection = that.get("columnCollection")            
               that.set('content', _.template(templatePageAttributes)({
