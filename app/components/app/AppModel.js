@@ -15,6 +15,7 @@ define([
       this.set("proxiesConfigured",false)
       this.set("columnsConfigured",false)
       this.set("lastDBPath","")
+      this.set("shareToggled",false)
       
       var that = this
       

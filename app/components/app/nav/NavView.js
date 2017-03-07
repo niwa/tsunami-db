@@ -44,7 +44,7 @@ define([
       
       switch (item.type) {
         case "component" : 
-          return item.route === route
+          return item.route === route && path !== "share"
           break
         case "group" :
           return _.reduce(item.navitems,function(active,childItem){
@@ -56,7 +56,7 @@ define([
           return item.route === route && item.id === path
           break
         case "modal":
-          return false
+          return item.id === path
           break
       }
             

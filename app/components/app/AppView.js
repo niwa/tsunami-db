@@ -18,7 +18,8 @@ define([
   'models/LayerModelMapboxTiles',
   'models/LayerModelEsriBaselayer',
   'ga',
-  'text!./app.html'
+  'text!./app.html',
+  'text!./app_share.html'
 ], function(
   $, _, Backbone,
   domReady,
@@ -39,7 +40,8 @@ define([
   LayerModelMapboxTiles,
   LayerModelEsriBaselayer,
   ga,
-  template
+  template,
+  templateShare
 ){
 
   var AppView = Backbone.View.extend({
@@ -48,6 +50,8 @@ define([
     events : {
       "click .close-item" : "closeItem",
       "click .layer-info-link" : "handleLayerInfoLink",            
+      "click .close-share" : "closeShare",      
+      
       
       // general navigation events
       resetApp : "resetApp",
@@ -140,6 +144,7 @@ define([
 
       // model change events
       this.listenTo(this.model, "change:route", this.routeChanged);
+      this.listenTo(this.model, "change:shareToggled",this.renderShare)
       
       
       
@@ -757,9 +762,35 @@ define([
     },
     
     
+    renderShare: function(){
+      
+      var url = window.location.protocol+'//'+window.location.host+'/'
+      var url_current = window.location.href
+      
+      var twitter = "text=" + encodeURIComponent("The New Zealand Palaeotsunami database")
+      twitter += "&url=" + url        
+      
+      if (this.model.get('shareToggled')) {
+        this.$("#share").html(_.template(templateShare)({
+          url_current:window.location.href,
+          url_enc:encodeURIComponent(url),
+          twitter:twitter
+        }))
+        this.$('#share .select-on-click').on('click', this.selectOnClick)
+        
+      } else {
+        this.$("#share").html("")        
+      }
+    },
     
-    
-    
+    selectOnClick: function(e){
+      e.preventDefault()
+      e.target.focus();
+      e.target.select();
+      setTimeout(function () {
+        e.target.setSelectionRange(0, 9999);
+      }, 1);
+    },       
     
     
     
@@ -788,17 +819,23 @@ define([
       })
     },
     navLink : function(e,args){      
-      this.model.getRouter().update({
-        link:true,
-        route:args.route,
-        path:args.id === "db" 
-          ? this.model.getLastDBPath()
-          : args.id,        
-        query: {
-          anchor:typeof args.anchor !== "undefined" ? args.anchor : ""
-        },
-        extendQuery:true,
-      })
+      
+      if (args.id === "share") {
+        this.toggleShare()
+      } else {
+      
+        this.model.getRouter().update({
+          link:true,
+          route:args.route,
+          path:args.id === "db" 
+            ? this.model.getLastDBPath()
+            : args.id,        
+          query: {
+            anchor:typeof args.anchor !== "undefined" ? args.anchor : ""
+          },
+          extendQuery:true,
+        })
+      }
       
     },
     
@@ -1106,7 +1143,19 @@ define([
       )
     
     },
-    
+    toggleShare: function(){
+      this.model.set('shareToggled', !this.model.get('shareToggled'))
+      this.views.nav.model.set({        
+        path:this.model.get('shareToggled') ? 'share' : this.model.getPath()
+      })      
+    },
+    closeShare: function(e){
+      e.preventDefault()
+      this.model.set('shareToggled', false)
+      this.views.nav.model.set({        
+        path:this.model.getPath()
+      })            
+    },    
 
 
   });

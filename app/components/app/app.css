@@ -177,3 +177,15 @@ a.hover {
     width: 500px;
   }
 }
+
+
+.panel-dark {
+    background: #333;
+    color: #fff;    
+}
+.share-outer {
+    position: relative;
+    z-index: 10000;
+    padding:50px;
+    top:50px
+}

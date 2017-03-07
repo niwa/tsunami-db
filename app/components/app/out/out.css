@@ -34,7 +34,5 @@
 .data-outer {
     position: relative;
     z-index: 9999;
-    background: #333;
-    color: #fff;
     padding:50px;
 }
