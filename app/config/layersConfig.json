@@ -7,8 +7,8 @@
   "type": "raster",
   "model": "mapbox",
   "options": {
-    "id": "edith.17p5jdv8",
-    "token": "pk.eyJ1IjoiZWRpdGgiLCJhIjoiY2l6YWk4NmdqMDMzZDMycWlzMHg5OHM0OSJ9.bVzIEXixBxm03GAGThifzg",
+    "id": "tsunamidb.4r22l57m",
+    "token": "pk.eyJ1IjoidHN1bmFtaWRiIiwiYSI6ImNpdzQyZmVvNjAyaDEydHIxOGl3M2F3YWoifQ.mxC3d7yieEQozBJVbc0ehQ",
     "minZoom": 1,
     "maxZoom": 10,
     "noWrap":false
