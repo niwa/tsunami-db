@@ -194,9 +194,6 @@ define([
     
     initColumns: function(){
       
-      this.model.set('tableSortColumn','id')
-      this.model.set('tableSortOrder',1)
-      
       var columnsSorted = []
       
       _.each(this.model.get('columnGroupCollection').models,function(group){
@@ -233,7 +230,8 @@ define([
     
     handleActive : function(){
       if (this.model.isActive()) {
-        this.$el.show()       
+        this.$el.show()     
+        this.render()
       } else {
         this.$el.hide()
       }

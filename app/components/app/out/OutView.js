@@ -95,6 +95,8 @@ define([
             labels: this.model.getLabels(),
             columnCollection: this.model.get("columnCollection").byAttribute("table"),
             columnGroupCollection: this.model.get("columnGroupCollection"),
+            tableSortColumn: typeof this.model.get('tableSortColumn') !== "undefined" ? this.model.get('tableSortColumn') : 'id',
+            tableSortOrder: typeof this.model.get('tableSortOrder') !== "undefined" ? this.model.get('tableSortOrder') : '1',
             active: true,
             recordId:""
           })              
@@ -193,10 +195,16 @@ define([
       this.views.map.model.set("outPlotColumns",this.model.getOutPlotColumns())
     },
     updateTableSortColumn:function(){
-      this.views.table.model.set("tableSortColumn",this.model.get("tableSortColumn"))
+      this.views.table.model.set(
+        "tableSortColumn", 
+        typeof this.model.get('tableSortColumn') !== "undefined" ? this.model.get('tableSortColumn') : 'id'
+      )
     },
     updateTableSortOrder:function(){
-      this.views.table.model.set("tableSortOrder",this.model.get("tableSortOrder"))
+      this.views.table.model.set(
+        "tableSortOrder", 
+        typeof this.model.get('tableSortOrder') !== "undefined" ? this.model.get('tableSortOrder') : '1'
+      )
     },
     toggleView:function(e){      
       this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      
