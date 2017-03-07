@@ -128,17 +128,23 @@ define([
           api : {
             formats: [
               {
-                id: "api-csv",                
+                id: "api-xml",                
                 title: "XML",
                 format: "xml",
                 path: ""
-              },
+              },    
               {
                 id: "api-json",                
                 title: "JSON",
                 format: "json",
                 path: "&outputFormat=text/javascript"
-              },              
+              },                        
+              {
+                id: "api-csv",                
+                title: "CSV",
+                format: "csv",
+                path: "&outputFormat=csv"
+              },                        
             ],
             tables : [
               {                
