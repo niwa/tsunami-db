@@ -42,14 +42,10 @@
           "path": "//content.niwa.co.nz/content/resource_by_name/About%20ptdb"
         },
         {
-          "id":"methodology",
-          "title":"Methodology",
-          "format":"xml",          
-          "path": "//content.niwa.co.nz/content/resource_by_name/Methodology%20ptdb"
-        },
-        {
           "id":"attributes",
-          "title":"Attributes"      
+          "title":"Framework and Attributes",
+          "format":"markdown",          
+          "content":"# Framework and Attributes \n\n> The framework for the New Zealand Palaeotsunami Database (Database) is based on a series of key data attributes which help to clarify the nature of the published and unpublished data. These attributes are defined below."
         },
         {
           "id":"usage",

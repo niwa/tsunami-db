@@ -50,36 +50,38 @@ define([
             }
           )
         } else {	
-          if (this.id === "attributes") {
-            var columnCollection = this.get("columnCollection")            
-            that.set('content', _.template(templatePageAttributes)({
-              proxies: this.get("proxyCollection").models,
-              columnGroups:_.map(this.get("columnGroupCollection").models,function(group){
-                // group classes
-                var classes = "group-" + group.id 
+          this.isContentLoading = true
+          this.loadContent(function(content){
+            
 
-                var columnsByGroup = columnCollection.byGroup(group.id).models 
-          
-                return {
-                  title:group.get("title"),
-                  hint:group.get("hint"),
-                  id:group.id,
-                  classes: classes,
-                  groupColumns: columnsByGroup     
-                }          
-              },this)              
-            }))
-            that.isContentLoaded = true
-            callback(that.attributes.content)
-          } else {
-            this.isContentLoading = true
-            this.loadContent(function(content){
+            
+            if (that.id === "attributes") {
+              var columnCollection = that.get("columnCollection")            
+              that.set('content', _.template(templatePageAttributes)({
+                content: content,
+                proxies: that.get("proxyCollection").models,
+                columnGroups:_.map(that.get("columnGroupCollection").models,function(group){
+                  // group classes
+                  var classes = "group-" + group.id 
+
+                  var columnsByGroup = columnCollection.byGroup(group.id).models 
+
+                  return {
+                    title:group.get("title"),
+                    hint:group.get("hint"),
+                    id:group.id,
+                    classes: classes,
+                    groupColumns: columnsByGroup     
+                  }          
+                })              
+              }))
+            } else {
               that.set('content', that.setupContent($(content)))
-              that.isContentLoading = false
-              that.isContentLoaded = true
-              callback(that.attributes.content)
-            })  
-          }
+            }
+            that.isContentLoading = false
+            that.isContentLoaded = true            
+            callback(that.attributes.content)
+          })            
                   
         }
       }
