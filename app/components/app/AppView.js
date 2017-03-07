@@ -371,6 +371,7 @@ define([
                 recordsUpdated:0,
                 recordsPopup:[],
                 recordMouseOverId :"",
+                querySet:false,               
                 geoQuery:{}
               })
             })
@@ -390,6 +391,7 @@ define([
                 mapView:          that.model.getActiveMapview(),
                 recordId :        that.model.getSelectedRecordId(),
                 geoQuery:         that.model.getGeoQuery(),
+                querySet:         Object.keys(that.model.getRecordQuery()).length > 0,
                 tableSortColumn:  that.model.getOutTableSortColumn(),
                 tableSortOrder:   that.model.getOutTableSortOrder()
               })

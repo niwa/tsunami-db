@@ -1,3 +1,10 @@
   <button type="button" data-view="map" class="btn btn-success toggle-view <%= active === 'map' ? 'active' : '' %>" >Map</button>
-  <button type="button" data-view="table" class="btn btn-success toggle-view <%= active === 'table' ? 'active' : '' %>"">Table</button>  
-  <span><%= record_no %> records with current filter settings</span>
+  <button type="button" data-view="table" class="btn btn-success toggle-view <%= active === 'table' ? 'active' : '' %>">Table</button>  
+  <span class="out-nav-info">
+    <span class="record-no">
+      <%= record_no %>
+    </span> 
+    records found
+  </span>
+  <% if (filtered) { %><button type="button" class="btn btn-primary query-reset">Clear all filters</button><% } %>
+  <button type="button" class="btn btn-info pull-right toggle-data">Data</button>  
