@@ -222,7 +222,7 @@
   },
   {
     "id":"age_max",    
-    "title":"Age max",
+    "title":"Age, maximum",
     "description":"Maximum age of site specific event based solely upon chronological data from that site",    
     "descriptionMore":"Database only, not used by web application",        
     "group":"time", 
@@ -233,7 +233,7 @@
   },
   {
     "id":"age_min",    
-    "title":"Age min",
+    "title":"Age, minimum",
     "description":"Minimum age of site specific event based solely upon chronological data from that site",    
     "descriptionMore":"Database only, not used by web application",        
     "group":"time", 
