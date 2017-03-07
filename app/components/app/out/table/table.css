@@ -58,9 +58,6 @@ tr.select-record:hover{
     left: 0;
     right: 0;
 }
-/*.expanded  .record-table-wrap  {
-  right: 0;
-}*/
 
 .record-table-floating {
     overflow-x: hidden;
@@ -68,8 +65,6 @@ tr.select-record:hover{
     -webkit-box-shadow: 0px 2px 10px 1px rgba(209,209,209,1);
     -moz-box-shadow: 0px 2px 10px 1px rgba(209,209,209,1);
     box-shadow: 0px 2px 10px 1px rgba(209,209,209,1); 
-    margin-left: 20px;
-    margin-right: 20px;
     margin-top: 5px;
 }
 
@@ -82,15 +77,9 @@ tr.select-record:hover{
     -webkit-box-shadow: 0px 5px 10px 1px rgba(209,209,209,1);
     -moz-box-shadow: 0px 5px 10px 1px rgba(209,209,209,1);
     box-shadow: 0px 5px 10px 1px rgba(209,209,209,1); 
-    left: 20px;
-    right: 20px;    
+    right: auto;    
     margin-top: 5px;
-}
-.expanded  .record-table-scrolling-y {
-  right:auto;
-}
-.expanded  .record-table-floating   {
-  margin-right: 0 
+    min-width:100%;
 }
 
 .record-table th .active {

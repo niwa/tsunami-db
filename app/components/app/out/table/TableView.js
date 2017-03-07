@@ -34,7 +34,7 @@ define([
     },
     resize: function(){
       // set max height
-      this.setTableHeight()     
+      this.render()
     },  
     render: function () {
       if (this.model.allExpanded()) {
@@ -122,7 +122,6 @@ define([
       var $scrolling = this.$(".record-table-scrolling-y")
       var $scrollingTable = $scrolling.find("table")
       var $scrollingTableHead = $scrollingTable.find("thead")    
-      
       
       $scrollingTableHead.show()
       
