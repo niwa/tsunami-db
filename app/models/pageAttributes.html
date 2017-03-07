@@ -50,6 +50,28 @@
             </table>                
           </div>             
           <% } %>
+          <% if(column.id === "proxies") { %>   
+          <hr/>
+          <h4>Values<h4/>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Proxy</th>                  
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% _.each(proxies,function(proxy){ %>
+                <tr>
+                  <td><%= proxy.id %></td>               
+                  <td><%= proxy.getDescription() %></code></td>
+                </tr>
+                <% }) %>
+              </tbody>                
+            </table>                
+          </div>             
+          <% } %>          
         </div>          
       <% } %>
       <% }) %>

@@ -10,6 +10,7 @@ define([
       this.options = options || {};     
       
       this.on("add", function(model){
+        model.set('proxyCollection',this.options.proxyCollection)
         model.set('columnCollection',this.options.columnCollection)
         model.set('columnGroupCollection',this.options.columnGroupCollection)      
       });

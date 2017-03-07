@@ -51,8 +51,9 @@ define([
           )
         } else {	
           if (this.id === "attributes") {
-            var columnCollection = this.get("columnCollection")
+            var columnCollection = this.get("columnCollection")            
             that.set('content', _.template(templatePageAttributes)({
+              proxies: this.get("proxyCollection").models,
               columnGroups:_.map(this.get("columnGroupCollection").models,function(group){
                 // group classes
                 var classes = "group-" + group.id 

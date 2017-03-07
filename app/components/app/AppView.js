@@ -183,7 +183,7 @@ define([
       waitFor(
         //when
         function(){
-          return that.model.columnsConfigured()
+          return that.model.columnsConfigured() && that.model.proxiesConfigured()
         },
         //then
         function(){ 
@@ -462,7 +462,8 @@ define([
       var pagesCollection = new PageCollection([],{
           model:PageModel,
           columnCollection: this.model.get("columnCollection"),        
-          columnGroupCollection: this.model.get("columnGroupCollection")
+          columnGroupCollection: this.model.get("columnGroupCollection"),
+          proxyCollection: this.model.getProxies()
         })
       
       _.each(this.model.getConfig().navitems,function(item){
