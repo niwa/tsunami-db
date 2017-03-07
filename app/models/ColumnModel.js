@@ -22,6 +22,7 @@ define([
         filterable :      typeof this.attributes.filterable !== "undefined" ? this.attributes.filterable : 1,
         colorable :       typeof this.attributes.colorable !== "undefined" ? this.attributes.colorable : 0,
         table :           typeof this.attributes.table !== "undefined" ? this.attributes.table : 1,
+        single :          typeof this.attributes.single !== "undefined" ? this.attributes.single : 1,
         default :         typeof this.attributes.default !== "undefined" ? this.attributes.default : 0,        
         searchable :      typeof this.attributes.searchable !== "undefined" ? this.attributes.searchable : 0,
         sortable :        typeof this.attributes.sortable !== "undefined" ? this.attributes.sortable : 1,

@@ -9,7 +9,6 @@
     <div class="col-sm-6">
       <div class="text-center">
         <h4>Download</h4>
-        <p>&nbsp;</p>      
       </div>  
       <div>
         <!-- Nav tabs -->
@@ -25,14 +24,32 @@
         <div class="tab-content">
           <% _.each(download.formats, function(format){ %> 
           <div role="tabpanel" class="tab-pane active" id="<%= format.id %>">
-            <p> Download data set in <%= format.format%>-format</p>
+            <p>Download data tables</p>
             <% _.each(download.tables, function(table){ %> 
             <h5><%= table.title%></h5>
-            <% if (table.id === "records") { %>
-            <a href="#">All <%= table.title%></a>
-            <a href="#">Filteres <%= table.title%></a>
+            <% if (table.id === "records" && filtered) { %>
+            <a href="#" 
+               data-format="<%= format.format %>" 
+               data-table="<%= table.id %>" 
+               data-active="false"
+               class="download-data">
+              All <%= table.title%>
+            </a>
+            <a href="#"
+               data-format="<%= format.format %>" 
+               data-table="<%= table.id %>" 
+               data-active="true"
+               class="download-data">               
+              Filtered <%= table.title%>
+            </a>
             <% } else { %>          
-            <a href="#"><%= table.title%></a>
+            <a href="#"
+               data-format="<%= format.format %>" 
+               data-table="<%= table.id %>" 
+               data-active="false"
+               class="download-data">               
+              <%= table.title%>
+            </a>
             <% } %>          
             <% }) %>          
           </div>      
@@ -43,8 +60,7 @@
     </div>  
     <div class="col-sm-6">
       <div class="text-center">      
-        <h4>API</h4>
-        <p>Application Programming Interface</p>      
+        <h4>Web Feature Service (WFS)</h4>        
       </div>      
       <div>
         <!-- Nav tabs -->
@@ -60,7 +76,7 @@
         <div class="tab-content">
           <% _.each(api.formats, function(format, i){ %> 
           <div role="tabpanel" class="tab-pane<%= i===0 ? ' active' : ''%>" id="<%= format.id %>">
-            <p> Access data set from API in <%= format.format%>-format</p>            
+            <p>Copy URLs to access the data programmatically</p>            
             <% _.each(api.tables, function(table){ %> 
             <h5><%= table.title%></h5>
             <input class="form-control select-on-click api-link" type="text" value="<%= table.path + format.path %>">            

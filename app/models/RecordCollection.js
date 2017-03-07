@@ -139,7 +139,40 @@ define([
       }
       records.sort()
       return records.models
+    },
+    toCSV:function(){
+      var columns = this.options.columns
+      
+      var columnDelimiter = ',';
+      var lineDelimiter = '\n'
+      var csv = '';
+      
+      // add header
+      var keys = _.map(columns.models,function(col){
+        return col.getQueryColumn()
+      })
+      csv += keys.join(columnDelimiter);
+      csv += lineDelimiter;
+      
+      // add rows 
+      // for each record
+      _.each(this.models,function(record){
+        // for each column
+        _.each(keys,function(key,i){
+          if (i > 0) {
+            csv += columnDelimiter
+          }
+          csv += '"'
+          csv += record.getColumnValue(key) !== null
+            ? record.getColumnValue(key).toString().replace(/"/g, '\""')
+            : "";           
+          csv += '"'
+        })
+        csv += lineDelimiter
+      })
+      return csv
     }
+    
     
   });
 

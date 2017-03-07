@@ -129,6 +129,7 @@
     "filterable":0,        
     "title":"Date, minimum",
     "description":"Minimum date (youngest) of site specific event based solely upon chronological data from that site",
+    "descriptionMore":"Negative numbers refer to a year BC.",
     "type":"date",    
     "group":"time",    
     "combo":1,        
@@ -147,7 +148,8 @@
   {
     "id":"date_max",    
     "title":"Date, maximum",
-    "description":"Maximum date (oldest) of site specific event based solely upon chronological data from that site",    
+    "description":"Maximum date (oldest) of site specific event based solely upon chronological data from that site.",    
+    "descriptionMore":"Negative numbers refer to a year BC.",    
     "comboDescription":"Date range of site specific event based solely upon chronological data from that site",
     "hint":"Negative numbers refer to a year BC",                   
     "type":"date",    
@@ -174,7 +176,7 @@
     "id":"inferred_date_range_min",          
     "title":"Inferred date, minimum",
     "description":"Inferred minimum date of site specific eventsource",
-    "descriptionMore":"This may or may not involve cross-correlation with other sites in the database",
+    "descriptionMore":"This may or may not involve cross-correlation with other sites in the database. Negative numbers refer to a year BC.",
     "type":"date",    
     "group":"time",    
     "filterable":0,    
@@ -196,7 +198,7 @@
     "title":"Inferred date, maximum",
     "description":"Inferred maximum date of site specific eventsource",
     "comboDescription":"Inferred date range of site specific eventsource",
-    "descriptionMore":"This may or may not involve cross-correlation with other sites in the database",
+    "descriptionMore":"This may or may not involve cross-correlation with other sites in the database. Negative numbers refer to a year BC.",
     "comboTitle":"Inferred date range",
     "hint":"Negative numbers refer to a year BC",               
     "type":"date",    
@@ -217,6 +219,57 @@
         "max" : ["auto"]
       }
     }
+  },
+  {
+    "id":"age_max",    
+    "title":"Age max",
+    "description":"Maximum age of site specific event based solely upon chronological data from that site",    
+    "descriptionMore":"Database only, not used by web application",        
+    "group":"time", 
+    "filterable":0,
+    "table":0,
+    "sortable":0,
+    "single":0
+  },
+  {
+    "id":"age_min",    
+    "title":"Age min",
+    "description":"Minimum age of site specific event based solely upon chronological data from that site",    
+    "descriptionMore":"Database only, not used by web application",        
+    "group":"time", 
+    "filterable":0,
+    "table":0,
+    "sortable":0,
+    "single":0
+  },
+  {
+    "id":"inferred_age_range",    
+    "title":"Inferred age range",
+    "description":"Inferred age range of site specific eventsource",
+    "descriptionMore":"Database only, not used by web application",
+    "group":"time", 
+    "filterable":0,
+    "table":0,
+    "sortable":0,
+    "single":0
+  },  
+  {
+    "id":"time_scale_age",    
+    "title":"Time scale",
+    "description":"Time scale for age columns",    
+    "descriptionMore":"Database only, not used by web application",    
+    "group":"time", 
+    "filterable":0,
+    "table":0,
+    "sortable":0,
+    "single":0,
+    "values":{      
+      "values":["AD","BP"],                  
+      "descriptions":[
+        "From present day to AD 0",
+        "Starting from 2000 BP (AD 0). BP is an abbreviation for Calendar years BP and represents a calibrated age or age range"        
+      ]      
+    }    
   },
   {
     "id":"validity",

@@ -22,6 +22,7 @@ define([
       "click .toggle-data" : "toggleData",
       "click .close-data" : "closeData",
       "click .query-reset": "queryReset",      
+      "click .download-data": "downloadData",      
     },
     initialize : function () {
       
@@ -77,6 +78,7 @@ define([
           break
       }
       this.renderHeader()
+      this.renderData()
     },
     updateOutMapType:function(){
       console.log("OutView.updateOutMapType")
@@ -99,6 +101,7 @@ define([
     renderData: function(){
       if (this.model.get('dataToggled')) {
         this.$("#data-view").html(_.template(templateData)({
+          filtered : this.model.get('querySet'),
           download : {
             formats: [
               {
@@ -111,17 +114,14 @@ define([
               {    
                 id:"records",
                 title: "Records",
-                collection: this.model.get("recordCollection")
               },
               { 
                 id:"proxies",
                 title: "Proxies",
-                collection: this.model.get("recordCollection").getProxies(),
               },              
               {                
                 id:"references",
-                title: "References",
-                collection: this.model.get("recordCollection").getReferences(),
+                title: "References"
               },
             ]            
           },
@@ -320,6 +320,47 @@ define([
         e.target.setSelectionRange(0, 9999);
       }, 1);
     },      
+    
+    downloadData:function(e) {
+      e.preventDefault();
+      var format = $(e.currentTarget).attr('data-format')
+      var table = $(e.currentTarget).attr('data-table')
+      var active = $(e.currentTarget).attr('data-active')
+      
+      if (format === "csv") {
+        var csv = ""
+        var filename = ""
+        var link
+        switch (table) {
+          case "records":
+            csv = active === "true" 
+              ? this.model.get("recordCollection").byActive().toCSV()
+              : this.model.get("recordCollection").toCSV()
+            filename = active === "true" 
+              ? "records_filtered.csv"
+              : "records.csv"
+            break;
+          case "proxies":
+            csv = this.model.get("recordCollection").getProxies().toCSV()
+            filename = "proxies.csv"            
+            break;
+          case "references":
+            csv = this.model.get("recordCollection").getReferences().toCSV()
+            filename = "references.csv"            
+            break;
+        }
+        if (!csv.match(/^data:text\/csv/i)) {
+            csv = 'data:text/csv;charset=utf-8,' + csv;
+        }
+                
+        link = document.createElement('a');
+        link.setAttribute('href', encodeURI(csv));
+        link.setAttribute('download', filename);
+        link.setAttribute('target', "_blank");
+        link.click();        
+      }
+      
+    }
   });
 
   return OutView;

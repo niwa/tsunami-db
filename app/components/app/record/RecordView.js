@@ -28,7 +28,7 @@ define([
     },
     update: function () {
           
-      var columnCollection = this.model.get("columnCollection")
+      var columnCollection = this.model.get("columnCollection").byAttribute("single")
       
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),
