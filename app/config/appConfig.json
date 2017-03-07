@@ -8,28 +8,9 @@
     {
       "id":"db",
       "route":"db",
-      "title":"Explore database",
+      "title":"Data",
       "type":"component"
     },    
-    {
-      "id":"learn",      
-      "title":"Learn more",
-      "type":"group",
-      "navitems":[
-        {
-          "id":"palaeotsunami",
-          "title":"What is a palaeotsunami?",
-          "path": "//content.niwa.co.nz/content/resource_by_name/What%20is%20a%20palaeotsunami",
-          "format":"xml"
-        },
-        {
-          "id":"sources",
-          "title":"Sources and travel times",
-          "format":"xml",         
-          "path": "//content.niwa.co.nz/content/resource_by_name/Sources%20and%20travel%20times"
-        }
-      ]
-    },
     {
       "id":"about",      
       "title":"About",
@@ -61,6 +42,25 @@
         }        
       ]
     },
+    {
+      "id":"learn",      
+      "title":"Learn more",
+      "type":"group",
+      "navitems":[
+        {
+          "id":"palaeotsunami",
+          "title":"What is a palaeotsunami?",
+          "path": "//content.niwa.co.nz/content/resource_by_name/What%20is%20a%20palaeotsunami",
+          "format":"xml"
+        },
+        {
+          "id":"sources",
+          "title":"Sources and travel times",
+          "format":"xml",         
+          "path": "//content.niwa.co.nz/content/resource_by_name/Sources%20and%20travel%20times"
+        }
+      ]
+    },    
     {
       "id":"share",
       "title":"Share",
