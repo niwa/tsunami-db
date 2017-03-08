@@ -11,7 +11,7 @@
       data-toggle="tooltip" 
       data-placement="right" 
       data-trigger="manual"
-      title="Press enter to submit"       
+      title=<%= input_hint %>       
     >     
   
     <input type="text"
@@ -24,7 +24,7 @@
       data-toggle="tooltip" 
       data-placement="left" 
       data-trigger="manual"
-      title="Press enter to submit" 
+      title=<%= input_hint %>  
     >   
   
   </div>
@@ -53,7 +53,7 @@
         checked
         <% } %>
       >
-      Specified
+      <%= label_specified %> 
     </label>
     <label class="checkbox-inline">
       <input type="checkbox" 
@@ -66,7 +66,7 @@
         checked
         <% } %>
       >
-      Unspecified
+      <%= label_unspecified %> 
     </label>
   </div>
 </div>

@@ -1,21 +1,23 @@
 <div class="data-outer container-fluid panel-dark">  
   <div class="row">
     <div class="col-sm-12 text-center">
-      <button class="btn btn-info pull-right close-data">X</button>      
-      <h3> Get the data </h3>
+      <a href="#" title="<%= t.app.ui.close %>" class="btn btn-info pull-right close-data">X</a>      
+      <h3><%= t.out.data.title %></h3>
     </div>          
   </div>
   <div class="row">
     <div class="col-sm-6">
       <div class="text-center">
-        <h4>Download</h4>
+        <h4><%= t.out.data.download_title %></h4>
       </div>  
       <div>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <% _.each(download.formats, function(format){ %> 
             <li role="presentation" class="active">
-              <a href="#<%= format.id %>" aria-controls="<%= format.id %>" role="tab" data-toggle="tab"><%= format.title %></a>
+              <a href="#<%= format.id %>" aria-controls="<%= format.id %>" role="tab" data-toggle="tab">
+                <%= format.title %>
+              </a>
             </li>
           <% }) %>
         </ul>
@@ -24,23 +26,23 @@
         <div class="tab-content">
           <% _.each(download.formats, function(format){ %> 
           <div role="tabpanel" class="tab-pane active" id="<%= format.id %>">
-            <p>Download data tables</p>
+            <p><%= t.out.data.download_hint %></p>
             <% _.each(download.tables, function(table){ %> 
-            <h5><%= table.title%></h5>
+            <h5><%= table.title %> (<%= format.title %>)</h5>
             <% if (table.id === "records" && filtered) { %>
             <a href="#" 
                data-format="<%= format.format %>" 
                data-table="<%= table.id %>" 
                data-active="false"
                class="download-data">
-              All <%= table.title%>
+              <%= t.out.data.all %> <%= table.title %>
             </a>
             <a href="#"
                data-format="<%= format.format %>" 
                data-table="<%= table.id %>" 
                data-active="true"
                class="download-data">               
-              Filtered <%= table.title%>
+              <%= t.out.data.filtered %> <%= table.title %>
             </a>
             <% } else { %>          
             <a href="#"
@@ -48,7 +50,7 @@
                data-table="<%= table.id %>" 
                data-active="false"
                class="download-data">               
-              <%= table.title%>
+              <%= table.title %>
             </a>
             <% } %>          
             <% }) %>          
@@ -60,14 +62,16 @@
     </div>  
     <div class="col-sm-6">
       <div class="text-center">      
-        <h4>Web Feature Service (WFS)</h4>        
+        <h4><%= t.out.data.wfs_title %></h4>        
       </div>      
       <div>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <% _.each(api.formats, function(format, i){ %> 
             <li role="presentation" class="<%= i===0 ? 'active' : ''%>">
-              <a href="#<%= format.id %>" aria-controls="<%= format.id %>" role="tab" data-toggle="tab"><%= format.title %></a>
+              <a href="#<%= format.id %>" aria-controls="<%= format.id %>" role="tab" data-toggle="tab">
+                <%= format.title %>
+              </a>
             </li>
           <% }) %>
         </ul>
@@ -76,9 +80,9 @@
         <div class="tab-content">
           <% _.each(api.formats, function(format, i){ %> 
           <div role="tabpanel" class="tab-pane<%= i===0 ? ' active' : ''%>" id="<%= format.id %>">
-            <p>Copy URLs to access the data programmatically</p>            
+            <p><%= t.out.data.wfs_hint %></p>            
             <% _.each(api.tables, function(table){ %> 
-            <h5><%= table.title%></h5>
+            <h5><%= table.title %> (<%= format.title %>)</h5>
             <input class="form-control select-on-click api-link" type="text" value="<%= table.path + format.path %>">            
             <% }) %>
           </div>      

@@ -2,12 +2,18 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
-      <h4>Filter and explore</h4>
-      <h2>New Zealand's Palaeotsunami Database</h2>
+      <h4><%= t.filters.name%></h4>
+      <h2><%= t.filters.title %></h2>
       <div class="pull-right filter-top-buttons">
-        <div class="btn btn-primary query-reset visible-filtered">Clear all</div>        
-        <div class="btn btn-info expand-all hidden-expanded">+ All filter options</div>
-        <div class="btn btn-info expand-all visible-expanded">- Less filter options</div>
+        <div class="btn btn-primary query-reset visible-filtered">
+          <%= t.filters.reset %>
+        </div>        
+        <div class="btn btn-info expand-all hidden-expanded">
+          + <%= t.filters.all_filters %>
+        </div>
+        <div class="btn btn-info expand-all visible-expanded">
+          - <%= t.filters.default_filters %>
+        </div>
       </div>
     </div>      
   </div>      
@@ -32,20 +38,22 @@
           <div class="pull-right group-bottom-buttons">
             <% if (group.groupReset) { %>
             <div class="btn btn-primary query-group-reset" data-group="<%= group.id %>">
-              Clear 
+              <%= t.filters.reset_group %> 
             </div>          
             <% } %>              
             <div class="btn btn-info expand-group hidden-expanded-group" data-group="<%= group.id %>">
-              + More
+              + <%= t.filters.all_group_filters %>
             </div>
             <div class="btn btn-info expand-group visible-expanded-group" data-group="<%= group.id %>">
-              - Less
+              - <%= t.filters.default_group_filters %>
             </div>                  
           </div>         
         </div>         
         
         <% }) %>        
-        <button type="submit" class="sr-only btn btn-info btn-query-submit query-submit pull-right">Submit</button>        
+        <button type="submit" class="sr-only btn btn-info btn-query-submit query-submit pull-right">
+          <%= t.filters.button_submit %>
+        </button>        
       </form>  
     </div>
   </div>

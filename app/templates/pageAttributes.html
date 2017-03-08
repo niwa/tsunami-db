@@ -15,19 +15,19 @@
           <p><%= column.get("description") %> </p>
           <p><%= column.get("descriptionMore") %> </p>
           <hr/>
-          <p>Database column name: <code><%= column.getQueryColumn() %></code></p>
+          <p><%= t.pages.attributes.db_column_hint %>: <code><%= column.getQueryColumn() %></code></p>
           <% if(column.get('showOnPage').values) { %>   
           <hr/>
-          <h4>Values<h4/>
+          <h4><%= t.pages.attributes.values %><h4/>
           <div class="table-responsive">
             <table class="table">
               <thead>
                 <tr>
-                  <th>Label</th>
+                  <th><%= t.pages.attributes.label %></th>
                   <% if(column.get('showOnPage').valueDescription) { %>
-                  <th>Description</th>
+                  <th><%= t.pages.attributes.description %></th>
                   <% } %>                    
-                  <th>Database value</th>
+                  <th><%= t.pages.attributes.db_value %></th>
                 </tr>
               </thead>
               <tbody>
@@ -48,13 +48,13 @@
           <% } %>
           <% if(column.id === "proxies") { %>   
           <hr/>
-          <h4>Values<h4/>
+          <h4><%= t.pages.attributes.values %><h4/>
           <div class="table-responsive">
             <table class="table">
               <thead>
                 <tr>
-                  <th>Proxy</th>                  
-                  <th>Description</th>
+                  <th><%= t.pages.attributes.proxy %></th>                  
+                  <th><%= t.pages.attributes.description %></th>
                 </tr>
               </thead>
               <tbody>

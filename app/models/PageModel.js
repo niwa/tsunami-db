@@ -1,7 +1,7 @@
 define([
   'jquery', 'underscore', 'backbone',
   './ContentModel',
-  'text!./pageAttributes.html'  
+  'text!templates/pageAttributes.html'  
 ], function($,_, Backbone, 
   ContentModel,
   templatePageAttributes
@@ -56,6 +56,7 @@ define([
             if (that.id === "attributes") {
               var columnCollection = that.get("columnCollection")            
               that.set('content', _.template(templatePageAttributes)({
+                t:that.collection.options.labels,
                 content: content,
                 proxies: that.get("proxyCollection").models,
                 columnGroups:_.map(that.get("columnGroupCollection").models,function(group){

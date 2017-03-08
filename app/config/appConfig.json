@@ -8,7 +8,7 @@
     {
       "id":"db",
       "route":"db",
-      "title":"Data",
+      "title":"Explore Data",
       "type":"component"
     },    
     {

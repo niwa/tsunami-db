@@ -79,6 +79,7 @@ define([
         case "index":
           if (column.id === 'references') {              
             return _.template(templateColumnReferences)({
+              t:this.model.getLabels(),              
               title:column.get("title"),            
               references:record.getReferences(),
               id:column.getQueryColumn(),
@@ -88,6 +89,7 @@ define([
             })
           } else if (column.id === 'proxies') {              
             return _.template(templateColumnProxies)({
+              t:this.model.getLabels(),
               title:column.get("title"),            
               proxies:record.getProxies(),
               id:column.getQueryColumn(),
@@ -115,6 +117,7 @@ define([
               }
               
               return _.template(templateColumnText)({
+                t:this.model.getLabels(),                
                 title:column.get("comboTitle"),            
                 value:value,
                 id:column.getQueryColumn(),
@@ -133,6 +136,7 @@ define([
         case "ordinal":
         case "text":
           return _.template(templateColumnText)({
+            t:this.model.getLabels(),
             title:column.get("title"),            
             value:record.getColumnValue(column.get("column"),true),
             id:column.getQueryColumn(),

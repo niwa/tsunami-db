@@ -1,10 +1,24 @@
-  <button type="button" data-view="map" class="btn btn-success toggle-view <%= active === 'map' ? 'active' : '' %>" >Map</button>
-  <button type="button" data-view="table" class="btn btn-success toggle-view <%= active === 'table' ? 'active' : '' %>">Table</button>  
+  <button type="button" data-view="map" class="btn btn-success toggle-view <%= active === 'map' ? 'active' : '' %>" >
+    <%= t.out.nav.map %>
+  </button>
+  <button type="button" data-view="table" class="btn btn-success toggle-view <%= active === 'table' ? 'active' : '' %>">
+    <%= t.out.nav.table %>
+  </button>  
   <span class="out-nav-info">
     <span class="record-no">
       <%= record_no %>
     </span> 
-    records found
+    <% if (filtered) { %>
+    <%= t.out.nav.records_filtered %>
+    <% } else { %>
+    <%= t.out.nav.records_in_db %>
+    <% } %>
   </span>
-  <% if (filtered) { %><button type="button" class="btn btn-primary query-reset">Clear all filters</button><% } %>
-  <button type="button" class="btn btn-info pull-right toggle-data">Data</button>  
+  <% if (filtered) { %>
+  <button type="button" class="btn btn-primary query-reset">
+    <%= t.filters.reset %>
+  </button>
+  <% } %>
+  <button type="button" class="btn btn-info pull-right toggle-data">
+    <%= t.out.nav.data %>
+  </button>  

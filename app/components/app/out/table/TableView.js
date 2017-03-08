@@ -48,7 +48,9 @@ define([
         var columnsSorted = this.getSortedColumns()  
 
         this.$(".record-table-scrolling-y table").html(_.template(template_records)({
+          t: this.model.getLabels(),
           header: _.template(template_header)({
+            t: this.model.getLabels(),
             columns : columnsSorted,
             sortColumn : this.model.get("tableSortColumn"),
             sortOrder : this.model.get("tableSortOrder"),
@@ -176,6 +178,7 @@ define([
 
     getBodyHtml: function(records,columnsSorted){
       return _.template(template_body)({
+        t: this.model.getLabels(),
         rows:_.map(records,function(record){
           return {
             record : record,

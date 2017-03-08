@@ -6,7 +6,7 @@
         <% if(tooltip !== "") {%><a 
           data-toggle="tooltip" 
           data-placement="top" 
-          title="<%= tooltip_more ? tooltip + '<p><em>Click for more information</em></p>' : tooltip%>" 
+          title="<%= tooltip_more ? tooltip + '<p><em>'+ t.app.ui.tooltip_more +'</em></p>' : tooltip%>" 
           data-html="true"
           href="#"
           class="nav-link"
@@ -21,10 +21,14 @@
       <p><%= ref.getReference() %></p>
       <% } %>      
       <% if (ref.getDoi() !== null) { %>
-      <p>DOI: <%= ref.getDoi() %></p>
+      <p><%= t.record.references_doi %>: <%= ref.getDoi() %></p>
       <% } %>
       <% if (ref.getUrl() !== null) { %>
-      <p><a title="<%= ref.getTitle() %>" href="<%= ref.getUrl() %>" target="_blank"><%= ref.getUrl() %></a></p>
+      <p>
+        <a title="<%= ref.getTitle() %>" href="<%= ref.getUrl() %>" target="_blank">
+          <%= ref.getUrl() %>
+        </a>
+      </p>
       <% } %>
       <% }) %>      
     </div>

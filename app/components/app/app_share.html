@@ -2,15 +2,15 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-12 text-center">
-        <button class="btn btn-info pull-right close-share">X</button>      
-        <h3>Share the NZ Palaeotsunami Database on social media</h3>
+        <a href="#" title="<%= t.app.ui.close %>" class="btn btn-info pull-right close-share">X</a>      
+        <h3><%= t.share.title %></h3>
       </div>          
       <div class="col-sm-12 text-center">      
         <a href="//www.facebook.com/sharer/sharer.php?u=<%= url_enc %>" target="_blank" class="btn btn-primary">
-          facebook
+          <%= t.share.button_facebook %>
         </a>            
         <a href="//twitter.com/intent/tweet?<%= twitter %>" target="_blank" class="btn btn-primary">
-          twitter
+          <%= t.share.button_twitter %>
         </a>                  
       </div>                
     </div>
@@ -21,7 +21,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12 text-center">
-        <h4>Get link to current view</h4>
+        <h4><%= t.share.current_link %></h4>
         <input class="form-control select-on-click api-link" type="text" value="<%= url_current %>">      
       </div>  
     </div>  

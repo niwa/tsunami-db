@@ -93,6 +93,7 @@ define([
     renderHeader: function(){
       var activeRecords = this.model.getRecords().byActive()
       this.$("nav").html(_.template(templateNav)({
+        t:this.model.getLabels(),
         filtered:this.model.get('querySet'),
         active:this.model.getOutType(),
         record_no:typeof activeRecords !== "undefined" ? activeRecords.length : 0
@@ -101,27 +102,28 @@ define([
     renderData: function(){
       if (this.model.get('dataToggled')) {
         this.$("#data-view").html(_.template(templateData)({
+          t:this.model.getLabels(),
           filtered : this.model.get('querySet'),
           download : {
             formats: [
               {
                 id: "download-csv",
-                title: "CSV",
+                title: this.model.getLabels().out.data.formats.csv,
                 format: "csv"
               }
             ],
             tables : [
               {    
                 id:"records",
-                title: "Records",
+                title: this.model.getLabels().out.data.tables.records,
               },
               { 
                 id:"proxies",
-                title: "Proxies",
+                title: this.model.getLabels().out.data.tables.proxies,
               },              
               {                
                 id:"references",
-                title: "References"
+                title: this.model.getLabels().out.data.tables.references,
               },
             ]            
           },
@@ -129,34 +131,34 @@ define([
             formats: [
               {
                 id: "api-xml",                
-                title: "XML",
+                title: this.model.getLabels().out.data.formats.xml,
                 format: "xml",
                 path: ""
               },    
               {
                 id: "api-json",                
-                title: "JSON",
+                title: this.model.getLabels().out.data.formats.json,
                 format: "json",
                 path: "&outputFormat=text/javascript"
               },                        
               {
                 id: "api-csv",                
-                title: "CSV",
+                title: this.model.getLabels().out.data.formats.csv,
                 format: "csv",
                 path: "&outputFormat=csv"
               },                        
             ],
             tables : [
               {                
-                title: "Records",
+                title: this.model.getLabels().out.data.tables.records,
                 path: this.model.get("paths").records
               },
               {                
-                title: "Proxies",
+                title: this.model.getLabels().out.data.tables.proxies,
                 path: this.model.get("paths").proxies
               },              
               {                
-                title: "References",
+                title: this.model.getLabels().out.data.tables.references,
                 path: this.model.get("paths").references
               },
             ]
@@ -209,10 +211,7 @@ define([
             popupLayers:[],
             selectedLayerId: ""
           })              
-        });   
-        
-
-        
+        });           
       }
     },    
     

@@ -5,6 +5,8 @@
         multiple="multiple" 
         data-ph="<%= title %>">
   <% _.each(options,function(option){ %> 
-  <option value="<%= option.value %>" <% if (option.selected) { %>selected<% } %> > <%= option.label %></option>
+  <option value="<%= option.value %>" <% if (option.selected) { %>selected<% } %> > 
+    <%= option.label %>
+  </option>
   <% }) %>
 </select>

@@ -71,7 +71,7 @@ define([
           column:"s",
           type:"keyword",
           value:queryKeyword,
-          placeholder:"Search by keyword or record id"
+          placeholder:this.model.getLabels().filters.placeholder_search
         }),
         columnGroups:_.filter(
           _.map(this.model.get("columnGroupCollection").models,function(group){
@@ -171,6 +171,7 @@ define([
           if (column.get("default") || queryMin.trim() !== "" || queryMax.trim() !== "" || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMaxAddon)({
               label:_.template(templateFilterLabel)({
+                t:this.model.getLabels(),  
                 id:column_min,
                 forId:"text-"+column_min,
                 tooltip:column.get("description"),
@@ -186,7 +187,8 @@ define([
               column_max:column_max,
               type:column.get("type"),
               value_min:queryMin,
-              value_max:queryMax
+              value_max:queryMax,
+              input_hint:this.model.getLabels().filters.input_hint
             })        
           } else {
             return false
@@ -259,6 +261,7 @@ define([
                   || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMaxSlider)({
               label:_.template(templateFilterLabel)({
+                t:this.model.getLabels(),
                 id:column_min,
                 forId:"text-"+column_min,
                 tooltip:description,
@@ -279,7 +282,10 @@ define([
               value_min_overall:value_min_overall,
               value_max_overall:value_max_overall,
               slider_active:queryMin !== "" || queryMax !== "",
-              value_range:JSON.stringify(range).replace(/'/g, "\\'")
+              value_range:JSON.stringify(range).replace(/'/g, "\\'"),
+              label_specified:this.model.getLabels().filters.specified,
+              label_unspecified:this.model.getLabels().filters.unspecified,
+              input_hint:this.model.getLabels().filters.input_hint
             })               
           } else {
             return false
@@ -320,6 +326,7 @@ define([
 
               return _.template(templateFilterMultiSelect)({
                 label: _.template(templateFilterLabel)({
+                  t:this.model.getLabels(),
                   id:column_id,
                   forId:"multiselect-"+column_id,
                   tooltip:column.get("description"),
@@ -334,6 +341,7 @@ define([
             } else {
               return _.template(templateFilterButtons)({
                 label:_.template(templateFilterLabel)({
+                  t:this.model.getLabels(),
                   id:column_id,
                   forId:"buttons-"+column_id,
                   tooltip:column.get("description"),
@@ -427,7 +435,7 @@ define([
         var title = $(this).attr('data-ph')
         var $element = $(this)
         $element.select2({
-          placeholder : "Select " + title
+          placeholder : that.model.getLabels().filters.placeholder_select + " "  + title
         })
         .on("select2:select", function(e){
           e.preventDefault();

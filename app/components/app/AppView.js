@@ -474,6 +474,7 @@ define([
     configurePages : function(){      
       var pagesCollection = new PageCollection([],{
           model:PageModel,
+          labels:this.model.getLabels(),
           columnCollection: this.model.get("columnCollection"),        
           columnGroupCollection: this.model.get("columnGroupCollection"),
           proxyCollection: this.model.getProxies()
@@ -765,13 +766,22 @@ define([
     renderShare: function(){
       
       var url = window.location.protocol+'//'+window.location.host+'/'
-      var url_current = window.location.href
       
-      var twitter = "text=" + encodeURIComponent("The New Zealand Palaeotsunami database")
+      var twitter = "text=" + encodeURIComponent(this.model.getLabels().share.tweet)
       twitter += "&url=" + url        
-      
+      twitter += this.model.getLabels().share.twitter_hashtags.trim() !== "" 
+        ? "&hashtags=" + this.model.getLabels().share.twitter_hashtags.trim()
+        : ""
+      twitter += this.model.getLabels().share.twitter_via.trim() !== "" 
+        ? "&via=" + this.model.getLabels().share.twitter_via.trim()
+        : ""      
+      twitter += this.model.getLabels().share.twitter_related.trim() !== "" 
+        ? "&related=" + this.model.getLabels().share.twitter_related.trim()
+        : ""      
+        
       if (this.model.get('shareToggled')) {
         this.$("#share").html(_.template(templateShare)({
+          t:this.model.getLabels(),
           url_current:window.location.href,
           url_enc:encodeURIComponent(url),
           twitter:twitter

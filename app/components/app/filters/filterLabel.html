@@ -3,7 +3,7 @@
   <% if(tooltip !== "") {%><a 
      data-toggle="tooltip" 
      data-placement="top" 
-     title="<%= tooltip_more ? tooltip + '<p><em>Click for more information</em></p>' : tooltip%>" 
+     title="<%= tooltip_more ? tooltip + '<p><em>'+ t.app.ui.tooltip_more +'</em></p>' : tooltip%>" 
      data-html="true"
      href="#"
      class="nav-link"

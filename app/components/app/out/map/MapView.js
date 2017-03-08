@@ -162,7 +162,7 @@ define([
           east:ne.lng,
           south:sw.lat,
           west:sw.lng
-        }))
+        }).models)
       }
     },
     updateOutType:function(){

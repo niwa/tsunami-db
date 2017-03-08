@@ -1,9 +1,10 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-12">
-      <button class="btn btn-info pull-right close-record">X</button>
-      <h2>Record <%= recordid %></h2>     
+    <div class="col-sm-12">      
+      <a href="#" title="<%= t.app.ui.close %>" class="btn btn-info pull-right close-record">X</a>       
+      <h4><%= t.record.name %></h4>
+      <h2><%= t.record.title %> <%= recordid %></h2>     
     </div>          
   </div>          
   <div class="row">

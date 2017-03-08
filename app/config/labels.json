@@ -1,5 +1,94 @@
 {
-  "nav": {
-    "title" : "New Zealand Palaeotsunami Database"
+  "app": {
+    "title": "The New Zealand Palaeotsunami Database",
+    "ui": {
+      "close": "Close",
+      "tooltip_more": "Click for more information",
+      "loading": "Loading..."
+    }
+  },
+  "share": {
+    "title": "Share the NZ Palaeotsunami Database on social media",
+    "button_facebook": "facebook",
+    "button_twitter": "twitter",
+    "tweet": "Check out the New Zealand Palaeotsunami Database",
+    "twitter_hashtags" : "tsunami,palaeotsunami",
+    "twitter_via": "NZcivildefence",
+    "twitter_related": "niwa_nz,ECan",
+    "current_link": "Get link to current view" 
+  },
+  "filters": {
+    "name": "Filter and explore",
+    "title": "Database records",
+    "reset": "Reset filters",
+    "all_filters": "All filter options",
+    "default_filters": "Less filter options",
+    "reset_group": "Reset",
+    "all_group_filters": "More",
+    "default_group_filters": "Less",
+    "button_submit": "Submit",
+    "input_hint" : "Press enter to submit",
+    "specified" : "Specified",
+    "unspecified" : "Unspecified",
+    "placeholder_select" : "Select",
+    "placeholder_search" : "Search by keyword or record id"
+  },
+  "record": {
+    "name": "Record detail",
+    "title": "Record ID",
+    "references_doi": "DOI"
+  },
+  "out": {
+    "nav": {
+      "records_in_db": "records in database",
+      "records_filtered": "records found",
+      "map": "Map",
+      "table": "Table",
+      "data": "Data"
+    },
+    "data": {
+      "title": "Get the data",
+      "download_title": "Download",
+      "download_hint": "Download data tables",
+      "all" : "All",
+      "filtered" : "Filtered",
+      "wfs_title": "Web Feature Service (WFS)",
+      "wfs_hint": "Use WFS endpoints for programmatic access",
+      "formats": {
+        "csv": "CSV",
+        "xml": "XML",
+        "json": "JSON"
+      },
+      "tables": {
+        "records": "Records",
+        "proxies": "Proxies",
+        "references": "References"
+      }
+    },
+    "map": {
+      "control": {
+        "name": "Map settings",
+        "marker_title": "Map marker",
+        "marker_hint": "Select attribute to colour markers by value"
+      },
+      "plot": {        
+        "name_lat": "Latitude Plot",
+        "no_records_hint": "0 records with current zoom and filter settings"
+      }
+    },
+    "table": {
+      "all_columns": "All attributes",
+      "default_columns": "Less attributes"
+    }    
+  },
+  "pages": {
+    "attributes": {
+      "db_column_hint": "Database column name",
+      "values": "Values",
+      "label": "Label",
+      "proxy": "Proxy",
+      "description": "Description",
+      "db_value": "Database value"
+    }
   }
 }

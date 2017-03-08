@@ -30,7 +30,7 @@ define([
       
     },
     render: function () {
-      this.$el.html(template)     
+      this.$el.html(_.template(template)({t:this.model.getLabels()}))     
       this.renderControl()
       return this
     },
@@ -48,7 +48,7 @@ define([
       }))        
     },
     renderPlot : function(){
-      var records = this.model.getCurrentRecords().models
+      var records = this.model.getCurrentRecords()
       
       if (records.length > 0) {
       
@@ -80,13 +80,6 @@ define([
             _.each(columns,function(col,i){
               var recordColumnValue = record.getColumnValue(col.getQueryColumn())
 
-//              columnData[i].min = columnData[i].min === null || recordColumnValue < columnData[i].min
-//                ? recordColumnValue
-//                : columnData[i].min
-//              columnData[i].max = columnData[i].max === null || recordColumnValue > columnData[i].max
-//                ? recordColumnValue
-//                : columnData[i].max
-
               recordValues.push(recordColumnValue)
             })
 
@@ -108,7 +101,7 @@ define([
           anySelected:this.model.get("selectedLayerId") !== ""
         }))
       } else {
-        this.$("#plot-plot").html("0 records with current zoom and filter settings")
+        this.$("#plot-plot").html("<p>" + this.model.getLabels().out.map.plot.no_records_hint + "</p>")
       }
       
       
