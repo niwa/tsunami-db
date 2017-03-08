@@ -27,7 +27,7 @@
   {
     "id":"source",        
     "title":"Source",
-    "hint":"Attributes desciring the record's event source"  
+    "hint":"Attributes describing the record's event source"  
   },
   {
     "id":"other",        
