@@ -354,15 +354,24 @@ define([
             filename = "references.csv"            
             break;
         }
-        if (!csv.match(/^data:text\/csv/i)) {
-            csv = 'data:text/csv;charset=utf-8,' + csv;
+        
+        var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        if (navigator && navigator.msSaveBlob) { // IE 10+
+          navigator.msSaveBlob(blob, filename);
+        } else {
+          var link = document.createElement("a");
+          if (link.download !== undefined) { // feature detection
+            // Browsers that support HTML5 download attribute
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename);
+            link.setAttribute('target', "_blank");                
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
         }
-                
-        link = document.createElement('a');
-        link.setAttribute('href', encodeURI(csv));
-        link.setAttribute('download', filename);
-        link.setAttribute('target', "_blank");
-        link.click();        
       }
       
     }
