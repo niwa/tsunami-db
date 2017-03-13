@@ -184,6 +184,10 @@ define([
     route  = sourcePath[0]
     path  = sourcePath.length > 1 ? sourcePath[1] : ''
     
+    if (typeof window.location.origin === 'undefined') {
+      window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+    }
+    
     // start app
     app.model = app.model || new AppModel({
       views : {},
