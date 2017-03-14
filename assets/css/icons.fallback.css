@@ -1,16 +1,21 @@
 
+.icon-icon_close-white-small {
+	background-image: url('png/icon_close-white-small.png');
+	background-repeat: no-repeat;
+}
+
 .icon-icon_menu {
 	background-image: url('png/icon_menu.png');
 	background-repeat: no-repeat;
 }
 
-.icon-icon_close-blue-small {
-	background-image: url('png/icon_close-blue-small.png');
+.icon-icon_search {
+	background-image: url('png/icon_search.png');
 	background-repeat: no-repeat;
 }
 
-.icon-icon_close-white-small {
-	background-image: url('png/icon_close-white-small.png');
+.icon-icon_close-blue-small {
+	background-image: url('png/icon_close-blue-small.png');
 	background-repeat: no-repeat;
 }
 
@@ -39,13 +44,13 @@
 	background-repeat: no-repeat;
 }
 
-.icon-icon_sorting-asc {
-	background-image: url('png/icon_sorting-asc.png');
+.icon-icon_sorting-desc-active {
+	background-image: url('png/icon_sorting-desc-active.png');
 	background-repeat: no-repeat;
 }
 
-.icon-icon_sorting-desc-active {
-	background-image: url('png/icon_sorting-desc-active.png');
+.icon-icon_sorting-asc {
+	background-image: url('png/icon_sorting-asc.png');
 	background-repeat: no-repeat;
 }
 
@@ -59,13 +64,13 @@
 	background-repeat: no-repeat;
 }
 
-.icon-icon_sorting {
-	background-image: url('png/icon_sorting.png');
+.icon-icon_download-grey {
+	background-image: url('png/icon_download-grey.png');
 	background-repeat: no-repeat;
 }
 
-.icon-icon_download-grey {
-	background-image: url('png/icon_download-grey.png');
+.icon-icon_sorting {
+	background-image: url('png/icon_sorting.png');
 	background-repeat: no-repeat;
 }
 
@@ -99,6 +104,11 @@
 	background-repeat: no-repeat;
 }
 
+.icon-icon_tick {
+	background-image: url('png/icon_tick.png');
+	background-repeat: no-repeat;
+}
+
 .icon-icon_filter-close {
 	background-image: url('png/icon_filter-close.png');
 	background-repeat: no-repeat;
@@ -106,11 +116,6 @@
 
 .icon-icon_info {
 	background-image: url('png/icon_info.png');
-	background-repeat: no-repeat;
-}
-
-.icon-icon_tick {
-	background-image: url('png/icon_tick.png');
 	background-repeat: no-repeat;
 }
 
@@ -124,13 +129,13 @@
 	background-repeat: no-repeat;
 }
 
-.icon-icon_close {
-	background-image: url('png/icon_close.png');
+.icon-icon_minus {
+	background-image: url('png/icon_minus.png');
 	background-repeat: no-repeat;
 }
 
-.icon-icon_minus {
-	background-image: url('png/icon_minus.png');
+.icon-icon_close {
+	background-image: url('png/icon_close.png');
 	background-repeat: no-repeat;
 }
 
