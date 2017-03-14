@@ -299,6 +299,7 @@ define([
       e.preventDefault()
       this.model.set('dataToggled', false)
       this.$el.trigger('setOutView',{out_view:$(e.currentTarget).attr("data-view")})            
+      this.renderHeader()
     },
     
     handleActive : function(){
