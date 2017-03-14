@@ -1,5 +1,6 @@
 define([
   'jquery',  'underscore',  'backbone',
+  'bootstrap',
   'jquery.select2/select2',
   'nouislider',
   'text!./filters.html',
@@ -11,6 +12,7 @@ define([
   'text!./filterLabel.html'
 ], function (
   $, _, Backbone,
+  bootstrap,
   select2,
   noUiSlider,
   template,
