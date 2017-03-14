@@ -8,7 +8,7 @@ define([
   'text!./filterButtons.html',    
   'text!./filterMinMaxAddon.html',
   'text!./filterMinMaxSlider.html',
-  'text!./filterText.html',
+  'text!./filterTextAddonBtn.html',
   'text!./filterLabel.html'
 ], function (
   $, _, Backbone,
@@ -20,7 +20,7 @@ define([
   templateFilterButtons,  
   templateFilterMinMaxAddon,
   templateFilterMinMaxSlider,
-  templateFilterText,
+  templateFilterTextAddon,
   templateFilterLabel  
 ) {
 
@@ -62,19 +62,21 @@ define([
       var queryKeyword = typeof (this.model.get("recQuery")["s"]) !== "undefined"
           ? this.model.get("recQuery")["s"]
           : "" 
-      
+      var search = this.model.allExpanded() 
+        ? _.template(templateFilterTextAddon)({
+            title:false,
+            column:"s",
+            type:"keyword",
+            value:queryKeyword,          
+            placeholder:this.model.getLabels().filters.placeholder_search
+          })
+        : ""
       // generate filter template 
       // this is crazy! it gets generated again with every filter interaction!!!
       // TODO: optimise
       this.$el.html(_.template(template)({
         t:this.model.getLabels(),        
-        search:_.template(templateFilterText)({
-          title:false,
-          column:"s",
-          type:"keyword",
-          value:queryKeyword,
-          placeholder:this.model.getLabels().filters.placeholder_search
-        }),
+        search:search,
         columnGroups:_.filter(
           _.map(this.model.get("columnGroupCollection").models,function(group){
           // group classes

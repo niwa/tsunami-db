@@ -90,12 +90,13 @@ define([
     updateQuerySet:function(){
       this.renderHeader()    
     },    
-    renderHeader: function(){
+    renderHeader: function(active){
+      active = typeof active !== "undefined" ? active : this.model.getOutType()
       var activeRecords = this.model.getRecords().byActive()
       this.$("nav").html(_.template(templateNav)({
         t:this.model.getLabels(),
         filtered:this.model.get('querySet'),
-        active:this.model.getOutType(),
+        active:active,
         record_no:typeof activeRecords !== "undefined" ? activeRecords.length : 0
       }))
     },
@@ -295,7 +296,9 @@ define([
       )
     },
     toggleView:function(e){      
-      this.$el.trigger('setOutView',{out_view:$(e.target).attr("data-view")})      
+      e.preventDefault()
+      this.model.set('dataToggled', false)
+      this.$el.trigger('setOutView',{out_view:$(e.currentTarget).attr("data-view")})            
     },
     
     handleActive : function(){
@@ -311,11 +314,19 @@ define([
     },    
     toggleData: function(e){
       e.preventDefault()
-      this.model.set('dataToggled', !this.model.get('dataToggled'))
+      this.model.set('dataToggled', !this.model.get('dataToggled'))      
+      
+      if (this.model.get('dataToggled')){
+        this.renderHeader('data')
+      } else {
+        this.renderHeader()
+      }
     },
     closeData: function(e){
       e.preventDefault()
       this.model.set('dataToggled', false)
+      
+      this.renderHeader()
     },
     selectOnClick: function(e){
       e.preventDefault()

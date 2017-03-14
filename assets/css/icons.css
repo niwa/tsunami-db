@@ -1,0 +1,160 @@
+/* default dimensions */
+[class^="icon-"], [class*=" icon-"]{
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-position: center;
+  vertical-align: middle;
+}
+/*xl: 60
+l:48
+m:32
+s:26
+xs: 16*/
+
+.icon-icon_menu {
+
+}
+
+.icon-icon_close-blue-small {
+
+}
+
+.icon-icon_close-white-small {
+
+}
+
+.icon-icon_filter-large-white {
+
+}
+
+.icon-icon_filter-large-grey {
+
+}
+
+.icon-icon_latplot-grey {
+
+}
+
+.icon-icon_longplot-grey {
+
+}
+
+.icon-icon_sorting-asc-active {
+
+}
+
+.icon-icon_sorting-asc {
+
+}
+
+.icon-icon_sorting-desc-active {
+
+}
+
+.icon-icon_sorting-desc {
+
+}
+
+.icon-icon_download-blue {
+
+}
+
+.icon-icon_sorting {
+
+}
+
+
+.icon-icon_info-hover {
+
+}
+
+.icon-icon_arrow-down {
+
+}
+
+.icon-icon_arrow-up {
+
+}
+
+.icon-icon_arrow-right-hover {
+  
+}
+
+.icon-icon_arrow-right {
+  
+}
+
+.icon-icon_filter-close {
+  
+}
+
+.icon-icon_info {
+
+}
+
+.icon-icon_tick {
+
+}
+
+.icon-icon_draw {
+  width:26px;
+  height:26px;
+}
+
+.icon-icon_filter-open {
+
+}
+
+.icon-icon_close {
+
+}
+
+.icon-icon_minus {
+
+}
+
+.icon-icon_plus {
+
+}
+
+.icon-icon_facebook {
+
+}
+
+.icon-icon_twitter {
+
+}
+
+
+
+.icon-icon_settings-grey {
+
+}
+
+.icon-icon_detail {
+
+}
+.icon-icon_latplot,
+.icon-icon_longplot,
+.icon-icon_settings {
+  width: 48px; 
+  height: 48px; 
+}
+
+
+
+.icon-icon_download-grey,
+.icon-icon_download-white{
+  width: 19px;
+  height: 32px;  
+}
+
+.icon-icon_table-active,
+.icon-icon_nz-active,
+.icon-icon_nz,
+.icon-icon_table,
+.icon-icon_filter {
+  width: 32px;
+  height: 32px;  
+}

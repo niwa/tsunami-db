@@ -6,8 +6,13 @@
   top:0;    
   left:0;
   bottom:auto;
-  height: 50px;
-  width: 100%;  
+  height: 60px;
+  width: 100%; 
+  background-color: #1e3948;
+  border-color: #1e3948;
+  -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);  
 }
 
 @media (min-width: 769px) {
@@ -19,60 +24,9 @@
 #nav a:focus{
   display:block;
   text-decoration:none;
-  color:#fff;
-  font-weight:normal;
+  font-weight:600;
+  font-family: 'Titillium Web', sans-serif;
 }  
-#logo a {
-  display: block;
-  position: relative;
-  width: 60px;
-  height: 60px;
-  padding: 5px;
-}
-@media (min-width: 769px) {
-  #logo a  {
-    width: 114px;
-    height: 104px;
-    padding: 19px 17px 5px;
-  }
-}
-
-/*title*/
-
-#title a {
-  
-    padding: 10px 2px;
-    height: 60px;
-    width: 120px;
-}
-#title h1 {
-  font-size: 16px;
-  line-height: 1.25;  
-  font-family: 'kelsonmedium';
-  margin:0;
-}
-#nav #title a.home-link{
-    display: inline-block;
-}
-
-
-@media (min-width: 769px){
-  #title {
-    margin-bottom: 20px;
-  }
-  #title a {
-    padding:5px 8px;
-    height: auto;
-    width: auto;
-  }
-  #title h1 {
-    line-height: 1.15;  
-    letter-spacing: 2px;
-    font-size: 24px;
-  }
-  #nav .link-list-wrapper{
-  }
-}
 
 
 /*bootstrap override*/
@@ -82,7 +36,14 @@
 .navbar-fixed-top {
     border-width: 0;
 }
-
+@media (min-width: 769px) {
+  .navbar-nav > li > a {
+      padding: 20px 30px;
+  }
+}
+.navbar-brand {
+  padding: 20px 30px;
+}
 
 
 /* navbar */
@@ -95,10 +56,11 @@ ul.navbar-nav {
     position: absolute;
     left: 0;
     right: 0;
-    height: 50px;
-    background: #555;
     text-align: center;
     width: 100%;
+    height: 60px;
+    background-color: #19313f;
+    color: #B2B8BD;   
 }
 
 .nav-subnav ul.navbar-nav {
@@ -108,12 +70,18 @@ ul.navbar-nav {
 
 
 
+.navbar-default .nav-subnav  .navbar-nav > .active > a, 
+.navbar-default .nav-subnav .navbar-nav > .active > a:hover, 
+.navbar-default .nav-subnav .navbar-nav > .active > a:focus {
+    color: #edf5f9;
+    background-color: #009DD6;
+}
 
 
-
-
-
-
+.navbar-default .nav-subnav  .navbar-nav a:hover{
+  color: #B2B8BD;
+  background: #172630;
+}
 
 
 /* navbar collapse */

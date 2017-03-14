@@ -1,23 +1,26 @@
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
+  <div class="row filter-top">
+    <div class="col-sm-12">      
+      <div class="filter-top-icon">
+        <span class="icon-icon_filter"></span>
+      </div>
       <h4><%= t.filters.name%></h4>
-      <h2><%= t.filters.title %></h2>
+      <h1><%= t.filters.title %></h1>
       <div class="pull-right filter-top-buttons">
-        <div class="btn btn-primary query-reset visible-filtered">
+        <div class="btn btn-primary btn-round query-reset visible-filtered">
           <%= t.filters.reset %>
         </div>        
-        <div class="btn btn-info expand-all hidden-expanded">
-          + <%= t.filters.all_filters %>
+        <div class="btn btn-info btn-round expand-all hidden-expanded">
+          <%= t.filters.all_filters %><span class="icon-icon_filter-open"></span>
         </div>
-        <div class="btn btn-info expand-all visible-expanded">
-          - <%= t.filters.default_filters %>
+        <div class="btn btn-info btn-round expand-all visible-expanded ">
+          <%= t.filters.default_filters %><span class="icon-icon_filter-close"></span>
         </div>
       </div>
-    </div>      
+    </div>         
   </div>      
-  <div class="row">
+  <div class="row filter-main">
     <div class="col-sm-12">
       <form>      
         <div class="form-search">          
@@ -25,7 +28,7 @@
         </div>          
         <% _.each(columnGroups,function(group){ %>
         <div class="form-group <%= group.classes %> well">          
-          <h3><%= group.title %></h3>
+          <h4><%= group.title %></h4>
           <ul class="list-unstyled">
             <% _.each(group.groupFilters,function(filter){ %>
             <% if (filter) { %>
@@ -37,21 +40,21 @@
           </ul>
           <div class="pull-right group-bottom-buttons">
             <% if (group.groupReset) { %>
-            <div class="btn btn-primary query-group-reset" data-group="<%= group.id %>">
+            <div class="btn btn-primary btn-round query-group-reset" data-group="<%= group.id %>">
               <%= t.filters.reset_group %> 
             </div>          
             <% } %>              
-            <div class="btn btn-info expand-group hidden-expanded-group" data-group="<%= group.id %>">
-              + <%= t.filters.all_group_filters %>
+            <div class="btn btn-info btn-round expand-group hidden-expanded-group" data-group="<%= group.id %>">
+              <%= t.filters.all_group_filters %><span class="icon-icon_filter-open"></span> 
             </div>
-            <div class="btn btn-info expand-group visible-expanded-group" data-group="<%= group.id %>">
-              - <%= t.filters.default_group_filters %>
+            <div class="btn btn-info btn-round expand-group visible-expanded-group" data-group="<%= group.id %>">
+              <%= t.filters.default_group_filters %><span class="icon-icon_filter-close"></span>
             </div>                  
           </div>         
         </div>         
         
         <% }) %>        
-        <button type="submit" class="sr-only btn btn-info btn-query-submit query-submit pull-right">
+        <button type="submit" class="sr-only btn btn-info btn-round btn-query-submit query-submit pull-right">
           <%= t.filters.button_submit %>
         </button>        
       </form>  

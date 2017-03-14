@@ -833,7 +833,13 @@ define([
       if (args.id === "share") {
         this.toggleShare()
       } else {
-      
+        // close share
+        this.model.set('shareToggled', false)
+        
+        this.views.nav.model.set({        
+          path:this.model.getPath()
+        })
+        
         this.model.getRouter().update({
           link:true,
           route:args.route,

@@ -82,6 +82,8 @@ define([
       
       _map.addControl(drawControl)   
       
+      this.$('.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-rectangle').html('<span class="icon-icon_draw"></span>') 
+      
       _map.on('draw:created', _.bind(this.onDrawCreated,this));
       _map.on('draw:drawstart', _.bind(this.onDrawStart,this));
       
@@ -98,7 +100,7 @@ define([
           var deleteLink = L.DomUtil.create('a', '',container);
           $(deleteLink).attr('href',"#")
           $(deleteLink).attr('title',"Clear area filter")
-          L.DomUtil.create('span', 'glyphicon glyphicon-trash',deleteLink);
+          L.DomUtil.create('span', 'icon-icon_draw', deleteLink);
           
           deleteLink.onclick = _.bind(that.queryDeleteClicked,that)
           

@@ -3,13 +3,13 @@
   <% if(tooltip !== "") {%><a 
      data-toggle="tooltip" 
      data-placement="top" 
-     title="<%= tooltip_more ? tooltip + '<p><em>'+ t.app.ui.tooltip_more +'</em></p>' : tooltip%>" 
+     title="<%= tooltip_more ? tooltip + '<div>'+ t.app.ui.tooltip_more +'</div>' : tooltip%>" 
      data-html="true"
      href="#"
      class="nav-link"
      data-page-anchor="<%= id %>"
      data-id="attributes">
-    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+    <span class="icon-icon_info" aria-hidden="true"></span>
   </a><% } %>
 </label>
 <% if(hint !== "") {%><div class="column-hint small"><%= hint %></div><% } %><% } %>

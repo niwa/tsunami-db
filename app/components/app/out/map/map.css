@@ -1,6 +1,6 @@
 #map {
   position: absolute;
-  top: 50px;
+  top: 60px;
   bottom: 0;
   left: 0;
   right:0;
@@ -199,6 +199,9 @@ a.leaflet-control-zoom-in{
     top: 0;
     right: 200px;
     z-index: 2000;
+      -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);  
 }
 #map.full-width #map-options {
     position: absolute;
@@ -210,4 +213,20 @@ a.leaflet-control-zoom-in{
 #map-options .toggle-option {
     display: block;
     border-radius: 0;
+    padding: 0;
+    background: #93C7DE;
+    border: none;  
 }
+#map-options .toggle-option.btn-default:active, 
+#map-options .toggle-option.btn-default.active {
+    background: #007FAD;
+}
+
+
+.leaflet-touch .leaflet-control-delete a, 
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-rectangle {
+    background-image: none;
+    background-color:#007FAD;
+    opacity:1;
+}
+

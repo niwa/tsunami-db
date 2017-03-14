@@ -1,17 +1,18 @@
 <%= label %>
-<div class="btn-group column-filter-buttongroup"
+<div class="btn-group column-filter-buttongroup btn-group-justified"
      id="buttons-<%= column %>"         
      data-column="<%= column %>" > 
   <% _.each(options,function(option){ %> 
-  <button type="button" 
-          class="btn btn-default<% if (option.selected) { %> active<% } %> filter-button" 
-          data-value="<%= option.value %>"
-          style="width:<%= 100/options.length %>%">
+  <a href="#" 
+     type="button" 
+     class="btn btn-default<% if (option.selected) { %> active<% } %> filter-button" 
+     data-value="<%= option.value %>"
+     style="width:<%= 100/options.length %>%">
     <div class="button-label"><%= option.label %></div>
     <% if (option.hint !== "") { %>
     <div class="button-hint small"><%= option.hint %></div>
     <% } %>
-  </button>
+  </a>
   <% }) %>  
 </div>
 
