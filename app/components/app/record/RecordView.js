@@ -1,11 +1,13 @@
 define([
   'jquery',  'underscore',  'backbone',
+  'bootstrap',
   'text!./record.html',
   'text!./recordColumnText.html',
   'text!./recordColumnProxies.html',
   'text!./recordColumnReferences.html',
 ], function (
   $, _, Backbone,
+  bootstrap,
   template,
   templateColumnText,
   templateColumnProxies,
