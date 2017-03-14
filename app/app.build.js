@@ -12,7 +12,7 @@
     'showdown': 'libs/showdown', //markdown support        
     'underscore': 'libs/underscore', //core
     'backbone': 'libs/backbone', //core
-    'bootstrap': 'libs/bootstrap', //carousel
+    'bootstrap': 'libs/bootstrap', //navbar, tabs, tooltip
     'leaflet': 'libs/leaflet-src', //gis
     'esri.leaflet' : 'libs/esri-leaflet-src',//gis
     'leaflet.rrose' : 'libs/leaflet.rrose-src',//tooltip    
