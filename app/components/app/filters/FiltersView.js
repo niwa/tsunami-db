@@ -598,7 +598,7 @@ define([
       }
     },
     expandGroup:function(e){
-      var groupId = $(e.target).attr("data-group")
+      var groupId = $(e.currentTarget).attr("data-group")
       if (this.model.isExpanded(groupId)) {
         this.model.removeExpanded(groupId)
       } else {
