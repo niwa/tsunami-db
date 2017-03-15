@@ -405,7 +405,7 @@
     "default":1,
     "plot":1,
     "plotMax":20,
-    "plotColor":"#0483B0",
+    "plotColor":"#007FAD",
     "values":{
       "range" : {
         "min" : ["auto",0.1],

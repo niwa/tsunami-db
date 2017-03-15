@@ -12,6 +12,57 @@ m:32
 s:26
 xs: 16*/
 
+.icon-icon_sorting-asc-active,
+.icon-icon_sorting-asc,
+.icon-icon_sorting-desc-active,
+.icon-icon_sorting-desc,
+.icon-icon_sorting {
+  width:26px;
+  height:26px;
+}
+
+.icon-icon_tick {
+  position: relative;
+  top: -2px;
+}
+
+.icon-icon_draw {
+  width:26px;
+  height:26px;
+}
+.icon-icon_close {
+ width:48px;
+ height:48px;
+}
+
+.icon-icon_latplot,
+.icon-icon_longplot,
+.icon-icon_settings {
+  width: 48px; 
+  height: 48px; 
+}
+
+.icon-icon_download-grey,
+.icon-icon_download-white{
+  width: 19px;
+  height: 32px;  
+}
+
+.icon-icon_detail,
+.icon-icon_table-active,
+.icon-icon_nz-active,
+.icon-icon_nz,
+.icon-icon_table,
+.icon-icon_filter {
+  width: 32px;
+  height: 32px;  
+}
+
+
+.icon-icon_filter-open {
+
+}
+
 .icon-icon_menu {
 
 }
@@ -40,29 +91,10 @@ xs: 16*/
 
 }
 
-.icon-icon_sorting-asc-active {
-
-}
-
-.icon-icon_sorting-asc {
-
-}
-
-.icon-icon_sorting-desc-active {
-
-}
-
-.icon-icon_sorting-desc {
-
-}
-
 .icon-icon_download-blue {
 
 }
 
-.icon-icon_sorting {
-
-}
 
 
 .icon-icon_info-hover {
@@ -93,22 +125,6 @@ xs: 16*/
 
 }
 
-.icon-icon_tick {
-
-}
-
-.icon-icon_draw {
-  width:26px;
-  height:26px;
-}
-
-.icon-icon_filter-open {
-
-}
-
-.icon-icon_close {
-
-}
 
 .icon-icon_minus {
 
@@ -126,35 +142,5 @@ xs: 16*/
 
 }
 
-
-
 .icon-icon_settings-grey {
-
-}
-
-.icon-icon_detail {
-
-}
-.icon-icon_latplot,
-.icon-icon_longplot,
-.icon-icon_settings {
-  width: 48px; 
-  height: 48px; 
-}
-
-
-
-.icon-icon_download-grey,
-.icon-icon_download-white{
-  width: 19px;
-  height: 32px;  
-}
-
-.icon-icon_table-active,
-.icon-icon_nz-active,
-.icon-icon_nz,
-.icon-icon_table,
-.icon-icon_filter {
-  width: 32px;
-  height: 32px;  
 }

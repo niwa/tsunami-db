@@ -266,7 +266,7 @@ define([
             return _.template(templateFilterMinMaxSlider)({
               label:_.template(templateFilterLabel)({
                 t:this.model.getLabels(),
-                id:column_min,
+                id:column.id,
                 forId:"text-"+column_min,
                 tooltip:description,
                 tooltip_more:column.hasMoreDescription(),
@@ -331,7 +331,7 @@ define([
               return _.template(templateFilterMultiSelect)({
                 label: _.template(templateFilterLabel)({
                   t:this.model.getLabels(),
-                  id:column_id,
+                  id:column.id,
                   forId:"multiselect-"+column_id,
                   tooltip:column.get("description"),
                   tooltip_more:column.hasMoreDescription(),                  
@@ -346,7 +346,7 @@ define([
               return _.template(templateFilterButtons)({
                 label:_.template(templateFilterLabel)({
                   t:this.model.getLabels(),
-                  id:column_id,
+                  id:column.id,
                   forId:"buttons-"+column_id,
                   tooltip:column.get("description"),
                   tooltip_more:column.hasMoreDescription(),                  

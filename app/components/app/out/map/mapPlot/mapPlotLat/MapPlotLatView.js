@@ -1,10 +1,12 @@
 define([
   'jquery',  'underscore',  'backbone',
+  'bootstrap',
   'text!./mapPlotLat.html',
   'text!./mapPlotLatPlot.html',
   'text!./mapPlotLatControl.html'
 ], function (
   $, _, Backbone,
+  bootstrap,
   template,
   templatePlot,
   templateControl
@@ -16,6 +18,7 @@ define([
       "click .select-column" : "selectColumn",      
       "mouseenter .select-record" : "mouseOverRecord",            
       "mouseleave .select-record" : "mouseOutRecord",            
+      "click .nav-link" : "handleNavLink",      
     },
     initialize : function () {      
       this.handleActive()    
@@ -42,10 +45,13 @@ define([
             id:col.id,
             title:col.getTitle(),
             active:this.model.get("outPlotColumns").indexOf(col.id) > -1 ,
-            color:col.get("plotColor")
+            color:col.get("plotColor"),
+            tooltip:col.get("description"),
+            tooltip_more:col.hasMoreDescription(),               
           }
         },this)
-      }))        
+      }))      
+      this.$('[data-toggle="tooltip"]').tooltip()
     },
     renderPlot : function(){
       var records = this.model.getCurrentRecords()
@@ -179,6 +185,17 @@ define([
     mouseOutRecord:function(e){      
       e.preventDefault()
       this.$el.trigger('recordMouseOut',{id:$(e.currentTarget).attr("data-recordid")})      
+    },    
+    handleNavLink : function(e){
+      e.preventDefault()
+      e.stopPropagation()
+      
+      this.$el.trigger('navLink',{
+        id:$(e.currentTarget).attr("data-id"),
+        anchor:$(e.currentTarget).attr("data-page-anchor"),
+        route:"page",
+        type:"page"
+      })      
     },    
   });
 

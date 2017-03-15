@@ -10,6 +10,11 @@
   z-index: 10;
 }
 
+.table-top-buttons {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 @-moz-document url-prefix() {
   fieldset { display: table-cell; }
 }
@@ -45,9 +50,10 @@ tr.select-record:hover{
     bottom: 0;
     left: 0px;
     right: 0px;
-    top: 60px;
+    top: 48px;
     width: auto;
     overflow: hidden;    
+    font-size: 12px;
 }
 .record-table-scrolling-x {
     overflow-x: auto;
@@ -66,6 +72,8 @@ tr.select-record:hover{
     -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
     box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
     margin-top: 5px;
+    z-index: 1000;
+    position: relative;
 }
 
 .record-table-scrolling-y {
@@ -106,6 +114,7 @@ table.display  > thead > tr > th {
     vertical-align: bottom;    
     white-space: nowrap;
     background:#F2F3F4;
+    text-align: left;
 }
 table.display  > tbody > tr > td {
     background:#fff;
@@ -119,11 +128,12 @@ table.display thead th a.active{
   color:#505D67;
 }
 table.display thead th a{
-  display:inline-block;
-  width:20px;
-  position: absolute;
-  right: -8px;
-  color: #B5BBC0;
+    display: inline-block;
+    width: 26px;
+    position: absolute;
+    right: -4px;    
+    top: -4px;
+    color: #B5BBC0;
 }
 
 table.display tbody td a{

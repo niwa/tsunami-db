@@ -4,12 +4,23 @@
     <td class="select-checkbox">
       <div class="select-checkbox-inner" 
             style="background-color:<%= col.color %>">
-        <span class="show-on-active show-on-active-inline glyphicon glyphicon-ok" 
+        <span class="show-on-active show-on-active-inline icon-icon_tick" 
             aria-hidden="true"></span>
       </div>
     </td>
     <td class="select-label">
-        <%= col.title %>
+      <label><%= col.title %></label>
+      <a 
+        data-toggle="tooltip" 
+        data-placement="bottom" 
+        title="<%= col.tooltip_more ? col.tooltip + '<div>'+ t.app.ui.tooltip_more +'</div>' : col.tooltip%>" 
+        data-html="true"
+        href="#"
+        class="nav-link"
+        data-page-anchor="<%= col.id %>"
+        data-id="attributes">
+        <span class="icon-icon_info" aria-hidden="true"></span>
+      </a>
     </td>       
   </tr>
 <% }) %>

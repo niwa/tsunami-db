@@ -9,7 +9,7 @@
       <% _.each(group.groupColumns,function(column){ %>
       <% if (column) { %>                          
         <div class="well">
-          <h3 id="<%= column.getQueryColumn() %>">
+          <h3 id="<%= column.id %>">
             <%= column.get("title") %> 
           </h3>
           <p><%= column.get("description") %> </p>

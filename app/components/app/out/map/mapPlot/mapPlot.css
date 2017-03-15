@@ -11,6 +11,52 @@
   overflow-x: hidden;
 }
 
+#map-plot-header h4 {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#map-plot-header {
+    min-height: 48px;
+    display: table;
+    width: 100%;
+}
+
+
+
+#map-plot-lat h3 {
+    font-size: 16px;
+}
+
+#map-plot-lat .select-label label {
+  font-family: 'Titillium Web', sans-serif;
+  margin-bottom: 0;
+}
+
+#plot-control {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #EDEEEF;
+  min-height: 48px;
+}
+
+tr.select-column label,
+tr.select-record {
+    cursor: pointer;
+}
+
+.select-column .select-checkbox{
+  padding-right: 5px;
+}
+.select-column .select-checkbox-inner {
+    height: 16px;
+    width: 16px;
+}
+td.select-label {
+    font-weight: bold;
+    padding: 4px 0;
+    line-height: 14px;
+}
 
 
 .table-plot.table-plot-lat {
@@ -140,31 +186,4 @@
 .axis-label {
     right: 50%;
     position: relative;
-}
-
-
-tr.select-column,
-tr.select-record {
-    cursor: pointer;
-}
-
-.select-column .select-checkbox{
-  padding-right: 5px;
-}
-.select-column .select-checkbox-inner {
-    color: #fff;
-    font-size: 10px;
-    padding: 2px;
-    height: 16px;
-    width: 16px;
-}
-td.select-label {
-    font-weight: bold;
-    font-size: 12px;
-    padding: 4px 0;
-    line-height: 14px;
-}
-
-#plot-control {
-  margin-bottom: 15px;
 }

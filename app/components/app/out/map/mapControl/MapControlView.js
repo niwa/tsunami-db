@@ -1,10 +1,12 @@
 define([
   'jquery',  'underscore',  'backbone',
+  'jquery.select2/select2',
   'text!./mapControl.html',
   'text!./mapControlColorSelect.html',
   'text!./mapControlColorKey.html',
 ], function (
   $, _, Backbone,
+  select2,  
   template,
   templateColorSelect,
   templateColorKey
@@ -30,16 +32,26 @@ define([
     },
     update : function(){
       this.$('#color-attribute-selector').html(_.template(templateColorSelect)({
-        options:_.map(
-          this.model.get("columnCollection").byAttribute("colorable").byAttribute("multiples",0).models,
-          function(column){
-            return {
-              value:column.id,
-              label:column.get("title"),
-              selected:column.get("column") === this.model.getOutColorColumn().get("column")
-            }
-        },this)
+        options:_.sortBy(
+          _.map(
+            this.model.get("columnCollection").byAttribute("colorable").byAttribute("multiples",0).models,
+            function(column){
+              return {
+                value:column.id,
+                label:column.get("title"),
+                selected:column.get("column") === this.model.getOutColorColumn().get("column")
+              }
+          },this), function(option) {
+            return !option.selected
+          }
+        )
       }))
+      
+      this.$('#select-color-attribute').select2({
+        theme: "mapcontrol",
+        minimumResultsForSearch: Infinity
+      })
+      
       var values = this.model.getOutColorColumn().getValues()
       this.$('#color-attribute-key').html(_.template(templateColorKey)({                
         values:_.map(values.values,function(value,index){

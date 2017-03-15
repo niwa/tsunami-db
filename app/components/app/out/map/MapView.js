@@ -76,9 +76,10 @@ define([
         },
         edit: false
       })
-      L.drawLocal.draw.toolbar.buttons.rectangle = 'Draw a rectangle to filter records by area'
-      L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Draw a rectangle to filter records by area'
-      L.drawLocal.draw.handlers.simpleshape.tooltip.end = 'Release mouse to set area filter'              
+      var labels = this.model.getLabels()
+      L.drawLocal.draw.toolbar.buttons.rectangle = labels.out.map.draw.draw
+      L.drawLocal.draw.handlers.rectangle.tooltip.start = labels.out.map.draw.start
+      L.drawLocal.draw.handlers.simpleshape.tooltip.end = labels.out.map.draw.end              
       
       _map.addControl(drawControl)   
       
@@ -96,10 +97,11 @@ define([
         },
         
         onAdd: function () {
+          
           var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-delete');
           var deleteLink = L.DomUtil.create('a', '',container);
           $(deleteLink).attr('href',"#")
-          $(deleteLink).attr('title',"Clear area filter")
+          $(deleteLink).attr('title', labels.out.map.draw.clear)
           L.DomUtil.create('span', 'icon-icon_draw', deleteLink);
           
           deleteLink.onclick = _.bind(that.queryDeleteClicked,that)

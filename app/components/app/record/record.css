@@ -1,20 +1,49 @@
-.column-title {
+.record-top {
+  padding:10px 15px 20px;
+  -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);  
+}
+.record-top h4{
+  margin: 0
+}
+.record-top h1{
+  margin-top: 2px;
+}
+
+.close-record {
+    float: right;
+    position: relative;
+    top: -3px;
+}
+
+.record-main .column-title {
   font-weight:bold;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.record-main .group-other .column-title {
+  margin-bottom:20px
+}
+
+
+
+.record-main {
+  padding-top: 30px;
 }
 
 #record .group h3 { 
-  font-size: 14px;
-  text-transform: uppercase;
+  font-size: 16px;
   font-weight: bold;
-  margin-top:30px;
-  color:#888;
+  margin-top: 0px;
 }
 
 .record-column{
-  border-top:1px solid #ddd;
-  padding: 10px 0
+  border-top:1px solid #F2F3F4;
+  padding: 10px 0;
 }
 .record-column:first-child{
-  border-top:1px solid #aaa;
+  border-top:1px solid;
   padding: 10px 0
 }
+

@@ -8,11 +8,11 @@
        class="sort-by <%= (col.getQueryColumn() === sortColumn ? ' active' : '')%> <%= (sortOrder === '1' ? ' asc' : 'desc')%>" 
        data-column="<%= col.getQueryColumn() %>">
       <span class="show-on-active show-on-active-inline">
-        <span class="glyphicon glyphicon-sort-by-attributes show-on-asc show-on-asc-inline" aria-hidden="true"></span>        
-        <span class="glyphicon glyphicon-sort-by-attributes-alt hide-on-asc" aria-hidden="true"></span>
+        <span class="icon-icon_sorting-asc-active show-on-asc show-on-asc-inline" aria-hidden="true"></span>        
+        <span class="icon-icon_sorting-desc-active hide-on-asc" aria-hidden="true"></span>
       </span>
       <span class="hide-on-active">
-        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+        <span class="icon-icon_sorting" aria-hidden="true"></span>
       </span>
     </a>          
     <% }  %>

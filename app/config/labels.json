@@ -74,11 +74,17 @@
       "plot": {        
         "name_lat": "Latitude Plot",
         "no_records_hint": "0 records with current zoom and filter settings"
+      },
+      "draw": {
+        "clear":"Reset area filter",
+        "draw":"Draw a rectangle to filter records by area",
+        "start":"Press mouse to start drawing area filter",
+        "end":"Release mouse to finish area filter"        
       }
     },
     "table": {
-      "all_columns": "All attributes",
-      "default_columns": "Less attributes"
+      "all_columns": "All attribute columns",
+      "default_columns": "Less attribute columns"
     }    
   },
   "pages": {
