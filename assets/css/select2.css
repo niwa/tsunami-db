@@ -124,7 +124,9 @@
   overflow: hidden !important;
   padding: 0 !important;
   position: absolute !important;
-  width: 1px !important; }
+}
+
+/*  width: 1px !important; }*/
 
 .select2-container--default .select2-selection--single {
   background-color: #fff;

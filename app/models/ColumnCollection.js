@@ -10,7 +10,9 @@ define([
       this.options = options || {};       
     },
     initializeModels:function(){      
-      _.each(this.models,function(column){    
+      _.each(this.models,function(column){  
+        column.get('queryColumn') || console.log(column.get('queryColumn'))
+        
         if (column.get("type") === "quantitative" || column.get("type") === "date" ) {
           if(column.getValues() === 'auto'){
             var values = this.options.records.getValuesForColumn(column.get('queryColumn'))

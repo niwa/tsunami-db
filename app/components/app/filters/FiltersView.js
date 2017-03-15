@@ -37,7 +37,7 @@ define([
       "click .nav-link" : "handleNavLink"
     },
     initialize : function () {
-      this.render()
+//      this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:recQuery", this.render);      
       this.listenTo(this.model, "change:expanded", this.render);      
@@ -466,7 +466,8 @@ define([
     
     handleActive : function(){
       if (this.model.isActive()) {
-        this.$el.show()        
+        this.$el.show()     
+        this.render()
       } else {
         this.$el.hide()
       }

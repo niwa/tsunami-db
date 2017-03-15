@@ -1,28 +1,23 @@
 <div class="share-outer panel-dark">
-  <div class="container">
+  <a href="#" title="<%= t.app.ui.close %>" class="close-share">
+    <span class="icon-icon_close"></span>
+  </a>        
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-12 text-center">
-        <a href="#" title="<%= t.app.ui.close %>" class="btn btn-info pull-right close-share">X</a>      
-        <h3><%= t.share.title %></h3>
-      </div>          
-      <div class="col-sm-12 text-center">      
-        <a href="//www.facebook.com/sharer/sharer.php?u=<%= url_enc %>" target="_blank" class="btn btn-primary">
-          <%= t.share.button_facebook %>
-        </a>            
-        <a href="//twitter.com/intent/tweet?<%= twitter %>" target="_blank" class="btn btn-primary">
-          <%= t.share.button_twitter %>
-        </a>                  
-      </div>                
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3 text-center">    
+        <h3><%= t.share.title %></h3>                    
+        <div class="share-buttons">      
+          <a href="//www.facebook.com/sharer/sharer.php?u=<%= url_enc %>" target="_blank" class="btn btn-primary btn-round">
+            <span class="icon-icon_facebook"></span>
+            <%= t.share.button_facebook %>
+          </a><a href="//twitter.com/intent/tweet?<%= twitter %>" target="_blank" class="btn btn-primary btn-round">
+            <span class="icon-icon_twitter"></span>
+            <%= t.share.button_twitter %>
+          </a>                  
+        </div>                
         <hr/>
-      </div>                
-    </div>
-    <div class="row">
-      <div class="col-sm-12 text-center">
-        <h4><%= t.share.current_link %></h4>
-        <input class="form-control select-on-click api-link" type="text" value="<%= url_current %>">      
+        <h5><%= t.share.current_link %></h5>
+        <input class="form-control select-on-click form-control-share" type="text" value="<%= url_current %>">      
       </div>  
     </div>  
   </div>

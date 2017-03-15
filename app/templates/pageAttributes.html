@@ -4,21 +4,21 @@
     <% _.each(columnGroups,function(group){ %>
     <div class="group <%= group.classes %>">          
       <h2><%= group.title %></h2>
-      <p><%= group.hint %></p>
+      <hr>
+      <% if(group.hint) { %>      
+      <p class="hint"><%= group.hint %></p>
+      <% } %>
       <div class="record-columns"> 
       <% _.each(group.groupColumns,function(column){ %>
-      <% if (column) { %>                          
-        <div class="well">
+      <% if (column) { %>   
+        <div class="record-column"> 
           <h3 id="<%= column.id %>">
             <%= column.get("title") %> 
           </h3>
-          <p><%= column.get("description") %> </p>
-          <p><%= column.get("descriptionMore") %> </p>
-          <hr/>
-          <p><%= t.pages.attributes.db_column_hint %>: <code><%= column.getQueryColumn() %></code></p>
+          <p><%= column.get("description") %> <%= column.get("descriptionMore") %></p>
+          <p class="hint"><%= t.pages.attributes.db_column_hint %>: <code><%= column.getQueryColumn() %></code></p>
           <% if(column.get('showOnPage').values) { %>   
-          <hr/>
-          <h4><%= t.pages.attributes.values %><h4/>
+          <h4><%= t.pages.attributes.values %></h4>
           <div class="table-responsive">
             <table class="table">
               <thead>
@@ -47,8 +47,7 @@
           </div>             
           <% } %>
           <% if(column.id === "proxies") { %>   
-          <hr/>
-          <h4><%= t.pages.attributes.values %><h4/>
+          <h4><%= t.pages.attributes.values %></h4>
           <div class="table-responsive">
             <table class="table">
               <thead>
@@ -66,12 +65,11 @@
                 <% }) %>
               </tbody>                
             </table>                
-          </div>             
-          <% } %>          
-        </div>          
+          </div>         
+        <% } %>  
+        </div> 
       <% } %>
       <% }) %>
-      </div>
     </div>                  
     <% }) %>       
   </div>

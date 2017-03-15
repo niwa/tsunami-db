@@ -131,7 +131,7 @@ a.download-data:hover, a.download-data:focus{
     padding-top: 10px;
 }
 
-.form-control.api-link {
+.form-control.form-control-api {
     background: #172630;
     border: none;
     color: #0293c9;

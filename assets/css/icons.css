@@ -11,7 +11,10 @@ l:48
 m:32
 s:26
 xs: 16*/
-
+.icon-icon_facebook,
+.icon-icon_twitter,
+.icon-icon_draw-reset,
+.icon-icon_draw,
 .icon-icon_sorting-asc-active,
 .icon-icon_sorting-asc,
 .icon-icon_sorting-desc-active,
@@ -20,17 +23,16 @@ xs: 16*/
   width:26px;
   height:26px;
 }
-
+.icon-icon_facebook,
+.icon-icon_twitter{
+    margin-top: -3px;
+    margin-left: -10px;
+}
 .icon-icon_tick {
   position: relative;
   top: -2px;
 }
 
-.icon-icon_draw-reset,
-.icon-icon_draw {
-  width:26px;
-  height:26px;
-}
 .icon-icon_close {
     width: 60px;
     height: 60px;
@@ -135,13 +137,6 @@ xs: 16*/
 
 }
 
-.icon-icon_facebook {
-
-}
-
-.icon-icon_twitter {
-
-}
 
 .icon-icon_settings-grey {
 }

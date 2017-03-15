@@ -88,7 +88,7 @@
             <p class="hint"><%= t.out.data.wfs_hint %></p>            
             <% _.each(api.tables, function(table){ %> 
             <h6><%= table.title %> (<%= format.title %>)</h6>
-            <input class="form-control select-on-click api-link" type="text" value="<%= table.path + format.path %>">            
+            <input class="form-control select-on-click form-control-api" type="text" value="<%= table.path + format.path %>">            
             <% }) %>
           </div>      
           <% }) %>          

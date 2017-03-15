@@ -42,11 +42,11 @@
   margin-top: 0px;
 }
 
-.record-column{
+#record .record-column{
   border-top:1px solid #F2F3F4;
   padding: 10px 0;
 }
-.record-column:first-child{
+#record .record-column:first-child{
   border-top:1px solid;
   padding: 10px 0
 }

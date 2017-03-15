@@ -7,9 +7,112 @@
   width: auto;   
   overflow-y: auto;
   background: #F2F3F4;
+      z-index: 1001;
 }
 .page-outer {
   padding:50px 0;
   background: #FFF;
   min-height: 100vh;
+  max-width: 970px; 
+      position: relative;
+}
+
+a.close-page {
+    position: absolute;
+    right: 50px;
+    top: 50px;
+    z-index: 1;
+}
+#page h1 {
+    text-align: center;
+    font-size: 44px;
+    font-weight: bold;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+#page .lead, 
+#page blockquote {
+  padding: 20px 0 40px;
+  margin: 0 0 40px;
+  font-size: 20px;
+  border-left: none;
+  text-align: center;
+  color: #009DD6;
+  font-family: 'Titillium Web', sans-serif;
+  border-bottom: 1px solid #E5E7E9;
+}
+
+#page h2 {
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#page .group hr {
+    border-color: #99A0A6;
+    margin-bottom: 10px;
+}
+#page h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+#page .group hr {
+    border-color: #99A0A6;
+}
+
+#page .group p {
+    margin-bottom: 0px;
+}
+
+
+#page .record-column {
+    border-bottom: 1px solid #E5E7E9;
+    padding-bottom: 30px;
+    margin-bottom: 40px;
+}
+
+#page .record-column:last-child {
+    border-bottom: none;
+}
+
+#page .record-column .hint {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 100%;
+    font-weight: 600;
+    margin-top: 10px
+}
+
+#page .record-column h4 {  
+    color: #848D93;
+    font-size: 17px;
+    text-transform: none;
+    font-weight: 600;
+    font-family: 'Titillium Web', sans-serif;
+    margin-top: 30px;
+}
+
+#page th {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 16px;
+}
+
+#page table > thead > tr > th {
+  border-bottom: 1px solid #B2B8BD;
+  white-space: nowrap;
+}
+ 
+#page table > tbody > tr > td {
+    border-color:#F8F9F9;
+}
+
+code {
+  color: #007FAD;
+  background-color: #EDF5F9;
+  font-weight:normal;
+}
+
+#page table > tbody tr td:first-child {
+    font-weight: bold;
 }
