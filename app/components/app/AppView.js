@@ -540,14 +540,15 @@ define([
       if (typeof recordConfig !== "undefined") {
         $.ajax({
           dataType: "jsonp",
-          jsonpCallback:"parseResponse",
+          jsonpCallback:"parseRecords",
           cache:true,
-          url: recordConfig.path + "&outputFormat=text/javascript",
+          url: recordConfig.path + "&outputFormat=text/javascript&format_options=callback:parseRecords",
           success: function(data) {
             console.log("success loading records data")          
             that.configureRecords(data)            
           },
-          error: function(){
+        error: function(xhr, status, error){
+          console.log(status + '; ' + error);
               console.log("error loading records data")
 
           }
@@ -644,15 +645,16 @@ define([
       
       $.ajax({
         dataType: "jsonp",
-        jsonpCallback:"parseResponse",        
-        cache:true,       
-        url: proxyConfig.path + "&outputFormat=text/javascript",
+        jsonpCallback:"parseProxies",
+        cache:true,
+        url: proxyConfig.path + "&outputFormat=text/javascript&format_options=callback:parseProxies",
         success: function(data) {
           console.log("success loading proxies data")          
           that.configureProxies(data)            
         },
-        error: function(){
-            console.log("error loading proxies data")
+        error: function(xhr, status, error){
+          console.log(status + '; ' + error);
+          console.log("error loading proxies data")
 
         }
       });
@@ -692,20 +694,21 @@ define([
           
     },    
     loadReferences : function(){      
-      console.log("loadReferencesa")          
+      console.log("loadReferences")          
       var refConfig = this.model.get("config").references
       var that = this      
       
       $.ajax({
         dataType: "jsonp",
-        jsonpCallback:"parseResponse",  
+        jsonpCallback:"parseReferences",
         cache:true,
-        url: refConfig.path + "&outputFormat=text/javascript",
+        url: refConfig.path + "&outputFormat=text/javascript&format_options=callback:parseReferences",
         success: function(data) {
           console.log("success loading ref data")          
           that.configureReferences(data)            
         },
-        error: function(){
+        error: function(xhr, status, error){
+          console.log(status + '; ' + error);
             console.log("error loading ref data")
 
         }
