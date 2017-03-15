@@ -5,7 +5,7 @@
   right:0;
   width: 200px;  
   overflow-y: auto;
-  background:white;
+  background-color: #F5F6F6;
   z-index: 1000;
   display: block;
   -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
@@ -60,7 +60,7 @@
   background: #007FAD;
   color: #fff;
   border-radius: 0;
-  width: 100%;
+  width: 100% !important;
 }
 .select2-container--mapcontrol .select2-selection--single .select2-selection__rendered {
   color: #fff;

@@ -26,13 +26,14 @@ xs: 16*/
   top: -2px;
 }
 
+.icon-icon_draw-reset,
 .icon-icon_draw {
   width:26px;
   height:26px;
 }
 .icon-icon_close {
- width:48px;
- height:48px;
+    width: 60px;
+    height: 60px;
 }
 
 .icon-icon_latplot,

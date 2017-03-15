@@ -47,7 +47,7 @@
 .data-outer {
     position: relative;
     z-index: 9999;
-    padding:50px;
+    padding: 30px 50px 60px;
     border-top:1px solid #172630;
 }
 
@@ -72,4 +72,67 @@
 .btn-out-nav:hover{
   color: #B2B8BD;
   background: #172630;
+}
+
+
+.close-data {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.data-header {
+  margin-bottom:30px
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #172630;
+}
+.nav-tabs > li > a {
+    margin-right: 0;
+    line-height: 1.42857143;
+    border: 0;
+    border-radius: 0 0 0 0;
+    font-weight:bold;
+    color:#99A1A7;
+    padding: 4px 15px;
+}
+.nav-tabs > li.active > a, 
+.nav-tabs > li.active > a:hover, 
+.nav-tabs > li.active > a:focus {
+    color: #ffffff;
+    background-color: #1E3948;
+    cursor: default;
+    border: 0;
+}
+.nav-tabs > li > a:hover, 
+.nav-tabs > li > a:focus {
+    background-color: #1E3948;
+}
+.nav-tabs > li {
+    margin-bottom: 0;
+}
+
+a.download-data {
+  font-weight:bold;
+  margin-right: 15px;
+}
+
+a.download-data:hover, a.download-data:focus{
+  text-decoration: none;
+  opacity: 0.8;
+  color:#0293c9;
+}
+
+.tab-pane {
+    padding-top: 10px;
+}
+
+.form-control.api-link {
+    background: #172630;
+    border: none;
+    color: #0293c9;
+    border-radius: 3px;
+    font-size: 12px;
+    height: 21px;
 }

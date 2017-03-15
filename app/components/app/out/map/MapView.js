@@ -102,7 +102,7 @@ define([
           var deleteLink = L.DomUtil.create('a', '',container);
           $(deleteLink).attr('href',"#")
           $(deleteLink).attr('title', labels.out.map.draw.clear)
-          L.DomUtil.create('span', 'icon-icon_draw', deleteLink);
+          L.DomUtil.create('span', 'icon-icon_draw-reset', deleteLink);
           
           deleteLink.onclick = _.bind(that.queryDeleteClicked,that)
           

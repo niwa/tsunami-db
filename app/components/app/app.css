@@ -193,12 +193,20 @@ a.hover {
     top:60px
 }
 
-h1, h2, h3 {
+h1, h2, h3, h5, h6 {
   font-family: 'Titillium Web', sans-serif;
-  font-weight:bold;
+  font-weight:600;
 }
 
+h5, .h5 {
+    font-size: 17px;
+    margin-bottom: 20px;
+}
 
+h6, .h6 {
+    font-size: 14px;
+    margin-top: 20px;
+}
 
 h4 {
   color: #848D93;

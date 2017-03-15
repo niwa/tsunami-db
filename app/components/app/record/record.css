@@ -13,13 +13,17 @@
 
 .close-record {
     float: right;
-    position: relative;
-    top: -3px;
+    position: relative;    
+    top: -10px;
 }
 
 .record-main .column-title {
   font-weight:bold;
   font-family: 'Titillium Web', sans-serif;
+  font-size: 14px;
+}
+.record-main .group-other {
+  font-size: 12px;
 }
 
 .record-main .group-other .column-title {

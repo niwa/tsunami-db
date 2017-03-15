@@ -69,7 +69,7 @@
       "control": {
         "name": "Map settings",
         "marker_title": "Map marker",
-        "marker_hint": "Select attribute to colour markers by value"
+        "marker_hint": "Select marker colour attribute"
       },
       "plot": {        
         "name_lat": "Latitude Plot",

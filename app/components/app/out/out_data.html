@@ -1,14 +1,16 @@
 <div class="data-outer container-fluid panel-dark">  
-  <div class="row">
+  <div class="row data-header">
     <div class="col-sm-12 text-center">
-      <a href="#" title="<%= t.app.ui.close %>" class="btn btn-info pull-right close-data">X</a>      
       <h3><%= t.out.data.title %></h3>
+      <a href="#" title="<%= t.app.ui.close %>" class="pull-right close-data">
+        <span class="icon-icon_close"></span>
+      </a>           
     </div>          
   </div>
   <div class="row">
     <div class="col-sm-6">
       <div class="text-center">
-        <h4><%= t.out.data.download_title %></h4>
+        <h5><%= t.out.data.download_title %></h5>
       </div>  
       <div>
         <!-- Nav tabs -->
@@ -26,9 +28,9 @@
         <div class="tab-content">
           <% _.each(download.formats, function(format){ %> 
           <div role="tabpanel" class="tab-pane active" id="<%= format.id %>">
-            <p><%= t.out.data.download_hint %></p>
+            <p class="hint"><%= t.out.data.download_hint %></p>
             <% _.each(download.tables, function(table){ %> 
-            <h5><%= table.title %> (<%= format.title %>)</h5>
+            <h6><%= table.title %> (<%= format.title %>)</h6>
             <% if (table.id === "records" && filtered) { %>
             <a href="#" 
                data-format="<%= format.format %>" 
@@ -36,6 +38,7 @@
                data-active="false"
                class="download-data">
               <%= t.out.data.all %> <%= table.title %>
+              <span class="icon-icon_download-blue"></span>
             </a>
             <a href="#"
                data-format="<%= format.format %>" 
@@ -43,6 +46,7 @@
                data-active="true"
                class="download-data">               
               <%= t.out.data.filtered %> <%= table.title %>
+              <span class="icon-icon_download-blue"></span>
             </a>
             <% } else { %>          
             <a href="#"
@@ -51,6 +55,7 @@
                data-active="false"
                class="download-data">               
               <%= table.title %>
+              <span class="icon-icon_download-blue"></span>
             </a>
             <% } %>          
             <% }) %>          
@@ -62,7 +67,7 @@
     </div>  
     <div class="col-sm-6">
       <div class="text-center">      
-        <h4><%= t.out.data.wfs_title %></h4>        
+        <h5><%= t.out.data.wfs_title %></h5>        
       </div>      
       <div>
         <!-- Nav tabs -->
@@ -80,9 +85,9 @@
         <div class="tab-content">
           <% _.each(api.formats, function(format, i){ %> 
           <div role="tabpanel" class="tab-pane<%= i===0 ? ' active' : ''%>" id="<%= format.id %>">
-            <p><%= t.out.data.wfs_hint %></p>            
+            <p class="hint"><%= t.out.data.wfs_hint %></p>            
             <% _.each(api.tables, function(table){ %> 
-            <h5><%= table.title %> (<%= format.title %>)</h5>
+            <h6><%= table.title %> (<%= format.title %>)</h6>
             <input class="form-control select-on-click api-link" type="text" value="<%= table.path + format.path %>">            
             <% }) %>
           </div>      
