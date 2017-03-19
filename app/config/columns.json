@@ -129,7 +129,7 @@
     "filterable":0,        
     "title":"Date, earliest",
     "description":"Earliest date.",
-    "descriptionMore":"Earliest date of site specific event based solely upon chronological data from that site. Earliest date of site specific event based upon chronological data from that site. Negative numbers refer to a year BC.",
+    "descriptionMore":"Earliest date of site specific event based upon chronological data from that site. Negative numbers refer to a year BC.",
     "type":"date",    
     "group":"time",    
     "combo":1,        
