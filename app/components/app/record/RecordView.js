@@ -84,7 +84,7 @@ define([
               t:this.model.getLabels(),              
               title:column.get("title"),            
               references:record.getReferences(),
-              id:column.getQueryColumn(),
+              id:column.id,
               tooltip:column.get("description"),
               tooltip_more:column.hasMoreDescription(),
               hint:column.get("hint")                  
@@ -94,7 +94,7 @@ define([
               t:this.model.getLabels(),
               title:column.get("title"),            
               proxies:record.getProxies(),
-              id:column.getQueryColumn(),
+              id:column.id,
               tooltip:column.get("description"),
               tooltip_more:column.hasMoreDescription(),
               hint:column.get("hint")                  
@@ -122,7 +122,7 @@ define([
                 t:this.model.getLabels(),                
                 title:column.get("comboTitle"),            
                 value:value,
-                id:column.getQueryColumn(),
+                id:column.id,
                 tooltip:column.get("comboDescription"),
                 tooltip_more:column.hasMoreDescription(),
                 hint:column.get("hint")                
@@ -141,7 +141,7 @@ define([
             t:this.model.getLabels(),
             title:column.get("title"),            
             value:record.getColumnValue(column.get("column"),true),
-            id:column.getQueryColumn(),
+            id:column.id,
             tooltip:column.get("description"),
             tooltip_more:column.hasMoreDescription(),
             hint:column.get("hint")
