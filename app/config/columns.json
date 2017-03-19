@@ -329,7 +329,7 @@
     "column":"datingtechnique",
     "title":"Dating technique",
     "description":"Dating technique - Geological, Historical or Inferred.",    
-    "descriptionMore":"Establishing the chronology for past tsunamis is challenging and multiple techniques are currently used. The database contains three broad categories of dating technique: geochronological (radiocarbon, dendrochronology, sediment acculumation, pollen, among others), historical (used for hybrid caes only) and inferred (mainly for Māori  oral traditions). Each record provides specific details of techniques and results at the end of the line, and in the references provided. The results of chronological analyses range from the annual dating of an event through to poorly constrained multi-century accuracy.",    
+    "descriptionMore":"Establishing the chronology for past tsunamis is challenging and multiple techniques are currently used. The database contains three broad categories of dating technique: geochronological (radiocarbon, dendrochronology, sediment acculumation, pollen, among others), historical (used for hybrid cases only) and inferred (mainly for Māori  oral traditions). Each record provides specific details of techniques and results at the end of the line, and in the references provided. The results of chronological analyses range from the annual dating of an event through to poorly constrained multi-century accuracy.",    
     "type":"categorical",    
     "multiples":1,
     "searchable":1,
