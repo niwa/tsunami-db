@@ -7,7 +7,7 @@
   {
     "id":"site",        
     "title":"Site",
-    "hint":"Attributes related to the records location"    
+    "hint":"Attributes related to the record's location"    
   },   
   {
     "id":"time",        
