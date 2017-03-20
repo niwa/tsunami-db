@@ -335,7 +335,7 @@
     "searchable":1,
     "sortable":0,    
     "values":{
-      "values":["Geological data","Historical data","No specific method"],      
+      "values":["Geological data","Historical data","Inferred"],      
       "labels":["Geological","Historical","Inferred"],      
       "descriptions":[
         "Chronology established using one or more of a suite of 'Geo' dating techniques, these are often detailed in the Geodating technique column with additional details sometimes provided in 'Additional comment'.",
