@@ -388,7 +388,7 @@
     "column":"eventcomment",
     "title":"Additional comment",
     "description":"Additional comments generally relate to chronological information, but can also highlight possible linkages with other similarly-aged sites.",
-    "descriptionMore":"A full citation of specific references cited in the comments section is provided to assist the database user if they wish to search further. There is occasionally reference to 'C14 yr BP' which is an uncalibrated, Conventional Radiocarbon Age. If needed, the database user should refer to the relevant publication for more details.",
+    "descriptionMore":"Additional references are cited in the comments section to assist the database user if they wish to search further. There is occasionally reference to 'C14 yr BP' which is an uncalibrated, Conventional Radiocarbon Age. If needed, the database user should refer to the relevant publication for more details.",
     "filterable":0,
     "blanks":1,
     "searchable":1,
