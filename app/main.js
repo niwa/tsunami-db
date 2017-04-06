@@ -1,6 +1,6 @@
 window.GoogleAnalyticsObject = "__ga__";
 window.__ga__ = {
-    q: [["create", "XXX", "auto"]],
+    q: [["create", "UA-96898658-1", "auto"]],
     l: Date.now()
 };
 
