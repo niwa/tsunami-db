@@ -55,9 +55,15 @@
         },
         {
           "id":"sources",
-          "title":"Sources and travel times",
+          "title":"Tsunami sources",
           "format":"xml",         
-          "path": "//content.niwa.co.nz/content/resource_by_name/Sources%20and%20travel%20times"
+          "path": "//content.niwa.co.nz/content/resource_by_name/Tsunami%20Sources"
+        },
+        {
+          "id":"travel",
+          "title":"Tsunami travel times",
+          "format":"xml",         
+          "path": "//content.niwa.co.nz/content/resource_by_name/Tsunami%20travel%20times"
         }
       ]
     },    
