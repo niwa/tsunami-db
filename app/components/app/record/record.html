@@ -1,36 +1,45 @@
-<div class="container-fluid">
-  <div class="row record-top">
-    <div class="col-sm-12">    
-      <div class="record-top-icon">
-        <span class="icon-icon_detail"></span>
-      </div>      
-      <h4><%= t.record.name %></h4>
-      <h1><%= t.record.title %> <%= recordid %> <a 
-        href="#" 
-        title="<%= t.app.ui.close %>" 
-        class="close-record">
-        <span class="icon-icon_close"></span>
-      </a></h1>                  
+<div class="record-top">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">    
+        <div class="record-top-icon">        
+          <span class="icon-icon_detail"></span>
+        </div>      
+        <h4><%= t.record.name %></h4>
+        <h1><%= t.record.title %> <%= recordid %> <a 
+          href="#" 
+          title="<%= t.app.ui.close %>" 
+          class="close-record">
+          <span class="icon-icon_close"></span>
+        </a></h1>                  
+      </div>          
     </div>          
-  </div>          
+  </div>    
+  <div class="record-top-menu">
+    <div class="container-fluid">
+      <%= recordMenu %>
+    </div>      
+  </div>
 </div>    
-<div class="container-fluid">
-  <div class="row record-main">
-    <div class="col-sm-12">      
-      <% _.each(columnGroups,function(group){ %>
-      <div class="well">
-        <div class="group <%= group.classes %>">          
-          <h3><%= group.title %></h3>
-          <div class="record-columns"> 
-          <% _.each(group.groupColumns,function(column){ %>
-          <% if (column) { %>                          
-              <%= column %>          
-          <% } %>
-          <% }) %>
-          </div>
-        </div>                  
+<div class=" record-main">
+  <div class="container-fluid">
+    <div class="row">  
+      <div class="col-sm-12">      
+        <% _.each(columnGroups,function(group, index){ %>
+        <div class="well">
+          <div class="group <%= group.classes %>" data-index="<%= index %>">          
+            <h3><%= group.title %></h3>
+            <div class="record-columns"> 
+            <% _.each(group.groupColumns,function(column){ %>
+            <% if (column) { %>                          
+                <%= column %>          
+            <% } %>
+            <% }) %>
+            </div>
+          </div>                  
+        </div>
+        <% }) %>             
       </div>
-      <% }) %>             
     </div>
   </div>
 </div>

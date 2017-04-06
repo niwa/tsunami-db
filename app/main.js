@@ -13,6 +13,7 @@ require.config({
     'jquery.deparam': 'libs/jquery.deparam',    
     'jquery.select2': 'libs/select2',    
     'jquery.xml2json': 'libs/jquery.xml2json',   
+    'jquery.waypoints': 'libs/jquery.waypoints',   
     'nouislider': 'libs/nouislider',  
     'showdown': 'libs/showdown', //markdown support    
     'underscore': 'libs/underscore', //core
@@ -33,6 +34,9 @@ require.config({
       deps: ['jquery']
     },
     'jquery.select2': {
+      deps: ['jquery']
+    },
+    'jquery.waypoints': {
       deps: ['jquery']
     },
     'jquery.xml2json': {

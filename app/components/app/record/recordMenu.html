@@ -1,0 +1,10 @@
+<nav class="record-top-menu-nav">
+  <ul class="list-unstyled list-inline">
+    <% _.each(groups,function(group, index){ %>
+     <li>
+       <a class="record-top-menu-link" href="#" data-group="<%= group.id %>" data-index="<%= index %>">
+         <%= group.get("title") %>
+       </a>
+    <% }) %>
+  </ul>  
+</nav>
