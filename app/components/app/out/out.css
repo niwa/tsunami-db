@@ -5,6 +5,7 @@
   left: 0;
   right:0;
   width: auto;  
+  display:none;
 }
 @media (min-width: 769px) {
   #out {    

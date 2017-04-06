@@ -1,5 +1,7 @@
 #record {
     overflow: hidden;
+      display:none;
+    
 }
 
 .record-top {

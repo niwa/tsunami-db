@@ -8,6 +8,7 @@
   overflow-y: auto;
   background: #F2F3F4;
       z-index: 1001;
+      display:none;
 }
 .page-outer {
   padding:50px 0;
