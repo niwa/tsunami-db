@@ -39,7 +39,14 @@
           "title":"Contact",
           "format":"xml",          
           "path": "//content.niwa.co.nz/content/resource_by_name/Contact%20ptdb"
-        }        
+        },
+        {
+          "id":"basemap",
+          "title":"Basemap",
+          "format":"markdown",      
+          "hideInNav":true,          
+          "content":"# Basemap attribution \n\n The custom basemap was designed and created by [dumpark](http://www.dumpark.com) using layers made available by \n\n - [LINZ](https://data.linz.govt.nz): New Zealand regions, coastline and islands, lakes, rivers, artificial surfaces, highways, labels, geographic names  \n - [Natural Earth](http://www.naturalearthdata.com): Bathymetry, landmass \n\n [NOAA ETOPO1](https://www.ngdc.noaa.gov/mgg/global]: Hillshade \n - [Esri](https://www.arcgis.com/home/item.html?id=0fd0c5b7a647404d8934516aa997e6d9): World Ocean Reference"
+        }
       ]
     },
     {
@@ -64,7 +71,7 @@
           "title":"Tsunami travel times",
           "format":"xml",         
           "path": "//content.niwa.co.nz/content/resource_by_name/Tsunami%20travel%20times"
-        }
+        }       
       ]
     },    
     {
