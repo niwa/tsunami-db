@@ -47,11 +47,8 @@ define([
   var AppView = Backbone.View.extend({
     el: $("#application"),
     // view events upstream to pass to router if needed ///////////////////////////////////////////////////////
-    events : {
-      "click .close-item" : "closeItem",
-      "click .layer-info-link" : "handleLayerInfoLink",            
-      "click .close-share" : "closeShare",      
-      
+    events : {                
+      "click .close-share" : "closeShare",            
       
       // general navigation events
       resetApp : "resetApp",

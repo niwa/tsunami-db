@@ -14,7 +14,10 @@ define([
       this.set("referencesConfigured",false)
       this.set("proxiesConfigured",false)
       this.set("columnsConfigured",false)
-      this.set("lastDBPath","")
+      this.set("lastDBRoute",{
+        route: "db",
+        path: ""
+      })
       this.set("shareToggled",false)
       
       var that = this
@@ -118,7 +121,6 @@ define([
 		setRoute : function(route) {
 			// console.log('AppModel.setRoute')
       if (route.route === "db") {
-        this.set("lastDBPath",route.path)
         this.set("lastDBRoute",route)
       }
 			this.set('route',{
@@ -135,7 +137,7 @@ define([
 			return this.attributes.route.path
 		},
 		getLastDBPath : function (){
-			return this.attributes.lastDBPath
+			return this.attributes.lastDBRoute.path
 		},
 		getLastDBRoute : function (){
 			return this.attributes.lastDBRoute
