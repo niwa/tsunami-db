@@ -45,7 +45,7 @@
           "title":"Basemap",
           "format":"markdown",      
           "hideInNav":true,          
-          "content":"# Basemap attribution \n\n The custom basemap was designed and created by [dumpark](http://www.dumpark.com) using layers made available by \n\n - [LINZ](https://data.linz.govt.nz): New Zealand regions, coastline and islands, lakes, rivers, artificial surfaces, highways, labels, geographic names  \n - [Natural Earth](http://www.naturalearthdata.com): Bathymetry, landmass \n\n [NOAA ETOPO1](https://www.ngdc.noaa.gov/mgg/global]: Hillshade \n - [Esri](https://www.arcgis.com/home/item.html?id=0fd0c5b7a647404d8934516aa997e6d9): World Ocean Reference"
+          "content":"# Basemap attribution \n\n The custom basemap was designed and created by [dumpark](http://www.dumpark.com) using layers made available by: \n\n - **[LINZ Data Service](https://data.linz.govt.nz)**: New Zealand regions, coastline and islands, lakes, rivers, artificial surfaces, highways, labels, geographic names (Creative Commons Attribution 3.0 New Zealand licence) \n - **[Natural Earth](http://www.naturalearthdata.com/downloads/)**: Bathymetry, countries \n - **[NOAA](https://www.ngdc.noaa.gov/mgg/global)**: Hillshade (Amante, C. and B.W. Eakins, 2009. ETOPO1 1 Arc-Minute Global Relief Model: Procedures, Data Sources and Analysis. NOAA Technical Memorandum NESDIS NGDC-24. National Geophysical Data Center, NOAA. doi:10.7289/V5C8276M) \n - **[Esri](https://www.arcgis.com/home/item.html?id=0fd0c5b7a647404d8934516aa997e6d9)**: World Ocean Reference (Sources: Esri, DeLorme, HERE, GEBCO, NOAA, National Geographic, Geonames.org, and other contributors)"
         }
       ]
     },

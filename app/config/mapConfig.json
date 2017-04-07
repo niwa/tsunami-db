@@ -1,6 +1,6 @@
 { 
   "mapID" : "map-container",
-  "attribution" : "<a class='basemap-info' href='#' >Basemap attribution</a>",
+  "attribution" : "<a class='nav-link basemap-info' href='#' data-route='page' date-type='page' data-id='basemap'>Basemap attribution</a>",
   "layerGroups" : {
     "base" : { "basemap" : true},
     "records" : { "record" : true},

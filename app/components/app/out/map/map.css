@@ -230,3 +230,12 @@ a.leaflet-control-zoom-in{
     opacity:1;
 }
 
+
+
+.leaflet-control-attribution.leaflet-control {
+    font-size: 0;
+}
+
+.leaflet-control-attribution.leaflet-control .basemap-info {
+    font-size: 11px;
+}

@@ -50,7 +50,10 @@ define([
         if (typeof this.attributes.content !== "undefined") {
           switch (this.getFormat()) {                    
             case "markdown": 
-              var converter = new showdown.Converter({ghCodeBlocks: false});              
+              var converter = new showdown.Converter({
+                ghCodeBlocks: false,
+                openLinksInNewWindow: true
+              });              
               callback(converter.makeHtml(this.attributes.content))
               break           
             default:

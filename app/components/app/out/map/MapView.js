@@ -24,7 +24,8 @@ define([
       "click .layer-select" : "layerSelect",
       "mouseenter .layer-select" : "layerMouseOver",
       "mouseleave .layer-select" : "layerMouseOut",
-      "click .toggle-option" : "toggleOptionClick"
+      "click .toggle-option" : "toggleOptionClick",
+      "click .nav-link" : "handleNavLink"      
     },
     initialize : function(){
       console.log('MapView.initialize')
@@ -643,7 +644,21 @@ define([
       })        
     },
 
-
+    handleNavLink : function(e){
+      e.preventDefault()
+      e.stopPropagation()
+      
+      var id = $(e.target).data('id')
+      var route = $(e.target).data('route')
+      var type = $(e.target).data('type')
+            
+      this.$el.trigger('navLink',{
+        target:e.target,
+        id:id,
+        route:route,
+        type:type
+      })      
+    },
 
 
 
