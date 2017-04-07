@@ -8,7 +8,7 @@ define([
   'text!./filterButtons.html',    
   'text!./filterMinMaxAddon.html',
   'text!./filterMinMaxSlider.html',
-  'text!./filterTextAddonBtn.html',
+  'text!./filterSearch.html',
   'text!./filterLabel.html'
 ], function (
   $, _, Backbone,
@@ -20,7 +20,7 @@ define([
   templateFilterButtons,  
   templateFilterMinMaxAddon,
   templateFilterMinMaxSlider,
-  templateFilterTextAddon,
+  templateFilterSearch,
   templateFilterLabel  
 ) {
 
@@ -63,7 +63,7 @@ define([
           ? this.model.get("recQuery")["s"]
           : "" 
       var search = this.model.allExpanded() 
-        ? _.template(templateFilterTextAddon)({
+        ? _.template(templateFilterSearch)({
             title:false,
             column:"s",
             type:"keyword",
