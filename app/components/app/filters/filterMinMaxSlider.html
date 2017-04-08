@@ -1,72 +1,74 @@
-<%= label %>
-<div class="column-filter column-filter-min-max-slider <%= slider_active ? ' slider-active' : ' slider-inactive' %>">  
-  <div class="filter-input-fields clearfix">  
-    <input type="text"
-      class="form-control column-filter-text pull-left" 
-      data-column="<%= column_min %>"    
-      data-column-type="<%= type %>"
-      id="text-<%= column_min %>" 
-      placeholder="<%= title_min %>" 
-      value="<%= value_min %>"
-      data-toggle="tooltip" 
-      data-placement="right" 
-      data-trigger="manual"
-      title="<%= input_hint %>"       
-    >     
-  
-    <input type="text"
-      class="form-control column-filter-text pull-right" 
-      data-column="<%= column_max %>"      
-      data-column-type="<%= type %>"
-      id="text-<%= column_max %>" 
-      placeholder="<%= title_max %>" 
-      value="<%= value_max %>"
-      data-toggle="tooltip" 
-      data-placement="left" 
-      data-trigger="manual"
-      title="<%= input_hint %>"  
-    >   
-  
-  </div>
-  <div class="filter-slider-wrap">
-    <div class="filter-slider"
-      data-column-type="<%= type %>"
-      data-column-min="<%= column_min %>"
-      data-column-max="<%= column_max %>"
-      data-value-min="<%= value_min !== '' ? value_min : value_min_overall %>"
-      data-value-max="<%= value_max !== '' ? value_max : value_max_overall %>"
-      data-value-min-overall="<%= value_min_overall %>"
-      data-value-max-overall="<%= value_max_overall %>"             
-      data-value-range='<%= value_range %>'             
-    ></div>
-  </div>
-  <div class="filter-unspecified">
-    <label class="checkbox-inline">
-      <input type="checkbox" 
+<div class="column-filter-wrap filter-type-min-max-slider">
+  <%= label %>
+  <div class="column-filter column-filter-min-max-slider <%= slider_active ? ' slider-active' : ' slider-inactive' %>">  
+    <div class="filter-input-fields clearfix">  
+      <input type="text"
+        class="form-control column-filter-text pull-left" 
+        data-column="<%= column_min %>"    
+        data-column-type="<%= type %>"
+        id="text-<%= column_min %>" 
+        placeholder="<%= title_min %>" 
+        value="<%= value_min %>"
+        data-toggle="tooltip" 
+        data-placement="right" 
+        data-trigger="manual"
+        title="<%= input_hint %>"       
+      >     
+
+      <input type="text"
+        class="form-control column-filter-text pull-right" 
+        data-column="<%= column_max %>"      
+        data-column-type="<%= type %>"
+        id="text-<%= column_max %>" 
+        placeholder="<%= title_max %>" 
+        value="<%= value_max %>"
+        data-toggle="tooltip" 
+        data-placement="left" 
+        data-trigger="manual"
+        title="<%= input_hint %>"  
+      >   
+
+    </div>
+    <div class="filter-slider-wrap">
+      <div class="filter-slider"
+        data-column-type="<%= type %>"
         data-column-min="<%= column_min %>"
-        data-column-max="<%= column_max %>"    
+        data-column-max="<%= column_max %>"
+        data-value-min="<%= value_min !== '' ? value_min : value_min_overall %>"
+        data-value-max="<%= value_max !== '' ? value_max : value_max_overall %>"
         data-value-min-overall="<%= value_min_overall %>"
-        data-value-max-overall="<%= value_max_overall %>"          
-        value="specified"
-        class="filter-range-checkbox filter-checkbox-specified"
-        <% if (specified) { %>
-        checked
-        <% } %>
-      >
-      <%= label_specified %> 
-    </label>
-    <label class="checkbox-inline">
-      <input type="checkbox" 
-        data-column="<%= column_val %>"  
-        data-column-min="<%= column_min %>"
-        data-column-max="<%= column_max %>"      
-        value="null"
-        class="column-filter-checkbox filter-range-checkbox filter-checkbox-unspecified"
-        <% if (unspecified) { %>
-        checked
-        <% } %>
-      >
-      <%= label_unspecified %> 
-    </label>
+        data-value-max-overall="<%= value_max_overall %>"             
+        data-value-range='<%= value_range %>'             
+      ></div>
+    </div>
+    <div class="filter-unspecified">
+      <label class="checkbox-inline">
+        <input type="checkbox" 
+          data-column-min="<%= column_min %>"
+          data-column-max="<%= column_max %>"    
+          data-value-min-overall="<%= value_min_overall %>"
+          data-value-max-overall="<%= value_max_overall %>"          
+          value="specified"
+          class="filter-range-checkbox filter-checkbox-specified"
+          <% if (specified) { %>
+          checked
+          <% } %>
+        >
+        <%= label_specified %> 
+      </label>
+      <label class="checkbox-inline">
+        <input type="checkbox" 
+          data-column="<%= column_val %>"  
+          data-column-min="<%= column_min %>"
+          data-column-max="<%= column_max %>"      
+          value="null"
+          class="column-filter-checkbox filter-range-checkbox filter-checkbox-unspecified"
+          <% if (unspecified) { %>
+          checked
+          <% } %>
+        >
+        <%= label_unspecified %> 
+      </label>
+    </div>
   </div>
 </div>

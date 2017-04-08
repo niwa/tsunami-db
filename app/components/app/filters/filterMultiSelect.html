@@ -1,12 +1,14 @@
-<%= label %>
-<select id="multiselect-<%= column %>" 
-        class="column-filter-multiselect form-control" 
-        data-column="<%= column %>" 
-        multiple="multiple" 
-        data-ph="<%= title %>">
-  <% _.each(options,function(option){ %> 
-  <option value="<%= option.value %>" <% if (option.selected) { %>selected<% } %> > 
-    <%= option.label %>
-  </option>
-  <% }) %>
-</select>
+<div class="column-filter-wrap filter-type-multiselect">
+  <%= label %>
+  <select id="multiselect-<%= column %>" 
+          class="column-filter-multiselect form-control" 
+          data-column="<%= column %>" 
+          multiple="multiple" 
+          data-ph="<%= title %>">
+    <% _.each(options,function(option){ %> 
+    <option value="<%= option.value %>" <% if (option.selected) { %>selected<% } %> > 
+      <%= option.label %>
+    </option>
+    <% }) %>
+  </select>
+</div>

@@ -1,0 +1,18 @@
+<% _.each(columnGroups,function(group){ %>
+<div class="form-group <%= group.classes %> well form-group-<%= group.id %>">          
+  <h4><%= group.title %></h4>
+  <ul class="list-unstyled group-filters"></ul>
+  <div class="pull-right group-bottom-buttons">
+    <div class="btn btn-primary btn-round query-group-reset" data-group="<%= group.id %>">
+      <%= t.filters.reset_group %> 
+    </div>          
+    <div class="btn btn-info btn-round expand-group hidden-expanded-group" data-group="<%= group.id %>">
+      <%= t.filters.all_group_filters %><span class="icon-icon_filter-open"></span> 
+    </div>
+    <div class="btn btn-info btn-round expand-group visible-expanded-group" data-group="<%= group.id %>">
+      <%= t.filters.default_group_filters %><span class="icon-icon_filter-close"></span>
+    </div>                  
+  </div>         
+</div>         
+
+<% }) %>  

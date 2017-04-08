@@ -1,37 +1,39 @@
-<%= label %>
-<div class="row column-filter-min-max-addon">
-  <div class="col-sm-4">
-    <div class="input-group">
-      <div class="input-group-addon"><%= addon_min %></div>    
-      <input type="text"
-        class="form-control column-filter-text" 
-        data-column="<%= column_min %>"      
-        data-column-type="<%= type %>"      
-        id="text-<%= column_min %>" 
-        placeholder="<%= title_min %>" 
-        value="<%= value_min %>"
-        data-toggle="tooltip" 
-        data-placement="bottom" 
-        data-trigger="manual"
-        title="<%= input_hint %>" 
-      >   
+<div class="column-filter-wrap filter-type-min-max-addon">
+  <%= label %>
+  <div class="row column-filter-min-max-addon">
+    <div class="col-sm-4">
+      <div class="input-group">
+        <div class="input-group-addon"><%= addon_min %></div>    
+        <input type="text"
+          class="form-control column-filter-text" 
+          data-column="<%= column_min %>"      
+          data-column-type="<%= type %>"      
+          id="text-<%= column_min %>" 
+          placeholder="<%= title_min %>" 
+          value="<%= value_min %>"
+          data-toggle="tooltip" 
+          data-placement="bottom" 
+          data-trigger="manual"
+          title="<%= input_hint %>" 
+        >   
+      </div>
     </div>
-  </div>
-  <div class="col-sm-4">    
-    <div class="input-group">
-      <div class="input-group-addon"><%= addon_max %></div>    
-      <input type="text"
-        class="form-control column-filter-text" 
-        data-column="<%= column_max %>"    
-        data-column-type="<%= type %>"      
-        id="text-<%= column_max %>" 
-        placeholder="<%= title_max %>" 
-        value="<%= value_max %>"
-        data-toggle="tooltip" 
-        data-placement="bottom" 
-        data-trigger="manual"
-        title="<%= input_hint %>"
-      >   
+    <div class="col-sm-4">    
+      <div class="input-group">
+        <div class="input-group-addon"><%= addon_max %></div>    
+        <input type="text"
+          class="form-control column-filter-text" 
+          data-column="<%= column_max %>"    
+          data-column-type="<%= type %>"      
+          id="text-<%= column_max %>" 
+          placeholder="<%= title_max %>" 
+          value="<%= value_max %>"
+          data-toggle="tooltip" 
+          data-placement="bottom" 
+          data-trigger="manual"
+          title="<%= input_hint %>"
+        >   
+      </div>
     </div>
   </div>
 </div>

@@ -1,21 +1,23 @@
-<%= label %>
-<div class="row column-filter-min-max">
-  <div class="col-sm-4">
-    <input type="text"
-      class="form-control column-filter-text" 
-      data-column="<%= column_min %>"      
-      data-column-type="<%= type %>"      
-      id="text-<%= column_min %>" 
-      placeholder="<%= title_min %>" 
-      value="<%= value_min %>">   
-  </div>
-  <div class="col-sm-4">    
-    <input type="text"
-      class="form-control column-filter-text" 
-      data-column="<%= column_max %>"    
-      data-column-type="<%= type %>"      
-      id="text-<%= column_max %>" 
-      placeholder="<%= title_max %>" 
-      value="<%= value_max %>">   
+<div class="column-filter-wrap filter-type-min-max">
+  <%= label %>
+  <div class="row column-filter-min-max">
+    <div class="col-sm-4">
+      <input type="text"
+        class="form-control column-filter-text" 
+        data-column="<%= column_min %>"      
+        data-column-type="<%= type %>"      
+        id="text-<%= column_min %>" 
+        placeholder="<%= title_min %>" 
+        value="<%= value_min %>">   
+    </div>
+    <div class="col-sm-4">    
+      <input type="text"
+        class="form-control column-filter-text" 
+        data-column="<%= column_max %>"    
+        data-column-type="<%= type %>"      
+        id="text-<%= column_max %>" 
+        placeholder="<%= title_max %>" 
+        value="<%= value_max %>">   
+    </div>
   </div>
 </div>

@@ -9,7 +9,9 @@ define([
   'text!./filterMinMaxAddon.html',
   'text!./filterMinMaxSlider.html',
   'text!./filterSearch.html',
-  'text!./filterLabel.html'
+  'text!./filterLabel.html',
+  'text!./filterGroups.html',
+  'text!./filterGroupFilters.html'
 ], function (
   $, _, Backbone,
   bootstrap,
@@ -21,7 +23,9 @@ define([
   templateFilterMinMaxAddon,
   templateFilterMinMaxSlider,
   templateFilterSearch,
-  templateFilterLabel  
+  templateFilterLabel,
+  templateFilterGroups,
+  templateFilterGroupFilters
 ) {
 
   var FiltersView = Backbone.View.extend({
@@ -37,123 +41,170 @@ define([
       "click .nav-link" : "handleNavLink"
     },
     initialize : function () {
-//      this.render()
+      this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
-      this.listenTo(this.model, "change:recQuery", this.render);      
-      this.listenTo(this.model, "change:expanded", this.render);      
-    },
+      this.listenTo(this.model, "change:recQuery", this.queryUpdated);      
+      this.listenTo(this.model, "change:expanded", this.expandedUpdated);      
+    },    
     render: function () {
+      this.previousQuery = $.extend(true, {}, this.model.get("recQuery"))
+      this.previousExpanded = this.model.getExpanded()
+      // generate filter template 
+      this.$el.html(_.template(template)({t:this.model.getLabels()}))
+           
+      this.renderGroups()
+      this.renderGroupFilters()  
       
+      this.checkExpanded()
+      this.checkFiltered()           
+      
+      return this
+    },      
+    expandedUpdated: function () {      
+      this.updateGroupFilters()         
+      this.checkExpanded()        
+      this.previousExpanded = this.model.getExpanded()         
+    },
+    queryUpdated: function () {          
+      this.updateGroupFilters()    
+      this.checkFiltered()         
+      this.previousQuery = $.extend(true, {}, this.model.get("recQuery"))               
+    },
+    checkExpanded: function () {
       if (this.model.allExpanded()) {
-        this.$el.addClass("expanded") 
-      } else {
-        this.$el.removeClass("expanded") 
-      }
-      if (_.isEmpty(this.model.get("recQuery"))) {
-        this.$el.removeClass("filtered") 
-      } else {
-        this.$el.addClass("filtered") 
-      }
-      
-      
-      var columnCollection = this.model.get("columnCollection").byAttribute("filterable")
-      
-      
-      var queryKeyword = typeof (this.model.get("recQuery")["s"]) !== "undefined"
+        this.$el.addClass("expanded")       
+        // update search form
+        var queryKeyword = typeof (this.model.get("recQuery")["s"]) !== "undefined"
           ? this.model.get("recQuery")["s"]
-          : "" 
-      var search = this.model.allExpanded() 
-        ? _.template(templateFilterSearch)({
+          : ""         
+        this.$('.form-search').html(
+          _.template(templateFilterSearch)({
             title:false,
             column:"s",
             type:"keyword",
             value:queryKeyword,          
             placeholder:this.model.getLabels().filters.placeholder_search
           })
-        : ""
-      // generate filter template 
-      // this is crazy! it gets generated again with every filter interaction!!!
-      // TODO: optimise
-      this.$el.html(_.template(template)({
-        t:this.model.getLabels(),        
-        search:search,
-        columnGroups:_.filter(
-          _.map(this.model.get("columnGroupCollection").models,function(group){
-          // group classes
-          var classes = "group-" + group.id 
-          if (this.model.isExpanded(group.id)) {
-            classes +=  " expanded-group"  
-          }
-
-          var columnsByGroup = columnCollection.byGroup(group.id).models 
-
-          if (columnsByGroup.length === 0) {
-            return false
-          } else {          
-            return {
-              title:group.get("title"),              
-              hint:group.get("hint"),
-              id:group.id,
-              classes: classes,
-              groupReset: _.reduce(columnsByGroup,function(memo, column){
-                return memo || this.isColumnSet(column)
-              }, false, this),
-              groupFilters: _.filter(
-                _.map(columnsByGroup,function(column){
-                  return this.getFilterHtml(column, group.id)                              
-                },this),
-                function(html){
-                  return html !== false
-                }
-              )
-            }          
-          }          
-          },this),
-          function(group){
-            return group !== false
-          }
         )
+
+      } else {
+        this.$el.removeClass("expanded") 
+        this.$('.form-search').html('')
+      }
+      
+      _.each(this.model.get("columnGroupCollection").models,function(group){
+          // toggle expanded
+        this.$('.group-'+group.id).toggleClass("expanded-group", this.model.isExpanded(group.id))          
+      }, this)
+    },
+    checkFiltered: function () {
+      if (_.isEmpty(this.model.get("recQuery"))) {
+        this.$el.removeClass("filtered") 
+      } else {
+        this.$el.addClass("filtered") 
+      }
+    },     
+    renderGroups: function() {
+      this.$('.form-groups').html(_.template(templateFilterGroups)({      
+        t: this.model.getLabels(),                        
+        columnGroups: _.reduce(this.model.get("columnGroupCollection").models,
+          function(groups, group){        
+            if(group.get("filter") !== false) {
+              groups.push({
+                title:group.get("title"),              
+                hint:group.get("hint"),
+                id:group.id,
+                classes: "group-" + group.id
+              })          
+            }
+            return groups
+          },[], this)
       }))
+      this.initTooltips()             
+    },
+    renderGroupFilters: function(){
+      var columnCollection = this.model.get("columnCollection").byAttribute("filterable")            
+      _.each(this.model.get("columnGroupCollection").models,function(group){       
+        var columnsByGroup = columnCollection.byGroup(group.id).models 
+        
+        // add group filter options
+        this.$('.form-group-'+group.id+' .group-filters').html(
+          _.template(templateFilterGroupFilters)({      
+            groupFilters: _.map(columnsByGroup,function(column){
+              return {
+                id: column.id,
+                html: this.getFilterHtml(column, group.id)
+              }              
+            },this),               
+          })
+        )   
+        // also toggle group reset button
+        this.$('.form-group-'+group.id+' .query-group-reset').toggle(
+          _.reduce(columnsByGroup,function(memo, column){
+            return memo || this.isColumnSet(column)
+          }, false, this)
+        )                 
+      },this)     
       this.initMultiselect()      
       this.initRangeSlider()      
-      this.initTooltips()      
-      
-      return this
+    },
+    updateGroupFilters: function(){
+      var columnCollection = this.model.get("columnCollection").byAttribute("filterable")            
+      _.each(this.model.get("columnGroupCollection").models,function(group){       
+        var columnsByGroup = columnCollection.byGroup(group.id).models 
+        _.each(columnsByGroup,function(column){  
+          // only update those that have changed          
+          if(this.isColumnSet(column) !== this.isColumnSet(column, this.previousQuery)
+            || this.model.isExpanded(group.id) !== (this.previousExpanded.indexOf(group.id) > -1)
+          ) {            
+            this.$('.form-group-'+group.id+' .group-filters .column-filter-'+column.id).html(
+              this.getFilterHtml(column, group.id) || ""                   
+            )
+            this.initMultiselect(this.$('.form-group-'+group.id+' .group-filters .column-filter-'+column.id))
+            this.initRangeSlider(this.$('.form-group-'+group.id+' .group-filters .column-filter-'+column.id))
+          }
+        },this)
+        this.$('.form-group-'+group.id+' .query-group-reset').toggle(
+          _.reduce(columnsByGroup,function(memo, column){
+            return memo || this.isColumnSet(column)
+          }, false, this)
+        )          
+      },this)     
     },    
-    
-    isColumnSet:function(column){
-          //
-        var column_min = "", // the query argument for min value
-            column_max = "", // the query argument for max value
-            column_value = "", // the actual query column
-            queryMin = "", // the current query min value
-            queryMax = "", // the current query max value
-            queryValue = "", // the current actual query column value, here can ne null for unspecified
+    isColumnSet:function(column, query){      
+      query = typeof query !== 'undefined' ? query : this.model.get("recQuery")
+      
+      var column_min = "", // the query argument for min value
+          column_max = "", // the query argument for max value
+          column_value = "", // the actual query column
+          queryMin = "", // the current query min value
+          queryMax = "", // the current query max value
+          queryValue = "", // the current actual query column value, here can ne null for unspecified
 
-        column_min = column.getQueryColumnByType("min")
-        column_max = column.getQueryColumnByType("max")  
-        column_value = column.getQueryColumnByType("value")
-        if(column.get('combo') === 1) {  
-          // get the combo column
-          var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))            
-          if(column.get('comboType') === "min") {
-            column_max = combo_column.getQueryColumnByType("max")
-          } else if(column.get('comboType') === "max"){
-            column_min = combo_column.getQueryColumnByType("min")
-          }           
-        }
-        // figure out the query values from query for each query column          
-        queryMin = typeof (this.model.get("recQuery")[column_min]) !== "undefined"
-          ? this.model.get("recQuery")[column_min]
-          : ""              
-        queryMax = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
-          ? this.model.get("recQuery")[column_max]
-          : ""       
-        queryValue = typeof (this.model.get("recQuery")[column_value]) !== "undefined"
-          ? this.model.get("recQuery")[column_value]
-          : ""         
+      column_min = column.getQueryColumnByType("min")
+      column_max = column.getQueryColumnByType("max")  
+      column_value = column.getQueryColumnByType("value")
+      if(column.get('combo') === 1) {  
+        // get the combo column
+        var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))            
+        if(column.get('comboType') === "min") {
+          column_max = combo_column.getQueryColumnByType("max")
+        } else if(column.get('comboType') === "max"){
+          column_min = combo_column.getQueryColumnByType("min")
+        }           
+      }
+      // figure out the query values from query for each query column          
+      queryMin = typeof (query[column_min]) !== "undefined"
+        ? query[column_min]
+        : ""              
+      queryMax = typeof (query[column_max]) !== "undefined"
+        ? query[column_max]
+        : ""       
+      queryValue = typeof (query[column_value]) !== "undefined"
+        ? query[column_value]
+        : ""         
 
-        return queryMin.length > 0 || queryMax.length > 0 || queryValue.length > 0 
+      return queryMin.length > 0 || queryMax.length > 0 || queryValue.length > 0 
     },
     
     getFilterHtml:function(column, groupId){      
@@ -385,9 +436,13 @@ define([
       
     },
     
-    initRangeSlider: function(){
+    initRangeSlider: function($filter){
+      var $filter_sliders = typeof $filter !== "undefined" 
+        ? $filter.find('.column-filter-min-max-slider .filter-slider') 
+        : this.$('.column-filter-min-max-slider .filter-slider')    
+        
       var that = this
-      this.$('.column-filter-min-max-slider .filter-slider').each(function(){
+      $filter_sliders.each(function(){
         var slider = this;
                 
         var ranges = JSON.parse($(this).attr('data-value-range'))
@@ -433,9 +488,13 @@ define([
     },
    
     
-    initMultiselect: function(){
+    initMultiselect: function($filter){
+      var $filter_select = typeof $filter !== "undefined" 
+        ? $filter.find('.column-filter-multiselect') 
+        : this.$('.column-filter-multiselect')    
+        
       var that = this
-      this.$('.column-filter-multiselect').each(function(){
+      $filter_select.each(function(){
         var title = $(this).attr('data-ph')
         var $element = $(this)
         $element.select2({
@@ -446,7 +505,7 @@ define([
           that.querySubmit()
         })
         
-        // hack to prevent selct2 from opening "ghost" list after unselect
+        // hack to prevent select2 from opening "ghost" list after unselect
         // see https://github.com/select2/select2/issues/3320
         .on("select2:unselecting", function (e) {
           $(this).data('unselecting', true);

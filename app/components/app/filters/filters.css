@@ -1,4 +1,5 @@
 #filters {
+  overflow: hidden;
   display:none;
 }
 
@@ -7,6 +8,13 @@
   -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
   -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
   box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);  
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  background: #f5f6f6;
+  height:125px;  
 }
 
 .filter-top h1{
@@ -24,6 +32,12 @@
 
 .filter-main {
   padding-top:15px;
+  position: absolute;
+  top: 125px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;  
 }
 
 .column-hint {
@@ -62,7 +76,7 @@
   display:block;
 }
 
-.li-filter{
+.li-filter .column-filter-wrap {
   margin-bottom:30px
 }
 .filter-button {

@@ -1,7 +1,6 @@
 #record {
-    overflow: hidden;
-      display:none;
-    
+  overflow: hidden;
+  display:none;    
 }
 
 .record-top {
@@ -40,7 +39,7 @@ a.record-top-menu-link {
 }
 
 .record-top-menu li:first-child a.record-top-menu-link {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 a.record-top-menu-link.active,
@@ -51,19 +50,19 @@ a.record-top-menu-link:hover{
 
 
 .close-record {
-    float: right;
-    position: relative;    
-    top: -10px;
+  float: right;
+  position: relative;    
+  top: -10px;
 }
 
 .record-main {
-    padding-top: 30px;
-    position: absolute;
-    top: 150px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow: auto;
+  padding-top: 30px;
+  position: absolute;
+  top: 150px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
 }
 
 
@@ -78,12 +77,6 @@ a.record-top-menu-link:hover{
 
 .record-main .group-other .column-title {
   margin-bottom:20px
-}
-
-
-
-.record-main {
-  padding-top: 30px;
 }
 
 #record .group h3 { 

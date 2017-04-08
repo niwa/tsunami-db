@@ -1,0 +1,5 @@
+<% _.each(groupFilters,function(filter){ %>
+<li class="clearfix li-filter column-filter column-filter-<%= filter.id %>">
+  <% if (filter.html) { %><%= filter.html %><% } %>    
+</li>
+<% }) %>
