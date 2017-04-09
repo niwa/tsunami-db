@@ -120,7 +120,6 @@ define([
             return groups
           },[], this)
       }))
-      this.initTooltips()             
     },
     renderGroupFilters: function(){
       var columnCollection = this.model.get("columnCollection").byAttribute("filterable")            
@@ -147,6 +146,7 @@ define([
       },this)     
       this.initMultiselect()      
       this.initRangeSlider()      
+      this.initTooltips()                   
     },
     updateGroupFilters: function(){
       var columnCollection = this.model.get("columnCollection").byAttribute("filterable")            
@@ -157,11 +157,13 @@ define([
           if(this.isColumnSet(column) !== this.isColumnSet(column, this.previousQuery)
             || this.model.isExpanded(group.id) !== (this.previousExpanded.indexOf(group.id) > -1)
           ) {            
-            this.$('.form-group-'+group.id+' .group-filters .column-filter-'+column.id).html(
+            var $filter = this.$('.form-group-'+group.id+' .group-filters .column-filter-'+column.id)
+            $filter.html(
               this.getFilterHtml(column, group.id) || ""                   
-            )
-            this.initMultiselect(this.$('.form-group-'+group.id+' .group-filters .column-filter-'+column.id))
-            this.initRangeSlider(this.$('.form-group-'+group.id+' .group-filters .column-filter-'+column.id))
+            )            
+            this.initMultiselect($filter)
+            this.initRangeSlider($filter)
+            this.initTooltips($filter)
           }
         },this)
         this.$('.form-group-'+group.id+' .query-group-reset').toggle(
@@ -418,9 +420,18 @@ define([
       }
     },
     
-    initTooltips:function(){
-      this.$('[data-toggle="tooltip"]').tooltip()
-      this.$('input[type="text"][data-toggle="tooltip"]').each(function(){
+    initTooltips:function($filter){
+      // attribute tooltips
+      var $select = typeof $filter !== "undefined" 
+        ? $filter.find('label a[data-toggle="tooltip"]') 
+        : this.$('label a[data-toggle="tooltip"]')          
+      $select.tooltip()
+      
+      // input field tooltips
+      $select = typeof $filter !== "undefined" 
+        ? $filter.find('input[type="text"][data-toggle="tooltip"]') 
+        : this.$('input[type="text"][data-toggle="tooltip"]')           
+      $select.each(function(){
         $(this).on("input",function(){               
           if ($(this).val().trim() !== "") {
             $(this).tooltip('show')
@@ -437,12 +448,12 @@ define([
     },
     
     initRangeSlider: function($filter){
-      var $filter_sliders = typeof $filter !== "undefined" 
+      var $select = typeof $filter !== "undefined" 
         ? $filter.find('.column-filter-min-max-slider .filter-slider') 
         : this.$('.column-filter-min-max-slider .filter-slider')    
         
       var that = this
-      $filter_sliders.each(function(){
+      $select.each(function(){
         var slider = this;
                 
         var ranges = JSON.parse($(this).attr('data-value-range'))
@@ -489,12 +500,12 @@ define([
    
     
     initMultiselect: function($filter){
-      var $filter_select = typeof $filter !== "undefined" 
+      var $select = typeof $filter !== "undefined" 
         ? $filter.find('.column-filter-multiselect') 
         : this.$('.column-filter-multiselect')    
         
       var that = this
-      $filter_select.each(function(){
+      $select.each(function(){
         var title = $(this).attr('data-ph')
         var $element = $(this)
         $element.select2({
