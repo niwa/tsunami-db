@@ -266,7 +266,6 @@
 // Entry parsing
 
 	function handleEntryPoint ( index, value, that ) {
-    console.log(value)
 		var percentage;
 
 		// Wrap numerical input in an array.
