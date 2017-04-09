@@ -2,7 +2,8 @@
   {
     "id":"id",        
     "title":"Record",
-    "hint":""    
+    "hint":"",
+    "filter":false
   },   
   {
     "id":"site",        
@@ -31,6 +32,7 @@
   },
   {
     "id":"other",        
-    "title":"Proxies & References"    
+    "title":"Proxies & References",
+    "filter":false    
   }
 ]
