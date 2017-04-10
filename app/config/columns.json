@@ -87,7 +87,7 @@
     "searchable":1,        
     "values":{
       "values":["Deposit present","Deposit absent","Not applicable", "Unknown"],         
-      "colors":["#60BE8D","#9F82BC","#FABD13","#969696"]      
+      "colors":["#2EA563","#E34E4F","#FFA700","#969696"]      
     }
   },
   {
@@ -121,7 +121,7 @@
         "1800 AD and later",
         ""
       ],      
-      "colors":["#225ea8","#41b6c4","#6bd28d","#969696"]      
+      "colors":["#007DA9","#2EA563","#F37800","#969696"]      
     }
   },   
   {
@@ -287,7 +287,7 @@
         "Record satisfies 9 or more palaeotsunami criteria.",
         "Record satisfies between 5 and 8 palaeotsunami criteria.",
         "Record satisfies between 1 and 4 palaeotsunami criteria."],
-      "colors":["#60BE8D","#FABD13","#9F82BC"]
+      "colors":["#2EA563","#FFA700","#E34E4F"]
     }
   },
   {
@@ -307,7 +307,7 @@
         "Geomorphic",
         "Anthropological/Pūrākau [Oral record]"
       ],
-      "colors":["#8c510a","#dfc27d","#80cdc1"]
+      "colors":["#8165B9","#CF4467","#F37800"]
     }
   },  
   {
@@ -564,7 +564,7 @@
         "Almost exclusively related to palaeotsunamis – while in many cases there is a strong likelihood that the inferred source is correct, there are no weightings given.",
         "Invariably relates to historical events."
         ],
-      "colors":["#a6611a","#80cdc1"]      
+      "colors":["#8165B9","#2EA563"]      
     }
   },  
   {
