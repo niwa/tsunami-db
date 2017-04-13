@@ -23,6 +23,19 @@ define([
         model.setActive(model.pass(query))        
       })
     },
+    highlightReset: function(){
+      _.each(this.byHighlight().models, function(record){
+        record.setHighlight(false)
+      })
+    },
+    highlightRecord:function(recordId){
+      this.highlightReset()
+      var record = this.get(recordId)
+      if(typeof record !== 'undefined') {        
+        record.setHighlight(true)
+      }
+      return record
+    },
     updateRecords:function(args){
       this.query = args.query
 //      console.log("recordCollection.updateRecords")
@@ -50,6 +63,11 @@ define([
       this.selectedId = args.selectedId     
       
       
+    },
+    byHighlight: function(){
+      return new RecordCollection(this.filter(function(model){
+        return model.isHighlight()
+      }),this.options);         
     },
     byXY:function(x,y){
       return new RecordCollection(this.filter(function(model){

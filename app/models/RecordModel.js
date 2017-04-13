@@ -11,6 +11,7 @@ define([
       }
       this.set('formatted',{})
       this.set('selected',false)
+      this.set('highlight',false)
 
     },
     mapAttributes:function(featureAttributeMap){
@@ -58,12 +59,12 @@ define([
       }
 
     },
-    isMouseOver:function(){
-      return this.attributes.mouseOver
+    isHighlight:function(){
+      return this.attributes.highlight
     },    
-    setMouseOver : function(bool){
+    setHighlight : function(bool){
       bool = typeof bool !== 'undefined' ? bool : true   
-      this.set('mouseOver',bool)      
+      this.set('highlight',bool)      
       // only when not active already
       if (this.getLayer()){
         this.getLayer().setMouseOver(bool) 

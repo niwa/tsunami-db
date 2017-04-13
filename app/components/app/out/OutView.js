@@ -67,6 +67,7 @@ define([
         case "map":
           this.views.table.model.setActive(false)          
           this.views.map.model.setActive()          
+          this.views.map.model.set("outType",this.model.getOutMapType())
           this.updateMapView()          
           break
         case "table":
@@ -82,7 +83,9 @@ define([
     },
     updateOutMapType:function(){
 //      console.log("OutView.updateOutMapType")
-      this.views.map.model.set("outType",this.model.getOutMapType())
+      if (this.model.getOutType() === 'map'){
+        this.views.map.model.set("outType",this.model.getOutMapType())
+      }
     },
     updateGeoQuery:function(){
       this.views.map.model.set("geoQuery",this.model.get('geoQuery'))      

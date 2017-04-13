@@ -95,25 +95,25 @@ define([
     
     
     initInteractions : function(){
-      var that = this
+//      var that = this
       if (this.attributes.type === "point") {
       
         this.attributes.mapLayer
           .off('click')
           .on('click',_.bind(this.pointLayerClick,this))
           .on('mouseover',_.bind(this.pointLayerMouseOver,this))
-//          .on('mousemove',_.bind(this.pointLayerMouseMove,this))
+          .on('mousemove',_.bind(this.pointLayerMouseOver,this))
           .on('mouseout',_.bind(this.pointLayerMouseOut,this))
       }      
     },
     pointLayerClick:function(e){
       if (typeof this.attributes.eventContext !== "undefined") {
-         console.log("layer::pointLayerClick: " + this.id)
+//         console.log("layer::pointLayerClick: " + this.id)
 
         var containerPoint = this.attributes.mapLayer._map.layerPointToContainerPoint(e.layerPoint)
 
         this.attributes.eventContext.trigger('pointLayerClick',{                
-          layerId: this.id,
+          id: this.id,
           latlng:e.latlng,
           x:containerPoint.x,
           y:containerPoint.y,
@@ -123,11 +123,11 @@ define([
     },
     pointLayerMouseOver:function(e){
       if (typeof this.attributes.eventContext !== "undefined") {
-        console.log("layer::pointLayerMouseOver: " + this.id)
+//        console.log("layer::pointLayerMouseOver: " + this.id)
         var containerPoint = this.attributes.mapLayer._map.layerPointToContainerPoint(e.layerPoint)
          
         this.attributes.eventContext.trigger('pointLayerMouseOver',{                
-          layerId: this.id,
+          id: this.id,
           latlng:e.latlng,
           x:containerPoint.x,
           y:containerPoint.y,
@@ -136,10 +136,10 @@ define([
       }
     },
     pointLayerMouseOut:function(e){
-      console.log("layer::pointLayerMouseOut")
+//      console.log("layer::pointLayerMouseOut " + this.id)
       if (typeof this.attributes.eventContext !== "undefined") {
         this.attributes.eventContext.trigger('pointLayerMouseOut',{                
-          layerId: this.id,
+          id: this.id,
           event:e
         })              
       }
