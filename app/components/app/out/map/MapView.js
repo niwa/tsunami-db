@@ -176,13 +176,14 @@ define([
       
       switch(this.model.getOutType()){
         case "control":
-          this.views.control.model.setActive()
           this.views.plotLat.model.setActive(false)
-          this.$el.removeClass('full-width')
+          this.views.control.model.setActive()
+          this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})                      
+          this.$el.removeClass('full-width')          
           break
         case "plot-lat":
-          this.views.plotLat.model.setActive()
           this.views.control.model.setActive(false)
+          this.views.plotLat.model.setActive()          
           this.$el.removeClass('full-width')
           break
         default:
@@ -194,7 +195,9 @@ define([
       this.invalidateSize(true)
     },
     updateOutColorColumn:function(){
-      this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})  
+      if (this.model.getOutType() === 'control') {
+        this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})  
+      }
     },
     updateOutPlotColumns:function(){
       this.views.plotLat.model.set({outPlotColumns:
