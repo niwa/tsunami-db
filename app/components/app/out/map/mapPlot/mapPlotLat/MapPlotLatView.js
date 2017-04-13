@@ -124,7 +124,7 @@ define([
     },
     
     mouseOverRecordUpdated:function(){
-      console.log("MapPlotLatView.mouseOverRecordUpdated")            
+//      console.log("MapPlotLatView.mouseOverRecordUpdated")            
       var id = this.model.get("mouseOverRecordId")
       this.$(".select-record").removeClass('hover')
       if (id !== "") {
@@ -133,13 +133,11 @@ define([
       
     },
     selectedRecordUpdated:function(){
-      console.log("MapPlotLatView.selectedRecordUpdated")      
       this.renderPlot()
     },    
     
     
     updateOutPlotColumns:function(){
-      console.log("MapPlotLatView.updateOutPlotColumns")      
       this.renderPlot()
       this.renderControl()
     },    

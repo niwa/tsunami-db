@@ -380,10 +380,10 @@ define([
         }
       )
     },
-    mouseOverLayerUpdated:function(){
-      this.updatePopupContent()
-      this.views.plotLat.model.set("mouseOverRecordId",this.model.get("mouseOverLayerId"))
-    },
+//    mouseOverLayerUpdated:function(){
+//      this.updatePopupContent()
+//      this.views.plotLat.model.set("mouseOverRecordId",this.model.get("mouseOverLayerId"))
+//    },
     selectedLayerUpdated:function(){
       this.updatePopupContent()
       this.views.plotLat.model.set("selectedRecordId",this.model.get("selectedLayerId"))
@@ -407,7 +407,7 @@ define([
     },    
 
     updatePopupContent:function(){  
-//      console.log("MapView.selectedLayerIdChanged")    
+      console.log("MapView.selectedLayerIdChanged")    
       if(typeof this.model.get("multipleTooltip") !== "undefined"
       && this.model.get("multipleTooltip") !== null){
         this.model.get("multipleTooltip").setContent(this.getMultiplesPopupContent())
@@ -416,18 +416,18 @@ define([
     getMultiplesPopupContent:function(){
       var layers = this.model.get("popupLayers")      
       return _.template(templatePopupMultiple)({
-            layers:_.map(layers,function(layer){
-              var crgba = layer.color.colorToRgb() 
-              return {
-                label:layer.label,
-                color:layer.color,
-                fillColor: 'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)',
-                id:layer.id,
-                selected:this.model.get("selectedLayerId") === layer.id,
-                mouseOver:this.model.get("mouseOverLayerId") === layer.id
-              }
-            },this)
-          })
+        layers:_.map(layers,function(layer){
+          var crgba = layer.color.colorToRgb() 
+          return {
+            label:layer.label,
+            color:layer.color,
+            fillColor: 'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)',
+            id:layer.id,
+            selected:this.model.get("selectedLayerId") === layer.id,
+            mouseOver:this.model.get("mouseOverLayerId") === layer.id
+          }
+        },this)
+      })
     },
     
     updateGeoQuery:function(){
@@ -602,11 +602,11 @@ define([
     },
 
     layerSelect:function(e){
-      console.log("MapView.layerSelect")
+//      console.log("MapView.layerSelect")
 
       e.preventDefault()
       this.$el.trigger('mapLayerSelect',{                
-        layerId: $(e.currentTarget).attr("data-layerid")
+        id: $(e.currentTarget).attr("data-layerid")
       })
     },
     
