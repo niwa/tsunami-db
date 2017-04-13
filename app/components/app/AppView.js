@@ -241,7 +241,7 @@ define([
           var query = that.model.getRecords().query
           var newQuery = that.model.getRecordQuery()
           that.model.getRecords().updateRecords({
-            query:that.model.getRecordQuery(),
+            query:newQuery,
             selectedId:that.model.getSelectedRecordId(),
             colorColumn:that.model.getOutColorColumn()
           })   
