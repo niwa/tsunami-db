@@ -641,7 +641,11 @@ define([
           west:this.roundDegrees(e.layer.getBounds().getWest()),
           east:this.roundDegrees(e.layer.getBounds().getEast())
         }
-      })        
+      })  
+      
+      map.fitBounds(e.layer.getBounds())
+      
+      
     },
 
     handleNavLink : function(e){
