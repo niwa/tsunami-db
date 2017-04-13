@@ -380,10 +380,10 @@ define([
         }
       )
     },
-//    mouseOverLayerUpdated:function(){
+    mouseOverLayerUpdated:function(){
 //      this.updatePopupContent()
-//      this.views.plotLat.model.set("mouseOverRecordId",this.model.get("mouseOverLayerId"))
-//    },
+      this.views.plotLat.model.set("mouseOverRecordId",this.model.get("mouseOverLayerId"))
+    },
     selectedLayerUpdated:function(){
       this.updatePopupContent()
       this.views.plotLat.model.set("selectedRecordId",this.model.get("selectedLayerId"))
@@ -407,7 +407,7 @@ define([
     },    
 
     updatePopupContent:function(){  
-      console.log("MapView.selectedLayerIdChanged")    
+//      console.log("MapView.selectedLayerIdChanged")    
       if(typeof this.model.get("multipleTooltip") !== "undefined"
       && this.model.get("multipleTooltip") !== null){
         this.model.get("multipleTooltip").setContent(this.getMultiplesPopupContent())

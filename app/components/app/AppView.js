@@ -961,31 +961,45 @@ define([
         }          
       }          
     },    
-    // hover record in side panel
-    recordMouseOver : function(e,args){
-//      console.log("recordMouseOver", args.id)
-      var recordId = args.id
-      
-      if (recordId !== "" && this.mouseOverLayerId !== recordId) {
-        // cleanup
-        if (this.mouseOverLayerId !== null) {
-          var recordOld = this.model.getRecords().get(this.mouseOverLayerId)
-          if(typeof recordOld !== 'undefined') {
-            recordOld.setMouseOver(false)     
-          }              
-        }        
-        this.views.out.model.set("recordMouseOverId",recordId) ; 
+
         
-        var record = this.model.getRecords().get(recordId)
-        if (typeof record !=='undefined') {
-          record.setMouseOver()             
+    recordHighlightOn: function(recordId, isPopup) {
+//      console.log("recordHighlightOn", recordId)
+
+      isPopup = typeof isPopup !== 'undefined' ? isPopup : false
+      
+      var record = this.model.getRecords().highlightRecord(recordId)
+      if(typeof record !== 'undefined') {              
+        this.views.out.model.set("recordMouseOverId",record.id); 
+        if (isPopup) {
           this.$el.trigger('recordsPopup', { 
             records: [record] 
           }); 
-        }                
+        }      
+      }      
+    },  
+    recordHighlightOff: function() {      
+      this.model.getRecords().highlightReset()
+      this.views.out.model.set("recordMouseOverId",""); 
+    },     
+    
+    // hover record in side panel
+    //
+    //
+    //
+    recordMouseOver : function(e,args){
+//      console.log("recordMouseOver", args.id)
+      if (args.id !== "") {
+        // cleanup
+        this.recordHighlightOn(args.id, true)               
       }          
     },
+    
     // hover record on map marker
+    //
+    // highlight marker on map
+    // open popup with all overlapping markers with current highlighted
+    //
     pointLayerMouseOver : function(e,args){
 //      console.log("pointLayerMouseOver", args.id)
       var layerId = args.id
@@ -993,28 +1007,13 @@ define([
       if (layerId !== "") {        
         if (this.model.getLayers().get(layerId).get("isRecordLayer")) { 
           
-          if (this.mouseOverLayerId !== layerId) {
-            // cleanup
-            if (this.mouseOverLayerId !== null) {
-              var recordOld = this.model.getRecords().get(this.mouseOverLayerId)
-              if(typeof recordOld !== 'undefined') {
-                recordOld.setMouseOver(false)     
-              }              
-            }
-            this.mouseOverLayerId = layerId
-            //detect other records            
-            
-            var record = this.model.getRecords().get(layerId)
+          this.recordHighlightOn(layerId)
 
-            if(typeof record !== 'undefined') {
-              this.views.out.model.set("recordMouseOverId",record.id); 
-              record.setMouseOver()     
-            }
-            var overlaps = this.model.getRecords().byActive().byXY(args.x, args.y).models
-            this.$el.trigger('recordsPopup', { 
-              records: overlaps
-            });
-          }  
+          //stick all other records in popup 
+          var overlaps = this.model.getRecords().byActive().byXY(args.x, args.y).models
+          this.$el.trigger('recordsPopup', { 
+            records: overlaps
+          });
         }          
       }          
     },    
@@ -1022,88 +1021,45 @@ define([
     mapLayerMouseOver : function(e,args){
 //      console.log("mapLayerMouseOver ", args.id)
       var layerId = args.id      
-      if (layerId !== "" && this.model.getLayers().get(layerId).get("isRecordLayer")) { 
-        
-        if (this.mouseOverLayerId !== layerId) {
-          // cleanup
-          if (this.mouseOverLayerId !== null) {
-            var recordOld = this.model.getRecords().get(this.mouseOverLayerId)
-            if(typeof recordOld !== 'undefined') {
-              recordOld.setMouseOver(false)     
-            }              
-          }
-          this.mouseOverLayerId = layerId        
-          this.views.out.model.set("recordMouseOverId",layerId) ;         
-          var record = this.model.getRecords().get(layerId)
-          if (typeof record !=='undefined') {
-            record.setMouseOver()
-          }
-        }
+      if (layerId !== "" && this.model.getLayers().get(layerId).get("isRecordLayer")) {                        
+        this.recordHighlightOn(layerId)
       }          
     },
+    
+   
+    
     recordMouseOut : function(e,args){
-//      console.log("recordMouseOut", args.id)
-      var recordId = args.id                                    
-          
-      if (recordId !== "") {
-        var record = this.model.getRecords().get(recordId)
-        if(typeof record !== 'undefined') {
-          record.setMouseOver(false)     
-        }
-      }
-      this.views.out.model.set("recordMouseOverId","") ; 
+//      console.log("recordMouseOut", args.id)                                                    
+      this.recordHighlightOff()
+         
       this.$el.trigger('recordsPopup', { 
         records: [] 
       });       
     },
+    
     pointLayerMouseOut : function(e,args){
 //      this.pointLayerMouseOverLayerId = null
 //      console.log("pointLayerMouseOut", args.id)
-      if (args.id !== "") {                
-        
-        if (this.mouseOverLayerId !== args.id) {
-          // cleanup
-          if (this.mouseOverLayerId !== null) {
-            var recordOld = this.model.getRecords().get(this.mouseOverLayerId)
-            if(typeof recordOld !== 'undefined') {
-              recordOld.setMouseOver(false)     
-            }              
-          }                    
-        }
-        var record = this.model.getRecords().get(args.id)                         
-        if(typeof record !== 'undefined') { 
-          record.setMouseOver(false)          
-        }
-        this.mouseOverLayerId = null
-      }      
-      this.views.out.model.set("recordMouseOverId",""); 
+//      this.recordHighlightOff()
     },
     mapLayerMouseOut : function(e,args){
 //      console.log("mapLayerMouseOut", args.id)
       var layerId = args.id      
-      if (layerId !== "" && this.model.getLayers().get(layerId).get("isRecordLayer")) {  
-        
-        if (this.mouseOverLayerId !== args.id) {
-          // cleanup
-          if (this.mouseOverLayerId !== null) {
-            var recordOld = this.model.getRecords().get(this.mouseOverLayerId)
-            if(typeof recordOld !== 'undefined') {
-              recordOld.setMouseOver(false)     
-            }              
-          }                    
-        }        
-        var record = this.model.getRecords().get(layerId)
-        if(typeof record !== 'undefined') {
-          record.setMouseOver(false)     
-        }                
-        this.views.out.model.set("recordMouseOverId","") ;         
-        this.mouseOverLayerId = null        
+      if (layerId !== "" && this.model.getLayers().get(layerId).get("isRecordLayer")) {                
+      // cleanup
+//        this.recordHighlightCleanup()                              
+
+//        var record = this.model.getRecords().get(recordId)                         
+//        if(typeof record !== 'undefined') { 
+//          record.setMouseOver(false)          
+//        }
+        this.views.out.model.set("recordMouseOverId",""); 
       }                      
     },
 
     mapPopupClosed:function(){
 //      console.log("mapPopupClosed")  
-      
+      this.recordHighlightOff() 
     },
     
     
