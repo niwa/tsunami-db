@@ -24,7 +24,7 @@ define([
       this.handleResult()
     },  
     loadData : function (callback){       
-      console.log('try loading geojson layer: ' + this.id)
+//      console.log('try loading geojson layer: ' + this.id)
       this.setLoading(true)
       
       var that = this     
@@ -34,7 +34,7 @@ define([
         url: this.attributes.baseurl + '/' + this.attributes.path,
         success: function(data) {
           that.setLoading(false)
-          console.log("success loading geojson layer: " + that.id)          
+//          console.log("success loading geojson layer: " + that.id)          
           callback(that.geoJson(data))                        
         },
         error: function(){

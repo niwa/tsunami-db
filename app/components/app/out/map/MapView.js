@@ -28,7 +28,7 @@ define([
       "click .nav-link" : "handleNavLink"      
     },
     initialize : function(){
-      console.log('MapView.initialize')
+//      console.log('MapView.initialize')
       this.handleActive()  
 
       // set up an empty layer group for all our overlay and basemap layers
@@ -57,7 +57,7 @@ define([
 
     },
     render : function(){    
-      console.log('MapView.render')      
+//      console.log('MapView.render')      
       this.$el.html(_.template(template)({t:this.model.getLabels()}))
       this.configureMap()
       this.initViews()      
@@ -171,7 +171,7 @@ define([
       }
     },
     updateOutType:function(){
-      console.log("OutView.updateOutType")
+//      console.log("OutView.updateOutType")
       
       this.$('#map-options button').removeClass('active')
       this.$('#map-options [data-option="'+this.model.getOutType()+'"]').addClass('active')      
@@ -207,7 +207,7 @@ define([
     },
     // map configuration has been read
     configureMap : function(){
-      console.log('MapView.configureMap')
+//      console.log('MapView.configureMap')
 
       // set map options
       var config = this.model.getConfig()
@@ -238,12 +238,12 @@ define([
       // position map on current view
 //      this.updateMapView()
       
-      console.log('MapView.configureMap  mapConfigured')
+//      console.log('MapView.configureMap  mapConfigured')
       this.model.mapConfigured(true)
 
     },
     initLayerGroups: function (){
-      console.log('MapView.initLayerGroups')
+//      console.log('MapView.initLayerGroups')
       
       var _map = this.model.getMap()
       var config = this.model.getConfig()
@@ -277,7 +277,7 @@ define([
     
    
     updateMapView : function(){
-      console.log('MapView.updateMapView ')      
+//      console.log('MapView.updateMapView ')      
       var currentView = this.model.getView()
       var _map = this.model.getMap()
       
@@ -383,7 +383,7 @@ define([
       this.views.plotLat.model.set("selectedRecordId",this.model.get("selectedLayerId"))
     },
     popupLayersUpdated:function(){
-      console.log("MapView.popupLayers")
+//      console.log("MapView.popupLayers")
       var layers = this.model.get("popupLayers")  
       var map = this.model.getMap()
       map.closePopup()      
@@ -401,7 +401,7 @@ define([
     },    
 
     updatePopupContent:function(){  
-      console.log("MapView.selectedLayerIdChanged")    
+//      console.log("MapView.selectedLayerIdChanged")    
       if(typeof this.model.get("multipleTooltip") !== "undefined"
       && this.model.get("multipleTooltip") !== null){
         this.model.get("multipleTooltip").setContent(this.getMultiplesPopupContent())
@@ -521,7 +521,7 @@ define([
     
     
     onPopupClose:function(e){            
-      console.log("MapView.onPopupClose")
+//      console.log("MapView.onPopupClose")
       this.model.set("multipleTooltip",null)
       this.$el.trigger('mapPopupClosed')  
 

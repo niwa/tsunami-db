@@ -63,7 +63,7 @@ define([
           _.map(this.model.get("columnGroupCollection").models,function(group){
             // group classes
             var classes = "group-" + group.id
-            console.log(group)
+//            console.log(group)
             var columnsByGroup = columnCollection.byGroup(group.id).models 
 
             if (columnsByGroup.length === 0 || group.id === "id") {

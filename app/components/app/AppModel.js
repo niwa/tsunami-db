@@ -28,14 +28,14 @@ define([
         dataType:"json",
         url: this.attributes.baseurl + '/' +  this.attributes.configFile,
         success: function(json) {
-          console.log("... success loading app config")
+//          console.log("... success loading app config")
           that.setConfig(json)     
-          console.log("loading terms")
+//          console.log("loading terms")
           $.ajax({
             dataType:"json",
             url: that.attributes.baseurl + '/' +  that.attributes.config.labels,
             success: function(json) {
-              console.log("... success loading terms")
+//              console.log("... success loading terms")
               that.setLabels(json)          
             },
             error: function(){

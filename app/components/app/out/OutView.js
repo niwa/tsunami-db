@@ -61,7 +61,7 @@ define([
       this.initTableView()
     },    
     updateViews:function(){      
-      console.log("OutView.updateView")      
+//      console.log("OutView.updateView")      
 
       switch(this.model.getOutType()){
         case "map":
@@ -81,7 +81,7 @@ define([
       this.renderData()
     },
     updateOutMapType:function(){
-      console.log("OutView.updateOutMapType")
+//      console.log("OutView.updateOutMapType")
       this.views.map.model.set("outType",this.model.getOutMapType())
     },
     updateGeoQuery:function(){
@@ -176,7 +176,7 @@ define([
       }
     },
     initTableView : function(){
-      console.log("OutView.initTableView")
+//      console.log("OutView.initTableView")
       var componentId = '#table'
       
       if (this.$(componentId).length > 0) {
@@ -196,7 +196,7 @@ define([
       }
     },    
     initMapView : function(){
-      console.log("OutView.initMapView")
+//      console.log("OutView.initMapView")
       
       var componentId = '#map'
       
@@ -217,7 +217,7 @@ define([
     },    
     
     recordsPopup:function(){
-      console.log("OutView.recordsPopup ")
+//      console.log("OutView.recordsPopup ")
 
       this.views.map.model.set({
         popupLayers:this.model.get("recordsPopup").length > 0 
@@ -238,14 +238,14 @@ define([
       this.views.table.model.setCurrentRecords(this.model.getRecords().byActive())          
     },
     updateMapView : function(){      
-      console.log("OutView.updateMapView" )
+//      console.log("OutView.updateMapView" )
       this.views.map.model.setView(this.model.getActiveMapview())
       this.views.map.model.invalidateSize()
       this.views.map.model.setCurrentRecords(this.model.getRecords().byActive().hasLocation())      
       
     },
     updateSelectedRecord:function(){
-      console.log("OutView.updateSelectedRecord")
+//      console.log("OutView.updateSelectedRecord")
       
       var recordId = this.model.get("recordId")
       
@@ -263,7 +263,7 @@ define([
       
     },
     updateMouseOverRecord:function(){
-      console.log("OutView.updateMouseOverRecord")
+//      console.log("OutView.updateMouseOverRecord")
       
       var recordId = this.model.get("recordMouseOverId")
            

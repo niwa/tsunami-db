@@ -17,13 +17,13 @@ define([
       }),this.options)   
     },
     updateActive:function(query){
-      console.log("recordCollection.updateActive")      
+//      console.log("recordCollection.updateActive")      
       _.each(_.clone(this.models).reverse(),function(model){
         model.setActive(model.pass(query))        
       })
     },
     updateRecords:function(args){
-      console.log("recordCollection.updateRecords")
+//      console.log("recordCollection.updateRecords")
       _.each(_.clone(this.models).reverse(),function(model){
         // set active
         model.setActive(model.pass(args.query)) 

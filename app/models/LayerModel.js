@@ -41,7 +41,7 @@ define([
     },    
     setData : function (data){
       this.set('mapLayer', data)   
-      console.log('data stored ' + this.id)              
+//      console.log('data stored ' + this.id)              
       this.handleResult()
     },    
     getMapLayerDirect : function(){      
@@ -74,7 +74,7 @@ define([
           this.loadData(
             function(data){
               that.set('mapLayer', data)   
-              console.log('data loaded and stored ' + that.id)
+//              console.log('data loaded and stored ' + that.id)
 
               that.handleResult(callback)
             }              

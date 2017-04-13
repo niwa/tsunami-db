@@ -213,9 +213,9 @@ define([
     
     // record
     app.Router.on('route:db', function (recordid,query) {
-      console.log('router.db' )      
-      console.log('--- recordid ' + recordid )
-      console.log('--- query ' + query )
+//      console.log('router.db' )      
+//      console.log('--- recordid ' + recordid )
+//      console.log('--- query ' + query )
 //      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
 
       // set default path (filters) if not set
@@ -258,9 +258,9 @@ define([
     })
     // page
     app.Router.on('route:page', function (pageid,query) {
-      console.log('router.page' )      
-      console.log('--- pageid ' + pageid )
-      console.log('--- query ' + query )
+//      console.log('router.page' )      
+//      console.log('--- pageid ' + pageid )
+//      console.log('--- query ' + query )
 //      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
 
       // set default path (filters) if not set
