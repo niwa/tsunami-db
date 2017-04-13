@@ -64,7 +64,10 @@ define([
       
       return (typeof componentConditions[componentId] !== 'undefined' && componentConditions[componentId])            
       
-    },    
+    },   
+    getRecordsUpdated: function(){
+      return this.attributes.recordsUpdated
+    }
   });
   
 

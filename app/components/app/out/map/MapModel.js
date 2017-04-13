@@ -98,6 +98,9 @@ define([
     getCurrentRecords : function(){      
       return this.attributes.currentRecordCollection
     },    
+    setRecordsUpdated: function(updated){
+      this.set('recordsUpdated',updated)
+    }
   });
 
 

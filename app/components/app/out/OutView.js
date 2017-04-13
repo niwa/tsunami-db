@@ -210,7 +210,8 @@ define([
             columnCollection: this.model.get("columnCollection"),            
             active: false,
             popupLayers:[],
-            selectedLayerId: ""
+            selectedLayerId: "",
+            recordsUpdated:0,            
           })              
         });           
       }
@@ -242,6 +243,7 @@ define([
       this.views.map.model.setView(this.model.getActiveMapview())
       this.views.map.model.invalidateSize()
       this.views.map.model.setCurrentRecords(this.model.getRecords().byActive().hasLocation())      
+      this.views.map.model.setRecordsUpdated(this.model.getRecordsUpdated())      
       
     },
     updateSelectedRecord:function(){

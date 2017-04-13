@@ -51,7 +51,8 @@ define([
       this.listenTo(this.model, "change:selectedLayerId", this.selectedLayerUpdated);      
       this.listenTo(this.model, "change:mouseOverLayerId", this.mouseOverLayerUpdated);      
       
-      this.listenTo(this.model, "change:currentRecordCollection", this.updateViews);      
+      this.listenTo(this.model, "change:recordsUpdated", this.recordsUpdated);      
+//      this.listenTo(this.model, "change:currentRecordCollection", this.updateViews);      
       this.listenTo(this.model, "change:geoQuery", this.updateGeoQuery);      
 
 
@@ -119,10 +120,7 @@ define([
     initViews:function(){
       this.initMapControlView()
       this.initMapPlotLatView()
-    },        
-    updateViews:function(){
-      this.updateMapPlotLatView()
-    },        
+    },             
     initMapControlView : function(){
       var componentId = '#map-control'
       
@@ -335,6 +333,11 @@ define([
       var defaultView = this.model.getDefaultView()
       this.model.getMap().setView(defaultView.center,this.getZoomForDimensions(defaultView),{animate:true})
     },
+    
+    recordsUpdated:function(){
+//      console.log('recordsUpdated')
+      this.updateMapPlotLatView()      
+    },       
 
 
 

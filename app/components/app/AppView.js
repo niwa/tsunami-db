@@ -238,11 +238,16 @@ define([
             && that.model.columnsConfigured()
         },    
         function(){ 
+          var query = that.model.getRecords().query
+          var newQuery = that.model.getRecordQuery()
           that.model.getRecords().updateRecords({
             query:that.model.getRecordQuery(),
             selectedId:that.model.getSelectedRecordId(),
             colorColumn:that.model.getOutColorColumn()
-          })
+          })   
+          if (!_.isEqual(query, newQuery) || _.isEqual(query, {})) {
+            that.model.setRecordsUpdated()
+          }
         }
       )  
     },
@@ -371,7 +376,7 @@ define([
                 layerCollection: that.model.getLayers(),
                 recordCollection: that.model.getRecords(),
                 mapConfig: that.model.getMapConfig(),
-                recordsUpdated:0,
+                recordsUpdated:that.model.getRecordsUpdated(),
                 recordsPopup:[],
                 recordMouseOverId :"",
                 querySet:false,               
@@ -391,7 +396,7 @@ define([
 //              that.views.out.model.setActive()
               that.views.out.model.set({
                 active:           true,
-                recordsUpdated :  Date.now(),
+                recordsUpdated :  that.model.getRecordsUpdated(),
                 outType:          that.model.getOutType(),
                 outMapType:       that.model.getOutMapType(),
                 outColorColumn:   that.model.getOutColorColumn(),

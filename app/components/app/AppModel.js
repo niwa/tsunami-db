@@ -10,6 +10,7 @@ define([
       this.set("appConfigLoaded", false)
       this.set("configsLoaded",false)
       this.set("recordsConfigured",false)
+      this.set("recordsUpdated",0)
       this.set("pagesConfigured",false)
       this.set("referencesConfigured",false)
       this.set("proxiesConfigured",false)
@@ -209,6 +210,13 @@ define([
       return (typeof routeConditions[this.getRoute()] !== 'undefined' && routeConditions[this.getRoute()].indexOf(componentId) >=0)
           || (typeof componentConditions[componentId] !== 'undefined' && componentConditions[componentId])            
       
+    },
+
+    setRecordsUpdated: function(){
+      return this.set('recordsUpdated', Date.now())
+    },
+    getRecordsUpdated: function(){
+      return this.attributes.recordsUpdated
     },
 
     // ROUTECONFIG ===================================================================

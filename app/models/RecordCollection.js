@@ -9,6 +9,7 @@ define([
     initialize: function(models,options) {            
       this.options = options || {};       
       this.selectedId = ""
+      this.query = {}
     },    
     byActive: function(active){
       active = typeof active !== 'undefined' ? active : true         
@@ -23,6 +24,7 @@ define([
       })
     },
     updateRecords:function(args){
+      this.query = args.query
 //      console.log("recordCollection.updateRecords")
       _.each(_.clone(this.models).reverse(),function(model){
         // set active
