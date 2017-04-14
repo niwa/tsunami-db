@@ -86,10 +86,6 @@ define([
       return this.attributes.columnColor      
     },   
     
-    getTitle:function(){
-      return "Record " + this.id
-    },
-    
     isActive:function(){
       return this.attributes.active
     },

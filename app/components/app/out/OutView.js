@@ -230,7 +230,7 @@ define([
               id: record.getLayer().id,
               layer: record.getLayer().getMapLayerDirect(),
               color: record.getColor(),
-              label: record.getTitle(),
+              label: this.model.getLabels().record.title + " " + record.id,
               selected:record.isSelected(),
               mouseOver:record.id === this.model.get("recordMouseOverId")
             }
