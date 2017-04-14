@@ -45,7 +45,7 @@
 
 .leaflet-left .leaflet-control,
 .leaflet-top .leaflet-control {
-  margin:0;    
+  margin:1px 0 0;    
 }
 
 .leaflet-bar a.leaflet-disabled {
@@ -238,4 +238,24 @@ a.leaflet-control-zoom-in{
 
 .leaflet-control-attribution.leaflet-control .basemap-info {
     font-size: 11px;
+}
+
+.leaflet-draw-actions li:last-child a {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+.leaflet-draw-actions-top.leaflet-draw-actions-bottom a {
+    height: 30px;
+    line-height: 30px;
+}
+.leaflet-draw-actions a {
+    background-color: #009DD6;
+    height: 30px;
+}
+
+.leaflet-draw-actions a:hover {
+    background-color: #009DD6;
+}
+.leaflet-draw-actions {
+    left: 31px;
 }
