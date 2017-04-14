@@ -29,12 +29,12 @@ nav .loading-animation {
 }
 
 #page .loading-animation {  
-  background: url(../img/loading-page.gif) no-repeat top left;
+  background: url(../img/loading-white.gif) no-repeat top left;
   display: block;
   position: absolute;
   top: 0;
   height: 50px;
   z-index: 99999;
   width: 100%;
-  background-size: 100% 50px;
+  background-size: 50% 50px;
 }
