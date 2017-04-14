@@ -12,6 +12,7 @@ a.hover {
 .reveal-on-hover {
   position: relative;
 }
+.reveal-on-hover.hover .hide-on-hover, 
 .reveal-on-hover:hover .hide-on-hover, 
 .reveal-on-hover .show-on-hover {
   display:none;
@@ -19,6 +20,7 @@ a.hover {
 
 
 .show-on-hover.show-hover,
+.reveal-on-hover.hover .show-on-hover,
 .reveal-on-hover:hover .show-on-hover {
   display:block;
 }
