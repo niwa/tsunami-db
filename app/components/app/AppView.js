@@ -73,6 +73,7 @@ define([
       plotColumnsSelected: "plotColumnsSelected",
       
       // map view events
+      mapConfigured: "mapConfigured",            
       mapViewUpdated: "mapViewUpdated",            
       
       mapLayerMouseOver: "mapLayerMouseOver",
@@ -133,8 +134,15 @@ define([
           return that.model.mapReady()
         },
         function(){
-//          console.log('MAP LOADED');
-          that.$el.addClass('map-loaded')
+          that.$el.removeClass('map-loading')
+        }
+      )
+      waitFor(
+        function(){
+          return that.model.dataReady()
+        },
+        function(){
+          that.$el.removeClass('loading')
         }
       )
 
@@ -389,13 +397,17 @@ define([
             })
             if (that.model.isComponentActive(componentId)) {
             
-              // update Records
-              that.updateRecords()  
 
+              
+              if (that.model.getOutType() === 'map' && !that.model.mapReady()) {
+                that.$el.addClass('map-loading')
+              }
+                
+              
 //              that.views.out.model.setActive()
               that.views.out.model.set({
                 active:           true,
-                recordsUpdated :  that.model.getRecordsUpdated(),
+//                recordsUpdated :  that.model.getRecordsUpdated(),
                 outType:          that.model.getOutType(),
                 outMapType:       that.model.getOutMapType(),
                 outColorColumn:   that.model.getOutColorColumn(),
@@ -407,6 +419,14 @@ define([
                 tableSortColumn:  that.model.getOutTableSortColumn(),
                 tableSortOrder:   that.model.getOutTableSortOrder()
               })
+              
+              // update Records
+              that.updateRecords()      
+              
+              that.views.out.model.set({                
+                recordsUpdated :  that.model.getRecordsUpdated(),
+              })              
+              
             } else {
               that.views.out.model.setActive(false)
             }
@@ -546,6 +566,7 @@ define([
           url: recordConfig.path + "&outputFormat=text/javascript&format_options=callback:parseRecords",
           success: function(data) {
 //            console.log("success loading records data")          
+            that.model.set('recordsLoaded', true)            
             that.configureRecords(data)            
           },
         error: function(xhr, status, error){
@@ -650,7 +671,8 @@ define([
         cache:true,
         url: proxyConfig.path + "&outputFormat=text/javascript&format_options=callback:parseProxies",
         success: function(data) {
-//          console.log("success loading proxies data")          
+//          console.log("success loading proxies data")   
+          that.model.set('proxiesLoaded', true)
           that.configureProxies(data)            
         },
         error: function(xhr, status, error){
@@ -706,6 +728,7 @@ define([
         url: refConfig.path + "&outputFormat=text/javascript&format_options=callback:parseReferences",
         success: function(data) {
 //          console.log("success loading ref data")          
+          that.model.set('referencesLoaded', true)
           that.configureReferences(data)            
         },
         error: function(xhr, status, error){
@@ -907,6 +930,9 @@ define([
     },    
     
     // map view events
+    mapConfigured: function(e,args){
+      this.model.mapConfigured(true)
+    },
     mapViewUpdated : function(e,args){
       //console.log('AppView.mapViewUpdated')
 

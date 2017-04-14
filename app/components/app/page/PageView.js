@@ -1,9 +1,13 @@
 define([
   'jquery',  'underscore',  'backbone',
-  'text!./page.html'
+  'text!./page.html',
+  'text!./pageContent.html',
+  'text!templates//loading.html'
 ], function (
   $, _, Backbone,
-  template
+  template,
+  templateContent,
+  templateLoading
 ) {
 
   var PageView = Backbone.View.extend({
@@ -31,10 +35,15 @@ define([
           t:this.model.getLabels(),
           classes:page.getClass()
         }))        
+        this.$('.page-outer').html(_.template(templateLoading)({
+          t:this.model.getLabels()
+        }))        
         if (this.model.hasActivePage()) {
-          var that = this
-          
+          var that = this          
           page.getContent(function(content){                  
+            that.$('.page-outer').html(_.template(templateContent)({
+              t:that.model.getLabels(),
+            }))
             that.$('.placeholder-content').html(content)
             if (that.model.getPageAnchor() === "") {
               that.$el.scrollTop(0)

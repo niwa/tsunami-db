@@ -234,14 +234,13 @@ define([
       this.model.setMap(_map)
                              
       this.initLayerGroups()
-      
-      
+           
       // position map on current view
 //      this.updateMapView()
       
 //      console.log('MapView.configureMap  mapConfigured')
       this.model.mapConfigured(true)
-
+      this.$el.trigger('mapConfigured')
     },
     initLayerGroups: function (){
 //      console.log('MapView.initLayerGroups')

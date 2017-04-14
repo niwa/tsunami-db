@@ -16,13 +16,25 @@
 @import url("../../app/components/app/out/table/table.css");
 @import url("../../app/components/app/page/page.css");
 
-.loading-animation {
-  background: url('../img/loading.gif') no-repeat top left;
-  background-size: 100% 2px;
+#application.loading nav .loading-animation,
+#application.map-loading nav .loading-animation {
   display:block;
-  position:absolute;
-  left: 0;
-  top: 0;  
+}
+nav .loading-animation {  
+  background: url('../img/loading.gif') no-repeat top left;  
+  float:left;
+  width: 50px;
+  height: 50px; 
+  display:none;
+}
+
+#page .loading-animation {  
+  background: url(../img/loading-page.gif) no-repeat top left;
+  display: block;
+  position: absolute;
+  top: 0;
+  height: 50px;
+  z-index: 99999;
   width: 100%;
-  height: 2px;  
+  background-size: 100% 50px;
 }

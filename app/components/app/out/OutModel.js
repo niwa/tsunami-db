@@ -26,12 +26,6 @@ define([
     getViews:function(){
       return this.attributes.views
     },  
-    setMapInit:function(bool){
-      this.set("mapInit",bool)
-    },
-    isMapInit:function(){
-      return this.attributes.mapInit
-    },
 		getLayers : function() {
 			return this.attributes.layerCollection;
 		},

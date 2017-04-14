@@ -9,12 +9,16 @@ define([
 
       this.set("appConfigLoaded", false)
       this.set("configsLoaded",false)
+      this.set("recordsLoaded",false)
+      this.set("proxiesLoaded",false)
+      this.set("referencesLoaded",false)
       this.set("recordsConfigured",false)
       this.set("recordsUpdated",0)
       this.set("pagesConfigured",false)
       this.set("referencesConfigured",false)
       this.set("proxiesConfigured",false)
       this.set("columnsConfigured",false)
+      this.set("mapConfigured",false)
       this.set("lastDBRoute",{
         route: "db",
         path: ""
@@ -100,6 +104,13 @@ define([
     configsLoaded : function(){
       return this.attributes.configsLoaded
     },    
+    
+    dataReady : function(){
+      return this.get('recordsLoaded') 
+        && this.get('proxiesLoaded') 
+        && this.get('referencesLoaded') 
+    },
+    
     // ROUTE VALIDATION ===================================================================
 
     validateRouter : function(callback){
@@ -355,8 +366,13 @@ define([
         && this.mapConfigured() 
         && !this.layersLoading();
     },
-    mapConfigured : function() {
-      return typeof this.attributes.views.map !== 'undefined' && this.attributes.views.map.model.mapConfigured()
+    mapConfigured : function(bool) {
+      if (typeof bool !== "undefined") {
+        this.set('mapConfigured', bool)
+      } else {
+        return this.attributes.mapConfigured
+      }
+//      return typeof this.attributes.views.map !== 'undefined' && this.attributes.views.map.model.mapConfigured()
     },
 
 		getActiveMapview : function(raw){

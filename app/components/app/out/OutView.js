@@ -32,8 +32,7 @@ define([
       this.render()
 
       this.listenTo(this.model, "change:active", this.handleActive);      
-      this.listenTo(this.model, "change:mapInit", this.updateMapView);
-      this.listenTo(this.model, "change:mapView", this.updateMapView);      
+      this.listenTo(this.model, "change:mapView", this.updateMapViewView);      
       this.listenTo(this.model, "change:outType", this.updateViews);      
       this.listenTo(this.model, "change:outMapType", this.updateOutMapType);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
@@ -53,25 +52,26 @@ define([
         t:this.model.getLabels()
       }))   
       this.renderHeader()
-      this.initViews()
+      this.updateViews()
       return this
     }, 
-    initViews:function(){
-      this.initMapView()
-      this.initTableView()
-    },    
     updateViews:function(){      
 //      console.log("OutView.updateView")      
 
       switch(this.model.getOutType()){
         case "map":
-          this.views.table.model.setActive(false)          
-          this.views.map.model.setActive()          
-          this.views.map.model.set("outType",this.model.getOutMapType())
+          this.initMapView()      
+          if (this.views.table) {
+            this.views.table.model.setActive(false)          
+          }
+          this.views.map.model.setActive()                    
           this.updateMapView()          
           break
         case "table":
-          this.views.map.model.setActive(false)
+          this.initTableView()
+          if (this.views.map) {
+            this.views.map.model.setActive(false)
+          }
           this.views.table.model.setActive()
           this.updateTableView()
           break
@@ -81,15 +81,6 @@ define([
       this.renderHeader()
       this.renderData()
     },
-    updateOutMapType:function(){
-//      console.log("OutView.updateOutMapType")
-      if (this.model.getOutType() === 'map'){
-        this.views.map.model.set("outType",this.model.getOutMapType())
-      }
-    },
-    updateGeoQuery:function(){
-      this.views.map.model.set("geoQuery",this.model.get('geoQuery'))      
-    },    
     updateQuerySet:function(){
       this.renderHeader()    
     },    
@@ -198,6 +189,30 @@ define([
         });        
       }
     },    
+    
+    updateTableView : function(){    
+      if (this.model.getOutType() === 'table' && typeof this.views.table !== 'undefined'){
+        this.views.table.model.setCurrentRecords(this.model.getRecords().byActive())   
+        this.updateTableSortColumn()
+        this.updateTableSortOrder()
+      }
+    },    
+    updateTableSortColumn:function(){
+      if (this.model.getOutType() === 'table' && typeof this.views.table !== 'undefined'){
+        this.views.table.model.set(
+          "tableSortColumn", 
+          typeof this.model.get('tableSortColumn') !== "undefined" ? this.model.get('tableSortColumn') : 'id'
+        )
+      }
+    },
+    updateTableSortOrder:function(){
+      if (this.model.getOutType() === 'table' && typeof this.views.table !== 'undefined'){
+        this.views.table.model.set(
+          "tableSortOrder", 
+          typeof this.model.get('tableSortOrder') !== "undefined" ? this.model.get('tableSortOrder') : '1'
+        )
+      }
+    },
     initMapView : function(){
 //      console.log("OutView.initMapView")
       
@@ -219,10 +234,48 @@ define([
         });           
       }
     },    
+    updateMapView : function(){      
+      if (this.model.getOutType() === 'map' && typeof this.views.map !== 'undefined'){      
+        this.updateMapViewView()        
+        this.updateOutMapType()        
+        this.updateGeoQuery()
+        this.updateOutColorColumn()
+        this.updateOutPlotColumns()      
+        this.views.map.model.setCurrentRecords(this.model.getRecords().byActive().hasLocation())      
+        this.views.map.model.setRecordsUpdated(this.model.getRecordsUpdated())  
+      }
+    },
+    updateMapViewView : function(){      
+//      console.log("OutView.updateMapView" )
+      if (this.model.getOutType() === 'map' && typeof this.views.map !== 'undefined'){
+        this.views.map.model.setView(this.model.getActiveMapview())
+        this.views.map.model.invalidateSize()    
+      }      
+    },    
+    updateOutMapType:function(){
+//      console.log("OutView.updateOutMapType")
+      if (this.model.getOutType() === 'map' && typeof this.views.map !== 'undefined'){
+        this.views.map.model.set("outType",this.model.getOutMapType())
+      }
+    },
+    updateGeoQuery:function(){
+      if (this.model.getOutType() === 'map' && typeof this.views.map !== 'undefined'){      
+        this.views.map.model.set("geoQuery",this.model.get('geoQuery'))      
+      }
+    },        
+    updateOutColorColumn:function(){
+      if (this.model.getOutType() === 'map' && typeof this.views.map !== 'undefined'){
+        this.views.map.model.set("outColorColumn",this.model.getOutColorColumn())
+      }
+    },
+    updateOutPlotColumns:function(){
+      if (this.model.getOutType() === 'map' && typeof this.views.map !== 'undefined'){
+        this.views.map.model.set("outPlotColumns",this.model.getOutPlotColumns())
+      }
+    },    
     
     recordsPopup:function(){
 //      console.log("OutView.recordsPopup ")
-
       this.views.map.model.set({
         popupLayers:this.model.get("recordsPopup").length > 0 
         ? _.map (this.model.get("recordsPopup"),function(record){
@@ -237,36 +290,7 @@ define([
           },this)
         : []
       })      
-    },
-    updateTableView : function(){    
-      this.views.table.model.setCurrentRecords(this.model.getRecords().byActive())          
-    },
-    updateMapView : function(){      
-//      console.log("OutView.updateMapView" )
-      this.views.map.model.setView(this.model.getActiveMapview())
-      this.views.map.model.invalidateSize()
-      this.views.map.model.setCurrentRecords(this.model.getRecords().byActive().hasLocation())      
-      this.views.map.model.setRecordsUpdated(this.model.getRecordsUpdated())      
-      
-    },
-    updateSelectedRecord:function(){
-//      console.log("OutView.updateSelectedRecord")
-      
-      var recordId = this.model.get("recordId")
-      
-      if (recordId !== "") {
-        // update map and table views
-        var record = this.model.getRecords().get(recordId)
-        if (record.isActive()){                    
-          this.views.map.model.set("selectedLayerId",record.getLayer().id)
-          this.views.table.model.set("recordId",recordId)  
-        }                
-      } else {        
-        this.views.map.model.set("selectedLayerId","")
-        this.views.table.model.set("recordId","")
-      } 
-      
-    },
+    },       
     updateMouseOverRecord:function(){
 //      console.log("OutView.updateMouseOverRecord")
       
@@ -282,24 +306,34 @@ define([
         this.views.map.model.set("mouseOverLayerId","")
       }           
     },
-    updateOutColorColumn:function(){
-      this.views.map.model.set("outColorColumn",this.model.getOutColorColumn())
+
+    updateSelectedRecord:function(){
+    //      console.log("OutView.updateSelectedRecord")
+      
+      var recordId = this.model.get("recordId")
+      
+      if (recordId !== "") {
+        // update map and table views
+        var record = this.model.getRecords().get(recordId)
+        if (record.isActive()){     
+          if (this.model.getOutType() === 'map' && typeof this.views.map !== 'undefined'){
+            this.views.map.model.set("selectedLayerId",record.getLayer().id)
+          }
+          if (this.model.getOutType() === 'table' && typeof this.views.table !== 'undefined'){
+            this.views.table.model.set("recordId",recordId)  
+          }
+        }                
+      } else {    
+        if (this.model.getOutType() === 'map' && typeof this.views.map !== 'undefined'){
+          this.views.map.model.set("selectedLayerId","")
+        }
+        if (this.model.getOutType() === 'table' && typeof this.views.table !== 'undefined'){
+          this.views.table.model.set("recordId","")
+        }
+      } 
+      
     },
-    updateOutPlotColumns:function(){
-      this.views.map.model.set("outPlotColumns",this.model.getOutPlotColumns())
-    },
-    updateTableSortColumn:function(){
-      this.views.table.model.set(
-        "tableSortColumn", 
-        typeof this.model.get('tableSortColumn') !== "undefined" ? this.model.get('tableSortColumn') : 'id'
-      )
-    },
-    updateTableSortOrder:function(){
-      this.views.table.model.set(
-        "tableSortOrder", 
-        typeof this.model.get('tableSortOrder') !== "undefined" ? this.model.get('tableSortOrder') : '1'
-      )
-    },
+
     toggleView:function(e){      
       e.preventDefault()
       this.model.set('dataToggled', false)
