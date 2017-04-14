@@ -18,12 +18,20 @@ a.hover {
   display:none;
 }
 
-
 .show-on-hover.show-hover,
 .reveal-on-hover.hover .show-on-hover,
 .reveal-on-hover:hover .show-on-hover {
   display:block;
 }
+
+.reveal-on-hover-active.active:hover .hide-on-hover, 
+.reveal-on-hover-active .show-on-hover {
+  display:none;
+}
+.reveal-on-hover-active.active:hover .show-on-hover {
+  display:block;
+}
+
 .acs .show-on-asc.show-on-asc-inline,
 .active .show-on-active.show-on-active-inline,
 .show-on-hover.show-on-hover-inline.show-hover,
