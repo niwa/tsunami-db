@@ -7,7 +7,7 @@
   overflow-y: auto;
   background:#F5F6F6;
   z-index: 1000;
-  display: block;
+  display: none;
   overflow-x: hidden;
 }
 

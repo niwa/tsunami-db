@@ -3,13 +3,23 @@ define([
   'bootstrap',
   'text!./mapPlotLat.html',
   'text!./mapPlotLatPlot.html',
-  'text!./mapPlotLatControl.html'
+  'text!./mapPlotLatControl.html',
+  'text!./mapPlotLatRecordMarker.html',
+  'text!./mapPlotLatRecordBelow.html',
+  'text!./mapPlotLatRecordBar.html',
+  'text!./mapPlotLatRecordAbove.html',
+  'text!./mapPlotLatRecord.html'
 ], function (
   $, _, Backbone,
   bootstrap,
   template,
   templatePlot,
-  templateControl
+  templateControl,
+  templateRecordMarker,
+  templateRecordBelow,
+  templateRecordBar,
+  templateRecordAbove,
+  templateRecord
 ) {
 
   return Backbone.View.extend({
@@ -54,6 +64,8 @@ define([
       this.$('[data-toggle="tooltip"]').tooltip()
     },
     renderPlot : function(){
+//        console.log("MapplotLatView.renderPlot 1", Date.now() - window.timeFromUpdate);
+      
       var records = this.model.getCurrentRecords()
       
       if (records.length > 0) {
@@ -61,51 +73,70 @@ define([
         var columns = _.reject(this.model.get("columnCollection").models,function(col){
           return this.model.get("outPlotColumns").indexOf(col.id) === -1 
         },this)
-        var recordData = []
-        var columnData = _.map(columns,function(col){
-          return {
-            min:null,
-            max:null,
-            cap:col.get("plotMax"),
-            title:col.get("title"),
-            color:col.get("plotColor")
-          }
-        })
-
-        _.each(
-          _.sortBy(records,
+        
+//console.log("MapplotLatView.renderPlot 2", Date.now() - window.timeFromUpdate);
+        var recordsSorted = _.sortBy(records,
             function(record){
               return record.get('latitude')
             }
-          ).reverse(),
+          ).reverse()
+//console.log("MapplotLatView.renderPlot 2a", Date.now() - window.timeFromUpdate);
+        var dataColumns = _.map(columns,function(col){
+            return {
+              cap:col.get("plotMax"),
+              color:col.get("plotColor")
+            }
+          })
+//console.log("MapplotLatView.renderPlot 2b", Date.now() - window.timeFromUpdate);          
+        var dataRows = _.map(
+          recordsSorted,
           function(record){
             var crgba = record.getColor().colorToRgb();
 
-             // remember column ranges and record column values
-            var recordValues = []        
-            _.each(columns,function(col,i){
-              var recordColumnValue = record.getColumnValue(col.getQueryColumn())
-
-              recordValues.push(recordColumnValue)
-            })
-
-
+             // remember column ranges and record column values            
             // remember record data
-            recordData.push({
-              marker_color:record.getColor(),
-              marker_fillColor:'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)',
+            return _.template(templateRecord)({
+              id:record.id,
               selected:record.isSelected(),
-              data: recordValues,
-              id:record.id
+              marker: _.template(templateRecordMarker)({
+                marker_color:record.getColor(),
+                marker_fillColor:'rgba('+crgba[0]+','+crgba[1]+','+crgba[2]+',0.4)',                  
+              }),                           
+              bars: _.reduce(columns, function(bars, col) {
+                var recordColumnValue = record.getColumnValue(col.getQueryColumn())
+                var value = recordColumnValue !== null ? recordColumnValue : 0                
+                bars.bars.push(_.template(templateRecordBar)({
+                  value: value,
+                  width: Math.max(Math.min(100,(value/col.get("plotMax"))*100),0), 
+                  label: value !== null ? value : "no data",
+                  color: col.get("plotColor")
+                }))
+                bars.below.push(_.template(templateRecordBelow)({
+                  value: value,
+                  color: col.get("plotColor")
+                }))
+                bars.above.push(_.template(templateRecordAbove)({
+                  value: value,
+                  color: col.get("plotColor"),
+                  cap: col.get("plotMax")
+                }))
+                return bars
+              },{
+                below: [],
+                bars: [],
+                above: [],
+              })                                                               
             })
-          }
-        )
+          })
+//console.log("MapplotLatView.renderPlot 2c", Date.now() - window.timeFromUpdate);
         
         this.$("#plot-plot").html(_.template(templatePlot)({
-          records:recordData,
-          columns:columnData,
+          records:dataRows,
+          columns: dataColumns,
           anySelected:this.model.get("selectedLayerId") !== ""
         }))
+//console.log("MapplotLatView.renderPlot 3", Date.now() - window.timeFromUpdate);
+        
       } else {
         this.$("#plot-plot").html("<p>" + this.model.getLabels().out.map.plot.no_records_hint + "</p>")
       }
@@ -117,7 +148,7 @@ define([
     handleActive : function(){
       if (this.model.isActive()) {
         this.$el.show()   
-        this.renderPlot()
+//        this.renderPlot()
       } else {
         this.$el.hide()
       }
@@ -133,11 +164,13 @@ define([
       
     },
     selectedRecordUpdated:function(){
+      console.log('selectedRecordUpdated')
       this.renderPlot()
     },    
     
     
     updateOutPlotColumns:function(){
+      console.log('updateOutPlotColumns')
       this.renderPlot()
       this.renderControl()
     },    

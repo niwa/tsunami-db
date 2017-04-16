@@ -1,0 +1,13 @@
+<tr class="select-record <% if (selected) { %> active <% } %> reveal-on-hover"       
+     data-recordid="<%= id %>">
+  <td class="marker"><%= marker %></td>
+  <td class="bars-below"><% _.each(bars.below, function(col){ %><%= col %><% }) %></td>
+  <td class="bars">
+    <span class="list-plot-bar-grid list-plot-bar-grid-25 hide-on-hover hide-on-active"></span>
+    <span class="list-plot-bar-grid list-plot-bar-grid-50 hide-on-hover hide-on-active"></span>
+    <span class="list-plot-bar-grid list-plot-bar-grid-75 hide-on-hover hide-on-active"></span>      
+    <span class="list-plot-bar-grid list-pot-bar-grid-100 hide-on-hover hide-on-active"></span>      
+    <% _.each(bars.bars, function(col){ %><%= col %><% }) %>
+  </td>  
+  <td class="bars-above"><% _.each(bars.above, function(col){ %><%= col %><% }) %></td>
+</tr>

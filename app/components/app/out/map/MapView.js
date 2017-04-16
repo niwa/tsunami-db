@@ -40,9 +40,9 @@ define([
       
       this.listenTo(this.model, "change:active",        this.handleActive);
       this.listenTo(this.model, "change:view",          this.handleViewUpdate);
-      this.listenTo(this.model, "change:outColorColumn",this.updateOutColorColumn);
-      this.listenTo(this.model, "change:outPlotColumns",this.updateOutPlotColumns);
-      this.listenTo(this.model, "change:outType",       this.updateOutType);
+      this.listenTo(this.model, "change:outColorColumn",this.updateViews);
+      this.listenTo(this.model, "change:outPlotColumns",this.updateViews);
+      this.listenTo(this.model, "change:outType",       this.updateViews);
 
       this.listenTo(this.model, "change:invalidateSize",this.invalidateSize);      
       this.listenTo(this.model, "change:layersUpdated",this.layersUpdated);
@@ -61,7 +61,7 @@ define([
 //      console.log('MapView.render')      
       this.$el.html(_.template(template)({t:this.model.getLabels()}))
       this.configureMap()
-      this.initViews()      
+      this.updateViews()      
       this.initDraw()      
       return this
     },
@@ -117,10 +117,7 @@ define([
       
       
     },
-    initViews:function(){
-      this.initMapControlView()
-      this.initMapPlotLatView()
-    },             
+
     initMapControlView : function(){
       var componentId = '#map-control'
       
@@ -156,19 +153,29 @@ define([
       }
     },  
     updateMapPlotLatView:function(){
+//      console.log("MapView.updateMapPlotLatView 1", Date.now() - window.timeFromUpdate);
+      this.views.plotLat.model.set({outPlotColumns:
+        typeof this.model.getOutPlotColumns() !== "undefined" 
+        ? this.model.getOutPlotColumns()
+        : _.pluck(this.model.get("columnCollection").byAttribute("plot").models,"id")
+      }) 
       if (typeof this.model.getCurrentRecords() !== "undefined") {
         var ne = this.model.getMap().getBounds().getNorthEast()//.wrap()
         var sw = this.model.getMap().getBounds().getSouthWest()//.wrap()
-        
+//        console.log("MapView.updateMapPlotLatView 2", Date.now() - window.timeFromUpdate);
         this.views.plotLat.model.setCurrentRecords(this.model.getCurrentRecords().byBounds({
           north:ne.lat,
           east:ne.lng,
           south:sw.lat,
           west:sw.lng
         }).models)
-      }
+//        console.log("MapView.updateMapPlotLatView 3", Date.now() - window.timeFromUpdate);
+      }      
     },
-    updateOutType:function(){
+    updateMapControlView:function(){
+      this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})  
+    },
+    updateViews:function(){
 //      console.log("OutView.updateOutType")
       
       this.$('#map-options button').removeClass('active')
@@ -176,36 +183,39 @@ define([
       
       switch(this.model.getOutType()){
         case "control":
-          this.views.plotLat.model.setActive(false)
+          this.$el.removeClass('full-width') 
+          this.initMapControlView()    
+          if (this.views.plotLat) {
+            this.views.plotLat.model.setActive(false)
+          }          
           this.views.control.model.setActive()
-          this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})                      
-          this.$el.removeClass('full-width')          
+          
+          this.updateMapControlView()
+                   
           break
-        case "plot-lat":
-          this.views.control.model.setActive(false)
-          this.views.plotLat.model.setActive()          
+        case "plot-lat":    
           this.$el.removeClass('full-width')
+          this.initMapPlotLatView()
+          if (this.views.control) {
+            this.views.control.model.setActive(false)
+          }
+          this.views.plotLat.model.setActive()                    
+          this.updateMapPlotLatView()
           break
         default:
           this.$el.addClass('full-width')
-          this.views.control.model.setActive(false)
-          this.views.plotLat.model.setActive(false)
+          if (this.views.control) {
+            this.views.control.model.setActive(false)
+          }
+          if (this.views.plotLat) {
+            this.views.plotLat.model.setActive(false)
+          }
           break
       }      
       this.invalidateSize(true)
     },
-    updateOutColorColumn:function(){
-      if (this.model.getOutType() === 'control') {
-        this.views.control.model.set({outColorColumn:this.model.getOutColorColumn()})  
-      }
-    },
-    updateOutPlotColumns:function(){
-      this.views.plotLat.model.set({outPlotColumns:
-        typeof this.model.getOutPlotColumns() !== "undefined" 
-        ? this.model.getOutPlotColumns()
-        : _.pluck(this.model.get("columnCollection").byAttribute("plot").models,"id")
-      })  
-    },
+
+
     // map configuration has been read
     configureMap : function(){
 //      console.log('MapView.configureMap')
@@ -327,7 +337,7 @@ define([
       } else {
         this.zoomToDefault()
       }
-      this.updateMapPlotLatView()
+      this.updateViews()
       this.triggerMapViewUpdated()
       
     },
@@ -338,7 +348,10 @@ define([
     
     recordsUpdated:function(){
 //      console.log('recordsUpdated')
-      this.updateMapPlotLatView()      
+//          console.log("MapView.recordsUpdated 1", Date.now() - window.timeFromUpdate);
+
+      this.updateViews()      
+//      console.log("MapView.recordsUpdated 2", Date.now() - window.timeFromUpdate);
     },       
 
 
@@ -381,11 +394,15 @@ define([
     },
     mouseOverLayerUpdated:function(){
 //      this.updatePopupContent()
-      this.views.plotLat.model.set("mouseOverRecordId",this.model.get("mouseOverLayerId"))
+      if (this.model.getOutType() === "plot-lat" && this.views.plotLat) {
+        this.views.plotLat.model.set("mouseOverRecordId",this.model.get("mouseOverLayerId"))
+      }
     },
-    selectedLayerUpdated:function(){
+    selectedLayerUpdated:function(){      
       this.updatePopupContent()
-      this.views.plotLat.model.set("selectedRecordId",this.model.get("selectedLayerId"))
+      if (this.model.getOutType() === "plot-lat" && this.views.plotLat) {
+        this.views.plotLat.model.set("selectedRecordId",this.model.get("selectedLayerId"))
+      }
     },
     popupLayersUpdated:function(){
 //      console.log("MapView.popupLayers")

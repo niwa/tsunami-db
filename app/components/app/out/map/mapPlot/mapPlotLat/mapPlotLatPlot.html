@@ -19,56 +19,11 @@
     </th>
     <th></th>
   </tr>
-  <tr class="tr-column-scale-line"><th colspan="2"></th><th class="th-column-scale-line"></th><th></th></tr>
-  <tr class="tr-column-scale-spacer"><th colspan="4"></th></tr>
-  <% _.each(records,function(record){ %> 
-  <tr class="select-record <% if (record.selected) { %> active <% } %> reveal-on-hover"       
-       data-recordid="<%= record.id %>">
-    <td class="marker">
-      <span class="key-color" 
-            style="border-color:<%= record.marker_color %>;background-color:<%= record.marker_fillColor %>">             
-      </span>
-    </td>
-    <td class="bars-below">
-      <% _.each(columns,function(col,i){ %> 
-      <div class="list-plot-bar-excess">      
-      <% if (record.data[i] < 0) { %>
-      <span class="list-plot-bar-excess-item" style="background-color:<%= col.color %>">
-      </span><span class="list-plot-bar-excess-item" style="background-color:<%= col.color %>">
-      </span><span class="list-plot-bar-excess-item" style="background-color:<%= col.color %>">
-      </span>
-      <% } %>          
-      </div>
-      <% }) %>          
-    </td>
-    <td class="bars">
-      <span class="list-plot-bar-grid list-plot-bar-grid-25 hide-on-hover hide-on-active"></span>
-      <span class="list-plot-bar-grid list-plot-bar-grid-50 hide-on-hover hide-on-active"></span>
-      <span class="list-plot-bar-grid list-plot-bar-grid-75 hide-on-hover hide-on-active"></span>      
-      <span class="list-plot-bar-grid list-plot-bar-grid-100 hide-on-hover hide-on-active"></span>      
-      <% _.each(columns,function(col,i){ %> 
-      <% var value = record.data[i] !== null ? record.data[i] : 0 %> 
-      <% var label = record.data[i] !== null ? record.data[i] : "no data" %> 
-      <% var width = Math.max(Math.min(100,(value/col.cap)*100),0) %> 
-      <div class="list-plot-bar <% if(width > 66) { %> text-inside <% } %> " 
-           style="width: <%= width %>%;background-color:<%= col.color %>">         
-        <span class="list-plot-bar-label show-on-hover show-on-hover-inline show-on-active show-on-active-inline"
-              style="color:<%= col.color %>"><%= label %></span>
-      </div>
-      <% }) %>   
-    </td>
-    <td class="bars-above">
-      <% _.each(columns,function(col,i){ %> 
-      <div class="list-plot-bar-excess">      
-      <% if (record.data[i] > col.cap) { %>
-        <span class="list-plot-bar-excess-item" style="background-color:<%= col.color %>">
-        </span><span class="list-plot-bar-excess-item" style="background-color:<%= col.color %>">
-        </span><span class="list-plot-bar-excess-item" style="background-color:<%= col.color %>">
-        </span>      
-      <% } %>     
-      </div>
-      <% }) %>          
-    </td>  
-  </tr>
-  <% }) %>
-</tbody>
+  <tr class="tr-column-scale-line">
+  <th colspan="2"></th>
+  <th class="th-column-scale-line"></th>
+  <th></th>
+</tr>
+<tr class="tr-column-scale-spacer"><td colspan="4"></td></tr>
+  <% _.each(records, function(rec){ %><%= rec %><% }) %>
+</table>
