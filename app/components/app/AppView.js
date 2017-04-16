@@ -169,7 +169,7 @@ define([
     
     // render components
     render: function(){
-//      console.log("AppView.render");
+      
       this.$el.html(_.template(template)({t:this.model.getLabels()}))            
       this.update()
       
@@ -210,34 +210,29 @@ define([
       )        
     },
     update: function(){
-      // set classes
-      this.setClass()
 
       var that = this
       this.model.validateRouter(function(validated){
         if (validated) {
-
-          
+//      console.log("AppView.update", 0);
+//      window.timeFromUpdate = Date.now()
+          that.$el.addClass('updating')
           // init/update components
           that.updateNav()
           that.updateFilters()
           that.updateRecord()
           that.updateOut() 
           that.updatePage() 
-          
+          that.$el.removeClass('updating')
+//          console.log("AppView.update 2", Date.now() - window.timeFromUpdate);
         }
         
       })
 
       return this
-    },
-
-    setClass : function(){
-
-    },
-   
-   
-    updateRecords:function(){
+    },  
+      
+    updateRecordCollection:function(){
       var that = this      
       waitFor(
         function(){
@@ -245,6 +240,8 @@ define([
             && that.model.columnsConfigured()
         },    
         function(){ 
+//      console.log('updateRecordCollection 1', Date.now() - window.timeFromUpdate)
+          
           var query = that.model.getRecords().query
           var newQuery = that.model.getRecordQuery()
           that.model.getRecords().updateRecords({
@@ -255,7 +252,9 @@ define([
           if (!_.isEqual(query, newQuery) || _.isEqual(query, {})) {
             that.model.setRecordsUpdated()
           }
+//          console.log('updateRecordCollection 2', Date.now() - window.timeFromUpdate)
         }
+                
       )  
     },
    
@@ -263,13 +262,16 @@ define([
    
 
     updateNav : function(){
+      
       var componentId = '#nav'
         var that = this
         waitFor(
           function(){
             return that.model.configsLoaded()
           },    
-          function(){            
+          function(){          
+//      console.log('updateNav', Date.now() - window.timeFromUpdate)
+            
             that.views.nav = that.views.nav || new NavView({
               el:that.$(componentId),
               model:new NavModel({
@@ -289,6 +291,7 @@ define([
     },  
 
     updateFilters : function(){
+      
       var componentId = '#filters'
       if (this.$(componentId).length > 0) {      
         
@@ -298,7 +301,8 @@ define([
             return that.model.columnsConfigured()
           },    
           function(){         
-        
+//              console.log('updateFilters', Date.now() - window.timeFromUpdate)
+
             that.views.filters = that.views.filters || new FiltersView({
               el:that.$(componentId),
               model:new FiltersModel({
@@ -323,6 +327,7 @@ define([
       }
     },  
     updateRecord : function(){
+      
       var componentId = '#record'
       if (this.$(componentId).length > 0) {      
         
@@ -335,7 +340,8 @@ define([
               && that.model.proxiesConfigured()
           },    
           function(){         
-        
+//              console.log('updateRecord', Date.now() - window.timeFromUpdate)
+
             that.views.record = that.views.record || new RecordView({
               el:that.$(componentId),
               model:new RecordViewModel({
@@ -359,6 +365,8 @@ define([
       }
     },  
     updateOut : function(){
+
+      
       var componentId = '#out'
       if (this.$(componentId).length > 0) {     
         // set records
@@ -371,7 +379,7 @@ define([
               && that.model.referencesConfigured()
           },    
           function(){ 
-            
+//                  console.log('updateOut', Date.now() - window.timeFromUpdate)
 //            console.log("updateOut")
             
             that.views.out = that.views.out || new OutView({
@@ -421,7 +429,7 @@ define([
               })
               
               // update Records
-              that.updateRecords()      
+              that.updateRecordCollection()      
               
               that.views.out.model.set({                
                 recordsUpdated :  that.model.getRecordsUpdated(),

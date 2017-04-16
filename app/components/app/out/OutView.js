@@ -57,18 +57,27 @@ define([
     }, 
     updateViews:function(){      
 //      console.log("OutView.updateView")      
+//          console.log('OutView.updateViews 1', Date.now() - window.timeFromUpdate)
 
       switch(this.model.getOutType()){
         case "map":
+//          console.log('OutView.updateViews Xa', Date.now() - window.timeFromUpdate)
+          
           this.initMapView()      
+//          console.log('OutView.updateViews Xb', Date.now() - window.timeFromUpdate)
           if (this.views.table) {
             this.views.table.model.setActive(false)          
           }
           this.views.map.model.setActive()                    
+//          console.log('OutView.updateViews Xc', Date.now() - window.timeFromUpdate)
           this.updateMapView()          
+//          console.log('OutView.updateViews Xd', Date.now() - window.timeFromUpdate)
           break
         case "table":
+//          console.log('OutView.updateViews 1a', Date.now() - window.timeFromUpdate)
+          
           this.initTableView()
+//          console.log('OutView.updateViews 1b', Date.now() - window.timeFromUpdate)
           if (this.views.map) {
             this.views.map.model.setActive(false)
           }
@@ -170,7 +179,7 @@ define([
       }
     },
     initTableView : function(){
-//      console.log("OutView.initTableView")
+//      console.log('OutView.initTableView 1', Date.now() - window.timeFromUpdate)
       var componentId = '#table'
       
       if (this.$(componentId).length > 0) {
@@ -186,16 +195,26 @@ define([
             active: true,
             recordId:""
           })              
-        });        
+        });    
+//      console.log('OutView.initTableView 2', Date.now() - window.timeFromUpdate)
+        
       }
     },    
     
     updateTableView : function(){    
-      if (this.model.getOutType() === 'table' && typeof this.views.table !== 'undefined'){
+//      console.log('OutView.updateTableView 1', Date.now() - window.timeFromUpdate)
+      
+      if (this.model.getOutType() === 'table' && typeof this.views.table !== 'undefined'){        
+//        console.log('OutView.updateTableView 1a', Date.now() - window.timeFromUpdate)        
         this.views.table.model.setCurrentRecords(this.model.getRecords().byActive())   
+//        console.log('OutView.updateTableView 1b', Date.now() - window.timeFromUpdate)
         this.updateTableSortColumn()
+//        console.log('OutView.updateTableView 1c', Date.now() - window.timeFromUpdate)
         this.updateTableSortOrder()
+//        console.log('OutView.updateTableView 1d', Date.now() - window.timeFromUpdate)
       }
+//      console.log('OutView.updateTableView 2', Date.now() - window.timeFromUpdate)
+      
     },    
     updateTableSortColumn:function(){
       if (this.model.getOutType() === 'table' && typeof this.views.table !== 'undefined'){
@@ -236,13 +255,29 @@ define([
     },    
     updateMapView : function(){      
       if (this.model.getOutType() === 'map' && typeof this.views.map !== 'undefined'){      
-        this.updateMapViewView()        
+//          console.log('OutView.updateMapView 1', Date.now() - window.timeFromUpdate)
+        
+        this.updateMapViewView()       
+//          console.log('OutView.updateMapView 2', Date.now() - window.timeFromUpdate)
+        
         this.updateOutMapType()        
+//          console.log('OutView.updateMapView 3', Date.now() - window.timeFromUpdate)
+        
         this.updateGeoQuery()
+//          console.log('OutView.updateMapView 4', Date.now() - window.timeFromUpdate)
+        
         this.updateOutColorColumn()
+//          console.log('OutView.updateMapView 5', Date.now() - window.timeFromUpdate)
+        
         this.updateOutPlotColumns()      
+//          console.log('OutView.updateMapView 6', Date.now() - window.timeFromUpdate)
+        
         this.views.map.model.setCurrentRecords(this.model.getRecords().byActive().hasLocation())      
+//                  console.log('OutView.updateMapView 7', Date.now() - window.timeFromUpdate)
+
         this.views.map.model.setRecordsUpdated(this.model.getRecordsUpdated())  
+//                  console.log('OutView.updateMapView 8', Date.now() - window.timeFromUpdate)
+
       }
     },
     updateMapViewView : function(){      

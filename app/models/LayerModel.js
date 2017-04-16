@@ -191,9 +191,10 @@ define([
       
       if (typeof this.attributes.layerGroup !== "undefined") {
         var that = this
-      
+//          console.log('LayerModel.setActive 1', this.id,  Date.now() - window.timeFromUpdate)
+    
         this.getMapLayer(function(mapLayer){
-          
+
           if(that.isActive()){             
             if (!that.attributes.layerGroup.hasLayer(mapLayer)) {
 //              console.log("addLayer " + that.attributes.id)
@@ -204,6 +205,8 @@ define([
 -              that.attributes.layerGroup.removeLayer(mapLayer)
             }
           }
+//          console.log('LayerModel.setActive 2', that.id, Date.now() - window.timeFromUpdate)
+          
         })
       }
       
