@@ -17,6 +17,7 @@
 @import url("../../app/components/app/page/page.css");
 
 #application.loading nav .loading-animation,
+#application.updating nav .loading-animation,
 #application.map-loading nav .loading-animation {
   display:block;
 }
