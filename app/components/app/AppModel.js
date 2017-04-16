@@ -31,14 +31,14 @@ define([
       /// read global configuration file
       $.ajax({
         dataType:"json",
-        url: this.attributes.baseurl + '/' +  this.attributes.configFile,
+        url: this.attributes.baseurl +  this.attributes.configFile,
         success: function(json) {
 //          console.log("... success loading app config")
           that.setConfig(json)     
 //          console.log("loading terms")
           $.ajax({
             dataType:"json",
-            url: that.attributes.baseurl + '/' +  that.attributes.config.labels,
+            url: that.attributes.baseurl +  that.attributes.config.labels,
             success: function(json) {
 //              console.log("... success loading terms")
               that.setLabels(json)          
@@ -76,19 +76,19 @@ define([
       $.when(
         $.ajax({
           dataType: "json",
-          url: this.attributes.baseurl + '/' + this.attributes.config.layersConfig
+          url: this.attributes.baseurl + this.attributes.config.layersConfig
         }),
         $.ajax({
           dataType: "json",
-          url: this.attributes.baseurl + '/' + this.attributes.config.mapConfig
+          url: this.attributes.baseurl + this.attributes.config.mapConfig
         }),
         $.ajax({
           dataType: "json",
-          url: this.attributes.baseurl + '/' + this.attributes.config.columns
+          url: this.attributes.baseurl + this.attributes.config.columns
         }),
         $.ajax({
           dataType: "json",
-          url: this.attributes.baseurl + '/' + this.attributes.config.columnGroups
+          url: this.attributes.baseurl + this.attributes.config.columnGroups
         })
       ).then(function (layers_json, map_json, q_json, colGroup_json) {                
           //console.log("... success loading layer config")
