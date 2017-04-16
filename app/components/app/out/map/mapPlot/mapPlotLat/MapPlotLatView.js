@@ -24,6 +24,7 @@ define([
 
   return Backbone.View.extend({
     events : {    
+      "click .expand": "expand",      
       "click .select-record" : "selectRecord",      
       "click .select-column" : "selectColumn",      
       "mouseenter .select-record" : "mouseOverRecord",            
@@ -35,15 +36,34 @@ define([
       
       this.render()
       this.listenTo(this.model, "change:active",        this.handleActive);      
-      this.listenTo(this.model, "change:currentRecordCollection", this.renderPlot);      
+      this.listenTo(this.model, "change:currentRecordCollection", this.recordsUpdated);      
       this.listenTo(this.model, "change:selectedRecordId", this.selectedRecordUpdated);      
       this.listenTo(this.model, "change:mouseOverRecordId", this.mouseOverRecordUpdated);   
-      this.listenTo(this.model, "change:outPlotColumns",this.updateOutPlotColumns);
+      this.listenTo(this.model, "change:outPlotColumns",this.updateOutPlotColumns);      
+      this.listenTo(this.model, "change:expanded", this.expandedUpdated);      
       
+      this.RECORD_NO = 30
       
     },
+    expand:function(){
+      if (this.model.getExpanded()) {
+        this.model.setExpanded(false)
+      } else {
+        this.model.setExpanded(true)
+      }
+    },    
+    expandedUpdated: function () {      
+      if (this.model.getExpanded()) {
+        this.$el.addClass("expanded") 
+      } else {
+        this.$el.removeClass("expanded") 
+      }   
+      this.renderPlot()
+    },    
     render: function () {
-      this.$el.html(_.template(template)({t:this.model.getLabels()}))     
+      this.$el.html(_.template(template)({
+        t:this.model.getLabels()
+      }))     
       this.renderControl()
       return this
     },
@@ -80,6 +100,16 @@ define([
               return record.get('latitude')
             }
           ).reverse()
+  
+          if (!this.model.getExpanded()) {
+            recordsSorted = recordsSorted.slice(0, this.RECORD_NO)
+          }
+          
+          if (recordsSorted.length < this.RECORD_NO) {
+            this.$('.plot-bottom-buttons').hide()
+          } else {
+            this.$('.plot-bottom-buttons').show()
+          }
 //console.log("MapplotLatView.renderPlot 2a", Date.now() - window.timeFromUpdate);
         var dataColumns = _.map(columns,function(col){
             return {
@@ -148,6 +178,8 @@ define([
     handleActive : function(){
       if (this.model.isActive()) {
         this.$el.show()   
+        this.model.setExpanded(false)
+        
 //        this.renderPlot()
       } else {
         this.$el.hide()
@@ -164,13 +196,20 @@ define([
       
     },
     selectedRecordUpdated:function(){
-      console.log('selectedRecordUpdated')
+//      console.log('selectedRecordUpdated')
+      this.renderPlot()
+    },    
+    
+    recordsUpdated:function(){
+//      console.log('selectedRecordUpdated')
+//      this.model.setExpanded(false)
+      this.$el.scrollTop(0)
       this.renderPlot()
     },    
     
     
     updateOutPlotColumns:function(){
-      console.log('updateOutPlotColumns')
+//      console.log('updateOutPlotColumns')
       this.renderPlot()
       this.renderControl()
     },    

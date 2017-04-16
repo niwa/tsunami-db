@@ -19,7 +19,7 @@ define([
       return this.attributes.expanded.indexOf(groupId) > -1
     },
     setExpanded : function(groups){
-      return this.set("expanded",groups)
+      this.set("expanded",groups)
     },
     addExpanded : function(groups){
       if (typeof groups === "object") {
