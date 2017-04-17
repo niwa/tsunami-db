@@ -9,14 +9,14 @@
           title="<%= tooltip_more ? tooltip + '<div>'+ t.app.ui.tooltip_more +'</div>' : tooltip%>" 
           data-html="true"
           href="#"
-          class="nav-link"
+          class="nav-link toggle-tooltip"
           data-page-anchor="<%= id %>"
           data-id="attributes">
          <span class="icon-icon_info" aria-hidden="true"></span>
        </a><% } %>
       </div>      
       <% _.each(references,function(ref){ %> 
-      <div class="strong"><%= ref.getTitle() %></div> 
+      <div class="reference-title"><%= ref.getTitle() %></div> 
       <% if (ref.getReference() !== null) { %>      
       <p><%= ref.getReference() %></p>
       <% } %>      
@@ -25,8 +25,8 @@
       <% } %>
       <% if (ref.getUrl() !== null) { %>
       <p>
-        <a title="<%= ref.getTitle() %>" href="<%= ref.getUrl() %>" target="_blank">
-          <%= ref.getUrl() %>
+        <a title="<%= ref.getTitle() %>" href="<%= ref.getUrl() %>" target="_blank" class="reference-link">
+          <%= ref.getUrl(true) %>
         </a>
       </p>
       <% } %>

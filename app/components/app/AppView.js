@@ -420,8 +420,7 @@ define([
                 outMapType:       that.model.getOutMapType(),
                 outColorColumn:   that.model.getOutColorColumn(),
                 outPlotColumns:   that.model.getOutPlotColumns(),
-                mapView:          that.model.getActiveMapview(),
-                recordId :        that.model.getSelectedRecordId(),
+                mapView:          that.model.getActiveMapview(),                
                 geoQuery:         that.model.getGeoQuery(),
                 querySet:         Object.keys(that.model.getRecordQuery()).length > 0,
                 tableSortColumn:  that.model.getOutTableSortColumn(),
@@ -429,10 +428,11 @@ define([
               })
               
               // update Records
-              that.updateRecordCollection()      
+              that.updateRecordCollection() 
               
               that.views.out.model.set({                
                 recordsUpdated :  that.model.getRecordsUpdated(),
+                recordId :        that.model.getSelectedRecordId(),
               })              
               
             } else {

@@ -30,8 +30,11 @@ define([
     getReference:function(){
       return this.attributes.full_reference
     },
-    getUrl:function(){
-      return this.attributes.website_report
+    getUrl:function(short){
+      short = typeof short !== 'undefined' ? short : false
+      return short 
+        ? this.attributes.website_report.substring(0, 50) + "&hellip;"
+        : this.attributes.website_report
     },
     getDoi:function(){
       return this.attributes.doi

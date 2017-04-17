@@ -5,7 +5,7 @@
   right:0;
   width: 200px;  
   overflow-y: auto;
-  background:#F5F6F6;
+  background-color:#F5F6F6;
   z-index: 1000;
   display: none;
   overflow-x: hidden;
@@ -51,6 +51,9 @@ tr.select-record {
 .select-column .select-checkbox-inner {
     height: 16px;
     width: 16px;
+    margin-top: -1px;
+    border-radius: 2px;
+    cursor: pointer;
 }
 td.select-label {
     font-weight: bold;
@@ -65,7 +68,7 @@ td.select-label {
 .table-plot td.marker {
     text-align: center;
     width: 30px;
-    padding-right: 10px;
+    padding-right: 0px;
     padding-left: 5px;
 }
 
@@ -186,4 +189,14 @@ td.select-label {
 .axis-label {
     right: 50%;
     position: relative;
+}
+
+
+.hint-no-records {
+    padding: 0 15px;
+}
+
+.plot-bottom-buttons {
+  display: none;
+  padding: 15px;
 }

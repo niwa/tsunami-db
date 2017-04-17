@@ -6,7 +6,7 @@
   right:0;
   width: auto;  
   overflow-y: auto;
-  background: #F5F6F6;
+  background-color: #F5F6F6;
   z-index: 10;
   display: none;
 }
@@ -69,9 +69,9 @@ tr.select-record:hover{
 .record-table-floating {
     overflow-x: hidden;
     overflow-y: scroll;
-    -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
     margin-top: 5px;
     z-index: 1000;
     position: relative;
@@ -83,9 +83,9 @@ tr.select-record:hover{
     position: absolute;
     top: 0;
     left: 0;   
-    -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
     right: auto;    
     margin-top: 5px;
     min-width:100%;
@@ -114,11 +114,11 @@ table.display  > thead > tr > th {
     border-top: 0;
     vertical-align: bottom;    
     white-space: nowrap;
-    background:#F2F3F4;
+    background-color:#F2F3F4;
     text-align: left;
 }
 table.display  > tbody > tr > td {
-    background:#fff;
+    background-color:#fff;
 }
 table.display > thead > tr > th:first-child, 
 table.display > tbody > tr > td:first-child{

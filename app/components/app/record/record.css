@@ -5,15 +5,15 @@
 
 .record-top {
   padding:10px 15px 20px;
-  -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
-  -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);
-  box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.3);  
+  -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.2);  
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1;
-  background: #f5f6f6;
+  background-color: #f5f6f6;
   height:150px;
 }
 .record-top h4{
@@ -33,7 +33,6 @@
 
 a.record-top-menu-link {
   font-family: 'Titillium Web', sans-serif;
-  font-weight: 600;
   color: #808990;
   padding: 0 5px;
 }
@@ -43,8 +42,9 @@ a.record-top-menu-link {
 }
 
 a.record-top-menu-link.active,
+a.record-top-menu-link:focus,
 a.record-top-menu-link:hover{
-  color: #0293c9;
+  color: #009dd6;
   text-decoration:none;
 }
 
@@ -76,7 +76,7 @@ a.record-top-menu-link:hover{
 }
 
 .record-main .group-other .column-title {
-  margin-bottom:20px
+  margin-bottom: 10px;
 }
 
 #record .group h3 { 
@@ -86,7 +86,7 @@ a.record-top-menu-link:hover{
 }
 
 #record .record-column{
-  border-top:1px solid #F2F3F4;
+  border-top:1px solid #e5e7e9;
   padding: 10px 0;
 }
 #record .record-column:first-child{
@@ -94,3 +94,30 @@ a.record-top-menu-link:hover{
   padding: 10px 0
 }
 
+
+.record-column .row {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+.record-column .col-xs-4, .record-column .col-sm-4, .record-column .col-md-4, .record-column .col-lg-4, 
+.record-column .col-xs-5, .record-column .col-sm-5, .record-column .col-md-5, .record-column .col-lg-5, 
+.record-column .col-xs-6, .record-column .col-sm-6, .record-column .col-md-6, .record-column .col-lg-6, 
+.record-column .col-xs-7, .record-column .col-sm-7, .record-column .col-md-7, .record-column .col-lg-7, 
+.record-column .col-xs-8, .record-column .col-sm-8, .record-column .col-md-8, .record-column .col-lg-8,
+.record-column .col-xs-12, .record-column .col-sm-12, .record-column .col-md-12, .record-column .col-lg-12 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#record p {
+    margin: 0 0 8px;
+}
+
+#record .reference-title {
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+#record .reference-link {
+  font-weight: bold;  
+}

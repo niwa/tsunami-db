@@ -6,13 +6,13 @@
   right:0;
   width: auto;   
   overflow-y: auto;
-  background: #F2F3F4;
+  background-color: #F2F3F4;
       z-index: 1001;
       display:none;
 }
 .page-outer {
   padding:50px 0;
-  background: #FFF;
+  background-color: #FFF;
   min-height: 100vh;
   max-width: 972px; 
       position: relative;
@@ -86,7 +86,7 @@ a.close-page {
 }
 
 #page .record-column h4 {  
-    color: #848D93;
+    color: #808990;
     font-size: 17px;
     text-transform: none;
     font-weight: 600;

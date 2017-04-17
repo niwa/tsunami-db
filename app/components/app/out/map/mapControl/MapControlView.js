@@ -42,7 +42,7 @@ define([
                 selected:column.get("column") === this.model.getOutColorColumn().get("column")
               }
           },this), function(option) {
-            return !option.selected
+            return option.label
           }
         )
       }))
