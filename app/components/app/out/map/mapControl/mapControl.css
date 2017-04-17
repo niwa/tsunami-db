@@ -14,14 +14,15 @@
 }
 
 #map-control-header h4 {
-  display: table-cell;
+  line-height: 48px;
+  margin: 0;
   vertical-align: middle;
 }
 
 #map-control-header {
     min-height: 48px;
     border-bottom: 1px solid #EDEEEF;
-    display: table;
+    display: block;
     width: 100%;
 }
 

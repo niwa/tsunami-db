@@ -12,13 +12,15 @@
 }
 
 #map-plot-header h4 {
-  display: table-cell;
+  line-height: 48px;
+  margin: 0;
   vertical-align: middle;
 }
 
 #map-plot-header {
     min-height: 48px;
-    display: table;
+    border-bottom: 1px solid #EDEEEF;
+    display: block;
     width: 100%;
 }
 
