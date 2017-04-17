@@ -154,15 +154,21 @@ define([
         var columnsByGroup = columnCollection.byGroup(group.id).models 
         _.each(columnsByGroup,function(column){  
           // only update those that have changed          
-          if(this.isColumnSet(column) !== this.isColumnSet(column, this.previousQuery)
-            || this.model.isExpanded(group.id) !== (this.previousExpanded.indexOf(group.id) > -1)
-          ) {            
+          if(this.hasColumnFilterChanged(column) || this.model.isExpanded(group.id) !== (this.previousExpanded.indexOf(group.id) > -1)) {            
             var $filter = this.$('.form-group-'+group.id+' .group-filters .column-filter-'+column.id)
             $filter.html(
               this.getFilterHtml(column, group.id) || ""                   
             )            
-            this.initMultiselect($filter)
-            this.initRangeSlider($filter)
+            switch (column.get("type")){    
+              case "date":
+              case "quantitative":
+                this.initRangeSlider($filter)
+                break
+              case "categorical":
+              case "ordinal":
+                this.initMultiselect($filter)
+                break
+            }            
             this.initTooltips($filter)
           }
         },this)
@@ -173,40 +179,65 @@ define([
         )          
       },this)     
     },    
+    getColumnMax: function(column) {
+      if (column.get('combo') === 1 && column.get('comboType') === "min") {  
+        // get the combo column
+        var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))                    
+        return combo_column.getQueryColumnByType("max")                    
+      } 
+      return column.getQueryColumnByType("max")                     
+    },
+    getColumnMin: function(column) {      
+      if (column.get('combo') === 1  && column.get('comboType') === "max"){
+        var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))                    
+        return combo_column.getQueryColumnByType("min")        
+      } 
+      return column.getQueryColumnByType("min")
+    },
+    hasColumnFilterChanged: function(column) {
+      var query = this.model.get("recQuery")
+
+      // figure out the query values from query for each query column      
+      // check value
+      var column_value = column.getQueryColumnByType("value")
+      if (query[column_value] !== this.previousQuery[column_value]){
+        return true
+      }      
+      // check min
+      var column_min = this.getColumnMin(column)
+      if (query[column_min] !== this.previousQuery[column_min]) {
+        return true
+      }
+      // check max
+      var column_max = this.getColumnMax(column)         
+      if (query[column_max] !== this.previousQuery[column_max]) {
+        return true
+      }              
+      return false
+        
+    },
     isColumnSet:function(column, query){      
       query = typeof query !== 'undefined' ? query : this.model.get("recQuery")
-      
-      var column_min = "", // the query argument for min value
-          column_max = "", // the query argument for max value
-          column_value = "", // the actual query column
-          queryMin = "", // the current query min value
-          queryMax = "", // the current query max value
-          queryValue = "", // the current actual query column value, here can ne null for unspecified
-
-      column_min = column.getQueryColumnByType("min")
-      column_max = column.getQueryColumnByType("max")  
-      column_value = column.getQueryColumnByType("value")
-      if(column.get('combo') === 1) {  
-        // get the combo column
-        var combo_column = this.model.get("columnCollection").get(column.get('comboColumnId'))            
-        if(column.get('comboType') === "min") {
-          column_max = combo_column.getQueryColumnByType("max")
-        } else if(column.get('comboType') === "max"){
-          column_min = combo_column.getQueryColumnByType("min")
-        }           
+       
+      // figure out the query values from query for each query column        
+      var column_value = column.getQueryColumnByType("value")        
+      var queryValue = typeof (query[column_value]) !== "undefined" ? query[column_value] : ""         
+      if (queryValue.length > 0) {
+        return true
+      }       
+      // check min
+      var column_min = this.getColumnMin(column)
+      var queryMin = typeof (query[column_min]) !== "undefined" ? query[column_min] : ""    
+      if (queryMin.length > 0) {
+        return true
       }
-      // figure out the query values from query for each query column          
-      queryMin = typeof (query[column_min]) !== "undefined"
-        ? query[column_min]
-        : ""              
-      queryMax = typeof (query[column_max]) !== "undefined"
-        ? query[column_max]
-        : ""       
-      queryValue = typeof (query[column_value]) !== "undefined"
-        ? query[column_value]
-        : ""         
-
-      return queryMin.length > 0 || queryMax.length > 0 || queryValue.length > 0 
+      // check max
+      var column_max = this.getColumnMax(column)               
+      var queryMax = typeof (query[column_max]) !== "undefined" ? query[column_max] : ""       
+      if (queryMax.length > 0) {
+        return true
+      }                 
+      return false
     },
     
     getFilterHtml:function(column, groupId){      
@@ -479,6 +510,7 @@ define([
         
         var colMin = $(this).attr('data-column-min')     
         var colMax = $(this).attr('data-column-max')          
+        var col = $(this).attr('data-column')          
                  
         slider.noUiSlider.off()
         slider.noUiSlider.on('slide', function ( values, handle ) {
@@ -491,6 +523,8 @@ define([
           }
         })
         slider.noUiSlider.on('change', function ( values, handle ) {   
+          // toggle of unspecified checkboxes
+          that.$('input#checkbox-'+col).prop('checked',false)          
           that.querySubmit()          
         })
         
