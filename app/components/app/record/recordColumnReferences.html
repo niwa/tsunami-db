@@ -19,6 +19,15 @@
       <div class="reference-title"><%= ref.getTitle() %></div> 
       <% if (ref.getReference() !== null) { %>      
       <p><%= ref.getReference() %></p>
+      <% } else { %>    
+      <p>
+        <%= t.record.contact_us.pre %>
+        <a title="<%= t.record.contact_us.anchor %>" class="nav-link" href="#" data-route="page" data-type="page" data-id="contact">
+          <%= t.record.contact_us.anchor %>
+        </a>      
+        <%= t.record.contact_us.post %>
+      </p>
+        
       <% } %>      
       <% if (ref.getDoi() !== null) { %>
       <p><%= t.record.references_doi %>: <%= ref.getDoi() %></p>

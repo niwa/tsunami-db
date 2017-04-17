@@ -36,7 +36,12 @@
   "record": {
     "name": "Record detail",
     "title": "Record ID",
-    "references_doi": "DOI"
+    "references_doi": "DOI",
+    "contact_us": {
+      "pre" : "Please ",
+      "anchor": "contact us",
+      "post": " for more information"
+    }
   },
   "out": {
     "nav": {
