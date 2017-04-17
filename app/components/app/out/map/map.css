@@ -123,9 +123,27 @@ a.leaflet-control-zoom-in{
 #map .leaflet-overlay-pane .map-layer{
   opacity:0;
 }*/
- 
+ .key-color {
+  width: 11px;
+    height: 11px;
+    display: inline-block;
+    margin-right: 5px;
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+    border: 1.5px solid;
+    vertical-align: middle;
+    margin-top: -2px;
+}
+
+.key-label {
+    vertical-align: middle;
+}
 
 /*leaflet label*/
+.leaflet-rrose-content .key-color {
+    margin-right: 8px;  
+}
 .leaflet-rrose{
   max-width:210px;
 }
@@ -151,7 +169,7 @@ a.leaflet-control-zoom-in{
   line-height: 1.4;
 }
 .leaflet-rrose-content{
-  margin:7px 10px 9px;
+  margin:8px 9px 7px 8px;
   color: #868888; 
 }
 .leaflet-rrose-tip-s {
@@ -280,4 +298,8 @@ a.leaflet-control-zoom-in{
 }
 .leaflet-draw-actions {
     left: 31px;
+}
+
+.leaflet-container a {
+    color: #808990;
 }

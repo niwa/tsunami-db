@@ -56,19 +56,19 @@
       "navitems":[
         {
           "id":"palaeotsunami",
-          "title":"What is a palaeotsunami?",
+          "title":"What is a Palaeotsunami?",
           "path": "//content.niwa.co.nz/content/resource_by_name/What%20is%20a%20palaeotsunami",
           "format":"xml"
         },
         {
           "id":"sources",
-          "title":"Tsunami sources",
+          "title":"Tsunami Sources",
           "format":"xml",         
           "path": "//content.niwa.co.nz/content/resource_by_name/Tsunami%20Sources"
         },
         {
           "id":"travel",
-          "title":"Tsunami travel times",
+          "title":"Tsunami Ttravel Times",
           "format":"xml",         
           "path": "//content.niwa.co.nz/content/resource_by_name/Tsunami%20travel%20times"
         }       
