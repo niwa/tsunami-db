@@ -85,7 +85,7 @@ define([
       
       _map.addControl(drawControl)   
       
-      this.$('.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-rectangle').html('<span class="icon-icon_draw"></span>') 
+      this.$('.leaflet-draw-toolbar .leaflet-draw-draw-rectangle').html('<span class="icon-icon_draw"></span>') 
       
       _map.on('draw:created', _.bind(this.onDrawCreated,this));
       _map.on('draw:drawstart', _.bind(this.onDrawStart,this));

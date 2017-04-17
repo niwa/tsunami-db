@@ -258,14 +258,19 @@ a.leaflet-control-zoom-in{
 }
 
 .leaflet-touch .leaflet-control-delete a, 
-.leaflet-touch .leaflet-draw-toolbar a.leaflet-draw-draw-rectangle {
+.leaflet-control-delete a, 
+.leaflet-touch .leaflet-draw-toolbar a.leaflet-draw-draw-rectangle,
+.leaflet-draw-toolbar a.leaflet-draw-draw-rectangle {
     background-image: none;
     background-color: #036789;
     opacity:1;
 }
+.leaflet-control-delete a:hover, 
 .leaflet-touch .leaflet-control-delete a:hover, 
+.leaflet-draw-toolbar a.leaflet-draw-draw-rectangle:hover,
 .leaflet-touch .leaflet-draw-toolbar a.leaflet-draw-draw-rectangle:hover {
   background-color: #0d5f7d;    
+  opacity: 1;
 }
 
 
@@ -287,6 +292,7 @@ a.leaflet-control-zoom-in{
     line-height: 30px;
 }
 .leaflet-draw-actions a {
+    color: #fff;
     background-color: #009DD6;
     height: 30px;
 }
@@ -300,6 +306,6 @@ a.leaflet-control-zoom-in{
     left: 31px;
 }
 
-.leaflet-container a {
+.leaflet-rrose a {
     color: #808990;
 }
