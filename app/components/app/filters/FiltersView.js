@@ -58,6 +58,7 @@ define([
       this.checkExpanded()
       this.checkFiltered()           
       
+      this.renderReset()      
       return this
     },      
     expandedUpdated: function () {      
@@ -68,7 +69,13 @@ define([
     queryUpdated: function () {          
       this.updateGroupFilters()    
       this.checkFiltered()         
-      this.previousQuery = $.extend(true, {}, this.model.get("recQuery"))               
+      this.previousQuery = $.extend(true, {}, this.model.get("recQuery"))   
+      this.renderReset()
+    }, 
+    renderReset: function(){
+      if(Object.keys(this.model.get("recQuery")).length > 0) {
+        this.$('.btn.query-reset').html(this.model.getLabels().filters.reset + " (" + Object.keys(this.model.get("recQuery")).length + ")")
+      }      
     },
     checkExpanded: function () {
       if (this.model.allExpanded()) {

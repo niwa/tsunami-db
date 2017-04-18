@@ -395,7 +395,7 @@ define([
                 recordsUpdated:that.model.getRecordsUpdated(),
                 recordsPopup:[],
                 recordMouseOverId :"",
-                querySet:false,               
+                queryLength:0,               
                 geoQuery:{},
                 paths:{
                   records:that.model.get("config").records.path,
@@ -433,7 +433,7 @@ define([
 
               that.views.out.model.set({                             
                 outMapType:       that.model.getOutMapType(),
-                querySet:         Object.keys(that.model.getRecordQuery()).length > 0,
+                queryLength:         Object.keys(that.model.getRecordQuery()).length,
                 geoQuery:         that.model.getGeoQuery(),                  
                 recordsUpdated :  that.model.getRecordsUpdated(),
                 recordId :        that.model.getSelectedRecordId(),        

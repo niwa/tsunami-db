@@ -49,8 +49,9 @@ define([
       this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
       this.listenTo(this.model, "change:recordMouseOverId", this.updateMouseOverRecord);      
       this.listenTo(this.model, "change:recordsPopup",this.recordsPopup)
-      this.listenTo(this.model, "change:querySet",this.updateQuerySet)
+      this.listenTo(this.model, "change:queryLength",this.updateQueryLength)
       this.listenTo(this.model, "change:geoQuery",this.updateGeoQuery)
+      this.listenTo(this.model, "change:query",this.updateQuery)
       this.listenTo(this.model, "change:dataToggled",this.renderData)
     },
     render: function () {
@@ -111,16 +112,17 @@ define([
       var activeRecords = this.model.getRecords().byActive()      
       this.$("nav .out-nav-info").html(_.template(templateNavInfo)({
         t:this.model.getLabels(),
-        filtered:this.model.get('querySet'),
+        filtered:this.model.get('queryLength') > 0,
         record_no:typeof activeRecords !== "undefined" ? activeRecords.length : 0
       }))
     },
     
     renderHeaderReset: function(){
 //      console.log("OutView.renderHeaderReset")
-      if (this.model.get('querySet')) {
+      if (this.model.get('queryLength') > 0) {
         this.$("nav .out-nav-reset").html(_.template(templateNavReset)({
-          t:this.model.getLabels(),
+          t: this.model.getLabels(),
+          count: this.model.get('queryLength')
         }))
       } else {
         this.$("nav .out-nav-reset").html("")
@@ -144,8 +146,8 @@ define([
       this.updateHeaderActive()
       this.updateViews()
     },
-    updateQuerySet: function(){  
-//      console.log("OutView.updateQuerySet")
+    updateQueryLength: function(){  
+//      console.log("OutView.updateQueryLength")
       this.renderHeaderReset()      
     },
     
@@ -156,7 +158,7 @@ define([
       if (this.model.get('dataToggled')) {
         this.$("#data-view").html(_.template(templateData)({
           t:this.model.getLabels(),
-          filtered : this.model.get('querySet'),
+          filtered : this.model.get('queryLength') > 0,
           canDownload: Modernizr.blobconstructor,
           download : {
             formats: [
