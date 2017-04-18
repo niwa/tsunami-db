@@ -32,9 +32,12 @@ define([
     },
     getUrl:function(short){
       short = typeof short !== 'undefined' ? short : false
-      return short 
+      var url = this.attributes.website_report && short 
         ? this.attributes.website_report.substring(0, 50) + "&hellip;"
-        : this.attributes.website_report
+        : this.attributes.website_report        
+      return url && url.indexOf('://') === -1 
+        ? 'http://' + url 
+        : url
     },
     getDoi:function(){
       return this.attributes.doi
