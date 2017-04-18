@@ -7,7 +7,8 @@ define([
   'text!./out_nav.html',
   'text!./out_data.html',
   'text!./out_navInfo.html',
-  'text!./out_navReset.html'
+  'text!./out_navReset.html',
+  'ga'
 ], function (
   $, _, Backbone,
   bootstrap,
@@ -17,7 +18,8 @@ define([
   templateNav,
   templateData,
   templateNavInfo,
-  templateNavReset
+  templateNavReset,
+  ga
 ) {
 
   var OutView = Backbone.View.extend({
@@ -491,6 +493,7 @@ define([
               filename = "references.csv"            
               break;
           }
+          if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Download', table, '')}
 
           var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
           if (navigator && navigator.msSaveBlob) { // IE 10+

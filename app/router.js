@@ -6,7 +6,7 @@ define([
   'components/app/AppView',
   'components/app/AppModel',
   'ga'
-], function($, _, Backbone, deparam, AppView, AppModel,ga) {
+], function($, _, Backbone, deparam, AppView, AppModel, ga) {
 
   var app = {};
 
@@ -216,7 +216,7 @@ define([
 //      console.log('router.db' )      
 //      console.log('--- recordid ' + recordid )
 //      console.log('--- query ' + query )
-//      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
+      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Explore', recordid !== null && typeof recordid !=='undefined' ? recordid : "list", '')}
 
       // set default path (filters) if not set
         recordid = recordid !== null && typeof recordid !=='undefined' ? recordid : ""
@@ -261,7 +261,7 @@ define([
 //      console.log('router.page' )      
 //      console.log('--- pageid ' + pageid )
 //      console.log('--- query ' + query )
-//      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Route', 'route:home', '')}
+      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Page', pageid,  '' )}
 
       // set default path (filters) if not set
         pageid = pageid !== null && typeof pageid !=='undefined' ? pageid : ""

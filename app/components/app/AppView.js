@@ -250,6 +250,7 @@ define([
             colorColumn:that.model.getOutColorColumn()
           })   
           if (!that.model.getRecordsUpdated() || !_.isEqual(oldQuery, newQuery)) {
+            if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Filter', JSON.stringify(newQuery), '')}
             that.model.setRecordsUpdated()
           }
 //          console.log('updateRecordCollection 2', Date.now() - window.timeFromUpdate)
@@ -901,7 +902,7 @@ define([
     setOutView : function(e,args){
 //      console.log("setOutView")   
       this.views.out.model.set('recordsPopup',[]) ;  
-      
+      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'View', args.out_view, '')}
       this.model.getRouter().queryUpdate({
         out : args.out_view
       })      
@@ -1105,6 +1106,8 @@ define([
     
     
     mapOptionToggled:function(e,args){
+      if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Map option', this.model.getOutMapType() !== args.option ? args.option : 'none', '')}
+      
       this.model.getRouter().queryUpdate(
         {
           map:this.model.getOutMapType() !== args.option ? args.option : 'none'
@@ -1127,7 +1130,6 @@ define([
     // filter events
     recordQuerySubmit : function(e,args){    
 //      console.log("recordQuerySubmit")    
-      
       this.views.out.model.set('recordsPopup',[]) ; 
 
       // new query
@@ -1168,7 +1170,6 @@ define([
     },
     geoQuerySubmit:function(e,args){
 //      console.log("geoQuerySubmit")    
-      
       var latColumn = this.model.getColumns().get("lat")
       var lngColumn = this.model.getColumns().get("lng")      
       
@@ -1208,6 +1209,10 @@ define([
     
     },
     toggleShare: function(){
+      if (!this.model.get('shareToggled')) {
+        if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Modal', 'share', '')}
+      }
+      
       this.model.set('shareToggled', !this.model.get('shareToggled'))
       this.views.nav.model.set({        
         path:this.model.get('shareToggled') ? 'share' : this.model.getPath()
