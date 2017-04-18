@@ -87,14 +87,7 @@ function numberWithCommas(x) {
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
-function convertToSlug(str)
-{
-    return str
-        .toLowerCase()
-        .replace(/ /g,'-')
-        .replace(/[^\w-]+/g,'')
-        ;
-}
+
 function waitFor (condition,callback,s){
   s = typeof s !== 'undefined' ? s : 100
      
@@ -157,3 +150,4 @@ if(!String.linkify) {
             .replace(emailAddressPattern, '<a href="mailto:$&">$&</a>');
     };
 }
+
