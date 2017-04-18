@@ -409,6 +409,14 @@ define([
               
               if (that.model.getOutType() === 'map' && !that.model.mapReady()) {
                 that.$el.addClass('map-loading')
+                waitFor(
+                  function(){
+                    return that.model.mapReady()
+                  },
+                  function(){
+                    that.$el.removeClass('map-loading')
+                  }
+                )
               }
                 
               

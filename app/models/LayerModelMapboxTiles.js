@@ -35,11 +35,12 @@ define([
           options
         )
         .on('loading',function(){
+          that.setLoading(true)          
           //console.log("start loading tile layer")  
         })
         .on('load',function(){
           that.setLoading(false)
-          //console.log("success loading tile layer")  
+//          console.log("success loading tile layer")  
         })        
       )
       
