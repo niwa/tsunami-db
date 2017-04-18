@@ -9,7 +9,7 @@ require.config({
   waitSeconds : 30,
   paths: {
     'domReady' : 'libs/domReady',        
-    'jquery': 'libs/jquery-1.11.2',
+    'jquery': 'libs/jquery-1.12',
     'jquery.deparam': 'libs/jquery.deparam',    
     'jquery.select2': 'libs/select2',    
     'jquery.xml2json': 'libs/jquery.xml2json',   
