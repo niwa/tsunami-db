@@ -200,7 +200,7 @@ define([
       return this.model.allExpanded()
       ? this.model.get('columnsSorted')
       : _.filter(_.clone(this.model.get('columnsSorted')),function(column){
-        return column.get("default")
+        return column.get("isDefault")
       },this)
     },
 
