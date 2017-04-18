@@ -24,12 +24,12 @@ define([
         t:this.model.getLabels(),
         navitems:_.map(this.model.getNavItems(),function(item){
           item.active = this.isItemActive(item)
-          item.class = item.active ? " active" : ""            
-          item.class += !!item.navitems  ? " nav-group" : ""            
+          item['class'] = item.active ? " active" : ""            
+          item['class'] += !!item.navitems  ? " nav-group" : ""            
           item.navitems = !!item.navitems 
           ? _.map(item.navitems,function(childItem){
               childItem.active = this.isItemActive(childItem)
-              childItem.class = childItem.active ? " active" : ""
+              childItem['class'] = childItem.active ? " active" : ""
               return childItem
             },this)
           : false

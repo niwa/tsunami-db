@@ -256,7 +256,7 @@ define([
           var queryMax = typeof (this.model.get("recQuery")[column_max]) !== "undefined"
             ? this.model.get("recQuery")[column_max]
             : ""                      
-          if (column.get("default") || queryMin.trim() !== "" || queryMax.trim() !== "" || this.model.isExpanded(groupId) ) {        
+          if (column.get("isDefault") || queryMin.trim() !== "" || queryMax.trim() !== "" || this.model.isExpanded(groupId) ) {        
             return _.template(templateFilterMinMaxAddon)({
               label:_.template(templateFilterLabel)({
                 t:this.model.getLabels(),  
@@ -342,7 +342,7 @@ define([
             ? this.model.get("recQuery")[column_value]
             : ""         
 
-          if (column.get("default") 
+          if (column.get("isDefault") 
                   || queryMin.length > 0 
                   || queryMax.length > 0
                   || queryValue.length > 0
@@ -393,7 +393,7 @@ define([
             ? this.model.get("recQuery")[column_id]
             : ""              
           // only show default columns or those that are set unless group expanded                        
-          if (column.get("default") || queryValue.length > 0 || this.model.isExpanded(groupId) ) {
+          if (column.get("isDefault") || queryValue.length > 0 || this.model.isExpanded(groupId) ) {
 
             var options = []
 
