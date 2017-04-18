@@ -12,7 +12,8 @@ define([
 
   var PageView = Backbone.View.extend({
     events : {
-      "click .close-page" : "closePage"      
+      "click .close-page" : "closePage",      
+      "click a" : "pageLink",      
     },
     initialize : function () {
       this.render()
@@ -65,7 +66,16 @@ define([
         this.$el.hide()
       }
     },
-    
+    pageLink: function(e) {
+      if($(e.target).attr('href').startsWith('#')) {
+        e.preventDefault()
+        this.$el.trigger('navLink', {
+          route:'page',
+          id: this.model.get('pageId'),
+          anchor: $(e.target).attr('href').substring(1)
+        })    
+      }
+    },
     closePage : function(e){
       e.preventDefault()
       
