@@ -13,7 +13,7 @@ define([
       this.set("proxiesLoaded",false)
       this.set("referencesLoaded",false)
       this.set("recordsConfigured",false)
-      this.set("recordsUpdated",0)
+      this.set("recordsUpdated",false)
       this.set("pagesConfigured",false)
       this.set("referencesConfigured",false)
       this.set("proxiesConfigured",false)

@@ -1,28 +1,15 @@
-  <a href="#" type="button" data-view="map" class="btn btn-out-nav toggle-view <%= active === 'map' ? 'active' : '' %>" >
+  <a href="#" type="button" data-view="map" class="toggle-btn toggle-map btn btn-out-nav toggle-view" >
     <div class="hide-on-active"><span class="icon-icon_nz"></span></div>
     <div class="show-on-active"><span class="icon-icon_nz-active"></span></div>
     <%= t.out.nav.map %>
-  </a><a href="#" type="button" data-view="table" class="btn btn-out-nav toggle-view <%= active === 'table' ? 'active' : '' %>">
+  </a><a href="#" type="button" data-view="table" class="toggle-btn toggle-table btn btn-out-nav toggle-view">
     <div class="hide-on-active"><span class="icon-icon_table"></span></div>
     <div class="show-on-active"><span class="icon-icon_table-active"></span></div>
     <%= t.out.nav.table %>
   </a>  
-  <span class="out-nav-info">
-    <span class="record-no">
-      <%= record_no %>
-    </span> 
-    <% if (filtered) { %>
-    <%= t.out.nav.records_filtered %>
-    <% } else { %>
-    <%= t.out.nav.records_in_db %>
-    <% } %>
-  </span>
-  <% if (filtered) { %>
-  <a href="#" type="button" class="btn btn-primary btn-round query-reset">
-    <%= t.filters.reset %>
-  </>
-  <% } %>
-  <a href="#" type="button" class="btn btn-out-nav pull-right toggle-data <%= active === 'data' ? 'active' : '' %>">    
+  <span class="out-nav-info"></span>
+  <span class="out-nav-reset"></span>
+  <a href="#" type="button" class="toggle-btn btn btn-out-nav pull-right toggle-data">    
     <div class="hide-on-active"><span class="icon-icon_download-grey"></span></div>
     <div class="show-on-active"><span class="icon-icon_download-white"></span></div>
     <%= t.out.nav.data %>

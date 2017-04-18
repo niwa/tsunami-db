@@ -1,0 +1,8 @@
+<span class="record-no">
+  <%= record_no %>
+</span> 
+<% if (filtered) { %>
+<%= t.out.nav.records_filtered %>
+<% } else { %>
+<%= t.out.nav.records_in_db %>
+<% } %>    

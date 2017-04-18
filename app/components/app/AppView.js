@@ -242,14 +242,14 @@ define([
         function(){ 
 //      console.log('updateRecordCollection 1', Date.now() - window.timeFromUpdate)
           
-          var query = that.model.getRecords().query
+          var oldQuery = that.model.getRecords().query
           var newQuery = that.model.getRecordQuery()
           that.model.getRecords().updateRecords({
             query:newQuery,
             selectedId:that.model.getSelectedRecordId(),
             colorColumn:that.model.getOutColorColumn()
           })   
-          if (!_.isEqual(query, newQuery) || _.isEqual(query, {})) {
+          if (!that.model.getRecordsUpdated() || !_.isEqual(oldQuery, newQuery)) {
             that.model.setRecordsUpdated()
           }
 //          console.log('updateRecordCollection 2', Date.now() - window.timeFromUpdate)
@@ -415,24 +415,23 @@ define([
 //              that.views.out.model.setActive()
               that.views.out.model.set({
                 active:           true,
-//                recordsUpdated :  that.model.getRecordsUpdated(),
                 outType:          that.model.getOutType(),
-                outMapType:       that.model.getOutMapType(),
-                outColorColumn:   that.model.getOutColorColumn(),
-                outPlotColumns:   that.model.getOutPlotColumns(),
-                mapView:          that.model.getActiveMapview(),                
-                geoQuery:         that.model.getGeoQuery(),
-                querySet:         Object.keys(that.model.getRecordQuery()).length > 0,
-                tableSortColumn:  that.model.getOutTableSortColumn(),
-                tableSortOrder:   that.model.getOutTableSortOrder()
+                mapView:          that.model.getActiveMapview(),                                   
               })
               
               // update Records
               that.updateRecordCollection() 
-              
-              that.views.out.model.set({                
+
+              that.views.out.model.set({                             
+                outMapType:       that.model.getOutMapType(),
+                querySet:         Object.keys(that.model.getRecordQuery()).length > 0,
+                geoQuery:         that.model.getGeoQuery(),                  
                 recordsUpdated :  that.model.getRecordsUpdated(),
-                recordId :        that.model.getSelectedRecordId(),
+                recordId :        that.model.getSelectedRecordId(),        
+                outColorColumn:   that.model.getOutColorColumn(),
+                outPlotColumns:   that.model.getOutPlotColumns(),                           
+                tableSortColumn:  that.model.getOutTableSortColumn(),
+                tableSortOrder:   that.model.getOutTableSortOrder(),                                 
               })              
               
             } else {
