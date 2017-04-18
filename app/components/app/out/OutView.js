@@ -150,11 +150,12 @@ define([
     
     renderData: function(){
 //      console.log("OutView.renderData")
-      
+            
       if (this.model.get('dataToggled')) {
         this.$("#data-view").html(_.template(templateData)({
           t:this.model.getLabels(),
           filtered : this.model.get('querySet'),
+          canDownload: Modernizr.blobconstructor,
           download : {
             formats: [
               {
@@ -462,53 +463,54 @@ define([
     },      
     
     downloadData:function(e) {
-      e.preventDefault();
-      var format = $(e.currentTarget).attr('data-format')
-      var table = $(e.currentTarget).attr('data-table')
-      var active = $(e.currentTarget).attr('data-active')
-      
-      if (format === "csv") {
-        var csv = ""
-        var filename = ""
-        var link
-        switch (table) {
-          case "records":
-            csv = active === "true" 
-              ? this.model.get("recordCollection").byActive().toCSV()
-              : this.model.get("recordCollection").toCSV()
-            filename = active === "true" 
-              ? "records_filtered.csv"
-              : "records.csv"
-            break;
-          case "proxies":
-            csv = this.model.get("recordCollection").getProxies().toCSV()
-            filename = "proxies.csv"            
-            break;
-          case "references":
-            csv = this.model.get("recordCollection").getReferences().toCSV()
-            filename = "references.csv"            
-            break;
-        }
-        
-        var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        if (navigator && navigator.msSaveBlob) { // IE 10+
-          navigator.msSaveBlob(blob, filename);
-        } else {
-          var link = document.createElement("a");
-          if (link.download !== undefined) { // feature detection
-            // Browsers that support HTML5 download attribute
-            var url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", filename);
-            link.setAttribute('target', "_blank");                
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+      e.preventDefault();      
+      if(Modernizr.blobconstructor) {
+        var format = $(e.currentTarget).attr('data-format')
+        var table = $(e.currentTarget).attr('data-table')
+        var active = $(e.currentTarget).attr('data-active')
+
+        if (format === "csv") {
+          var csv = ""
+          var filename = ""
+          var link
+          switch (table) {
+            case "records":
+              csv = active === "true" 
+                ? this.model.get("recordCollection").byActive().toCSV()
+                : this.model.get("recordCollection").toCSV()
+              filename = active === "true" 
+                ? "records_filtered.csv"
+                : "records.csv"
+              break;
+            case "proxies":
+              csv = this.model.get("recordCollection").getProxies().toCSV()
+              filename = "proxies.csv"            
+              break;
+            case "references":
+              csv = this.model.get("recordCollection").getReferences().toCSV()
+              filename = "references.csv"            
+              break;
+          }
+
+          var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          if (navigator && navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, filename);
+          } else {
+            var link = document.createElement("a");
+            if (link.download !== undefined) { // feature detection
+              // Browsers that support HTML5 download attribute
+              var url = URL.createObjectURL(blob);
+              link.setAttribute("href", url);
+              link.setAttribute("download", filename);
+              link.setAttribute('target', "_blank");                
+              link.style.visibility = 'hidden';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
           }
         }
-      }
-      
+      } 
     }
   });
 
