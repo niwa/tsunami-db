@@ -16,11 +16,12 @@ define([
       if (!!this.getUrl()) {
         // default: could be overridden in specific model to apply specific content transformation
         var that = this
+        $.support.cors = true;
         $.ajax({
+          crossDomain: true,
           dataType:this.getFormat(),
           url:this.getUrl(),
           success:function(content) {
-
 
             switch (that.getFormat()) {                    
               case "xml":
@@ -41,7 +42,6 @@ define([
             }
           },
           error: function(){
-            callback("error loading content from " + that.getUrl())
             console.log("error loading terms config")
           }
 
@@ -60,9 +60,7 @@ define([
               callback(this.attributes.content)
               break
           }
-        } else {
-          callback ("<p>ERROR LOADING CONTENT: requested content not specified</p>")
-        }
+        } 
       }
     },
     getFormat:function(){
