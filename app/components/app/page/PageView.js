@@ -95,6 +95,7 @@ define([
               that.$el.scrollTop() 
               + $anchor.parent().offset().top 
               - that.$el.offset().top
+              - 20
             )          
           }
         })
