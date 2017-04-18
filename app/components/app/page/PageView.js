@@ -67,7 +67,7 @@ define([
       }
     },
     pageLink: function(e) {
-      if($(e.target).attr('href').startsWith('#')) {
+      if(typeof $(e.target).attr('href') !== "undefined" && $(e.target).attr('href').startsWith('#')) {
         e.preventDefault()
         this.$el.trigger('navLink', {
           route:'page',
