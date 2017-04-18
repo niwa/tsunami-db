@@ -86,7 +86,7 @@ define([
       // store model reference
       this.attributes.mapLayer.options.layerModel = this
       
-      this.initInteractions(this.attributes.mapLayer)
+      this.initInteractions()
       
       if (typeof callback !== 'undefined') {                
         callback(this.attributes.mapLayer)
@@ -99,10 +99,11 @@ define([
       if (this.attributes.type === "point") {
       
         this.attributes.mapLayer
-          .off('click')
-          .on('click',_.bind(this.pointLayerClick,this))
-          .on('mouseover',_.bind(this.pointLayerMouseOver,this))
+          .off('mousedown')
+          .on('mousedown',_.bind(this.pointLayerClick,this))
+          .off('mousemove')
           .on('mousemove',_.bind(this.pointLayerMouseOver,this))
+          .off('mouseout')
           .on('mouseout',_.bind(this.pointLayerMouseOut,this))
       }      
     },

@@ -5,7 +5,9 @@ define([
   './table/TableView', './table/TableModel',
   'text!./out.html',
   'text!./out_nav.html',
-  'text!./out_data.html'
+  'text!./out_data.html',
+  'text!./out_navInfo.html',
+  'text!./out_navReset.html'
 ], function (
   $, _, Backbone,
   bootstrap,
@@ -13,7 +15,9 @@ define([
   TableView, TableModel,  
   template,
   templateNav,
-  templateData
+  templateData,
+  templateNavInfo,
+  templateNavReset
 ) {
 
   var OutView = Backbone.View.extend({
@@ -33,13 +37,13 @@ define([
 
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:mapView", this.updateMapViewView);      
-      this.listenTo(this.model, "change:outType", this.updateViews);      
+      this.listenTo(this.model, "change:outType", this.updateOutType);      
       this.listenTo(this.model, "change:outMapType", this.updateOutMapType);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);      
       this.listenTo(this.model, "change:outPlotColumns", this.updateOutPlotColumns);      
       this.listenTo(this.model, "change:tableSortColumn", this.updateTableSortColumn);      
       this.listenTo(this.model, "change:tableSortOrder", this.updateTableSortOrder);      
-      this.listenTo(this.model, "change:recordsUpdated", this.updateViews);      
+      this.listenTo(this.model, "change:recordsUpdated", this.updateRecords);      
       this.listenTo(this.model, "change:recordId", this.updateSelectedRecord);      
       this.listenTo(this.model, "change:recordMouseOverId", this.updateMouseOverRecord);      
       this.listenTo(this.model, "change:recordsPopup",this.recordsPopup)
@@ -48,17 +52,20 @@ define([
       this.listenTo(this.model, "change:dataToggled",this.renderData)
     },
     render: function () {
+//      console.log("OutView.render")      
       this.$el.html(_.template(template)({
         t:this.model.getLabels()
       }))   
-      this.renderHeader()
+      this.renderHeader()      
+      this.renderHeaderInfo()
+      this.renderHeaderReset()      
+      this.updateHeaderActive()      
       this.updateViews()
       return this
     }, 
     updateViews:function(){      
 //      console.log("OutView.updateView")      
-//          console.log('OutView.updateViews 1', Date.now() - window.timeFromUpdate)
-
+//          console.log('OutView.updateViews 1', Date.now() - window.timeFromUpdate)      
       switch(this.model.getOutType()){
         case "map":
 //          console.log('OutView.updateViews Xa', Date.now() - window.timeFromUpdate)
@@ -87,27 +94,68 @@ define([
         default:
           break
       }
-      this.renderHeader()
-      this.renderData()
+      
     },
-    updateQuerySet:function(){
-      this.renderHeader()    
-    },    
-    renderHeader: function(active){
-      active = typeof active !== "undefined" ? active : this.model.getOutType()
-      var activeRecords = this.model.getRecords().byActive()
+  
+    renderHeader: function(){
+//      console.log("OutView.renderHeader")            
       this.$("nav").html(_.template(templateNav)({
+        t:this.model.getLabels()
+      }))
+    },
+    
+    renderHeaderInfo: function(){
+//      console.log("OutView.renderHeaderInfo")
+      var activeRecords = this.model.getRecords().byActive()      
+      this.$("nav .out-nav-info").html(_.template(templateNavInfo)({
         t:this.model.getLabels(),
         filtered:this.model.get('querySet'),
-        active:active,
         record_no:typeof activeRecords !== "undefined" ? activeRecords.length : 0
       }))
     },
+    
+    renderHeaderReset: function(){
+//      console.log("OutView.renderHeaderReset")
+      if (this.model.get('querySet')) {
+        this.$("nav .out-nav-reset").html(_.template(templateNavReset)({
+          t:this.model.getLabels(),
+        }))
+      } else {
+        this.$("nav .out-nav-reset").html("")
+      }
+    },
+    updateHeaderActive: function(active){
+//      console.log("OutView.renderHeaderActive")
+      active = typeof active !== "undefined" ? active : this.model.getOutType()
+      this.$("nav .toggle-btn").removeClass('active');
+      this.$("nav .toggle-"+active).addClass('active');
+    },
+    
+    updateRecords: function(){
+//      console.log("OutView.updateRecords")
+      this.renderHeaderInfo()
+      this.updateViews()
+      this.renderData()
+    },
+    updateOutType: function(){
+//      console.log("OutView.updateOutType")
+      this.updateHeaderActive()
+      this.updateViews()
+    },
+    updateQuerySet: function(){  
+//      console.log("OutView.updateQuerySet")
+      this.renderHeaderReset()      
+    },
+    
+    
     renderData: function(){
+//      console.log("OutView.renderData")
+            
       if (this.model.get('dataToggled')) {
         this.$("#data-view").html(_.template(templateData)({
           t:this.model.getLabels(),
           filtered : this.model.get('querySet'),
+          canDownload: Modernizr.blobconstructor,
           download : {
             formats: [
               {
@@ -178,6 +226,9 @@ define([
         this.$("#data-view").html("")        
       }
     },
+    
+    // child views
+    
     initTableView : function(){
 //      console.log('OutView.initTableView 1', Date.now() - window.timeFromUpdate)
       var componentId = '#table'
@@ -373,7 +424,6 @@ define([
       e.preventDefault()
       this.model.set('dataToggled', false)
       this.$el.trigger('setOutView',{out_view:$(e.currentTarget).attr("data-view")})            
-      this.renderHeader()
     },
     
     handleActive : function(){
@@ -386,22 +436,22 @@ define([
     queryReset:function(e){      
       e.preventDefault()
       this.$el.trigger('recordQuerySubmit',{query:{}})
-    },    
+    },        
     toggleData: function(e){
       e.preventDefault()
       this.model.set('dataToggled', !this.model.get('dataToggled'))      
       
       if (this.model.get('dataToggled')){
-        this.renderHeader('data')
+        this.updateHeaderActive('data')
       } else {
-        this.renderHeader()
+        this.updateHeaderActive()
       }
     },
     closeData: function(e){
       e.preventDefault()
       this.model.set('dataToggled', false)
       
-      this.renderHeader()
+      this.updateHeaderActive()
     },
     selectOnClick: function(e){
       e.preventDefault()
@@ -413,53 +463,54 @@ define([
     },      
     
     downloadData:function(e) {
-      e.preventDefault();
-      var format = $(e.currentTarget).attr('data-format')
-      var table = $(e.currentTarget).attr('data-table')
-      var active = $(e.currentTarget).attr('data-active')
-      
-      if (format === "csv") {
-        var csv = ""
-        var filename = ""
-        var link
-        switch (table) {
-          case "records":
-            csv = active === "true" 
-              ? this.model.get("recordCollection").byActive().toCSV()
-              : this.model.get("recordCollection").toCSV()
-            filename = active === "true" 
-              ? "records_filtered.csv"
-              : "records.csv"
-            break;
-          case "proxies":
-            csv = this.model.get("recordCollection").getProxies().toCSV()
-            filename = "proxies.csv"            
-            break;
-          case "references":
-            csv = this.model.get("recordCollection").getReferences().toCSV()
-            filename = "references.csv"            
-            break;
-        }
-        
-        var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        if (navigator && navigator.msSaveBlob) { // IE 10+
-          navigator.msSaveBlob(blob, filename);
-        } else {
-          var link = document.createElement("a");
-          if (link.download !== undefined) { // feature detection
-            // Browsers that support HTML5 download attribute
-            var url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", filename);
-            link.setAttribute('target', "_blank");                
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+      e.preventDefault();      
+      if(Modernizr.blobconstructor) {
+        var format = $(e.currentTarget).attr('data-format')
+        var table = $(e.currentTarget).attr('data-table')
+        var active = $(e.currentTarget).attr('data-active')
+
+        if (format === "csv") {
+          var csv = ""
+          var filename = ""
+          var link
+          switch (table) {
+            case "records":
+              csv = active === "true" 
+                ? this.model.get("recordCollection").byActive().toCSV()
+                : this.model.get("recordCollection").toCSV()
+              filename = active === "true" 
+                ? "records_filtered.csv"
+                : "records.csv"
+              break;
+            case "proxies":
+              csv = this.model.get("recordCollection").getProxies().toCSV()
+              filename = "proxies.csv"            
+              break;
+            case "references":
+              csv = this.model.get("recordCollection").getReferences().toCSV()
+              filename = "references.csv"            
+              break;
+          }
+
+          var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          if (navigator && navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, filename);
+          } else {
+            var link = document.createElement("a");
+            if (link.download !== undefined) { // feature detection
+              // Browsers that support HTML5 download attribute
+              var url = URL.createObjectURL(blob);
+              link.setAttribute("href", url);
+              link.setAttribute("download", filename);
+              link.setAttribute('target', "_blank");                
+              link.style.visibility = 'hidden';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
           }
         }
-      }
-      
+      } 
     }
   });
 

@@ -34,7 +34,7 @@ define([
     },
     resize: function(){
       // set max height
-      this.render()
+      this.update()
     },  
     render: function () {
 //      console.log('TableView.render 1', Date.now() - window.timeFromUpdate)
@@ -67,7 +67,7 @@ define([
         this.updateActiveRecord()
 //              console.log('TableView.render 3', Date.now() - window.timeFromUpdate)
 
-        this.initTable()
+        this.updateTable()
 //              console.log('TableView.render 4', Date.now() - window.timeFromUpdate)
 
         this.setTableHeight()
@@ -200,7 +200,7 @@ define([
       return this.model.allExpanded()
       ? this.model.get('columnsSorted')
       : _.filter(_.clone(this.model.get('columnsSorted')),function(column){
-        return column.get("default")
+        return column.get("isDefault")
       },this)
     },
 

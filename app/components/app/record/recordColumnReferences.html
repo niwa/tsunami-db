@@ -9,24 +9,33 @@
           title="<%= tooltip_more ? tooltip + '<div>'+ t.app.ui.tooltip_more +'</div>' : tooltip%>" 
           data-html="true"
           href="#"
-          class="nav-link"
+          class="nav-link toggle-tooltip"
           data-page-anchor="<%= id %>"
           data-id="attributes">
          <span class="icon-icon_info" aria-hidden="true"></span>
        </a><% } %>
       </div>      
       <% _.each(references,function(ref){ %> 
-      <div class="strong"><%= ref.getTitle() %></div> 
+      <div class="reference-title"><%= ref.getTitle() %></div> 
       <% if (ref.getReference() !== null) { %>      
       <p><%= ref.getReference() %></p>
+      <% } else { %>    
+      <p>
+        <%= t.record.contact_us.pre %>
+        <a title="<%= t.record.contact_us.anchor %>" class="nav-link" href="#" data-route="page" data-type="page" data-id="contact">
+          <%= t.record.contact_us.anchor %>
+        </a>      
+        <%= t.record.contact_us.post %>
+      </p>
+        
       <% } %>      
       <% if (ref.getDoi() !== null) { %>
       <p><%= t.record.references_doi %>: <%= ref.getDoi() %></p>
       <% } %>
       <% if (ref.getUrl() !== null) { %>
       <p>
-        <a title="<%= ref.getTitle() %>" href="<%= ref.getUrl() %>" target="_blank">
-          <%= ref.getUrl() %>
+        <a title="<%= ref.getTitle() %>" href="<%= ref.getUrl() %>" target="_blank" class="reference-link">
+          <%= ref.getUrl(true) %>
         </a>
       </p>
       <% } %>

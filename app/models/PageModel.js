@@ -29,7 +29,7 @@ define([
       return this.attributes.title
     },
     getClass:function(){
-      return this.attributes.class
+      return this.attributes['class']
     },
     //overrides ContentModel.getContent
     getContent : function(callback){

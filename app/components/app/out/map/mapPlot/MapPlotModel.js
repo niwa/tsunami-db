@@ -6,7 +6,7 @@ define([
   return ViewModel.extend({
     initialize : function(options){
       this.options = options || {};
-      this.setExpanded(false)
+//      this.setExpanded(false)
     },  
     setCurrentRecords : function(currentRecords){      
       this.set('currentRecordCollection', currentRecords) // new active layers          

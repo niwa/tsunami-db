@@ -53,6 +53,7 @@ define([
       }
     },    
     expandedUpdated: function () {      
+//      console.log("MapplotLatView.expandedUpdated 1");
       if (this.model.getExpanded()) {
         this.$el.addClass("expanded") 
       } else {
@@ -84,7 +85,7 @@ define([
       this.$('[data-toggle="tooltip"]').tooltip()
     },
     renderPlot : function(){
-//        console.log("MapplotLatView.renderPlot 1", Date.now() - window.timeFromUpdate);
+//        console.log("MapplotLatView.renderPlot 1");
       
       var records = this.model.getCurrentRecords()
       
@@ -121,8 +122,7 @@ define([
         var dataRows = _.map(
           recordsSorted,
           function(record){
-            var crgba = record.getColor().colorToRgb();
-
+            var crgba = record.getColor().colorToRgb();            
              // remember column ranges and record column values            
             // remember record data
             return _.template(templateRecord)({
@@ -138,7 +138,7 @@ define([
                 bars.bars.push(_.template(templateRecordBar)({
                   value: value,
                   width: Math.max(Math.min(100,(value/col.get("plotMax"))*100),0), 
-                  label: value !== null ? value : "no data",
+                  label: recordColumnValue !== null ? value : this.model.getLabels().out.map.plot.no_data,
                   color: col.get("plotColor")
                 }))
                 bars.below.push(_.template(templateRecordBelow)({
@@ -155,9 +155,9 @@ define([
                 below: [],
                 bars: [],
                 above: [],
-              })                                                               
+              }, this)                                                               
             })
-          })
+          }, this)
 //console.log("MapplotLatView.renderPlot 2c", Date.now() - window.timeFromUpdate);
         
         this.$("#plot-plot").html(_.template(templatePlot)({
@@ -168,7 +168,8 @@ define([
 //console.log("MapplotLatView.renderPlot 3", Date.now() - window.timeFromUpdate);
         
       } else {
-        this.$("#plot-plot").html("<p>" + this.model.getLabels().out.map.plot.no_records_hint + "</p>")
+        this.$('.plot-bottom-buttons').hide()
+        this.$("#plot-plot").html("<div class='hint hint-no-records'>" + this.model.getLabels().out.map.plot.no_records_hint + "</p>")
       }
       
       
@@ -201,7 +202,7 @@ define([
     },    
     
     recordsUpdated:function(){
-//      console.log('selectedRecordUpdated')
+//      console.log('recordsUpdated')
 //      this.model.setExpanded(false)
       this.$el.scrollTop(0)
       this.renderPlot()

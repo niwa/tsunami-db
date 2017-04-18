@@ -36,7 +36,12 @@
   "record": {
     "name": "Record detail",
     "title": "Record ID",
-    "references_doi": "DOI"
+    "references_doi": "DOI",
+    "contact_us": {
+      "pre" : "Please ",
+      "anchor": "contact us",
+      "post": " for more information"
+    }
   },
   "out": {
     "nav": {
@@ -75,7 +80,8 @@
         "name_lat": "Latitude Plot",
         "no_records_hint": "0 records with current zoom and filter settings",
         "all_records": "Show all records",
-        "less_records": "Show less records"
+        "less_records": "Show less records",
+        "no_data": "no data"
       },
       "draw": {
         "clear":"Reset area filter",

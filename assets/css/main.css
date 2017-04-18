@@ -16,6 +16,10 @@
 @import url("../../app/components/app/out/table/table.css");
 @import url("../../app/components/app/page/page.css");
 
+.lt-ie9 #application {
+  display:none;
+}
+
 #application.loading nav .loading-animation,
 #application.updating nav .loading-animation,
 #application.map-loading nav .loading-animation {

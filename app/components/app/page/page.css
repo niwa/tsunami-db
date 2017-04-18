@@ -6,13 +6,13 @@
   right:0;
   width: auto;   
   overflow-y: auto;
-  background: #F2F3F4;
+  background-color: #F2F3F4;
       z-index: 1001;
       display:none;
 }
 .page-outer {
   padding:50px 0;
-  background: #FFF;
+  background-color: #FFF;
   min-height: 100vh;
   max-width: 972px; 
       position: relative;
@@ -20,8 +20,8 @@
 
 a.close-page {
     position: absolute;
-    right: 50px;
-    top: 50px;
+    right: 30px;
+    top: 30px;
     z-index: 1;
 }
 #page h1 {
@@ -34,8 +34,8 @@ a.close-page {
 
 #page .lead, 
 #page blockquote {
-  padding: 20px 0 40px;
-  margin: 0 0 40px;
+  padding: 0 0 54px;
+  margin: 0 0 54px;
   font-size: 20px;
   border-left: none;
   text-align: center;
@@ -48,19 +48,17 @@ a.close-page {
     text-transform: uppercase;
     font-size: 20px;
     font-weight: 700;
+    margin-top: 40px;
 }
 
 #page .group hr {
-    border-color: #99A0A6;
+    border-color: #808990;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 #page h3 {
     font-size: 18px;
     margin-bottom: 5px;
-}
-
-#page .group hr {
-    border-color: #99A0A6;
 }
 
 #page .group p {
@@ -86,7 +84,7 @@ a.close-page {
 }
 
 #page .record-column h4 {  
-    color: #848D93;
+    color: #808990;
     font-size: 17px;
     text-transform: none;
     font-weight: 600;
@@ -100,12 +98,12 @@ a.close-page {
 }
 
 #page table > thead > tr > th {
-  border-bottom: 1px solid #B2B8BD;
+  border-bottom: 1px solid #ccd0d3;
   white-space: nowrap;
 }
  
 #page table > tbody > tr > td {
-    border-color:#F8F9F9;
+    border-color:#f2f3f4;
 }
 
 code {
@@ -116,4 +114,12 @@ code {
 
 #page table > tbody tr td:first-child {
     font-weight: bold;
+}
+
+.page-inner a {
+    font-weight: bold;
+}
+
+.page-inner sup {
+    color: #808990;
 }
