@@ -42,7 +42,7 @@ define([
             }
           },
           error: function(){
-            console.log("error loading terms config")
+            console.log("error loading content")
           }
 
         })
