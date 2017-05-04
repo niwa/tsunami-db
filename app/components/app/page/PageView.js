@@ -2,7 +2,7 @@ define([
   'jquery',  'underscore',  'backbone',
   'text!./page.html',
   'text!./pageContent.html',
-  'text!templates//loading.html'
+  'text!templates/loading.html'
 ], function (
   $, _, Backbone,
   template,
@@ -45,6 +45,7 @@ define([
             that.$('.page-outer').html(_.template(templateContent)({
               t:that.model.getLabels(),
             }))
+            that.$('.page-outer').removeClass('loading')
             that.$('.placeholder-content').html(content)
             if (that.model.getPageAnchor() === "") {
               that.$el.scrollTop(0)

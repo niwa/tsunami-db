@@ -7,15 +7,20 @@
   width: auto;   
   overflow-y: auto;
   background-color: #F2F3F4;
-      z-index: 1001;
-      display:none;
+  z-index: 1001;
+  display:none;
 }
 .page-outer {
-  padding:50px 0;
+  padding: 170px 0 50px;
   background-color: #FFF;
   min-height: 100vh;
-  max-width: 972px; 
-      position: relative;
+  max-width: 972px;
+  position: relative;
+  margin-top: -120px;
+}
+
+.page-outer.loading{
+  position: static;
 }
 
 a.close-page {
@@ -45,7 +50,6 @@ a.close-page {
 }
 
 #page h2 {
-    text-transform: uppercase;
     font-size: 20px;
     font-weight: 700;
     margin-top: 40px;
@@ -122,4 +126,9 @@ code {
 
 .page-inner sup {
     color: #808990;
+}
+
+#page figcaption {
+  font-size: 12px;
+  color: #808990;
 }

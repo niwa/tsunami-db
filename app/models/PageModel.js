@@ -1,8 +1,8 @@
 define([
-  'jquery', 'underscore', 'backbone',
+  'jquery', 'underscore', 'backbone','leaflet',
   './ContentModel',
   'text!templates/pageAttributes.html'  
-], function($,_, Backbone, 
+], function($,_, Backbone,leaflet,
   ContentModel,
   templatePageAttributes
 ){
@@ -87,9 +87,15 @@ define([
     },
     setupContent:function($content){
       $content.find('img').each(function(i, img){
-        $(img).addClass("img-responsive")
+        var $img = $(img)
+        if (L.Browser.retina) {
+          $img.attr('src', $img.attr('src').replace('.png','@2x.png'))
+          $img.attr('src', $img.attr('src').replace('.jpg','@2x.jpg'))                  
+          $img.attr('src', $img.attr('src').replace('.gif','@2x.gif'))             
+        }
+        $img.addClass("img-responsive")
       })
-      
+          
       return $content
     }
     

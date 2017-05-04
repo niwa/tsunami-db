@@ -2,7 +2,11 @@
   <%= record_no %>
 </span> 
 <% if (filtered) { %>
-<%= t.out.nav.records_filtered %>
+  <% if (record_no === 1) { %>
+    <%= t.out.nav.records_filtered_single %>
+  <% } else { %>
+    <%= t.out.nav.records_filtered %>
+<% } %>        
 <% } else { %>
 <%= t.out.nav.records_in_db %>
 <% } %>    

@@ -47,6 +47,7 @@
     "nav": {
       "records_in_db": "records in database",
       "records_filtered": "records found",
+      "records_filtered_single": "record found",
       "map": "Map",
       "table": "Table",
       "data": "Data"
