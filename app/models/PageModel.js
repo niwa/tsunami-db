@@ -95,6 +95,8 @@ define([
         }
         $img.addClass("img-responsive")
       })
+      
+      $content.find('a[href^="http"]').attr('target','_blank');//make external links open in a new tab                          
           
       return $content
     }
