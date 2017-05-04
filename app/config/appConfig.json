@@ -68,7 +68,7 @@
         },
         {
           "id":"travel",
-          "title":"Tsunami Travel Times",
+          "title":"Tsunami Travel",
           "format":"xml",         
           "path": "//content.niwa.co.nz/content/resource_by_name/Tsunami%20travel%20times"
         }       
