@@ -162,7 +162,7 @@ input[type="checkbox"] {
     display: none;
 }
 .noUi-horizontal {
-    height: 12px;
+    height: 11px;
     background-color: #F2f3f4;
     border-radius: 0;
     border-color: #e5e7e9;  
@@ -171,6 +171,8 @@ input[type="checkbox"] {
 .noUi-connect {
     background-color: #007fad;
     border-color: #007fad;
+    height: 11px;
+    margin-top: -1px;
 }
 .slider-inactive .noUi-connect {
     background-color: #b2b8bd;
