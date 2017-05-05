@@ -277,7 +277,7 @@ define([
             return _.template(templateFilterMinMaxAddon)({
               label:_.template(templateFilterLabel)({
                 t:this.model.getLabels(),  
-                id:column_min,
+                id:column.id,
                 forId:"text-"+column_min,
                 tooltip:column.get("description"),
                 tooltip_more:column.hasMoreDescription(),
