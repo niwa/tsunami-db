@@ -179,9 +179,8 @@ define([
     handleActive : function(){
       if (this.model.isActive()) {
         this.$el.show()   
-        this.model.setExpanded(false)
-        
-//        this.renderPlot()
+        this.model.setExpanded(false)      
+        this.renderPlot()
       } else {
         this.$el.hide()
       }
