@@ -45,7 +45,7 @@ define([
       this.listenTo(this.model, "change:outType",       this.updateViews);
 
       this.listenTo(this.model, "change:invalidateSize",this.invalidateSize);      
-      this.listenTo(this.model, "change:layersUpdated",this.layersUpdated);
+//      this.listenTo(this.model, "change:layersUpdated",this.layersUpdated);
       this.listenTo(this.model, "change:popupLayers",this.popupLayersUpdated)
       
       this.listenTo(this.model, "change:selectedLayerId", this.selectedLayerUpdated);      
@@ -527,12 +527,12 @@ define([
       this.updateMapView()
     },
     
-    layersUpdated : function (){
-      var _map = this.model.getMap()
-      
-      
-      
-    },
+//    layersUpdated : function (){
+//      var _map = this.model.getMap()
+//      
+//      
+//      
+//    },
     invalidateSize : function (animate){
       animate = typeof animate !== 'undefined' ? animate : false
       //console.log('MapView.invalidateSize')      

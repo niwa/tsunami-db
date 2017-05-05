@@ -925,7 +925,7 @@ define([
     },    
     
     recordsPopup:function(e,args){
-//      console.log("recordsPopup ")       
+      console.log("recordsPopup ", args.records)       
       this.views.out.model.set('recordsPopup',args.records || []);   // models not collection
     },
     
@@ -1044,7 +1044,6 @@ define([
     // open popup with all overlapping markers with current highlighted
     //
     pointLayerMouseOver : function(e,args){
-//      console.log("pointLayerMouseOver", args.id)
       var layerId = args.id
       
       if (layerId !== "") {        
@@ -1054,9 +1053,9 @@ define([
 
           //stick all other records in popup 
           var overlaps = this.model.getRecords().byActive().byXY(args.x, args.y).models
-          this.$el.trigger('recordsPopup', { 
-            records: overlaps
-          });
+          // unset popup first to make sure new set is opened
+          this.$el.trigger('recordsPopup', { records: [] });
+          this.$el.trigger('recordsPopup', { records: overlaps });
         }          
       }          
     },    
@@ -1075,9 +1074,7 @@ define([
 //      console.log("recordMouseOut", args.id)                                                    
       this.recordHighlightOff()
          
-      this.$el.trigger('recordsPopup', { 
-        records: [] 
-      });       
+      this.$el.trigger('recordsPopup', { records: [] });       
     },
     
     pointLayerMouseOut : function(e,args){
@@ -1101,8 +1098,7 @@ define([
     },
 
     mapPopupClosed:function(){
-//      console.log("mapPopupClosed")  
-      this.recordHighlightOff() 
+      this.recordHighlightOff()  
     },
     
     
