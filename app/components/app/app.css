@@ -345,8 +345,8 @@ a.close-share {
 
 .btn-default {
     color: #59666f;
-    background-color: #F2F3F4;
-    border-color: #e5e7e9;
+    background-color: #edeef0;
+    border-color: #e0e1e2;
 }
 
 .btn-default:hover:active,
@@ -354,8 +354,8 @@ a.close-share {
 .btn-default:active,
 .btn-default:hover {
     color: #4c5a64;
-    background-color: #e5e7e9;
-    border-color: #e5e7e9;
+    background-color: #e0e1e2;
+    border-color: #e0e1e2;
 }
 
 .btn-default.active:active,
