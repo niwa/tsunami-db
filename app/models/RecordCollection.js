@@ -39,12 +39,13 @@ define([
     updateRecords:function(args){
       this.query = args.query
 //      console.log("recordCollection.updateRecords")
+      var that = this;
       _.each(_.clone(this.models).reverse(),function(model){
         // set active
         model.setActive(model.pass(args.query)) 
         
         // set selected
-        if(args.selectedId !== this.selectedId) {
+        if(args.selectedId !== that.selectedId) {
           if (args.selectedId === "") {
             model.setSelected(false)
           } else {

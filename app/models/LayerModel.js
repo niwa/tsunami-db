@@ -250,32 +250,31 @@ define([
         var that = this        
         this.getMapLayer(function(mapLayer){
           
-          if (that.isSelected() || that.isMouseOver()){
-            if ((that.isSelected() && !that.isMouseOver())
-            || (!that.isSelected() && that.isMouseOver())){
-              //set Selected Style            
-               mapLayer.setStyle(_.extend(
-                 {},
-                 that.attributes.layerStyle,
-                 {fillOpacity:0.85,weight:1.5}
-               ))            
-            } else {
-              //setDefaultStyle
-              mapLayer.setStyle(that.attributes.layerStyle)
-            }
-          } else {                        
-            if(that.isAnySelected()){             
-              //set Passive Style            
-              mapLayer.setStyle(_.extend(
-                {},
-                that.attributes.layerStyle,
-                {opacity:1,fillOpacity:0.4,color:"#b2b8bd",fillColor:"#ccd0d3",weight:0.8}
-              ))
-            } else {
-              //setDefaultStyle
-              mapLayer.setStyle(that.attributes.layerStyle)
-            }
-          }
+          if (that.isSelected()) {
+            //set Selected Style            
+             mapLayer.setStyle(_.extend(
+               {},
+               that.attributes.layerStyle,
+               {fillOpacity:0.9, weight:3}
+             ))              
+          } else if (that.isMouseOver()){
+            //set Mouseover Style            
+             mapLayer.setStyle(_.extend(
+               {},
+               that.attributes.layerStyle,
+               {fillOpacity:0.6, weight:1.5}
+             ))            
+          } else if(that.isAnySelected()){             
+            //set Passive Style            
+            mapLayer.setStyle(_.extend(
+              {},
+              that.attributes.layerStyle,
+              {opacity:1,fillOpacity:0.4,color:"#bbb",fillColor:"#eee",weight:1.2}
+            ))
+          } else {
+            //setDefaultStyle
+            mapLayer.setStyle(that.attributes.layerStyle)
+          }          
         })
       }      
     },
@@ -301,6 +300,22 @@ define([
         }     
       }     
     },
+    
+    panToViewIfNeeded: function(){
+      if (typeof this.attributes.layerGroup !== "undefined") {      
+        // make sure record is in vieew
+        var that = this
+        this.getMapLayer(function(mapLayer){
+          if (typeof mapLayer._map !== "undefined") {
+            var map = mapLayer._map
+            if (!map.getBounds().contains(mapLayer.getLayers()[0].getLatLng())) {
+              that.centerMap()
+            }
+          }
+        })
+      }
+    },
+    
     getActiveTime : function(){
       return this.attributes.activeTime
     },    

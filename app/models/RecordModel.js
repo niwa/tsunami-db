@@ -55,9 +55,9 @@ define([
         this.getLayer().setSelected(selected,anySelected) 
         if (selected) {
           this.bringToFront()
+          this.panToViewIfNeeded()
         }        
       }
-
     },
     isHighlight:function(){
       return this.attributes.highlight
@@ -90,6 +90,12 @@ define([
       return this.attributes.active
     },
     
+    panToViewIfNeeded:function(){
+//      console.log("recordModel.brintofront " + this.id)
+      if (this.getLayer()){
+        this.getLayer().panToViewIfNeeded()
+      }               
+    },    
     bringToFront:function(){
 //      console.log("recordModel.brintofront " + this.id)
       if (this.getLayer()){
