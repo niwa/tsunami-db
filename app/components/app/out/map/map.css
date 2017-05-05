@@ -297,8 +297,7 @@ a.leaflet-control-zoom-in{
     height: 30px;
 }
 .leaflet-draw-actions a:hover {
-    background-color: #188fc0;
-    color: #fff;
+    background-color: #fff;    
     text-decoration: none;
 }
 .leaflet-draw-actions {
