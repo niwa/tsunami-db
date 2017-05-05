@@ -74,7 +74,7 @@ define([
         columns : _.map(this.model.get("columnCollection").models,function(col){
           return {
             id:col.id,
-            title:col.getTitle(),
+            title: col.getTitle(),
             active:this.model.get("outPlotColumns").indexOf(col.id) > -1 ,
             color:col.get("plotColor"),
             tooltip:col.get("description"),
@@ -115,7 +115,8 @@ define([
         var dataColumns = _.map(columns,function(col){
             return {
               cap:col.get("plotMax"),
-              color:col.get("plotColor")
+              color:col.get("plotColor"),
+              unit: col.getUnit() || '',              
             }
           })
 //console.log("MapplotLatView.renderPlot 2b", Date.now() - window.timeFromUpdate);          

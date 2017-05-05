@@ -37,6 +37,7 @@ define([
         comboDescription: this.attributes.comboDescription || this.attributes.description || "",
         plotMax:          this.attributes.plotMax || null,
         plotColor:        this.attributes.plotColor || "#fff",
+        unit:             this.attributes.unit || null,
         showOnPage:       {          
           values: false,
           valueDescription: false
@@ -125,6 +126,9 @@ define([
     },
     getTitle : function(){
       return this.attributes.title
+    },
+    getUnit : function(){
+      return this.attributes.unit
     },
     hasMoreDescription: function(){
       return this.attributes.descriptionMore !== "" 

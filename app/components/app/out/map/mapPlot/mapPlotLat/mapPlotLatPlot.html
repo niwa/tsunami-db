@@ -6,7 +6,7 @@
       <% _.each(columns,function(col,i){ %>
       <div class="column-scale"  style="color:<%= col.color %>">
         <span class="column-scale-min">
-          <span class="axis-label">0</span>
+          <span class="axis-label">0<%= col.unit %></span>
         </span>
         <span class="column-scale-mid">
           <span class="axis-label"><%= col.cap/2 %></span>
