@@ -1,11 +1,13 @@
 define([
   'jquery',  'underscore',  'backbone',
+  'bootstrap',
   'jquery.select2/select2',
   'text!./mapControl.html',
   'text!./mapControlColorSelect.html',
   'text!./mapControlColorKey.html',
 ], function (
   $, _, Backbone,
+  bootstrap,
   select2,  
   template,
   templateColorSelect,
@@ -14,7 +16,8 @@ define([
 
   return Backbone.View.extend({
     events : {    
-      "change #select-color-attribute" : "colorColumnChanged"
+      "change #select-color-attribute" : "colorColumnChanged",
+      "click .nav-link" : "handleNavLink",      
     },
     initialize : function () {      
       this.handleActive()    
@@ -30,7 +33,11 @@ define([
       }))      
       return this
     },
+    initTooltips:function(){
+      this.$('[data-toggle="tooltip"]').tooltip()
+    },      
     update : function(){
+      var outColumn = this.model.getOutColorColumn()
       this.$('#color-attribute-selector').html(_.template(templateColorSelect)({
         options:_.sortBy(
           _.map(
@@ -39,7 +46,7 @@ define([
               return {
                 value:column.id,
                 label:column.get("title"),
-                selected:column.get("column") === this.model.getOutColorColumn().get("column")
+                selected:column.get("column") === outColumn.get("column")
               }
           },this), function(option) {
             return option.label
@@ -53,7 +60,12 @@ define([
       })
       
       var values = this.model.getOutColorColumn().getValues()
-      this.$('#color-attribute-key').html(_.template(templateColorKey)({                
+      this.$('#color-attribute-key').html(_.template(templateColorKey)({   
+        t:this.model.getLabels(),                      
+        title: outColumn.get("title"),
+        tooltip: outColumn.get("description"),
+        tooltip_more: outColumn.hasMoreDescription(),       
+        id:outColumn.id,        
         values:_.map(values.values,function(value,index){
           var crgba = typeof values.colors !== "undefined" 
             ? values.colors[index].colorToRgb() 
@@ -65,6 +77,7 @@ define([
           }
         })      
       }))
+      this.initTooltips()           
     },
     updateOutColorColumn:function(){
 //      this.views.control.set({outColorColumn:this.model.getOutColorColumn()})    
@@ -82,7 +95,17 @@ define([
         this.$el.hide()
       }
     },
-    
+    handleNavLink : function(e){
+      e.preventDefault()
+      e.stopPropagation()
+      
+      this.$el.trigger('navLink',{
+        id:$(e.currentTarget).attr("data-id"),
+        anchor:$(e.currentTarget).attr("data-page-anchor"),
+        route:"page",
+        type:"page"
+      })      
+    },      
     
   });
 

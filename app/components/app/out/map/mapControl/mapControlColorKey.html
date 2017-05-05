@@ -1,3 +1,17 @@
+<div class="attribute-title">
+  <%= title %>
+  <% if(tooltip && tooltip !== "") {%><a 
+    data-toggle="tooltip" 
+    data-placement="top" 
+    title="<%= tooltip_more ? tooltip + '<div>'+ t.app.ui.tooltip_more +'</div>' : tooltip%>" 
+    data-html="true"
+    href="#"
+    class="nav-link toggle-tooltip"
+    data-page-anchor="<%= id %>"
+    data-id="attributes">
+   <span class="icon-icon_info" aria-hidden="true"></span>
+ </a><% } %>
+</div>
 <ul class="list-unstyled">
   <% _.each(values,function(value){ %> 
   <li>
