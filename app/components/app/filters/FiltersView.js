@@ -68,7 +68,8 @@ define([
     },
     queryUpdated: function () {          
       this.updateGroupFilters()    
-      this.checkFiltered()         
+      this.updateSearch() 
+      this.checkFiltered()       
       this.previousQuery = $.extend(true, {}, this.model.get("recQuery"))   
       this.renderReset()
     }, 
@@ -77,23 +78,32 @@ define([
         this.$('.btn.query-reset').html(this.model.getLabels().filters.reset + " (" + Object.keys(this.model.get("recQuery")).length + ")")
       }      
     },
+    
+    updateSearch: function() {
+      // update search form
+      if (this.model.allExpanded()) {
+        this.renderSearch()
+      }    
+    },
+    renderSearch: function() {
+      // update search form
+      var queryKeyword = typeof (this.model.get("recQuery")["s"]) !== "undefined"
+        ? this.model.get("recQuery")["s"]
+        : ""         
+      this.$('.form-search').html(
+        _.template(templateFilterSearch)({
+          title:false,
+          column:"s",
+          type:"keyword",
+          value:queryKeyword,          
+          placeholder:this.model.getLabels().filters.placeholder_search
+        })
+      )      
+    },
     checkExpanded: function () {
       if (this.model.allExpanded()) {
         this.$el.addClass("expanded")       
-        // update search form
-        var queryKeyword = typeof (this.model.get("recQuery")["s"]) !== "undefined"
-          ? this.model.get("recQuery")["s"]
-          : ""         
-        this.$('.form-search').html(
-          _.template(templateFilterSearch)({
-            title:false,
-            column:"s",
-            type:"keyword",
-            value:queryKeyword,          
-            placeholder:this.model.getLabels().filters.placeholder_search
-          })
-        )
-
+        this.renderSearch()
       } else {
         this.$el.removeClass("expanded") 
         this.$('.form-search').html('')
