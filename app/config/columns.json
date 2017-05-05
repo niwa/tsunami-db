@@ -34,6 +34,7 @@
   {
     "id":"lat",
     "column":"latitude",
+    "unit": "°",
     "query":{
       "min" : "south",
       "max" : "north"
@@ -57,6 +58,7 @@
   {
     "id":"lng",
     "column":"longitude",
+    "unit": "°",
     "query":{
       "min" : "west",
       "max" : "east"
@@ -601,7 +603,8 @@
     },         
     "type":"spatial",    
     "group":"source",    
-    "blanks":1
+    "blanks":1,
+    "unit": "°"
   },
   {
     "id":"source_lng",
@@ -623,7 +626,8 @@
     },       
     "type":"spatial",    
     "group":"source", 
-    "blanks":1
+    "blanks":1,
+    "unit": "°"
   },  
   {
     "id":"proxies",
