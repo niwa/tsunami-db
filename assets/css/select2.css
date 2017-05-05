@@ -177,8 +177,8 @@
   border-width: 0 4px 5px 4px; }
 
 .select2-container--default .select2-selection--multiple {
-  background-color: #F5F6F6;
-  border: 1px solid #E9EBED;
+  background-color: #edeef0;
+  border: 1px solid #e0e1e2;
   border-radius: 0;
   cursor: text; }
   .select2-container--default .select2-selection--multiple .select2-selection__rendered {
