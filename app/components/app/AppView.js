@@ -249,13 +249,14 @@ define([
             selectedId:that.model.getSelectedRecordId(),
             colorColumn:that.model.getOutColorColumn()
           })   
+          that.model.getRecords().moveRecordToFront()   
+          
           if (!that.model.getRecordsUpdated() || !_.isEqual(oldQuery, newQuery)) {
             if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Filter', JSON.stringify(newQuery), '')}
             that.model.setRecordsUpdated()
           }
 //          console.log('updateRecordCollection 2', Date.now() - window.timeFromUpdate)
-        }
-                
+        }                
       )  
     },
    

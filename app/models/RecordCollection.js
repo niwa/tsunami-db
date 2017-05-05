@@ -8,7 +8,7 @@ define([
     model:model,
     initialize: function(models,options) {            
       this.options = options || {};       
-      this.selectedId = ""
+      this.selectedId = null
       this.query = {}
     },    
     byActive: function(active){
@@ -27,6 +27,7 @@ define([
       _.each(this.byHighlight().models, function(record){
         record.setHighlight(false)
       })
+      this.moveRecordToFront()
     },
     highlightRecord:function(recordId){
       this.highlightReset()
@@ -61,9 +62,18 @@ define([
           )                  
         }
       })
-      this.selectedId = args.selectedId     
+      this.selectedId = args.selectedId !== "" ? args.selectedId : null   
       
       
+    },
+    moveRecordToFront: function(recordId){
+      recordId = typeof recordId !== 'undefined' ? recordId : this.selectedId
+      if (recordId) {
+        var record = this.get(recordId)
+        if (record) {
+          record.bringToFront()
+        }
+      }
     },
     byHighlight: function(){
       return new RecordCollection(this.filter(function(model){
