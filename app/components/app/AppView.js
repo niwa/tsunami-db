@@ -113,59 +113,27 @@ define([
       // shortcut
       this.views = this.model.getViews()
 
-
       // render app once config is loaded
       var that = this
       waitFor(
         //when
-        function(){
-          return that.model.appConfigured()          
-        },
+        function(){ return that.model.appConfigured() },
         //then
-        function(){          
-          // render components
-          that.render()          
-        }
-      )
-
-
-      waitFor(
-        function(){
-          return that.model.mapReady()
-        },
-        function(){
-          that.$el.removeClass('map-loading')
-        }
+        function(){ that.render() } // render components
       )
       waitFor(
-        function(){
-          return that.model.dataReady()
-        },
-        function(){
-          that.$el.removeClass('loading')
-        }
+        function(){ return that.model.mapReady() },
+        function(){ that.$el.removeClass('map-loading') }
+      )
+      waitFor(
+        function(){ return that.model.dataReady() },
+        function(){ that.$el.removeClass('loading') }
       )
 
       // model change events
       this.listenTo(this.model, "change:route", this.routeChanged);
       this.listenTo(this.model, "change:shareToggled",this.renderShare)
-      
-      
-      
-      $(window).on("resize", _.debounce(_.bind(this.resize, this), 100));
-      this.checkWindowHeight()
-    },
-    resize: function(){
-      this.checkWindowHeight()
-    },    
-    
-    checkWindowHeight:function(){
-      if ($(window).height() < 580){
-        this.$el.addClass('window-h-compact')
-      } else {
-        this.$el.removeClass('window-h-compact')
-      }
-    },
+     },
     
     // render components
     render: function(){
@@ -178,9 +146,7 @@ define([
       var that = this
       waitFor(
         //when
-        function(){
-          return that.model.configsLoaded()
-        },
+        function(){ return that.model.configsLoaded() },
         //then
         function(){ 
           that.loadRecords() 
@@ -191,22 +157,14 @@ define([
       )      
       waitFor(
         //when
-        function(){
-          return that.model.columnsConfigured() && that.model.proxiesConfigured()
-        },
+        function(){ return that.model.columnsConfigured() && that.model.proxiesConfigured() },
         //then
-        function(){ 
-          that.configurePages() 
-        }
+        function(){ that.configurePages() }
       )      
       waitFor(
-        function(){
-          return that.model.layersConfigured() && that.model.recordsConfigured()
-        },    
+        function(){ return that.model.layersConfigured() && that.model.recordsConfigured() },    
         //then
-        function(){ 
-          that.configureColumns()           
-        }        
+        function(){ that.configureColumns() }        
       )        
     },
     update: function(){
@@ -268,12 +226,9 @@ define([
       var componentId = '#nav'
         var that = this
         waitFor(
-          function(){
-            return that.model.configsLoaded()
-          },    
+          function(){ return that.model.configsLoaded() },    
           function(){          
-//      console.log('updateNav', Date.now() - window.timeFromUpdate)
-            
+//      console.log('updateNav', Date.now() - window.timeFromUpdate)            
             that.views.nav = that.views.nav || new NavView({
               el:that.$(componentId),
               model:new NavModel({
@@ -299,9 +254,7 @@ define([
         
         var that = this
         waitFor(
-          function(){
-            return that.model.columnsConfigured()
-          },    
+          function(){ return that.model.columnsConfigured() },    
           function(){         
 //              console.log('updateFilters', Date.now() - window.timeFromUpdate)
 
@@ -407,8 +360,6 @@ define([
             })
             if (that.model.isComponentActive(componentId)) {
             
-
-              
               if (that.model.getOutType() === 'map' && !that.model.mapReady()) {
                 that.$el.addClass('map-loading')
                 waitFor(
@@ -420,7 +371,6 @@ define([
                   }
                 )
               }
-                
               
 //              that.views.out.model.setActive()
               that.views.out.model.set({
@@ -459,9 +409,7 @@ define([
         // set records
         var that = this
         waitFor(
-          function(){
-            return that.model.pagesConfigured()
-          },    
+          function(){ return that.model.pagesConfigured() },    
           function(){ 
             that.views.page = that.views.page || new PageView({
               el:that.$(componentId),
@@ -491,18 +439,6 @@ define([
       }      
     },  
      
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -556,7 +492,6 @@ define([
 
       // build collection for all models
       _.each(models,function(model){
-
         layerCollection.add(
           new LayerCollection(
             _.filter(layersConfig,function(layer){
@@ -567,12 +502,10 @@ define([
         )
       },this)
       this.model.setLayers(layerCollection)      
-      
       this.model.layersConfigured(true)
     },
     loadRecords : function(){      
 //      console.log("loadRecords")
-      
       var recordConfig = this.model.get("config").records
       var that = this      
       if (typeof recordConfig !== "undefined") {
@@ -596,18 +529,14 @@ define([
     },      
     configureRecords : function(recordData) {
 //      console.log("configureRecords")
-      
       var recordConfig = this.model.get("config").records
       if (typeof recordConfig !== "undefined") {
       
         var that = this
         waitFor(
-          function(){
-            return that.model.layersConfigured()
-          },    
+          function(){ return that.model.layersConfigured() },    
           //then
           function(){      
-
             var recordCollection = new RecordCollection([],{
               config : recordConfig            
             })
@@ -645,11 +574,9 @@ define([
               recordCollection.add(record)
             })
             // reorganise attributes (move properties up)
-
             that.model.setRecords(recordCollection)      
             that.model.recordsConfigured(true)
 //            console.log("done... configureRecords")
-            
           }
         )
       }
@@ -658,7 +585,6 @@ define([
 
     configureColumns:function(){    
 //      console.log("configureColumns")
-      
       // store column groups
       this.model.setColumnGroups(new ColumnGroupCollection(this.model.get("columnGroupConfig")))
       // store and init columns
@@ -672,13 +598,10 @@ define([
       this.model.getRecords().setColumns(this.model.get("columnCollection"))     
       this.model.columnsConfigured(true)
 //      console.log("done... configureColumns")
-      
     },
-    
     
     loadProxies : function(){      
 //      console.log("loadProxies")
-      
       var proxyConfig = this.model.get("config").proxies
       var that = this      
       
@@ -701,7 +624,6 @@ define([
     },      
     configureProxies : function(proxyData) {
 //      console.log("configureProxies")
-      
       var proxyConfig = this.model.get("config").proxies
       
       var that = this
@@ -720,13 +642,10 @@ define([
       ))        
       var that = this
       waitFor(
-        function(){
-          return that.model.recordsConfigured()
-        },    
+        function(){ return that.model.recordsConfigured() },    
         //then
         function(){ 
 //          console.log("done... configureProxies")
-          
           that.model.getRecords().setProxies(that.model.getProxies()) 
           that.model.proxiesConfigured(true)  
         }        
@@ -737,7 +656,6 @@ define([
 //      console.log("loadReferences")          
       var refConfig = this.model.get("config").references
       var that = this      
-      
       $.ajax({
         dataType: "jsonp",
         jsonpCallback:"parseReferences",
@@ -750,18 +668,15 @@ define([
         },
         error: function(xhr, status, error){
           console.log(status + '; ' + error);
-            console.log("error loading ref data")
-
+          console.log("error loading ref data")
         }
       });
     },      
     configureReferences : function(refData) {
 //      console.log("configureReferences")
-
       var refConfig = this.model.get("config").references
       
       var that = this
-
       that.model.setReferences(new ReferenceCollection(
         _.map(refData.features,function(feature){
           return _.extend (
@@ -770,34 +685,21 @@ define([
               {id:parseInt(feature.id.split('.')[1])}
             )
         }),
-        {
-          config : refConfig            
-        }
+        { config : refConfig }
       ))        
       var that = this
       waitFor(
-        function(){
-          return that.model.recordsConfigured()
-        },    
+        function(){ return that.model.recordsConfigured() },    
         //then
         function(){ 
-//          console.log("done... configureReferences")
-          
+//          console.log("done... configureReferences")          
           that.model.getRecords().setReferences(that.model.getReferences())           
           that.model.referencesConfigured(true)   
         }        
       )     
-
-         
     },    
     
             
-    
-    
-    
-    
-    
-    
     
     
     
@@ -806,9 +708,7 @@ define([
       this.update()
     },
     
-    
     renderShare: function(){
-      
       var url = window.location.protocol+'//'+window.location.host+'/'
       
       var twitter = "text=" + encodeURIComponent(this.model.getLabels().share.tweet)
@@ -845,11 +745,6 @@ define([
         e.target.setSelectionRange(0, 9999);
       }, 1);
     },       
-    
-    
-    
-    
-    
     
     
     
@@ -931,7 +826,6 @@ define([
     
     colorColumnChanged : function(e,args){
 //      console.log("colorColumnChanged")    
-      
       this.views.out.model.set('recordsPopup',[]) ; 
       
       this.model.getRouter().queryUpdate({
@@ -940,7 +834,6 @@ define([
     },    
     plotColumnsSelected : function(e,args){
 //      console.log("plotColumnsSelected")    
-            
       this.model.getRouter().queryUpdate({
         plot:args.columns
       })      
@@ -1008,7 +901,6 @@ define([
         
     recordHighlightOn: function(recordId, isPopup) {
 //      console.log("recordHighlightOn", recordId)
-
       isPopup = typeof isPopup !== 'undefined' ? isPopup : false
       
       var record = this.model.getRecords().highlightRecord(recordId)
@@ -1073,7 +965,6 @@ define([
     recordMouseOut : function(e,args){
 //      console.log("recordMouseOut", args.id)                                                    
       this.recordHighlightOff()
-         
       this.$el.trigger('recordsPopup', { records: [] });       
     },
     
@@ -1100,7 +991,6 @@ define([
     mapPopupClosed:function(){
       this.recordHighlightOff()  
     },
-    
     
     mapOptionToggled:function(e,args){
       if (window.__ga__ && ga.loaded) { ga('send', 'event', 'Map option', this.model.getOutMapType() !== args.option ? args.option : 'none', '')}
@@ -1178,7 +1068,6 @@ define([
       query["q_"+lngColumn.getQueryColumnByType("max")] = args.geoQuery.east.toString()
       query["q_"+lngColumn.getQueryColumnByType("min")] = args.geoQuery.west.toString()
       
-      
       this.model.getRouter().queryUpdate(
         query,
         true, // trigger
@@ -1203,7 +1092,6 @@ define([
       this.model.getRouter().update(
         this.model.getLastDBRoute()
       )
-    
     },
     toggleShare: function(){
       if (!this.model.get('shareToggled')) {
@@ -1222,7 +1110,6 @@ define([
         path:this.model.getPath()
       })            
     },    
-
 
   });
   return AppView;
