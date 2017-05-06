@@ -1,8 +1,8 @@
 <table class="table-plot table-plot-lat">
   <tr class="tr-column-scale">
-    <th></th>
-    <th></th>
-    <th class="th-column-scale">
+    <th class="th-marker"></th>
+    <th class="th-below"></th>
+    <th class="th-column-scale th-bars">
       <% _.each(columns,function(col,i){ %>
       <div class="column-scale"  style="color:<%= col.color %>">
         <span class="column-scale-min">
@@ -17,7 +17,7 @@
       </div>
       <% }) %>
     </th>
-    <th></th>
+    <th class="th-above"></th>
   </tr>
   <tr class="tr-column-scale-line">
   <th colspan="2"></th>

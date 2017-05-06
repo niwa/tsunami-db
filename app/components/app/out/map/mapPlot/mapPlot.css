@@ -87,6 +87,16 @@ td.select-label {
     padding-right: 0px;
     padding-left: 5px;
 }
+.table-plot th.th-marker {
+    width: 15px;    
+}
+.table-plot th.th-below,
+.table-plot th.th-above{
+    width: 9px;    
+}
+.table-plot th.th-bars{
+    width: auto;    
+}
 
 .table-plot .key-color {
     margin-right: 0;
@@ -124,7 +134,6 @@ td.select-label {
 .table-plot.table-plot-lat td.bars-below, 
 .table-plot.table-plot-lat td.bars-above {
     padding: 3px 0px;
-    width: 9px;
 }
 .list-plot-bar {
     height: 12px;
