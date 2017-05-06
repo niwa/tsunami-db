@@ -80,6 +80,7 @@ td.select-label {
 
 .table-plot.table-plot-lat {
   width: 100%;
+  table-layout: fixed;
 }
 .table-plot td.marker {
     text-align: center;
@@ -90,12 +91,22 @@ td.select-label {
 .table-plot th.th-marker {
     width: 15px;    
 }
+@media (min-width: 992px) {
+  .table-plot th.th-marker {
+      width: 30px;    
+  }
+}
 .table-plot th.th-below,
 .table-plot th.th-above{
     width: 9px;    
 }
 .table-plot th.th-bars{
-    width: auto;    
+    width: 90px;    
+}
+@media (min-width: 992px) {
+  .table-plot th.th-bars{
+    width: 130px;    
+  }
 }
 
 .table-plot .key-color {
