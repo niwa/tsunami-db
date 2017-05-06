@@ -101,80 +101,10 @@ a:hover {
   width: 100%;
   background-color: #F2F3F4;
 }
-.content-bottom,
-.content-full,
-.content-scroll{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-}
-.content-scroll {
-  overflow-y: auto;
-  overflow-x: hidden;
-  /*z-index: 3500;*/
-}
-@media(max-width:768px){
-.content-scroll-xs{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;  
-  overflow-y: auto;
-  overflow-x: hidden;
-  /*z-index: 3500;*/
-}
-}
-
-.content-container{
-  margin-right: auto;
-  margin-left: auto;
-  padding: 10px 20px;
-  clear: both;
-}
-
-.content-bottom {
-  top:auto
-}
-
-@media(min-width: 769px) {
-  
-  .content-bottom {
-    bottom:20px;
-    left:200px
-  }
-}
-
-
-
-@media(min-width: 769px) {
-  
-  
-  .content-full {
-    position: absolute;
-    top: 0;
-    right:0;
-    left: auto;
-  }
-  .content-full {
-    left:0;
-  }
-  .content-scroll {
-    /*z-index: 150;*/
-  }
-
-}
-
 
 .strong {
     font-weight: bold;
 }
-
-
 
 .component-left {
   position: absolute;
@@ -189,18 +119,23 @@ a:hover {
   box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.2);    
   z-index: 1020;
 }
-@media (min-width: 769px) {
+/*@media (min-width: 768px) {*/
   .component-left {    
-    width: 50%;
+    width: 330px;
     right:auto
   }
+/*}*/
+@media (min-width: 992px) {
+  .component-left {    
+    width: 400px;
+  }
 }
-@media (min-width: 1068px) {
+
+@media (min-width: 1200px) {
   .component-left {    
     width: 500px;
   }
 }
-
 
 .panel-dark {
     background-color: #19313f;
@@ -437,4 +372,9 @@ hr {
     margin-bottom: 40px;
     border: 0;
     border-top: 1px solid #E5E7E9;
+}
+
+#xs-fallback {
+    position: absolute;
+    top: 60px;
 }

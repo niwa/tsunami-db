@@ -3,14 +3,18 @@
   top: 0;
   bottom: 0;  
   right:0;
-  width: 200px;  
+  width: 160px;  
   overflow-y: auto;
   background-color:#F5F6F6;
   z-index: 1000;
   display: none;
   overflow-x: hidden;
 }
-
+@media (min-width: 992px) {
+  #map-plot-lat {  
+    width: 200px;
+  }
+}
 #map-plot-header h4 {
   line-height: 48px;
   margin: 0;
@@ -18,12 +22,11 @@
 }
 
 #map-plot-header {
-    min-height: 48px;
-    display: block;
-    width: 100%;
+  min-height: 48px;
+  display: block;
+  width: 100%;
+  padding: 0 15px;
 }
-
-
 
 #map-plot-lat h3 {
     font-size: 16px;
@@ -39,7 +42,19 @@
   padding-bottom: 10px;
   border-bottom: 1px solid #EDEEEF;
   min-height: 48px;
+  padding: 0 0 0 5px;  
 }
+
+@media (min-width: 992px) {
+  #plot-control {
+    padding: 0 15px;
+  }
+}
+
+#plot-plot {
+    padding-right: 5px;
+}
+
 
 tr.select-column label,
 tr.select-record {
@@ -68,7 +83,7 @@ td.select-label {
 }
 .table-plot td.marker {
     text-align: center;
-    width: 30px;
+    width: 15px;
     padding-right: 0px;
     padding-left: 5px;
 }
@@ -80,7 +95,7 @@ td.select-label {
 }
 
 .table-plot.table-plot-lat td.bars {
-  width: 120px;
+  width: auto;
   padding: 3px 0;
   border-left: 1px solid #999;
   position: relative
@@ -110,9 +125,6 @@ td.select-label {
 .table-plot.table-plot-lat td.bars-above {
     padding: 3px 0px;
     width: 9px;
-}
-.table-plot.table-plot-lat td.bars-above {
-    width: auto;
 }
 .list-plot-bar {
     height: 12px;
