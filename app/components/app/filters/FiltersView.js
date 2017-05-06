@@ -44,8 +44,12 @@ define([
       this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:recQuery", this.queryUpdated);      
-      this.listenTo(this.model, "change:expanded", this.expandedUpdated);      
-    },    
+      this.listenTo(this.model, "change:expanded", this.expandedUpdated);                  
+      $(window).on("resize", _.debounce(_.bind(this.resize, this), 100));
+    },
+    resize: function(){
+      this.initMultiselect()
+    },       
     render: function () {
       this.previousQuery = $.extend(true, {}, this.model.get("recQuery"))
       this.previousExpanded = this.model.getExpanded()

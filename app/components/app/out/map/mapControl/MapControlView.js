@@ -25,8 +25,11 @@ define([
       this.render()
       this.listenTo(this.model, "change:active",        this.handleActive);      
       this.listenTo(this.model, "change:outColorColumn", this.updateOutColorColumn);
-      
+      $(window).on("resize", _.debounce(_.bind(this.resize, this), 100));
     },
+    resize: function(){
+      this.update()
+    },   
     render: function () {
       this.$el.html(_.template(template)({
         t:this.model.getLabels()
