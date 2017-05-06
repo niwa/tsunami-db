@@ -1,7 +1,7 @@
 ({
   appDir: "../",
   baseUrl: "app",
-  dir: "../../build",
+  dir: "../build",
   paths: {
     'domReady' : 'libs/domReady',    
     'jquery': 'libs/jquery-1.12',
