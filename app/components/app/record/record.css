@@ -14,7 +14,12 @@
   right: 0;
   z-index: 1;
   background-color: #f5f6f6;
-  height:150px;
+  height:140px;
+}
+@media (min-width: 992px) {
+  .record-top {
+    padding:10px 30px 20px;
+  }
 }
 .record-top h4{
   margin: 0
@@ -28,18 +33,38 @@
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 5px 15px;
+  padding: 5px;
 }
-
+@media (min-width: 992px) {
+  .record-top-menu {
+    padding: 5px 15px;
+  }
+}
+@media (min-width: 1200px) {
+  .record-top-menu {
+    padding: 5px 30px;
+  }
+}
 a.record-top-menu-link {
   font-family: 'Titillium Web', sans-serif;
   color: #808990;
-  padding: 0 5px;
+  padding: 0;
 }
 
-.record-top-menu li:first-child a.record-top-menu-link {
-  padding-left: 0;
+@media (min-width: 992px) {
+  a.record-top-menu-link {
+    padding: 0 2px;
+  }
+  .record-top-menu li:first-child a.record-top-menu-link {
+    padding-left: 0;
+  }  
 }
+@media (min-width: 1200px) {
+  a.record-top-menu-link {
+    padding: 0 5px;
+  }
+}
+
 
 a.record-top-menu-link.active,
 a.record-top-menu-link:focus,
@@ -48,23 +73,26 @@ a.record-top-menu-link:hover{
   text-decoration:none;
 }
 
-
 .close-record {
-  float: right;
-  position: relative;    
-  top: -10px;
+  position: absolute;
+  top: 45px;
+  right: 15px;
 }
 
 .record-main {
-  padding-top: 30px;
+  padding: 30px 5px 0;  
   position: absolute;
-  top: 150px;
+  top: 140px;
   bottom: 0;
   left: 0;
   right: 0;
   overflow: auto;
 }
-
+@media (min-width: 992px) {
+  .record-main {
+    padding:30px 15px 0;
+  }
+}
 
 .record-main .column-title {
   font-weight:bold;
