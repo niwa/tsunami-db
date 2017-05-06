@@ -25,8 +25,6 @@ define([
       if (this.model.hasActivePage()) {
         this.loadPage()
       }      
-    
-      
       return this
     },    
     loadPage: function(){
