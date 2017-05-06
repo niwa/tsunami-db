@@ -19,10 +19,8 @@ define([
       "click .sort-by" : "sortRecords",
     },
     initialize : function () {
-      this.handleActive()    
-      
-      this.initColumns()
-      
+      this.handleActive()          
+      this.initColumns()      
 //      this.render()
       this.listenTo(this.model, "change:active", this.handleActive);      
       this.listenTo(this.model, "change:currentRecordCollection", this.update);      
@@ -37,8 +35,7 @@ define([
       this.update()
     },  
     render: function () {
-//      console.log('TableView.render 1', Date.now() - window.timeFromUpdate)
-      
+//      console.log('TableView.render 1', Date.now() - window.timeFromUpdate)      
       if (this.model.allExpanded()) {
         this.$el.addClass("expanded")         
       } else {
@@ -62,24 +59,14 @@ define([
             columnsSorted
           )
         }))
-//      console.log('TableView.render 2', Date.now() - window.timeFromUpdate)
-
         this.updateActiveRecord()
-//              console.log('TableView.render 3', Date.now() - window.timeFromUpdate)
-
         this.updateTable()
-//              console.log('TableView.render 4', Date.now() - window.timeFromUpdate)
-
         this.setTableHeight()
-//              console.log('TableView.render 5', Date.now() - window.timeFromUpdate)
-
-      }
-      
+      }      
     },
     
     update : function(){
 //      console.log('TableView.update 1', Date.now() - window.timeFromUpdate)
-      
       if (this.$(".record-table .record-table-scrolling-y tbody").length === 0) {
         this.render()
       } else {     
@@ -88,12 +75,9 @@ define([
           this.model.getSortedRecords(),
           this.getSortedColumns()
         ))
-//        console.log('TableView.update 2', Date.now() - window.timeFromUpdate)
         // mark active record
         this.updateActiveRecord()
-//        console.log('TableView.update 3', Date.now() - window.timeFromUpdate)
         this.updateTable()   
-//        console.log('TableView.update 4', Date.now() - window.timeFromUpdate)
         
         // set max height
         this.setTableHeight()
@@ -101,30 +85,22 @@ define([
       
     },
     initTable:function(){
-//      console.log('TableView.initTable 1', Date.now() - window.timeFromUpdate)
       
       // variables
       var $floating = this.$(".record-table-floating")      
       var $floatingTable = $floating.find("table")      
       var $scrolling = this.$(".record-table-scrolling-y")     
       
-      // clone table head
-//      console.log('TableView.initTable 2', Date.now() - window.timeFromUpdate)
-      
+      // clone table head      
       $floatingTable.empty()      
       $scrolling.find("table thead")
         .clone()
         .appendTo( $floatingTable );
 
-//      console.log('TableView.initTable 3', Date.now() - window.timeFromUpdate)
-
       this.setTableWidths()
-//      console.log('TableView.initTable 4', Date.now() - window.timeFromUpdate)
       
       // adjust position
-      $scrolling.css("top",$floating.outerHeight())
-//      console.log('TableView.initTable 5', Date.now() - window.timeFromUpdate)
-      
+      $scrolling.css("top",$floating.outerHeight())      
       
     },
     setTableHeight:function(){
@@ -142,32 +118,22 @@ define([
       var $scrolling = this.$(".record-table-scrolling-y")
       var $scrollingTable = $scrolling.find("table")
       var $scrollingTableHead = $scrollingTable.find("thead")    
-//            console.log('TableView.setTableWidths 1', Date.now() - window.timeFromUpdate)
 
       $scrollingTableHead.show()
-//            console.log('TableView.setTableWidths 1a', Date.now() - window.timeFromUpdate)
       
       // copy outer widths 
       $floatingTable.css("width",$scrollingTableHead.width())
-//                  console.log('TableView.setTableWidths 1b', Date.now() - window.timeFromUpdate)
-
       $scrollingTable.css("width",$scrollingTableHead.width())      
-//                  console.log('TableView.setTableWidths 1b', Date.now() - window.timeFromUpdate)
-
-      $floating.css("width",$scrolling.width())
-//            console.log('TableView.setTableWidths 1d', Date.now() - window.timeFromUpdate)
-      
+      $floating.css("width",$scrolling.width())      
 
       // setup tables
       $scrollingTable.css("tableLayout","auto")
       $floatingTable.css("tableLayout","auto")
-//console.log('TableView.setTableWidths 2', Date.now() - window.timeFromUpdate)
       // copy column widths      
       this.copyWidths( 
         $scrollingTableHead.find("th"),
         $floatingTable.find("thead th")
       );
-//      console.log('TableView.setTableWidths 3', Date.now() - window.timeFromUpdate)
       this.copyWidths( 
         $scrollingTableHead.find("th"),
         $scrollingTable.find("tbody tr:first-child td")
@@ -176,7 +142,6 @@ define([
       $floatingTable.css("tableLayout","fixed")
       $scrollingTable.css("tableLayout","fixed")
       $scrollingTableHead.hide()
-//console.log('TableView.setTableWidths 4', Date.now() - window.timeFromUpdate)      
     },
     updateTable:function(){
       if (this.$(".record-table .record-table-floating thead").length === 0) {
@@ -194,7 +159,6 @@ define([
 				$(this).css( {width: w, minWidth: w} );
 			} );
     },    
-    
     
     getSortedColumns : function(){
       return this.model.allExpanded()
@@ -288,8 +252,6 @@ define([
         order:col === this.model.get("tableSortColumn") ? parseInt(this.model.get("tableSortOrder")) * -1 : 1
       })      
     },
-    
-    
   });
 
 });
