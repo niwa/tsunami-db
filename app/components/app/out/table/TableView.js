@@ -71,6 +71,8 @@ define([
         this.render()
       } else {     
         // update body html
+        
+        this.$(".record-table-scrolling-y table").css("tableLayout","auto")
         this.$(".record-table-scrolling-y table tbody").html(this.getBodyHtml(
           this.model.getSortedRecords(),
           this.getSortedColumns()
