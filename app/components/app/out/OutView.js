@@ -151,7 +151,12 @@ define([
       this.renderHeaderReset()      
     },
     
-    
+    canDownload: function() {
+      // check for Safari as it passes the test but still appears not to work correctly in versions 9 and 10, see issue #157
+      return (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) 
+        ? false
+        : Modernizr.blobconstructor
+    },
     renderData: function(){
 //      console.log("OutView.renderData")
             
@@ -159,7 +164,7 @@ define([
         this.$("#data-view").html(_.template(templateData)({
           t:this.model.getLabels(),
           filtered : this.model.get('queryLength') > 0,
-          canDownload: Modernizr.blobconstructor,
+          canDownload: this.canDownload(),
           download : {
             formats: [
               {
@@ -468,7 +473,7 @@ define([
     
     downloadData:function(e) {
       e.preventDefault();      
-      if(Modernizr.blobconstructor) {
+      if(this.canDownload()) {
         var format = $(e.currentTarget).attr('data-format')
         var table = $(e.currentTarget).attr('data-table')
         var active = $(e.currentTarget).attr('data-active')
