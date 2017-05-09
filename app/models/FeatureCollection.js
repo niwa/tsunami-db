@@ -1,14 +1,1 @@
-define([
-  'jquery', 'underscore', 'backbone'
-], function(
-  $, _, Backbone
-){
-  var FeatureCollection = Backbone.Collection.extend({
-    initialize: function(models,options) {            
-      this.options = options || {}; 
-    }
-    
-  });
-
-  return FeatureCollection;
-});
+define(["jquery","underscore","backbone"],function(n,e,i){var o=i.Collection.extend({initialize:function(n,e){this.options=e||{}}});return o});

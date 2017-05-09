@@ -1,9 +1,1 @@
-define([
-  'jquery', 'underscore', 'backbone'
-], function(
-  $, _, Backbone
-){
-  var ContentCollection = Backbone.Collection.extend({});
-
-  return ContentCollection;
-});
+define(["jquery","underscore","backbone"],function(e,n,r){var o=r.Collection.extend({});return o});

@@ -1,16 +1,1 @@
-define([
-  'jquery', 'underscore', 'backbone',
-  'models/ViewModel'
-], function($,_, Backbone,ViewModel) {
-
-  return ViewModel.extend({
-    initialize : function(options){
-      this.options = options || {};
-      
-    }
-    
-   
-  });
-  
-
-});
+define(["jquery","underscore","backbone","models/ViewModel"],function(e,n,i,o){return o.extend({initialize:function(e){this.options=e||{}}})});
