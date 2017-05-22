@@ -12,6 +12,8 @@
     "button_facebook": "facebook",
     "button_twitter": "twitter",
     "tweet": "The Palaeotsunami Database is live. View the website to learn about tsunamis that occurred prior to written records:",
+    "twitter_hashtags" : "",
+    "twitter_via": "",
     "twitter_related": "niwa_nz,ECan",
     "current_link": "Get link to current view" 
   },
