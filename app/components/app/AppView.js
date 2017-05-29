@@ -709,7 +709,10 @@ define([
     },
     
     renderShare: function(){
-      var url = window.location.protocol+'//'+window.location.host+'/'+window.location.pathname;
+      var url = window.location.protocol+'//'+window.location.host;
+        url += (window.location.pathname.trim() !== "" && window.location.pathname !== '/')
+            ? '/'+window.location.pathname
+            : "";
       
       var twitter = "text=" + encodeURIComponent(this.model.getLabels().share.tweet)
       twitter += "&url=" + url        
