@@ -823,7 +823,7 @@ define([
     },    
     
     recordsPopup:function(e,args){
-      console.log("recordsPopup ", args.records)       
+//      console.log("recordsPopup ", args.records)
       this.views.out.model.set('recordsPopup',args.records || []);   // models not collection
     },
     
