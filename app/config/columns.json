@@ -108,14 +108,14 @@
     "id":"classification",
     "title":"Classification",
     "description":"Classification based on estimated time period.",
-    "descriptionMore":"BP refers to before present. Prehistoric means pre-written record.",
+    "descriptionMore":"Prehistoric means pre-written record.",
     "type":"ordinal",
     "colorable":1,    
     "searchable":1,
     "group":"time",    
     "default":1,
     "values":{      
-      "values":["Prehistoric BP","Prehistoric AD","Historical","Unknown"],                  
+      "values":["Prehistoric BC","Prehistoric AD","Historical","Unknown"],
       "hints":["before 0","0 - 1800","1800 and later",""],      
       "descriptions":[
         "before 0",
