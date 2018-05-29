@@ -1,0 +1,1544 @@
+<a href="#" title="Close" class="close-page">
+    <span class="icon-icon_close"></span>
+</a>
+<div class="page-inner">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="placeholder-content container-fluid">
+                    <h1 id="frameworkandattributes">Framework and Attributes</h1>
+                    <blockquote>
+                        <p>The framework for the New Zealand Palaeotsunami Database (Database) is based on a series of key
+                            data attributes which help to clarify the nature of the published and unpublished data. These
+                            attributes are defined below.</p>
+                    </blockquote>
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div class="group group-id">
+                                <h2>Record</h2>
+                                <hr>
+
+                                <div class="record-columns">
+
+
+                                    <div class="record-column">
+                                        <h3 id="id">
+                                            ID
+                                        </h3>
+                                        <p>Record identification number. </p>
+                                        <p class="hint">Database column name:
+                                            <code>id</code>
+                                        </p>
+
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="group group-site">
+                                    <h2>Site</h2>
+                                    <hr>
+
+                                    <p class="hint">Attributes related to the record's location</p>
+
+                                    <div class="record-columns">
+
+
+                                        <div class="record-column">
+                                            <h3 id="region">
+                                                Region
+                                            </h3>
+                                            <p>Council region, district or offshore location where site is situated. </p>
+                                            <p class="hint">Database column name:
+                                                <code>location_region</code>
+                                            </p>
+
+
+                                        </div>
+
+
+
+                                        <div class="record-column">
+                                            <h3 id="location_site">
+                                                Location
+                                            </h3>
+                                            <p>Site specific location. </p>
+                                            <p class="hint">Database column name:
+                                                <code>location_site</code>
+                                            </p>
+
+
+                                        </div>
+
+
+
+                                        <div class="record-column">
+                                            <h3 id="lat">
+                                                Latitude
+                                            </h3>
+                                            <p>Site location latitude using decimal degrees. (4 decimal places)</p>
+                                            <p class="hint">Database column name:
+                                                <code>latitude</code>
+                                            </p>
+
+
+                                        </div>
+
+
+
+                                        <div class="record-column">
+                                            <h3 id="lng">
+                                                Longitude
+                                            </h3>
+                                            <p>Site location longitude using decimal degrees. (4 decimal places)</p>
+                                            <p class="hint">Database column name:
+                                                <code>longitude</code>
+                                            </p>
+
+
+                                        </div>
+
+
+
+                                        <div class="record-column">
+                                            <h3 id="sitestatus">
+                                                Site status
+                                            </h3>
+                                            <p>State of the physical evidence at a site. </p>
+                                            <p class="hint">Database column name:
+                                                <code>sitestatus</code>
+                                            </p>
+
+
+                                        </div>
+
+
+
+                                        <div class="record-column">
+                                            <h3 id="physical">
+                                                Physical characteristics
+                                            </h3>
+                                            <p>Brief description of main physical characteristics of event at the site.
+                                                If the site record relates to a Pūrākau [oral record] then this entry
+                                                simply reads 'Pūrākau'.</p>
+                                            <p class="hint">Database column name:
+                                                <code>physical_characteristics</code>
+                                            </p>
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="group group-time">
+                                        <h2>Time</h2>
+                                        <hr>
+
+                                        <p class="hint">Attributes related to the estimated time of deposition</p>
+
+                                        <div class="record-columns">
+
+
+                                            <div class="record-column">
+                                                <h3 id="classification">
+                                                    Classification
+                                                </h3>
+                                                <p>Classification based on estimated time period. Prehistoric means pre-written
+                                                    record.</p>
+                                                <p class="hint">Database column name:
+                                                    <code>classification</code>
+                                                </p>
+
+                                                <h4>Values</h4>
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Label</th>
+
+                                                                <th>Description</th>
+
+                                                                <th>Database value</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+
+                                                            <tr>
+                                                                <td>Prehistoric BC</td>
+
+                                                                <td>before 0</td>
+
+                                                                <td>
+                                                                    <code>Prehistoric BC</code>
+                                                                </td>
+                                                            </tr>
+
+
+
+                                                            <tr>
+                                                                <td>Prehistoric AD</td>
+
+                                                                <td>0 - 1800 AD</td>
+
+                                                                <td>
+                                                                    <code>Prehistoric AD</code>
+                                                                </td>
+                                                            </tr>
+
+
+
+                                                            <tr>
+                                                                <td>Historical</td>
+
+                                                                <td>1800 AD and later</td>
+
+                                                                <td>
+                                                                    <code>Historical</code>
+                                                                </td>
+                                                            </tr>
+
+
+
+                                                            <tr>
+                                                                <td>Unknown</td>
+
+                                                                <td></td>
+
+                                                                <td>
+                                                                    <code>Unknown</code>
+                                                                </td>
+                                                            </tr>
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+
+                                            </div>
+
+
+
+                                            <div class="record-column">
+                                                <h3 id="date_min">
+                                                    Date, earliest
+                                                </h3>
+                                                <p>Earliest date. Earliest date of site specific event based upon chronological
+                                                    data from that site. Negative numbers refer to a year BC.</p>
+                                                <p class="hint">Database column name:
+                                                    <code>date_min</code>
+                                                </p>
+
+
+                                            </div>
+
+
+
+                                            <div class="record-column">
+                                                <h3 id="date_max">
+                                                    Date, latest
+                                                </h3>
+                                                <p>Latest date. Latest date of site specific event based solely upon chronological
+                                                    data from that site. Negative numbers refer to a year BC.</p>
+                                                <p class="hint">Database column name:
+                                                    <code>date_max</code>
+                                                </p>
+
+
+                                            </div>
+
+
+
+                                            <div class="record-column">
+                                                <h3 id="inferred_date_range_min">
+                                                    Inferred date, earliest
+                                                </h3>
+                                                <p>Inferred earliest date of site specific source event. The inferred earliest
+                                                    date may involve cross-correlation with other sites in the database,
+                                                    rather than being based solely on chronological data from that site.
+                                                    Negative numbers refer to a year BC.</p>
+                                                <p class="hint">Database column name:
+                                                    <code>inferred_date_range_min</code>
+                                                </p>
+
+
+                                            </div>
+
+
+
+                                            <div class="record-column">
+                                                <h3 id="inferred_date_range_max">
+                                                    Inferred date, latest
+                                                </h3>
+                                                <p>Inferred latest date of site specific source event. This inferred latest
+                                                    date may involve cross-correlation with other sites in the database,
+                                                    rather than being based solely on chronological data from that site.
+                                                    Negative numbers refer to a year BC.</p>
+                                                <p class="hint">Database column name:
+                                                    <code>inferred_date_range_max</code>
+                                                </p>
+
+
+                                            </div>
+
+
+
+                                            <div class="record-column">
+                                                <h3 id="age_max">
+                                                    Age, maximum
+                                                </h3>
+                                                <p>Maximum age (oldest) of site specific event based solely upon chronological
+                                                    data from that site. For AD time scale numbers are year AD. For BP
+                                                    time scale numbers are 'age' relative to year 2000 AD. Note: Database
+                                                    only, web application uses 'Date' attributes instead.</p>
+                                                <p class="hint">Database column name:
+                                                    <code>age_max</code>
+                                                </p>
+
+
+                                            </div>
+
+
+
+                                            <div class="record-column">
+                                                <h3 id="age_min">
+                                                    Age, minimum
+                                                </h3>
+                                                <p>Minimum age (youngest) of site specific event based solely upon chronological
+                                                    data from that site. For AD time scale numbers are year AD. For BP
+                                                    time scale numbers are 'age' relative to year 2000 AD. Note: Database
+                                                    only, web application uses 'Date' attributes instead.</p>
+                                                <p class="hint">Database column name:
+                                                    <code>age_min</code>
+                                                </p>
+
+
+                                            </div>
+
+
+
+                                            <div class="record-column">
+                                                <h3 id="inferred_age_range">
+                                                    Inferred age range
+                                                </h3>
+                                                <p>Inferred age range of site specific eventsource. For AD time scale numbers
+                                                    are year AD. For BP time scale numbers are 'age' relative to year
+                                                    2000 AD. Note: Database only, web application uses 'Inferred date'
+                                                    attributes instead.</p>
+                                                <p class="hint">Database column name:
+                                                    <code>inferred_age_range</code>
+                                                </p>
+
+
+                                            </div>
+
+
+
+                                            <div class="record-column">
+                                                <h3 id="time_scale_age">
+                                                    Time scale
+                                                </h3>
+                                                <p>Time scale qualifier for age columns. Note: Database only, not used in
+                                                    web application.</p>
+                                                <p class="hint">Database column name:
+                                                    <code>time_scale_age</code>
+                                                </p>
+
+                                                <h4>Values</h4>
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Label</th>
+
+                                                                <th>Description</th>
+
+                                                                <th>Database value</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+
+                                                            <tr>
+                                                                <td>AD</td>
+
+                                                                <td>From present day to AD 0.</td>
+
+                                                                <td>
+                                                                    <code>AD</code>
+                                                                </td>
+                                                            </tr>
+
+
+
+                                                            <tr>
+                                                                <td>BP</td>
+
+                                                                <td>Starting from 2000 BP (AD 0). BP is an abbreviation for
+                                                                    Calendar years BP and represents a calibrated age
+                                                                    or age range.</td>
+
+                                                                <td>
+                                                                    <code>BP</code>
+                                                                </td>
+                                                            </tr>
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="group group-meta">
+                                            <h2>Meta</h2>
+                                            <hr>
+
+                                            <p class="hint">Attributes characterising the record by meta data</p>
+
+                                            <div class="record-columns">
+
+
+                                                <div class="record-column">
+                                                    <h3 id="validity">
+                                                        Validity
+                                                    </h3>
+                                                    <p>Validity - Excellent, Moderate or Poor. Based upon number of palaeotsunami
+                                                        criteria. For historical data the number of criteria is less
+                                                        important, hence they are called 'palaeotsunami criteria'. For
+                                                        historical events it largely relates to the perceived or actual
+                                                        validity of the historical source, although criteria are listed.</p>
+                                                    <p class="hint">Database column name:
+                                                        <code>validity</code>
+                                                    </p>
+
+                                                    <h4>Values</h4>
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Label</th>
+
+                                                                    <th>Description</th>
+
+                                                                    <th>Database value</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+
+                                                                <tr>
+                                                                    <td>Excellent</td>
+
+                                                                    <td>Record satisfies 9 or more palaeotsunami criteria.</td>
+
+                                                                    <td>
+                                                                        <code>Excellent (9+ criteria)</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Moderate</td>
+
+                                                                    <td>Record satisfies between 5 and 8 palaeotsunami criteria.</td>
+
+                                                                    <td>
+                                                                        <code>Moderate (5-8 criteria)</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Poor</td>
+
+                                                                    <td>Record satisfies between 1 and 4 palaeotsunami criteria.</td>
+
+                                                                    <td>
+                                                                        <code>Poor (1-4 criteria)</code>
+                                                                    </td>
+                                                                </tr>
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+                                                </div>
+
+
+
+                                                <div class="record-column">
+                                                    <h3 id="natureofevidence">
+                                                        Nature of evidence
+                                                    </h3>
+                                                    <p>Nature of evidence - Primary, Secondary or Cultural. Primary evidence
+                                                        includes data derived from geological and/or archeaological sources.
+                                                        Secondary evidence includes physical data, but in the form of
+                                                        the immediate and/or delayed geomorphic response to tsunami inundation.
+                                                        Cultural evidence includes anthropological interpretations of
+                                                        archeaological data, such as the relocation of settlements from
+                                                        low-lying coastal areas to hill-tops aroundthe same time as tsunami
+                                                        inundation, as well as the experiences contained within Māori
+                                                        oral traditions that reference the impacts from great waves caused
+                                                        by storms and supernatural phenomena causing death and peril
+                                                        for people lving near the water.</p>
+                                                    <p class="hint">Database column name:
+                                                        <code>natureofevidence</code>
+                                                    </p>
+
+                                                    <h4>Values</h4>
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Label</th>
+
+                                                                    <th>Description</th>
+
+                                                                    <th>Database value</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+
+                                                                <tr>
+                                                                    <td>Primary</td>
+
+                                                                    <td>Sedimentary/Artefactual</td>
+
+                                                                    <td>
+                                                                        <code>Primary</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Secondary</td>
+
+                                                                    <td>Geomorphic</td>
+
+                                                                    <td>
+                                                                        <code>Secondary</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Cultural</td>
+
+                                                                    <td>Anthropological/Pūrākau [Oral record]</td>
+
+                                                                    <td>
+                                                                        <code>Cultural</code>
+                                                                    </td>
+                                                                </tr>
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+                                                </div>
+
+
+
+                                                <div class="record-column">
+                                                    <h3 id="natureofevidencedesc">
+                                                        Nature of evidence (description)
+                                                    </h3>
+                                                    <p>Nature of evidence description - Sedimentary/Artefactual, Geomorphic,
+                                                        Anthropological/Pūrākau [Oral record]. Note: Database only, not
+                                                        used in web application.</p>
+                                                    <p class="hint">Database column name:
+                                                        <code>natureofevidencedesc</code>
+                                                    </p>
+
+
+                                                </div>
+
+
+
+                                                <div class="record-column">
+                                                    <h3 id="datingt">
+                                                        Dating technique
+                                                    </h3>
+                                                    <p>Dating technique - Geological, Historical&nbsp;or Inferred. Establishing
+                                                        the chronology for past tsunamis is challenging and multiple
+                                                        techniques are currently used. The database contains three broad
+                                                        categories of dating technique: geochronological (radiocarbon,
+                                                        dendrochronology, sediment acculumation, pollen, among others),
+                                                        historical (used for hybrid cases only) and inferred (mainly
+                                                        for Māori oral traditions). Each record provides specific details
+                                                        of techniques and results at the end of the line, and in the
+                                                        references provided. The results of chronological analyses range
+                                                        from the annual dating of an event through to poorly constrained
+                                                        multi-century accuracy.</p>
+                                                    <p class="hint">Database column name:
+                                                        <code>datingtechnique</code>
+                                                    </p>
+
+                                                    <h4>Values</h4>
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Label</th>
+
+                                                                    <th>Description</th>
+
+                                                                    <th>Database value</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+
+                                                                <tr>
+                                                                    <td>Geological</td>
+
+                                                                    <td>Chronology established using one or more of a suite
+                                                                        of 'Geo' dating techniques, these are often detailed
+                                                                        in the Geodating technique column with additional
+                                                                        details sometimes provided in 'Additional comment'.</td>
+
+                                                                    <td>
+                                                                        <code>Geological data</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Historical</td>
+
+                                                                    <td>Historical data.</td>
+
+                                                                    <td>
+                                                                        <code>Historical data</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Inferred</td>
+
+                                                                    <td>If this relates to a Pūrākau (oral record) then it
+                                                                        is assumed to be most probably post-Māori occupation
+                                                                        and pre-European arrival and unless otherwise
+                                                                        stated is given an 'Inferred date range' of AD
+                                                                        1250-1800.</td>
+
+                                                                    <td>
+                                                                        <code>Inferred</code>
+                                                                    </td>
+                                                                </tr>
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+                                                </div>
+
+
+
+                                                <div class="record-column">
+                                                    <h3 id="geodatingt">
+                                                        Geodating technique
+                                                    </h3>
+                                                    <p>Geodating technique. Please refer to the relevant publication for
+                                                        more details.</p>
+                                                    <p class="hint">Database column name:
+                                                        <code>geodatingtechnique</code>
+                                                    </p>
+
+                                                    <h4>Values</h4>
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Label</th>
+
+                                                                    <th>Database value</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+
+                                                                <tr>
+                                                                    <td>Archaeological information</td>
+
+                                                                    <td>
+                                                                        <code>Archaeological information</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Cs137</td>
+
+                                                                    <td>
+                                                                        <code>Cs137</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Geochem</td>
+
+                                                                    <td>
+                                                                        <code>Geochem</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Trace element geochemistry</td>
+
+                                                                    <td>
+                                                                        <code>Trace element geochemistry</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Dendrochronology</td>
+
+                                                                    <td>
+                                                                        <code>Dendrochronology</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>First appearance of a variety of exotic pollens</td>
+
+                                                                    <td>
+                                                                        <code>First appearance of a variety of exotic pollens</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Optically Stimulated Luminescence</td>
+
+                                                                    <td>
+                                                                        <code>Optically Stimulated Luminescence</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Radiocarbon</td>
+
+                                                                    <td>
+                                                                        <code>Radiocarbon</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Sediment Accumulation Rates</td>
+
+                                                                    <td>
+                                                                        <code>Sediment Accumulation Rates</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+                                                                <tr>
+                                                                    <td>Stratigraphic Correlation</td>
+
+                                                                    <td>
+                                                                        <code>Stratigraphic Correlation</code>
+                                                                    </td>
+                                                                </tr>
+
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+                                                </div>
+
+
+
+                                                <div class="record-column">
+                                                    <h3 id="event_c">
+                                                        Additional comment
+                                                    </h3>
+                                                    <p>Additional comments generally relate to chronological information,
+                                                        but can also highlight possible linkages with other similarly-aged
+                                                        sites. Additional&nbsp;references are&nbsp;cited in the comments
+                                                        section to assist the database user if they wish to search further.
+                                                        There is occasionally reference to 'C14 yr BP' which is an uncalibrated,
+                                                        Conventional Radiocarbon Age. If needed, the database user should
+                                                        refer to the relevant publication for more details.</p>
+                                                    <p class="hint">Database column name:
+                                                        <code>eventcomment</code>
+                                                    </p>
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="group group-details">
+                                                <h2>Metrics</h2>
+                                                <hr>
+
+                                                <p class="hint">Attributes quantifying the record</p>
+
+                                                <div class="record-columns">
+
+
+                                                    <div class="record-column">
+                                                        <h3 id="elevation">
+                                                            Elevation
+                                                        </h3>
+                                                        <p>Proxy for minimum runup height. Inferred elevation of deposit
+                                                            in metres above mean sea level at the estimated time of deposition,
+                                                            where available.</p>
+                                                        <p class="hint">Database column name:
+                                                            <code>elevation</code>
+                                                        </p>
+
+
+                                                    </div>
+
+
+
+                                                    <div class="record-column">
+                                                        <h3 id="elevation_c">
+                                                            Elevation (comment)
+                                                        </h3>
+                                                        <p>If elevation data are unclear or need further explanation then
+                                                            a comment is inserted. In most cases an elevation range is
+                                                            suggested or the information is questioned ('?' or an elevation
+                                                            followed by '?'). If needed, the database user should refer
+                                                            to the relevant publication for more details.</p>
+                                                        <p class="hint">Database column name:
+                                                            <code>elevation_comment</code>
+                                                        </p>
+
+
+                                                    </div>
+
+
+
+                                                    <div class="record-column">
+                                                        <h3 id="landward_limit">
+                                                            Landward limit
+                                                        </h3>
+                                                        <p>Estimated minimum landward limit: Distance inland from the coastline
+                                                            in metres at the time of deposition, where available. In
+                                                            many cases by necessity this estimate relates to the contemporary
+                                                            coastline as and such the database user should refer to the
+                                                            relevant publication for more details.</p>
+                                                        <p class="hint">Database column name:
+                                                            <code>est_min_landward_limit</code>
+                                                        </p>
+
+
+                                                    </div>
+
+
+
+                                                    <div class="record-column">
+                                                        <h3 id="landward_limit_c">
+                                                            Landward limit (comment)
+                                                        </h3>
+                                                        <p>Where a notable query exists concerning estimated minimum landward
+                                                            limits this is noted. Usually with a distance in metres preceded
+                                                            by either '~', '&gt;', or followed by '?' or simply marked
+                                                            by '?'.</p>
+                                                        <p class="hint">Database column name:
+                                                            <code>est_min_landward_limit_comment</code>
+                                                        </p>
+
+
+                                                    </div>
+
+
+
+                                                    <div class="record-column">
+                                                        <h3 id="thickness">
+                                                            Deposit thickness
+                                                        </h3>
+                                                        <p>The inferred maximum thickness in metres, where a deposit is
+                                                            present and data are available. This is an inferred thickness
+                                                            because post-depositional erosion and/or complaction may
+                                                            have occurred.</p>
+                                                        <p class="hint">Database column name:
+                                                            <code>thickness</code>
+                                                        </p>
+
+
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="group group-source">
+                                                    <h2>Source</h2>
+                                                    <hr>
+
+                                                    <p class="hint">Attributes describing the record's event source</p>
+
+                                                    <div class="record-columns">
+
+
+                                                        <div class="record-column">
+                                                            <h3 id="source_cause">
+                                                                Source cause
+                                                            </h3>
+                                                            <p>This is the inferred&nbsp;tsunamigenic source mechanism.
+                                                                The inferred source is usually linked to a possible location
+                                                                or locations. Inferences are based upon our current understanding
+                                                                of possible tsunamigenic sources capable of producing
+                                                                the reported evidence. These should be seen as a general
+                                                                guide and will, in many cases, be amended as our understanding
+                                                                of tsunami sources improves, and the database is used
+                                                                by a growing number of researchers.</p>
+                                                            <p class="hint">Database column name:
+                                                                <code>source_cause</code>
+                                                            </p>
+
+                                                            <h4>Values</h4>
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Label</th>
+
+                                                                            <th>Description</th>
+
+                                                                            <th>Database value</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+
+                                                                        <tr>
+                                                                            <td>Earthquake</td>
+
+                                                                            <td>Earthquake/fault rupture</td>
+
+                                                                            <td>
+                                                                                <code>Quake</code>
+                                                                            </td>
+                                                                        </tr>
+
+
+
+                                                                        <tr>
+                                                                            <td>Landslide</td>
+
+                                                                            <td>Associated with earthquake/fault rupture/slope
+                                                                                failure</td>
+
+                                                                            <td>
+                                                                                <code>Slide</code>
+                                                                            </td>
+                                                                        </tr>
+
+
+
+                                                                        <tr>
+                                                                            <td>Volcanic eruption</td>
+
+                                                                            <td></td>
+
+                                                                            <td>
+                                                                                <code>Eruption</code>
+                                                                            </td>
+                                                                        </tr>
+
+
+
+                                                                        <tr>
+                                                                            <td>Flank collapse</td>
+
+                                                                            <td>Volcanic slope failure</td>
+
+                                                                            <td>
+                                                                                <code>Flank collapse</code>
+                                                                            </td>
+                                                                        </tr>
+
+
+
+                                                                        <tr>
+                                                                            <td>Pyroclastic flow</td>
+
+                                                                            <td>Associated with volcanic activity</td>
+
+                                                                            <td>
+                                                                                <code>Pyroclastic flow</code>
+                                                                            </td>
+                                                                        </tr>
+
+
+
+                                                                        <tr>
+                                                                            <td>Geyser</td>
+
+                                                                            <td>Associated with geothermal activity</td>
+
+                                                                            <td>
+                                                                                <code>Geyser</code>
+                                                                            </td>
+                                                                        </tr>
+
+
+
+                                                                        <tr>
+                                                                            <td>Bolide</td>
+
+                                                                            <td>Meteorite/Asteroid impact</td>
+
+                                                                            <td>
+                                                                                <code>Bolide</code>
+                                                                            </td>
+                                                                        </tr>
+
+
+
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+
+                                                        </div>
+
+
+
+                                                        <div class="record-column">
+                                                            <h3 id="source_cause_c">
+                                                                Source cause (comment)
+                                                            </h3>
+                                                            <p>Where given, this provides some additional information concerning
+                                                                the source cause. For example a qualifier (e.g. Meteorite),
+                                                                or suggestions of possible alternative sources (e.g.
+                                                                could relate to more local sources).</p>
+                                                            <p class="hint">Database column name:
+                                                                <code>source_cause_comment</code>
+                                                            </p>
+
+
+                                                        </div>
+
+
+
+                                                        <div class="record-column">
+                                                            <h3 id="source_certainty">
+                                                                Source certainty
+                                                            </h3>
+                                                            <p>Where a source is given this applies to the degree of certainty
+                                                                for the source estimation. </p>
+                                                            <p class="hint">Database column name:
+                                                                <code>sourcecertainty</code>
+                                                            </p>
+
+                                                            <h4>Values</h4>
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Label</th>
+
+                                                                            <th>Description</th>
+
+                                                                            <th>Database value</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+
+                                                                        <tr>
+                                                                            <td>Inferred</td>
+
+                                                                            <td>Almost exclusively related to palaeotsunamis
+                                                                                – while in many cases there is a strong
+                                                                                likelihood that the inferred source is
+                                                                                correct, there are no weightings given.</td>
+
+                                                                            <td>
+                                                                                <code>Inferred</code>
+                                                                            </td>
+                                                                        </tr>
+
+
+
+                                                                        <tr>
+                                                                            <td>Known</td>
+
+                                                                            <td>Invariably relates to historical events.</td>
+
+                                                                            <td>
+                                                                                <code>Known</code>
+                                                                            </td>
+                                                                        </tr>
+
+
+
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+
+                                                        </div>
+
+
+
+                                                        <div class="record-column">
+                                                            <h3 id="source_location">
+                                                                Source location
+                                                            </h3>
+                                                            <p>Where possible, a local, regional or distant source location
+                                                                is given. The source location&nbsp;can range from specific
+                                                                (e.g. Kerepahi fault) to general (e.g. South America).
+                                                                It is either based upon tsunamigenic evidence provided
+                                                                in relevant publication(s) and/or in association with
+                                                                other possible related sites or similar records noted
+                                                                in the database.</p>
+                                                            <p class="hint">Database column name:
+                                                                <code>source_location</code>
+                                                            </p>
+
+
+                                                        </div>
+
+
+
+                                                        <div class="record-column">
+                                                            <h3 id="source_lat">
+                                                                Source latitude
+                                                            </h3>
+                                                            <p>Source location latitude using decimal degrees. While 4 decimal
+                                                                places are given, it normally refers to a general point
+                                                                source location delimited to one or two decimal places
+                                                                since most of the known or inferred sources are linear
+                                                                fault ruptures. In essence, the point identifies the
+                                                                general fault zone.</p>
+                                                            <p class="hint">Database column name:
+                                                                <code>source_lat</code>
+                                                            </p>
+
+
+                                                        </div>
+
+
+
+                                                        <div class="record-column">
+                                                            <h3 id="source_lng">
+                                                                Source longitude
+                                                            </h3>
+                                                            <p>Source location longitude using decimal degrees. While 4
+                                                                decimal places are given, it normally refers to a general
+                                                                point source location delimited to one or two decimal
+                                                                places since most of the known or inferred sources are
+                                                                linear fault ruptures. In essence, the point identifies
+                                                                the general fault zone.</p>
+                                                            <p class="hint">Database column name:
+                                                                <code>source_lon</code>
+                                                            </p>
+
+
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="group group-other">
+                                                        <h2>Proxies &amp; References</h2>
+                                                        <hr>
+
+                                                        <div class="record-columns">
+
+
+                                                            <div class="record-column">
+                                                                <h3 id="proxies">
+                                                                    Record proxies
+                                                                </h3>
+                                                                <p>A list of numbered palaeotsunami criteria based on 'diagnostic
+                                                                    criteria'. The criteria were developed through a
+                                                                    series of published iterations (and hence the database
+                                                                    has been designed to allow this list to grow over
+                                                                    time). For more details refer to: Chagué-Goff et
+                                                                    al. (2011), Goff et al. (2001, 2010, 2012), Goff
+                                                                    &amp; McFadgen (2003), McFadgen &amp; Goff (2007)
+                                                                    and Morton et al. (2007).</p>
+                                                                <p class="hint">Database column name:
+                                                                    <code>proxies</code>
+                                                                </p>
+
+
+                                                                <h4>Values</h4>
+                                                                <div class="table-responsive">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Proxy</th>
+                                                                                <th>Description</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                            <tr>
+                                                                                <td>1</td>
+                                                                                <td>Particle/grain sizes range from boulders
+                                                                                    (may be 750 m3 or larger) to fine
+                                                                                    mud. A tsunami will usually transport
+                                                                                    whatever size ranges are available
+                                                                                    – it is sediment source dependent</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>2</td>
+                                                                                <td>Sediments generally fine inland and upwards
+                                                                                    within the deposit, but can also
+                                                                                    have a coarsening upwards component
+                                                                                    associated with deposition from a
+                                                                                    traction carpet. Deposits generally
+                                                                                    rise in altitude and thin inland
+                                                                                    and can extend for several km inland
+                                                                                    and 10’s or 100’s of km alongshore</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>3</td>
+                                                                                <td>Each wave can form a distinct sedimentary
+                                                                                    unit and/or there may be laminated
+                                                                                    sub-units</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>4</td>
+                                                                                <td>Distinct lower and upper sub-units representing
+                                                                                    runup and backwash can sometimes
+                                                                                    be identified. This is unlike storm
+                                                                                    or anthropogenic deposits</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>5</td>
+                                                                                <td>Lower contact is usually unconformable
+                                                                                    or erosional</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>6</td>
+                                                                                <td>Can contain intraclasts (rip-up clasts)
+                                                                                    of reworked material</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>7</td>
+                                                                                <td>Sometimes associated with loading structures
+                                                                                    at base of deposit – and can be associated
+                                                                                    with liquifaction features on the
+                                                                                    ground surface caused by earthquake
+                                                                                    groundshaking</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>8</td>
+                                                                                <td>Micro-scale features can include micro-rip-up
+                                                                                    clasts, millimetre-scale banding,
+                                                                                    organic entrainment, fining-up sequences
+                                                                                    and erosive contacts that may be
+                                                                                    visible in thin section but not in
+                                                                                    field stratigraphy</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>9</td>
+                                                                                <td>Measurement of magnetic fabric (MF) combined
+                                                                                    with grain size analysis provides
+                                                                                    information on hydrodynamic conditions
+                                                                                    ‘typical’ during tsunami deposition.
+                                                                                    Essential when no sedimentary structures
+                                                                                    are visible. Magnetic properties
+                                                                                    of minerals (incl. magnetic susceptibility)
+                                                                                    provide information about depositional
+                                                                                    environment</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>10</td>
+                                                                                <td>Heavy mineral laminations often present
+                                                                                    but source-dependent. Normally near
+                                                                                    base of unit/sub-unit but not always.
+                                                                                    Composition and vertical distribution
+                                                                                    of heavy mineral assemblage may change
+                                                                                    from the bottom to top of the deposit
+                                                                                    (e.g. often more micas at the top)</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>11</td>
+                                                                                <td>Increases in elemental concentrations
+                                                                                    of sodium, sulphur, chlorine (palaeo-salinity
+                                                                                    indicators, including element ratios),
+                                                                                    calcium, strontium, magnesium (shell,
+                                                                                    shell hash and coral), titanium,
+                                                                                    zirconium (associated with heavy
+                                                                                    mineral laminae if present) occur
+                                                                                    in tsunami deposits relative to under-
+                                                                                    and overlying sediments. Indicates
+                                                                                    saltwater inundation, and/or high
+                                                                                    marine shell/coral content, and/or
+                                                                                    high energy environment (heavy minerals,
+                                                                                    source-dependent). Preservation issues
+                                                                                    to be considered in particular for
+                                                                                    salt (downward leaching), but uptake
+                                                                                    and preservation in wetlands/soils</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>12</td>
+                                                                                <td>Possible contamination by heavy metals
+                                                                                    and metalloids (source-dependent,
+                                                                                    inc. water depth source)</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>13</td>
+                                                                                <td>Geochemical (saltwater signature) and
+                                                                                    microfossil evidence often extends
+                                                                                    further inland than landward maximum
+                                                                                    extent of sedimentary deposit</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>14</td>
+                                                                                <td>Individual shells and shell-rich units
+                                                                                    are often present (shells are often
+                                                                                    articulated and can be water-worn).
+                                                                                    Often more intact shells as opposed
+                                                                                    to shell hash. A wide range of shell
+                                                                                    ages is indicative of greater reworking
+                                                                                    by a tsunami as opposed to storm
+                                                                                    or anthropogenic deposits. Small,
+                                                                                    fragile shells and shellfish can
+                                                                                    be found at or near the upper surface
+                                                                                    of more recent palaeo-tsunami deposits</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>15</td>
+                                                                                <td>Shell, wood and less dense debris often
+                                                                                    found "rafted" at or near top of
+                                                                                    sequence (increase in organic content
+                                                                                    determined by loss on ignition, and
+                                                                                    sometimes moisture content)</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>16</td>
+                                                                                <td>Often associated with buried vascular
+                                                                                    plant material and/or buried soil
+                                                                                    and/or skeletal (non-human) remains</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>17</td>
+                                                                                <td>Generally associated with an increase
+                                                                                    in abundance of marine to brackish
+                                                                                    diatoms – often a greater percentage
+                                                                                    of reworked terrestrial diatoms near
+                                                                                    the upper part of the deposit. Large
+                                                                                    number of broken valves often observed,
+                                                                                    reflecting turbulent flows. Variations
+                                                                                    in diatom affinities often indicative
+                                                                                    of source areas and magnitude of
+                                                                                    event</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>18</td>
+                                                                                <td>Marked changes in foraminifera (and other
+                                                                                    marine microfossils, such as dinoflagellates,
+                                                                                    nannoliths) assemblages occur. Deeper
+                                                                                    water species are introduced – this
+                                                                                    is unlikely in storm or anthropogenic
+                                                                                    deposits, and/or increase in foraminifera
+                                                                                    abundance and breakage of tests.
+                                                                                    Composition relates to source (near-shore
+                                                                                    vs. offshore). Foraminifera size
+                                                                                    tends to vary with grain size</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>19</td>
+                                                                                <td>Pollen concentrations are often lower
+                                                                                    (diluted) in the deposit because
+                                                                                    of the marine origin and/or include
+                                                                                    high percentage of coastal pollen
+                                                                                    (e.g. mangroves). Pollen changes
+                                                                                    above and below the deposit are often
+                                                                                    indicative of sustained environmental
+                                                                                    change, a critical ecological threshold
+                                                                                    has been crossed – e.g. infilling
+                                                                                    or shallowing of coastal wetland</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>20</td>
+                                                                                <td>Archaeological sites – a sediment layer
+                                                                                    separating, underlying or overlying
+                                                                                    anthropogenic deposits/occupation
+                                                                                    layers</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>21</td>
+                                                                                <td>Archaeological middens: changes in shellfish
+                                                                                    species/absence of expected species
+                                                                                    indicate sudden change in onshore
+                                                                                    and nearshore palaeo-environmental
+                                                                                    conditions</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>22</td>
+                                                                                <td>Archaeological structures show structural
+                                                                                    damage by water to buildings/ foundations
+                                                                                    at a site</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>23</td>
+                                                                                <td>Archaeological burial sites have been
+                                                                                    reworked, often recognisable as “culturally
+                                                                                    inappropriate” burials</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>24</td>
+                                                                                <td>Replication – coastal archaeological
+                                                                                    occupation layers and shell middens
+                                                                                    are often separated or extensively
+                                                                                    reworked at several sites along coastline
+                                                                                    giving a regional/national signal
+                                                                                    of inundation</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>25</td>
+                                                                                <td>Traditional Environmental Knowledge (oral
+                                                                                    traditions) from the locality/region</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>26</td>
+                                                                                <td>Acquired palaeo-geomorphology indicates
+                                                                                    tsunami inundation - a tsunami geomorphology
+                                                                                    is present that could include evidence
+                                                                                    of: i) uplift or subsidence/compaction
+                                                                                    of site/locality, ii) scour/erosion/reworking
+                                                                                    of sediments at site/locality – altered
+                                                                                    dune morphology, iii) sand sheet
+                                                                                    or other similar deposits such as
+                                                                                    gravel deposition/gravel pavements</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>27</td>
+                                                                                <td>Palaeo-geomorphology at the time of inundation
+                                                                                    indicates low likelihood of storm
+                                                                                    inundation</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>28</td>
+                                                                                <td>Known local or distant tsunamigenic sources
+                                                                                    can be postulated or identified</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>29</td>
+                                                                                <td>Known local and regional palaeo-environmental
+                                                                                    drivers indicate low likelihood of
+                                                                                    storm inundation</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>30</td>
+                                                                                <td>Replication – similar contemporaneous
+                                                                                    coastal deposits are found regionally
+                                                                                    giving a regional signal of inundation</td>
+                                                                            </tr>
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+
+                                                            </div>
+
+
+
+                                                            <div class="record-column">
+                                                                <h3 id="references">
+                                                                    References
+                                                                </h3>
+                                                                <p>Relevant references are listed here. This is not an exhaustive
+                                                                    list but, if needed, the database user should be
+                                                                    able to find additional appropriate references cited
+                                                                    within those provided.</p>
+                                                                <p class="hint">Database column name:
+                                                                    <code>references</code>
+                                                                </p>
+
+
+                                                            </div>
+
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
