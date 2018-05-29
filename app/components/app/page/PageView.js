@@ -2,12 +2,28 @@ define([
   'jquery',  'underscore',  'backbone',
   'text!./page.html',
   'text!./pageContent.html',
-  'text!templates/loading.html'
+  'text!templates/loading.html',
+  'text!templates/content_about.html',
+  'text!templates/content_usage.html',
+  'text!templates/content_contact.html',
+  'text!templates/content_attributes.html',
+  'text!templates/not_found.html',
+  'text!templates/content_palaeotsunami.html',
+  'text!templates/content_sources.html',
+  'text!templates/content_travel.html',
 ], function (
   $, _, Backbone,
   template,
   templateContent,
-  templateLoading
+  templateLoading,
+    templateContentAbout,
+    templateContentUsage,
+    templateContentContact,
+    templateContentAttributes,
+    templateNotFound,
+    templateContentPalaeotsunami,
+    templateContentSources,
+    templateContentTravel,
 ) {
 
   var PageView = Backbone.View.extend({
@@ -38,17 +54,66 @@ define([
           t:this.model.getLabels()
         }))        
         if (this.model.hasActivePage()) {
-          var that = this          
-          page.getContent(function(content){                  
-            that.$('.page-outer').html(_.template(templateContent)({
-              t:that.model.getLabels(),
-            }))
-            that.$('.page-outer').removeClass('loading')
-            that.$('.placeholder-content').html(content)
-            if (that.model.getPageAnchor() === "") {
-              that.$el.scrollTop(0)
-            }
-          })            
+            console.log('this should be trying to load a new page, all bow', this.model.attributes.pageId);
+          var that = this
+            switch (this.model.attributes.pageId) {
+                case "about":
+                    that.$('.page-outer').html(_.template(templateContentAbout)({ }))
+                    that.$('.page-outer').removeClass('loading')
+                    if (that.model.getPageAnchor() === "") {
+                        that.$el.scrollTop(0)
+                    }
+                    break;
+                case "attributes":
+                    that.$('.page-outer').html(_.template(templateContentAttributes)({ }))
+                    that.$('.page-outer').removeClass('loading')
+                    if (that.model.getPageAnchor() === "") {
+                        that.$el.scrollTop(0)
+                    }
+                    break;
+                case "usage":
+                    that.$('.page-outer').html(_.template(templateContentUsage)({ }))
+                    that.$('.page-outer').removeClass('loading')
+                    if (that.model.getPageAnchor() === "") {
+                        that.$el.scrollTop(0)
+                    }
+                    break;
+                case "contact":
+                    that.$('.page-outer').html(_.template(templateContentContact)({ }))
+                    that.$('.page-outer').removeClass('loading')
+                    if (that.model.getPageAnchor() === "") {
+                        that.$el.scrollTop(0)
+                    }
+                    break;
+                case "palaeotsunami":
+                    that.$('.page-outer').html(_.template(templateContentPalaeotsunami)({}))
+                    that.$('.page-outer').removeClass('loading')
+                    if (that.model.getPageAnchor() === "") {
+                        that.$el.scrollTop(0)
+                    }
+                    break;
+                case "sources":
+                    that.$('.page-outer').html(_.template(templateContentSources)({}))
+                    that.$('.page-outer').removeClass('loading')
+                    if (that.model.getPageAnchor() === "") {
+                        that.$el.scrollTop(0)
+                    }
+                    break;
+                case "travel":
+                    that.$('.page-outer').html(_.template(templateContentTravel)({}))
+                    that.$('.page-outer').removeClass('loading')
+                    if (that.model.getPageAnchor() === "") {
+                        that.$el.scrollTop(0)
+                    }
+                    break;
+                default:
+                    that.$('.page-outer').html(_.template(templateNotFound)({ }))
+                    that.$('.page-outer').removeClass('loading')
+                    if (that.model.getPageAnchor() === "") {
+                        that.$el.scrollTop(0)
+                    }
+                    break;
+            }           
           
         }
       } else {
