@@ -1,1 +1,1 @@
-define(["jquery","underscore","backbone","leaflet"],function(e,n,i,t){var o=i.Model.extend({initialize:function(e){this.options=e||{}}});return o});
+define(["jquery","underscore","backbone","leaflet"],function(e,n,i,t){return i.Model.extend({initialize:function(e){this.options=e||{}}})});

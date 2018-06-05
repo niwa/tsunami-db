@@ -190,6 +190,14 @@ app/components/app/out/OutModel.js
 text!components/app/page/page.html
 text!components/app/page/pageContent.html
 text!templates/loading.html
+text!templates/content_about.html
+text!templates/content_usage.html
+text!templates/content_contact.html
+text!templates/content_attributes.html
+text!templates/not_found.html
+text!templates/content_palaeotsunami.html
+text!templates/content_sources.html
+text!templates/content_travel.html
 app/components/app/page/PageView.js
 app/components/app/page/PageViewModel.js
 app/models/ContentCollection.js
