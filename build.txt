@@ -193,6 +193,7 @@ text!templates/loading.html
 text!templates/content_about.html
 text!templates/content_usage.html
 text!templates/content_contact.html
+text!templates/content_basemap.html
 text!templates/content_attributes.html
 text!templates/not_found.html
 text!templates/content_palaeotsunami.html
