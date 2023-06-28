@@ -69,3 +69,4 @@ _assuming you have cloned the repository only once_
 5. commit changes (`git add --all`, `git commit -m 'update message'`)
 6. publish changes to target/gh-pages branch (`git push origin gh-pages` or to force `git push -f origin gh-pages:gh-pages`)
 
+
