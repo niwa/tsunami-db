@@ -82,7 +82,7 @@
   ],
   "records":{    
     "model": "geojson",    
-    "path" : "//gs.niwa.co.nz/palaeotsunami/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=palaeotsunami:ptsunami_events",    
+    "path" : "https://gs.niwa.co.nz/palaeotsunami/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=palaeotsunami:ptsunami_events",
     "layerOptions":{          
       "type":"point",      
       "wrap" : true,
@@ -96,12 +96,12 @@
     }
   },
   "proxies":{    
-    "path" : "//gs.niwa.co.nz/palaeotsunami/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=palaeotsunami:ptsunami_proxies",  
+    "path" : "https://gs.niwa.co.nz/palaeotsunami/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=palaeotsunami:ptsunami_proxies",
     "featureAttributeMap" : {
       "id" : "proxy_id"      
     }
   },
   "references":{    
-    "path" : "//gs.niwa.co.nz/palaeotsunami/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=palaeotsunami:ptsunami_references"   
+    "path" : "https://gs.niwa.co.nz/palaeotsunami/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=palaeotsunami:ptsunami_references"
   }
 }  
