@@ -42,7 +42,29 @@ https://github.com/dumparkltd/tsunami-db/milestones
 --
 
 ### Deploy
-#### Optimise and bundle
+
+#### Build and Deploy to AWS (as gh-pages is no longer an option)
+AWS CLI v1:
+```
+$(aws ecr get-login --no-include-email --region ap-southeast-2)
+```
+AWS CLI v2:
+```
+aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 097359246029.dkr.ecr.ap-southeast-2.amazonaws.com 2>/dev/null || echo "Failed"
+```
+
+1. Build the docker image
+`docker build -t 097359246029.dkr.ecr.ap-southeast-2.amazonaws.com/ptdb:latest .`
+
+2. Push to docker repo
+`docker push 097359246029.dkr.ecr.ap-southeast-2.amazonaws.com/ptdb:latest`
+
+3. Navigate to [PTDB AWS ECS service](https://ap-southeast-2.console.aws.amazon.com/ecs/v2/clusters/opsworks/services/ptdb-prod/health?region=ap-southeast-2)
+4. Click 'Update Task'
+5. Check box 'Force new deployment' and press 'Update'
+
+
+<!--#### Optimise and bundle
 Optimisation and bundling is done using requirejs optimizer (see http://requirejs.org/docs/optimization.html for installing requirejs). Once installed, run from the repository root (branch master or whatever branch/tag you are seeking to deploy)
 `r.js -o app/app.build.js` 
 This will generate all files inside a `/build` folder within the repository (you can changet the target directory here: https://github.com/dumparkltd/tsunami-db/blob/master/app/app.build.js#L4)
@@ -67,6 +89,6 @@ _assuming you have cloned the repository only once_
 3. delete content of target branch
 4. copy content of folder outside repository to target branch
 5. commit changes (`git add --all`, `git commit -m 'update message'`)
-6. publish changes to target/gh-pages branch (`git push origin gh-pages` or to force `git push -f origin gh-pages:gh-pages`)
+6. publish changes to target/gh-pages branch (`git push origin gh-pages` or to force `git push -f origin gh-pages:gh-pages`)-->
 
 
